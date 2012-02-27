@@ -1,0 +1,13 @@
+{
+    "name"              : "orientdb",
+    "description"       : "A node.js driver for OrientDB",
+    "keywords"          : ["orientdb", "orient", "driver", "db", "node", "node.js"],
+    "version"           : "0.0.1",
+    "author"            : "Gabriel Petrovay <gabipetrovay@gmail.com>",
+    "repository"        : { "type" :  "git", "url" :   "http://github.com/christkv/node-mongodb-native.git" },
+    "devDependencies"   : {},
+    "main"              : "./lib/orientdb/index",
+    "directories"       : { "lib" : "./lib/orientdb" },
+    "engines"           : { "node" : ">=0.6.0" },
+    "licenses"          : [ { "type" :  "Apache License, Version 2.0", "url" :   "http://www.apache.org/licenses/LICENSE-2.0" } ]
+}
