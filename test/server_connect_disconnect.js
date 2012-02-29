@@ -1,12 +1,6 @@
 var Server = require('../lib/orientdb').Server;
 
-
-var serverConfig = {
-    host: 'localhost',
-    port: 2424,
-    user_name: "root",
-    user_password: "83CACE21A23DB46F93BFD58A3CE48C8D29926C6EF424D7DA9BD725AE070CCDC0"
-};
+var serverConfig = require("../config/test/serverConfig");
 
 var server = new Server(serverConfig);
 
