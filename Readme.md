@@ -1,7 +1,9 @@
 Status
 ========
 
-Under construction OrientDB node.js driver...
+Under construction OrientDB node.js driver.
+
+Currently this driver implements the OrientDB binary protocol but the plan is to provide both the HTTP and the binary protocol.
 
 Introduction
 ========
