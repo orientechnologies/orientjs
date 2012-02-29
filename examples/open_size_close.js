@@ -30,6 +30,13 @@ db.open(function(err, result) {
         if (err) { console.log(err); return; }
 
         console.log("Database size: " + size);
+
+        db.close(function(err) {
+    
+            if (err) { console.log(err); return; }
+    
+            console.log("Closed database size");
+        });
     });
 });
 

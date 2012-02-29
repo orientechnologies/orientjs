@@ -30,7 +30,7 @@ server.connect(function(err, sessionId) {
     
         console.log("Created database: " + db.databaseName);
 
-        db.delete(function(err) {
+        db.drop(function(err) {
 
             if (err) { console.log(err); return; }
 
