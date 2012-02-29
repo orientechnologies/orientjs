@@ -14,33 +14,30 @@ var serverConfig = {
 };
 
 var server = new Server(serverConfig);
-var db = new Db('test', server, dbConfig);
+var db = new Db('temp', server, dbConfig);
 
 
 server.connect(function(err, sessionId) {
 
     if (err) { console.log(err); return; }
 
-    console.log("Connected on session: " + sessionId);
+    db.exist(function(err, result) {
 
-    db.create(function(err) {
-        
         if (err) { console.log(err); return; }
-    
-        console.log("Created database: " + db.databaseName);
 
-        db.drop(function(err) {
+        if (typeof result !== "boolean") {
+            throw new Error("The result must be a boolean value. Received: " + (typeof result));
+        }
+        
+        if (!result) {
+            throw new Error("The 'temp' database should be present if you managed to open it.");
+        }
 
+        console.log("Database exists");
+
+        server.disconnect(function(err) {
+            
             if (err) { console.log(err); return; }
-
-            console.log("Deleted database");
-
-            db.close(function(err) {
-    
-                if (err) { console.log(err); return; }
-    
-                console.log("Closed connection");
-            });
         });
     });
 });

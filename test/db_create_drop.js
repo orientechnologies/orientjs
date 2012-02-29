@@ -21,8 +21,6 @@ server.connect(function(err, sessionId) {
 
     if (err) { console.log(err); return; }
 
-    console.log("Connected on session: " + sessionId);
-
     db.create(function(err) {
         
         if (err) { console.log(err); return; }
@@ -35,11 +33,9 @@ server.connect(function(err, sessionId) {
 
             console.log("Deleted database");
 
-            db.close(function(err) {
+            server.disconnect(function(err) {
     
                 if (err) { console.log(err); return; }
-    
-                console.log("Closed connection");
             });
         });
     });

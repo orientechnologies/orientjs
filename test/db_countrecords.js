@@ -21,20 +21,19 @@ db.open(function(err, result) {
 
     if (err) { console.log(err); return; }
 
-    console.log("Opened database on session: " + result.sessionId);
-    console.log("Database '" + db.databaseName + "' has " + result.clusters.length + " clusters");
-
-    db.size(function(err, size) {
+    db.countRecords(function(err, count) {
 
         if (err) { console.log(err); return; }
 
-        console.log("Database size: " + size);
+        if (typeof count !== 'number') {
+            throw new Error("The result must be a boolean value. Received: " + (typeof count));
+        }
+
+        console.log("Record count: " + count);
 
         db.close(function(err) {
     
             if (err) { console.log(err); return; }
-    
-            console.log("Closed database");
         });
     });
 });
