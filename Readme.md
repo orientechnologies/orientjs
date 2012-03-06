@@ -22,4 +22,4 @@ The following commands are implemented so far:
 * DB_SIZE
 * DB_COUNTRECORDS
 * COMMAND (under construction)
-
+* SHUTDOWN
