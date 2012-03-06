@@ -21,7 +21,7 @@ server.connect(function(err, sessionId) {
         }
         
         if (!result) {
-            throw new Error('The 'temp' database should be present if you managed to open it.');
+            throw new Error('The "temp" database should be present if you managed to open it.');
         }
 
         console.log('Database exists');
