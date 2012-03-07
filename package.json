@@ -2,7 +2,7 @@
     "name"              : "orientdb",
     "description"       : "A node.js driver for OrientDB",
     "keywords"          : ["orientdb", "orient", "driver", "db", "node", "node.js"],
-    "version"           : "0.2.0",
+    "version"           : "0.2.1",
     "author"            : "Gabriel Petrovay <gabipetrovay@gmail.com>",
     "repository"        : {
         "type" :  "git",

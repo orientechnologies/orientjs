@@ -21,7 +21,7 @@ The following commands are implemented so far:
 * DB_DELETE
 * DB_SIZE
 * DB_COUNTRECORDS
-* COMMAND (under construction)
+* COMMAND
 * SHUTDOWN
 
 Installation
