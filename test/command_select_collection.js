@@ -12,7 +12,7 @@ db.open(function(err, result) {
 
     if (err) { console.log(err); return; }
 
-    db.command('select from OUser', function(err, result) {
+    db.command('SELECT FROM OUser', function(err, result) {
  
         if (err) { console.log(err); return; }
  
