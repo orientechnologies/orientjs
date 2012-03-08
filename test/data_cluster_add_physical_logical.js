@@ -5,64 +5,69 @@ var serverConfig = require("../config/test/serverConfig");
 var dbConfig = require("../config/test/dbConfig");
 
 var server = new Server(serverConfig);
-var db = new Db("temp_physical", server, dbConfig);
+//var db = new Db("test_clusters", server, dbConfig);
+var db = new Db("temp", server, dbConfig);
 
-server.connect(function(err, sessionId) {
 
-    if (err) { console.log(err); return; }
-
-    db.create(function(err) {
-        
-        if (err) { console.log(err); return; }
-    
-        console.log('Created database: ' + db.databaseName);
+//server.connect(function(err, sessionId) {
+//
+//    if (err) { console.log(err); return; }
+//
+//    db.create(function(err) {
+//
+//        if (err) { console.log(err); return; }
+//
+//        console.log('Created test database: ' + db.databaseName);
 
         db.open(function(err, result) {
-        
+
             if (err) { console.log(err); return; }
-            
-            var cluster_params = {
-              type: "PHYSICAL",
-              name: "test_physical",
-              file_name: "a_filename"
+
+            var clusterOptions = {
+                type: "PHYSICAL",
+                name: "test_physical",
+                file_name: "a_filename"
             }
-        
-            db.dataClusterAdd(cluster_params, function(err, cluster_number) {
+
+            db.addDataCluster(clusterOptions, function(err, clusterNumber) {
+
                 if (err) { console.log(err); return; }
-                
-                if (typeof cluster_number !== "number") {
-                    throw new Error("The result must be a number value. Received: " + (typeof cluster_number));
+
+                if (typeof clusterNumber !== "number") {
+                    throw new Error("The result must be a number value. Received: " + (typeof clusterNumber));
                 }
-                
-                console.log("New cluster number " + cluster_number);
+
+                console.log("New PHYSICAL cluster with number " + clusterNumber);
             
-                cluster_params = {
-                  type: "LOGICAL",
-                  name: "test_logical",
-                  physical_cluster_container_id: cluster_number
+                var clusterOptions = {
+                    type: "LOGICAL",
+                    name: "test_logical",
+                    physical_cluster_container_id: clusterNumber
                 }
-                
-                db.dataClusterAdd(cluster_params, function(err, cluster_number) {
+
+                db.addDataCluster(clusterOptions, function(err, clusterNumber) {
+
                     if (err) { console.log(err); return; }
-                    
-                    if (typeof cluster_number !== "number") {
-                        throw new Error("The result must be a number value. Received: " + (typeof cluster_number));
+
+                    if (typeof clusterNumber !== "number") {
+                        throw new Error("The result must be a number value. Received: " + (typeof clusterNumber));
                     }
-                    
-                    console.log("New cluster number " + cluster_number);
-                    db.drop(function(err) {
-                        if (err) { console.log(err); return; }
-            
-                        console.log('Deleted database');
+
+                    console.log("New LOGICAL cluster with number " + clusterNumber);
+
+//                    db.drop(function(err) {
+//
+//                        if (err) { console.log(err); return; }
+//
+//                        console.log("Dropped test database");
 
                         server.disconnect(function(err) {
-                
                             if (err) { console.log(err); return; }
                         });
-                    });
+//                    });
                 });
             });
         });
-    });
-});
+//    });
+//});
 
