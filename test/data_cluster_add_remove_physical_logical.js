@@ -5,69 +5,63 @@ var serverConfig = require("../config/test/serverConfig");
 var dbConfig = require("../config/test/dbConfig");
 
 var server = new Server(serverConfig);
-//var db = new Db("test_clusters", server, dbConfig);
 var db = new Db("temp", server, dbConfig);
 
 
-//server.connect(function(err, sessionId) {
-//
-//    if (err) { console.log(err); return; }
-//
-//    db.create(function(err) {
-//
-//        if (err) { console.log(err); return; }
-//
-//        console.log('Created test database: ' + db.databaseName);
+db.open(function(err, result) {
 
-        db.open(function(err, result) {
+    if (err) { console.log(err); return; }
+
+    var clusterOptions = {
+        type: "PHYSICAL",
+        name: "test_physical",
+        file_name: "a_filename"
+    }
+
+    db.addDataCluster(clusterOptions, function(err, physicalClusterNumber) {
+
+        if (err) { console.log(err); return; }
+
+        if (typeof physicalClusterNumber !== "number") {
+            throw new Error("The result must be a number value. Received: " + (typeof physicalClusterNumber));
+        }
+
+        console.log("New PHYSICAL cluster with number " + physicalClusterNumber);
+
+        var clusterOptions = {
+            type: "LOGICAL",
+            name: "test_logical",
+            physical_cluster_container_id: physicalClusterNumber
+        }
+
+        db.addDataCluster(clusterOptions, function(err, logicalClusterNumber) {
 
             if (err) { console.log(err); return; }
 
-            var clusterOptions = {
-                type: "PHYSICAL",
-                name: "test_physical",
-                file_name: "a_filename"
+            if (typeof logicalClusterNumber !== "number") {
+                throw new Error("The result must be a number value. Received: " + (typeof logicalClusterNumber));
             }
 
-            db.addDataCluster(clusterOptions, function(err, clusterNumber) {
+            console.log("New LOGICAL cluster with number " + logicalClusterNumber);
+
+            db.removeDataCluster(logicalClusterNumber, function(err) {
 
                 if (err) { console.log(err); return; }
 
-                if (typeof clusterNumber !== "number") {
-                    throw new Error("The result must be a number value. Received: " + (typeof clusterNumber));
-                }
+                console.log("LOGICAL cluster removed");
 
-                console.log("New PHYSICAL cluster with number " + clusterNumber);
-            
-                var clusterOptions = {
-                    type: "LOGICAL",
-                    name: "test_logical",
-                    physical_cluster_container_id: clusterNumber
-                }
-
-                db.addDataCluster(clusterOptions, function(err, clusterNumber) {
+                db.removeDataCluster(physicalClusterNumber, function(err) {
 
                     if (err) { console.log(err); return; }
 
-                    if (typeof clusterNumber !== "number") {
-                        throw new Error("The result must be a number value. Received: " + (typeof clusterNumber));
-                    }
+                    console.log("PHYSICAL cluster removed");
 
-                    console.log("New LOGICAL cluster with number " + clusterNumber);
-
-//                    db.drop(function(err) {
-//
-//                        if (err) { console.log(err); return; }
-//
-//                        console.log("Dropped test database");
-
-                        server.disconnect(function(err) {
-                            if (err) { console.log(err); return; }
-                        });
-//                    });
+                    server.disconnect(function(err) {
+                        if (err) { console.log(err); return; }
+                    });
                 });
             });
         });
-//    });
-//});
+    });
+});
 
