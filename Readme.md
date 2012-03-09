@@ -41,12 +41,10 @@ Check the list below to see what is and what isn't yet implemented. (Just pick a
 Installation
 ========
 
-NOTE: Don't do this yet in production! Do it only if you test or or want to develop stuff.
+NOTE: Don't do this yet in production! Do it only if you test or develop stuff.
 
 ```
 npm install orientdb
-cd orientdb
-npm install
 ```
 
 As developer you should fork/clone this repo and once you have it on wour machine, do the following in your repo directory:
