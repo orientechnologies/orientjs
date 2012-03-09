@@ -10,19 +10,33 @@ Under construction OrientDB node.js driver.
 
 Currently this driver implements the OrientDB binary protocol but the plan is to provide both the HTTP and the binary protocol.
 
-The following commands are implemented so far:
+Check the list below to see what is and what isn't yet implemented. (Just pick a "not implemented" one and send us a pull request.)
 
+* SHUTDOWN
 * CONNECT
 * DB_OPEN
 * DB_CREATE
 * DB_CLOSE
 * DB_EXIST
-* DB_RELOAD
 * DB_DELETE
 * DB_SIZE
 * DB_COUNTRECORDS
+* DATACLUSTER_ADD
+* DATACLUSTER_REMOVE
+* DATACLUSTER_COUNT (not implemented)
+* DATACLUSTER_DATARANGE (not implemented)
+* DATASEGMENT_ADD (not implemented)
+* DATASEGMENT_REMOVE (not implemented)
+* RECORD_LOAD (not implemented)
+* RECORD_CREATE (not implemented)
+* RECORD_UPDATE (not implemented)
+* RECORD_DELETE (not implemented)
+* COUNT
 * COMMAND
-* SHUTDOWN
+* TX_COMMIT (not implemented)
+* CONFIG_GET (not implemented)
+* CONFIG_SET (not implemented)
+* CONFIG_LIST (not implemented)
 
 Installation
 ========
