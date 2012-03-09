@@ -22,12 +22,9 @@ server.connect(function(err, sessionId) {
 
             if (err) { console.log(err); return; }
 
-            console.log('Deleted database');
+            console.log('Dropped database');
 
-            server.disconnect(function(err) {
-    
-                if (err) { console.log(err); return; }
-            });
+            server.disconnect();
         });
     });
 });

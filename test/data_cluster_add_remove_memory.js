@@ -33,9 +33,7 @@ db.open(function(err, result) {
 
             console.log("MEMORY cluster removed");
 
-            db.close(function(err) {
-                if (err) { console.log(err); return; }
-            });
+            db.close();
         });
     });
 });

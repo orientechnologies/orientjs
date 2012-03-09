@@ -24,10 +24,7 @@ db.open(function(err, result) {
 
             console.log('Deleted records: ' + result);
 
-            db.close(function(err, result) {
-
-                if (err) { console.log(err); return; }
-            });
+            db.close();
         });
     });
 });

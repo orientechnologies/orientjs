@@ -18,10 +18,7 @@ db.open(function(err, result) {
  
         console.log('Received results: ' + JSON.stringify(result));
 
-        db.close(function(err, result) {
-
-            if (err) { console.log(err); return; }
-        });
+        db.close();
     });
 });
 

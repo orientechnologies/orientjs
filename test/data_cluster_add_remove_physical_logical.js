@@ -56,9 +56,7 @@ db.open(function(err, result) {
 
                     console.log("PHYSICAL cluster removed");
 
-                    server.disconnect(function(err) {
-                        if (err) { console.log(err); return; }
-                    });
+                    server.disconnect();
                 });
             });
         });

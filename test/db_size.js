@@ -22,10 +22,7 @@ db.open(function(err, result) {
 
         console.log('Database size: ' + size);
 
-        db.close(function(err) {
-    
-            if (err) { console.log(err); return; }
-        });
+        db.close();
     });
 });
 

@@ -26,10 +26,7 @@ server.connect(function(err, sessionId) {
 
         console.log('Database exists');
 
-        server.disconnect(function(err) {
-            
-            if (err) { console.log(err); return; }
-        });
+        server.disconnect();
     });
 });
 

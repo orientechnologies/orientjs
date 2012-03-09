@@ -22,10 +22,7 @@ db.open(function(err, result) {
 
         console.log('Record count: ' + count);
 
-        db.close(function(err) {
-    
-            if (err) { console.log(err); return; }
-        });
+        db.close();
     });
 });
 
