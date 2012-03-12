@@ -23,8 +23,8 @@ Check the list below to see what is and what isn't yet implemented. (Just pick a
 * DB_COUNTRECORDS
 * DATACLUSTER_ADD
 * DATACLUSTER_REMOVE
-* DATACLUSTER_COUNT (not implemented)
-* DATACLUSTER_DATARANGE (not implemented)
+* DATACLUSTER_COUNT
+* DATACLUSTER_DATARANGE
 * DATASEGMENT_ADD (not implemented)
 * DATASEGMENT_REMOVE (not implemented)
 * RECORD_LOAD (not implemented)

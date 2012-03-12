@@ -16,16 +16,14 @@ db.open(function(err, result) {
     for (index in result.clusters) {
         clusterIds.push(result.clusters[index].id);
     }
-    
+
     db.countDataClusters(clusterIds, function(err, result) {
-        
+
         if (result.clustersCount != 10) {
             throw new Error("Was expecting 10 clusters but found " + result.clustersCount);
         }
 
-        db.close();
-        
+        db.close();   
     });
-    
 });
 
