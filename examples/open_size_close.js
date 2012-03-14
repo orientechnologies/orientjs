@@ -22,7 +22,7 @@ db.open(function(err, result) {
     if (err) { console.log(err); return; }
 
     console.log("Opened database on session: " + result.sessionId);
-    console.log("Database '" + db.databaseName + "' has " + result.clusters.length + " clusters");
+    console.log("Database '" + db.databaseName + "' has " + db.clusters.length + " clusters");
 
     db.size(function(err, size) {
 

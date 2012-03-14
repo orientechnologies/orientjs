@@ -14,7 +14,7 @@ db.open(function(err, result) {
 
     assert(!err, "Error while opening the database: " + err);
 
-    var cluster = result.clusters[0];
+    var cluster = db.clusters[0];
 
     db.rangeDataClusters(cluster.id, function(err, result) {
 

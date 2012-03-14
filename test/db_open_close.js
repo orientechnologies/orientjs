@@ -18,7 +18,10 @@ db.open(function(err, result) {
 
     console.log("Opened database: " + db.databaseName);
     console.log("Session ID:" + result.sessionId);
-    console.log("Database clusters: " + JSON.stringify(result.clusters));
+    console.log("Database clusters: " + JSON.stringify(db.clusters));
+    
+    assert.equal(0, db.getClusterIdByName("Internal"));
+    assert.equal(4, db.getClusterIdByName("OUSER"));
 
     db.close(function(err) {
 

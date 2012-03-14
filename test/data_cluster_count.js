@@ -16,8 +16,8 @@ db.open(function(err, result) {
 
     var clusterIds = [];
 
-    for (index in result.clusters) {
-        clusterIds.push(result.clusters[index].id);
+    for (index in db.clusters) {
+        clusterIds.push(db.clusters[index].id);
     }
 
     db.countDataClusters(clusterIds, function(err, result) {

@@ -14,10 +14,10 @@ db.open(function(err, result) {
 
     assert(!err, "Error while opening the database: " + err);
 
-    assert(result.clusters && result.clusters.length, "The \"" + db.databaseName + "\" database must have at least one cluster if not more");
+    assert(db.clusters && db.clusters.length, "The \"" + db.databaseName + "\" database must have at least one cluster if not more");
 
-    var clusterId = result.clusters[0].id;
-    console.log("Using cluster: " + clusterId + " \"" + result.clusters[0].name + "\"");
+    var clusterId = db.clusters[0].id;
+    console.log("Using cluster: " + clusterId + " \"" + db.clusters[0].name + "\"");
 
     // insert a first record
     var firstDocData = "TestClass@nick:\"ThePresident\",subdoc:(name:\"subdoc name\",id_field:42),follows:[],followers:[],name:\"Barack\",surname:\"Obama\",location:#3:2,invitedBy:,salary_cloned:,salary:120.3f";
