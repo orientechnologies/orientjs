@@ -27,10 +27,10 @@ Check the list below to see what is and what isn't yet implemented. (Just pick a
 * DATACLUSTER_DATARANGE
 * DATASEGMENT_ADD (not implemented)
 * DATASEGMENT_REMOVE (not implemented)
-* RECORD_LOAD (not implemented)
-* RECORD_CREATE (not implemented)
-* RECORD_UPDATE (not implemented)
-* RECORD_DELETE (not implemented)
+* RECORD_LOAD
+* RECORD_CREATE
+* RECORD_UPDATE
+* RECORD_DELETE
 * COUNT
 * COMMAND
 * TX_COMMIT (not implemented)
