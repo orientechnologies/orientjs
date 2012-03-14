@@ -1,26 +1,26 @@
-var Db = require('../lib/orientdb').Db,
-    Server = require('../lib/orientdb').Server;
+var assert = require("assert");
 
-var serverConfig = require('../config/test/serverConfig');
-var dbConfig = require('../config/test/dbConfig');
+var Db = require("../lib/orientdb").Db,
+    Server = require("../lib/orientdb").Server;
+
+var serverConfig = require("../config/test/serverConfig");
+var dbConfig = require("../config/test/dbConfig");
 
 var server = new Server(serverConfig);
-var db = new Db('temp', server, dbConfig);
+var db = new Db("temp", server, dbConfig);
 
 
 db.open(function(err, result) {
 
-    if (err) { console.log(err); return; }
+    assert(!err, "Error while opening the database: " + err);
 
     db.size(function(err, size) {
 
-        if (err) { console.log(err); return; }
+        assert(!err, "Error while retrieving the size of the database: " + err);
 
-        if (typeof size !== 'number') {
-            throw new Error('The result must be a boolean value. Received: ' + (typeof size));
-        }
+        assert(typeof size === "number", "The result must be a numeric value. Received: " + (typeof size));
 
-        console.log('Database size: ' + size);
+        console.log("Database size: " + size);
 
         db.close();
     });

@@ -1,21 +1,23 @@
-var Server = require('../lib/orientdb').Server;
+var assert = require("assert");
 
-var serverConfig = require('../config/test/serverConfig');
+var Server = require("../lib/orientdb").Server;
+
+var serverConfig = require("../config/test/serverConfig");
 
 var server = new Server(serverConfig);
 
 
 server.connect(function(err, sessionId) {
 
-    if (err) { console.log(err); return; }
+    assert(!err, "Error while connecting to the server: " + err);
 
-    console.log('Connected on session: ' + sessionId);
+    console.log("Connected on session: " + sessionId);
 
     server.disconnect(function(err) {
 
-        if (err) { console.log(err); return; }
+        assert(!err, "Error while disconnecting from the server: " + err);
 
-        console.log('Closed connection');
+        console.log("Closed connection");
     });
 });
 

@@ -1,30 +1,28 @@
-var Db = require('../lib/orientdb').Db,
-    Server = require('../lib/orientdb').Server;
+var assert = require("assert");
 
-var serverConfig = require('../config/test/serverConfig');
-var dbConfig = require('../config/test/dbConfig');
+var Db = require("../lib/orientdb").Db,
+    Server = require("../lib/orientdb").Server;
+
+var serverConfig = require("../config/test/serverConfig");
+var dbConfig = require("../config/test/dbConfig");
 
 var server = new Server(serverConfig);
-var db = new Db('temp', server, dbConfig);
+var db = new Db("temp", server, dbConfig);
 
 
 server.connect(function(err, sessionId) {
 
-    if (err) { console.log(err); return; }
+    assert(!err, "Error while connecting to the server: " + err);
 
     db.exist(function(err, result) {
 
-        if (err) { console.log(err); return; }
+        assert(!err, "Error while checking if database exists: " + err);
 
-        if (typeof result !== 'boolean') {
-            throw new Error('The result must be a boolean value. Received: ' + (typeof result));
-        }
+        assert(typeof result === "boolean", "The result must be a boolean value. Received: " + (typeof result));
         
-        if (!result) {
-            throw new Error('The "temp" database should be present if you managed to open it.');
-        }
+        assert(result, "The \"temp\" database should be present if you managed to open it.");
 
-        console.log('Database exists');
+        console.log("Database \"" + db.databaseName + "\" exists");
 
         server.disconnect();
     });

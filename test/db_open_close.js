@@ -1,25 +1,30 @@
-var Db = require('../lib/orientdb').Db,
-    Server = require('../lib/orientdb').Server;
+var assert = require("assert");
 
-var serverConfig = require('../config/test/serverConfig');
-var dbConfig = require('../config/test/dbConfig');
+var Db = require("../lib/orientdb").Db,
+    Server = require("../lib/orientdb").Server;
+
+var serverConfig = require("../config/test/serverConfig");
+var dbConfig = require("../config/test/dbConfig");
 
 var server = new Server(serverConfig);
-var db = new Db('temp', server, dbConfig);
+var db = new Db("temp", server, dbConfig);
 
 
 db.open(function(err, result) {
 
-    if (err) { console.log(err); return; }
+    assert(!err, "Error while opening the database: " + err);
 
-    console.log('Opened database on session: ' + result.sessionId);
-    console.log('Database ' + db.databaseName + ' has ' + result.clusters.length + ' clusters');
+    assert(!err, "There must be a session ID after a call to open a database. Received: " + result.sessionId);
+
+    console.log("Opened database: " + db.databaseName);
+    console.log("Session ID:" + result.sessionId);
+    console.log("Database clusters: " + JSON.stringify(result.clusters));
 
     db.close(function(err) {
 
-        if (err) { console.log(err); return; }
+        assert(!err, "Error while closing the database: " + err);
 
-        console.log('Closed database');
+        console.log("Closed database");
     });
 });
 

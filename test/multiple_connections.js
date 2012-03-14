@@ -1,3 +1,5 @@
+var assert = require("assert");
+
 var Db = require('../lib/orientdb').Db,
     Server = require('../lib/orientdb').Server;
 
@@ -13,11 +15,15 @@ var db2 = new Db('temp', server2, dbConfig);
 
 db1.open(function(err, result) {
 
+    assert(!err, "Error while opening the database: " + err);
+
     if (err) { console.log(err); return; }
 
     console.log('Connection 1 established');
 
     db2.open(function(err, result) {
+
+        assert(!err, "Error while opening the database: " + err);
 
         if (err) { console.log(err); return; }
 
