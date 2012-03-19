@@ -31,6 +31,8 @@ db.open(function(err, result) {
 
     db.save(document, function(err, document) {
         
+        console.log(document);
+
         var doc_id = document["_id"]
         assert(doc_id);
         assert.equal(0, document["_ver"]);
@@ -40,9 +42,11 @@ db.open(function(err, result) {
         document.name = "now it's your name";
         db.save(document, function(err, document) {
             
+            console.log(document);
+            
             assert.equal(doc_id, document["_id"]);
-            assert.equal(1, document["_ver"]);
             assert.equal("now it's your name", document.name);
+            assert.equal(1, document["_ver"]);
       
             db.close();
         });
