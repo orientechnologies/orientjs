@@ -2,7 +2,7 @@ var assert = require("assert");
 var parser = require("../lib/orientdb/connection/parser");
 
 var document = {
-  _class: "FantasyPerson",
+  "@class": "FantasyPerson",
   name: "it's me, \\ \"",
   birthday: new Date(Math.floor(new Date().getTime() / 1000) * 1000),
   fingers: 20,

@@ -19,13 +19,13 @@ db.open(function(err, result) {
         name: "TestClass"
     }
     
-    assert.equal(5, db.clusters.length);
+    assert.equal(6, db.clusters.length);
 
     db.addDataCluster(clusterOptions, function(err, clusterId) {
         
         db.reload(function(err, result) {
             
-            assert.equal(6, db.clusters.length);
+            assert.equal(7, db.clusters.length);
             
             db.command("create class TestClass cluster " + db.clusters[5].id, function(err, result) {
         
