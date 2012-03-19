@@ -25,16 +25,8 @@ var document = {
   zero_is: null
 }
 
-for (a in document) {
-  var type = toString.call(document[a]).substr(8);
-  type = type.substr(0, type.length - 1).toLowerCase();
-  console.log(a, document[a], typeof document[a], type);
-}
-
 db.open(function(err, result) {
     
-    console.log(result);
-
     assert(!err, "Error while opening the database: " + err);
 
     db.save(document, function(err, document) {
