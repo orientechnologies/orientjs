@@ -1,5 +1,6 @@
-var Db = require('../lib/orientdb').Db,
-    Server = require('../lib/orientdb').Server;
+var orient = require("../lib/orientdb"),
+    Db = orient.Db,
+    Server = orient.Server;
 
 
 var dbConfig = {
@@ -7,14 +8,14 @@ var dbConfig = {
     user_password: "admin",
 };
 var serverConfig = {
-    host: 'localhost',
+    host: "localhost",
     port: 2424,
     user_name: "root",
     user_password: "83CACE21A23DB46F93BFD58A3CE48C8D29926C6EF424D7DA9BD725AE070CCDC0"
 };
 
 var server = new Server(serverConfig);
-var db = new Db('temp', server, dbConfig);
+var db = new Db("temp", server, dbConfig);
 
 
 db.open(function(err, result) {

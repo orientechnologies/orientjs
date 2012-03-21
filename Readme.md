@@ -10,33 +10,45 @@ Under construction OrientDB node.js driver.
 
 Currently this driver implements the OrientDB binary protocol but the plan is to provide both the HTTP and the binary protocol.
 
-Check the list below to see what is and what isn't yet implemented. (Just pick a "not implemented" one and send us a pull request.)
+The following commands are not implemented yet (just pick one and send us a pull request):
 
-* SHUTDOWN
-* CONNECT
-* DB_OPEN
-* DB_CREATE
-* DB_CLOSE
-* DB_EXIST
-* DB_DELETE
-* DB_SIZE
-* DB_COUNTRECORDS
-* DATACLUSTER_ADD
-* DATACLUSTER_REMOVE
-* DATACLUSTER_COUNT
-* DATACLUSTER_DATARANGE
-* DATASEGMENT_ADD (not implemented)
-* DATASEGMENT_REMOVE (not implemented)
-* RECORD_LOAD
-* RECORD_CREATE
-* RECORD_UPDATE
-* RECORD_DELETE
-* COUNT
-* COMMAND
-* TX_COMMIT (not implemented)
-* CONFIG_GET (not implemented)
-* CONFIG_SET (not implemented)
-* CONFIG_LIST (not implemented)
+* DATASEGMENT_ADD
+* DATASEGMENT_REMOVE
+* TX_COMMIT
+* CONFIG_GET
+* CONFIG_SET
+* CONFIG_LIST
+
+Connecting to a database
+========
+
+```
+var orient = require("orientdb"),
+    Db = orient.Db,
+    Server = orient.Server;
+
+var dbConfig = {
+    user_name: "admin",
+    user_password: "admin",
+};
+var serverConfig = {
+    host: "localhosti",
+    port: 2424,
+    user_name: "root",
+    user_password: "my server passord"
+};
+
+var server = new Server(serverConfig);
+var db = new Db("temp", server, dbConfig);
+
+
+db.open(function(err, result) {
+
+    if (err) { console.log(err); return; }
+
+    console.log("Database '" + db.databaseName + "' has " + db.clusters.length + " clusters");
+}
+```
 
 Installation
 ========
