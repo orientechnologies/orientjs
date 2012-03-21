@@ -32,7 +32,7 @@ var dbConfig = {
     user_password: "admin",
 };
 var serverConfig = {
-    host: "localhosti",
+    host: "localhost",
     port: 2424,
     user_name: "root",
     user_password: "my server passord"
