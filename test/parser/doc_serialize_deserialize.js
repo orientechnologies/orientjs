@@ -1,5 +1,5 @@
 var assert = require("assert");
-var parser = require("../lib/orientdb/connection/parser");
+var parser = require("../../lib/orientdb/connection/parser");
 
 var document = {
   "@class": "FantasyPerson",

@@ -27,7 +27,7 @@ db.open(function(err, result) {
     var recordData = {
       clusterId: clusterId,
       content: data,
-      recordType: "d"
+      type: "d"
     }
 
     console.log("Inserting 1st record...");

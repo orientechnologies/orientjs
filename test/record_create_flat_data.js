@@ -21,7 +21,7 @@ db.open(function(err, result) {
     var recordData = {
       clusterId: clusterId,
       content: data,
-      recordType: "f"
+      type: "f"
     }
     
     db.createRecord(recordData, function(err, result) {

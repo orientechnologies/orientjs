@@ -36,7 +36,7 @@ db.open(function(err, result) {
                 var recordData = {
                     clusterId: clusterId,
                     content: data,
-                    recordType: "d"
+                    type: "d"
                 }
 
                 db.createRecord(recordData, function(err, result) {
@@ -60,7 +60,7 @@ db.open(function(err, result) {
                             clusterId: createdRecord.clusterId,
                             clusterPosition: createdRecord.clusterPosition,
                             content: data,
-                            recordType: "d",
+                            type: "d",
                             version: first_version
                         }
 
