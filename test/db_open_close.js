@@ -10,17 +10,19 @@ var server = new Server(serverConfig);
 var db = new Db("temp", server, dbConfig);
 
 
-db.open(function(err, result) {
+db.open(function(err, sessionId) {
 
     assert(!err, "Error while opening the database: " + err);
 
-    assert(!err, "There must be a session ID after a call to open a database. Received: " + result.sessionId);
+    assert(!err, "There must be a session ID after a call to open a database. Received: " + sessionId);
 
     console.log("Opened database: " + db.databaseName);
-    console.log("Session ID:" + result.sessionId);
+    console.log("Session ID:" + sessionId);
     console.log("Database clusters: " + JSON.stringify(db.clusters));
     console.log("Database classes: " + JSON.stringify(db.classes));
+    console.log("Database configuration: " + JSON.stringify(db.configuration));
     
+    assert(typeof sessionId !== "undefined");
     assert.equal(5, db.clusters.length);
     assert.equal(2, db.classes.length);
     assert.equal(0, db.getClusterIdByName("Internal"));
