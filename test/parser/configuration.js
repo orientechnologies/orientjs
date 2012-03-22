@@ -7,9 +7,9 @@ var config = parser.parseConfiguration(configAsString);
 
 assert.equal(2, config.version);
 assert.equal(null, config.name);
-assert.equal("0:1", config.schemaRecordId);
+assert.equal("#0:1", config.schemaRecordId);
 assert.equal(null, config.dictionaryRecordId);
-assert.equal("0:2", config.indexMgrRecordId);
+assert.equal("#0:2", config.indexMgrRecordId);
 assert.equal("it", config.localeLanguage);
 assert.equal("IT", config.localeCountry);
 assert.equal("yyyy-MM-dd", config.dateFormat);
