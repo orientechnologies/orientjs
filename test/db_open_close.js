@@ -14,17 +14,18 @@ db.open(function(err, result) {
 
     assert(!err, "Error while opening the database: " + err);
 
-    assert(!err, "There must be a session ID after a call to open a database. Received: " + result.sessionId);
+    assert(db.server.sessionId, "There must be a session ID after a call to open a database. The current session is: " + db.server.sessionId);
 
     console.log("Opened database: " + db.databaseName);
-    console.log("Session ID:" + result.sessionId);
+    console.log("Session ID: " + db.server.sessionId);
     console.log("Database clusters: " + JSON.stringify(db.clusters));
     console.log("Database classes: " + JSON.stringify(db.classes));
-    
+
     assert.equal(5, db.clusters.length);
     assert.equal(2, db.classes.length);
     assert.equal(0, db.getClusterIdByName("Internal"));
-    assert.equal(4, db.getClusterIdByName("OUSER"));
+    // cluster name case should not matter
+    assert.equal(4, db.getClusterIdByName("OuSeR"));
 
     db.close(function(err) {
 
@@ -33,4 +34,5 @@ db.open(function(err, result) {
         console.log("Closed database");
     });
 });
+
 
