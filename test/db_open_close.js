@@ -10,7 +10,7 @@ var server = new Server(serverConfig);
 var db = new Db("temp", server, dbConfig);
 
 
-db.open(function(err, result) {
+db.open(function(err) {
 
     assert(!err, "Error while opening the database: " + err);
 
@@ -20,6 +20,7 @@ db.open(function(err, result) {
     console.log("Session ID: " + db.server.sessionId);
     console.log("Database clusters: " + JSON.stringify(db.clusters));
     console.log("Database classes: " + JSON.stringify(db.classes));
+    console.log("Database configuration: " + JSON.stringify(db.configuration));
 
     assert.equal(5, db.clusters.length);
     assert.equal(2, db.classes.length);
