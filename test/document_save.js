@@ -32,7 +32,7 @@ var document = {
 db.open(function(err, result) {
 
     assert(!err, "Error while opening the database: " + err);
-
+debugger;
     // save the first version of the document
     db.save(document, function(err, document) {
 
@@ -48,6 +48,7 @@ db.open(function(err, result) {
         // change the name
         document.name = name2;
 
+debugger;
         // save the sexond version of the document
         db.save(document, function(err, document) {
 
@@ -57,6 +58,7 @@ db.open(function(err, result) {
             assert.equal(1, document["@version"]);
             assert.equal(name2, document.name);
 
+debugger;
             db.close();
         });
     });
