@@ -7,11 +7,13 @@ var serverConfig = require("../config/test/serverConfig");
 var server = new Server(serverConfig);
 
 
-server.connect(function(err, sessionId) {
+server.connect(function(err) {
 
-    assert(!err, "Error while connecting to the server: " + err);
+    assert(!err, "Error while connecting to the server: " + JSON.stringify(err));
 
-    console.log("Connected on session: " + sessionId);
+    assert(server.sessionId > -1, "The session ID is not valid.");
+
+    console.log("Connected on session: " + server.sessionId);
 
     server.disconnect(function(err) {
 

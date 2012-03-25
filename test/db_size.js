@@ -1,7 +1,8 @@
 var assert = require("assert");
 
-var Db = require("../lib/orientdb").Db,
-    Server = require("../lib/orientdb").Server;
+var orient = require("../lib/orientdb"),
+    Db = orient.Db,
+    Server = orient.Server;
 
 var serverConfig = require("../config/test/serverConfig");
 var dbConfig = require("../config/test/dbConfig");

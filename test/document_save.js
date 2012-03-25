@@ -1,7 +1,8 @@
 var assert = require("assert");
 
-var Db = require("../lib/orientdb").Db,
-    Server = require("../lib/orientdb").Server;
+var orient = require("../lib/orientdb"),
+    Db = orient.Db,
+    Server = orient.Server;
 
 var serverConfig = require("../config/test/serverConfig");
 var dbConfig = require("../config/test/dbConfig");
@@ -32,7 +33,7 @@ var document = {
 db.open(function(err, result) {
 
     assert(!err, "Error while opening the database: " + err);
-debugger;
+
     // save the first version of the document
     db.save(document, function(err, document) {
 
@@ -48,7 +49,6 @@ debugger;
         // change the name
         document.name = name2;
 
-debugger;
         // save the sexond version of the document
         db.save(document, function(err, document) {
 
@@ -58,7 +58,6 @@ debugger;
             assert.equal(1, document["@version"]);
             assert.equal(name2, document.name);
 
-debugger;
             db.close();
         });
     });
