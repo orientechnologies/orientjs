@@ -42,7 +42,7 @@ var server = new Server(serverConfig);
 var db = new Db("temp", server, dbConfig);
 
 
-db.open(function(err, result) {
+db.open(function(err) {
 
     if (err) { console.log(err); return; }
 

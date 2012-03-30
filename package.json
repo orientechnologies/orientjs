@@ -2,15 +2,16 @@
     "name"              : "orientdb",
     "description"       : "A node.js driver for OrientDB",
     "keywords"          : ["orientdb", "orient", "driver", "db", "node", "node.js"],
-    "version"           : "0.6.2",
+    "version"           : "0.6.3",
     "author"            : "Gabriel Petrovay <gabipetrovay@gmail.com>",
-    "contributors"      : [ 
+    "contributors"      : [
+        { "name": "Ryan Fields", "email": "ryan.fields@twoleftbeats.com" },
         { "name": "Federico Fissore", "email": "federico@fissore.org" },
         { "name": "Navin Parray", "email": "navinparray@gmail.com" }
     ],
     "repository"        : {
-        "type" :  "git",
-        "url" :   "http://github.com/gabipetrovay/node-orientdb.git" },
+        "type"      : "git",
+        "url"       : "http://github.com/gabipetrovay/node-orientdb.git" },
     "devDependencies"   : {
         "tap"       : "0.2.3"
     },
@@ -21,7 +22,8 @@
         "test"          : "node ./node_modules/tap/bin/tap.js ./test"
     },
     "licenses"          : [ {
-        "type" :  "Apache License, Version 2.0",
-        "url" :   "http://www.apache.org/licenses/LICENSE-2.0"
+        "type"      : "Apache License, Version 2.0",
+        "url"       : "http://www.apache.org/licenses/LICENSE-2.0"
     } ]
 }
+
