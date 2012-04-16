@@ -18,12 +18,12 @@ db.open(function(err, result) {
     var data = new Buffer(14);
     data.write("this is a test");
     
-    var clusterId = db.clusters[0].id
+    var clusterId = db.clusters[0].id;
     var recordData = {
-      clusterId: clusterId,
-      content: data,
-      type: "f"
-    }
+        clusterId: clusterId,
+        content: data,
+        type: "f"
+    };
     
     db.createRecord(recordData, function(err, result) {
         

@@ -26,10 +26,10 @@ db.open(function(err, result) {
     data.write(firstDocData);
 
     var recordData = {
-      clusterId: clusterId,
-      content: data,
-      type: "d"
-    }
+        clusterId: clusterId,
+        content: data,
+        type: "d"
+    };
 
     console.log("Inserting 1st record...");
 

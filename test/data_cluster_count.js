@@ -17,7 +17,7 @@ db.open(function(err, result) {
 
     var clusterIds = [];
 
-    for (index in db.clusters) {
+    for (var index in db.clusters) {
         clusterIds.push(db.clusters[index].id);
     }
 
