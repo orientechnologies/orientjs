@@ -18,9 +18,9 @@ db.open(function(err, result) {
     var clusterOptions = {
         type: "MEMORY",
         name: "TestClass"
-    }
+    };
 
-    assert.equal(6, db.clusters.length);
+    var previous_clusters_length = db.clusters.length;
 
     db.addDataCluster(clusterOptions, function(err, clusterId) {
 
@@ -30,7 +30,7 @@ db.open(function(err, result) {
 
             assert(!err, "Error while reloading the database: " + err);
 
-            assert.equal(7, db.clusters.length);
+            assert.equal(previous_clusters_length + 1, db.clusters.length);
 
             db.command("create class TestClass cluster " + db.clusters[5].id, function(err, result) {
 
@@ -44,7 +44,7 @@ db.open(function(err, result) {
                     clusterId: clusterId,
                     content: data,
                     type: "d"
-                }
+                };
 
                 console.log("Creating record: " + firstDocData);
 
@@ -77,7 +77,7 @@ db.open(function(err, result) {
                             content: data,
                             type: "d",
                             version: first_version
-                        }
+                        };
 
                         console.log("Updating record: " + secondDocData);
 
@@ -104,7 +104,7 @@ db.open(function(err, result) {
                                     clusterId: updateRecordPreviousVersion.clusterId,
                                     clusterPosition: updateRecordPreviousVersion.clusterPosition,
                                     version: currentVersion
-                                }
+                                };
 
                                 var rid = "#" + deleteRecord.clusterId + ":" + deleteRecord.clusterPosition;
                                 console.log("Deleting record " + rid + "...");
