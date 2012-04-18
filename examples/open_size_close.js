@@ -5,7 +5,7 @@ var orient = require("../lib/orientdb"),
 
 var dbConfig = {
     user_name: "admin",
-    user_password: "admin",
+    user_password: "admin"
 };
 var serverConfig = {
     host: "localhost",

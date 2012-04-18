@@ -4,7 +4,7 @@ var Db = require('../lib/orientdb').Db,
 
 var dbConfig = {
     user_name: "admin",
-    user_password: "admin",
+    user_password: "admin"
 };
 var serverConfig = {
     host: 'localhost',
