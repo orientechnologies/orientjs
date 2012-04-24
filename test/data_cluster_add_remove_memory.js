@@ -18,7 +18,7 @@ db.open(function(err, result) {
     var clusterOptions = {
         type: "MEMORY",
         name: "test_memory"
-    }
+    };
 
     db.addDataCluster(clusterOptions, function(err, clusterNumber) {
 

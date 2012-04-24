@@ -19,7 +19,7 @@ db.open(function(err, result) {
         type: "PHYSICAL",
         name: "test_physical",
         file_name: "a_filename"
-    }
+    };
 
     db.addDataCluster(clusterOptions, function(err, physicalClusterNumber) {
 
@@ -37,7 +37,7 @@ db.open(function(err, result) {
             type: "LOGICAL",
             name: "test_logical",
             physical_cluster_container_id: physicalClusterNumber
-        }
+        };
 
         db.addDataCluster(clusterOptions, function(err, logicalClusterNumber) {
 
