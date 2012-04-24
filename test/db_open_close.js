@@ -23,8 +23,8 @@ db.open(function(err) {
     console.log("Database classes: " + JSON.stringify(db.classes));
     console.log("Database configuration: " + JSON.stringify(db.configuration));
 
-    assert.equal(5, db.clusters.length);
-    assert.equal(2, db.classes.length);
+    assert(db.clusters.length >= 5);
+    assert(db.classes.length >= 2);
     assert.equal(0, db.getClusterIdByName("Internal"));
     // cluster name case should not matter
     assert.equal(4, db.getClusterIdByName("OuSeR"));

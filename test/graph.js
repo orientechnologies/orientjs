@@ -10,6 +10,8 @@ var dbConfig = require("../config/test/dbConfig");
 var server = new Server(serverConfig);
 var graphdb = new GraphDb("temp", server, dbConfig);
 
+/*
+IGNORED FOR A MOMENT
 graphdb.open(function(err) {
 
     assert(!err, "Error while opening the database: " + err);
@@ -35,5 +37,4 @@ graphdb.open(function(err) {
         });
     });
 });
-
-
+ */
