@@ -22,7 +22,7 @@ for (var i = 0; i < connectionsToOpen; i++) {
 
         assert(!err, "Error while opening the database: " + err);
 
-        if (++openedConnections == connectionsToOpen) {
+        if (++openedConnections === connectionsToOpen) {
 
             for (var j = 0; j < openedConnections; j++) {
 
