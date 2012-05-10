@@ -21,7 +21,7 @@ db.open(function(err, result) {
 
         assert(!err, "Error while retrieving data cluster range: " + err);
 
-        if (result.begin != 0 || result.end != 2) {
+        if (result.begin !== 0 || result.end !== 2) {
             throw new Error("Was expecting cluster \"" + cluster.name + "\" to begin at 0 and end at 2 but found " + JSON.stringify(result));
         }
 

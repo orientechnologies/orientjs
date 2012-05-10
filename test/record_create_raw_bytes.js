@@ -31,7 +31,7 @@ db.open(function(err, result) {
 
         db.createRecord(recordData, function(err, result) {
             
-            assert(result.position == (firstRecord + 1));
+            assert(result.position === (firstRecord + 1));
 
             db.close();
         });
