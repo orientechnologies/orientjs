@@ -56,7 +56,7 @@ db.open(function(err, result) {
             var secondRecord = result.position;
 
             console.log("Created 2nd record on position: " + secondRecord);
-            assert(result.position == (firstRecord + 1));
+            assert(result.position === (firstRecord + 1));
 
             db.close();
         });

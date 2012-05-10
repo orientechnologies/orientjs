@@ -14,10 +14,11 @@ var document = {
         { name: "Turin, Italy" }
     ],
     known_os_list: [ "linux" ],
-    zero_is: null
+    zero_is: null,
+    value_with_hash: "#NoSql"
 };
 
-var serialized_document = "FantasyPerson@name:\"it's me, \\\\ \\\"\",birthday:" + Math.floor(document.birthday.getTime() / 1000) + "t,fingers:20,a_float:123.4f,like_it:true,linked_to:#1:1,last_time_in:(name:\"Turin, Italy\",when:" + Math.floor(document.last_time_in.when.getTime() / 1000) + "t),cities:[(name:\"Turin, Italy\")],known_os_list:[\"linux\"],zero_is:";
+var serialized_document = "FantasyPerson@name:\"it's me, \\\\ \\\"\",birthday:" + Math.floor(document.birthday.getTime() / 1000) + "t,fingers:20,a_float:123.4f,like_it:true,linked_to:#1:1,last_time_in:(name:\"Turin, Italy\",when:" + Math.floor(document.last_time_in.when.getTime() / 1000) + "t),cities:[(name:\"Turin, Italy\")],known_os_list:[\"linux\"],zero_is:,value_with_hash:\"#NoSql\"";
 
 assert.equal(serialized_document, parser.serializeDocument(document));
 assert.equal(JSON.stringify(document), JSON.stringify(parser.deserializeDocument(serialized_document)));
