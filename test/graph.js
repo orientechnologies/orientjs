@@ -26,7 +26,7 @@ function createVertexes(graphdb, callback) {
                 assert.equal(rootNode["@rid"], edge["out"]);
                 assert.equal(childNode["@rid"], edge["in"]);
 
-                graphdb.createEdge(childNode, rootNode, { label: "child_node_of" }, function(err, edge) {
+                graphdb.createEdge(childNode, rootNode, { label: "child_of" }, function(err, edge) {
                     graphdb.createEdge(childNode, rootNode, function(err, edge) {
                         callback(rootNode, childNode);
                     });
@@ -67,10 +67,32 @@ graphdb.open(function(err) {
 
                             assert.equal(2, outEdges.length);
 
-                            graphdb.getOutEdges(childNode, "child_node_of", function(err, outEdges) {
+                            graphdb.getOutEdges(childNode, "child_of", function(err, outEdges) {
+                                assert(!err);
                                 assert.equal(1, outEdges.length);
 
-                                graphdb.close();
+                                graphdb.fromVertex(childNode).outVertexes("child_of", function(err, vertexes) {
+                                    assert(!err);
+
+                                    assert.equal(1, vertexes.length);
+
+                                    assert.equal(rootNode["@rid"], vertexes[0]["@rid"]);
+
+                                    graphdb.fromVertex(childNode).outVertexes(function(err, vertexes) {
+                                        assert(!err);
+
+                                        assert.equal(2, vertexes.length);
+
+                                        graphdb.fromVertex(childNode).inVertexes(function(err, vertexes) {
+                                            assert(!err);
+
+                                            assert.equal(1, vertexes.length);
+                                            assert.equal(rootNode["@rid"], vertexes[0]["@rid"]);
+
+                                            graphdb.close();
+                                        });
+                                    });
+                                });
                             });
                         });
                     });
