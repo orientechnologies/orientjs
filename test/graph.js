@@ -29,7 +29,31 @@ graphdb.open(function(err) {
                 assert.equal(rootNode["@rid"], edge["out"]);
                 assert.equal(childNode["@rid"], edge["in"]);
 
-                graphdb.close();
+                graphdb.getOutEdges(rootNode, function(err, outEdges) {
+                    assert(!err);
+
+                    assert.equal(1, outEdges.length);
+
+                    graphdb.getInVertex(outEdges[0], function(err, vertex) {
+                        assert(!err);
+
+                        assert.equal(childNode["@rid"], vertex["@rid"]);
+
+                        graphdb.getInEdges(childNode, function(err, inEdges) {
+                            assert(!err);
+
+                            assert.equal(1, inEdges.length);
+
+                            graphdb.getOutVertex(inEdges[0], function(err, vertex) {
+                                assert(!err);
+
+                                assert.equal(rootNode["@rid"], vertex["@rid"]);
+
+                                graphdb.close();
+                            });
+                        });
+                    });
+                });
 
             });
         });
