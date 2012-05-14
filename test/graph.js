@@ -54,7 +54,6 @@ graphdb.open(function(err) {
                         });
                     });
                 });
-
             });
         });
     });
