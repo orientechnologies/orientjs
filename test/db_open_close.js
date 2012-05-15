@@ -25,9 +25,9 @@ db.open(function(err) {
 
     assert(db.clusters.length >= 5);
     assert(db.classes.length >= 2);
-    assert.equal(0, db.getClusterIdByName("Internal"));
+    assert.equal(0, db.getClusterByName("Internal").id);
     // cluster name case should not matter
-    assert.equal(4, db.getClusterIdByName("OuSeR"));
+    assert.equal(4, db.getClusterByName("OuSeR").id);
 
     db.close(function(err) {
 

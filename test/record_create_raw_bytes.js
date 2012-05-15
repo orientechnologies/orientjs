@@ -17,26 +17,27 @@ db.open(function(err, result) {
 
     var data = new Buffer(14);
     data.write("this is a test");
-    
-    var clusterId = db.clusters[0].id;
+
+    var cluster = db.clusters[0];
     var recordData = {
-        clusterId: clusterId,
+        clusterId: cluster.id,
         content: data,
-        type: "b"
+        type: "b",
+        dataSegmentId: cluster.dataSegmentId
     };
-    
+
     db.createRecord(recordData, function(err, result) {
-        
+
         var firstRecord = result.position;
 
         db.createRecord(recordData, function(err, result) {
-            
+
             assert(result.position === (firstRecord + 1));
 
             db.close();
         });
-        
+
     });
-    
+
 });
 

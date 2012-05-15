@@ -15,11 +15,11 @@ db.open(function(err, result) {
 
     assert(!err, "Error while opening the database: " + err);
 
-    var clusterId = db.getClusterIdByClass("OUser");
+    var cluster = db.getClusterByClass("OUser");
 
-    assert.equal(4, clusterId);
+    assert.equal(4, cluster.id);
 
-    var rid = "#" + clusterId + ":" + 0;
+    var rid = "#" + cluster.id + ":" + 0;
 
     db.loadRecord(rid, function(err, record) {
 
