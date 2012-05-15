@@ -43,7 +43,8 @@ db.open(function(err, result) {
                 var recordData = {
                     clusterId: clusterId,
                     content: data,
-                    type: "d"
+                    type: "d",
+                    dataSegmentId: db.getClusterById(clusterId).dataSegmentId
                 };
 
                 console.log("Creating record: " + firstDocData);
