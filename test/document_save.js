@@ -59,6 +59,10 @@ db.open(function(err, result) {
             assert.equal(name2, document.name);
 
             db.delete(document, function(err, result) {
+                assert(!err);
+                
+                assert.equal(1, result.status);
+                
                 console.log("document deleted");
                 
                 db.close();
