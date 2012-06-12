@@ -41,6 +41,11 @@ graphdb.open(function(err) {
 
     assert(!err, "Error while opening the database: " + err);
 
+    assert.equal("OGraphVertex", graphdb.getClassByName("OGraphVertex").name);
+    assert.equal("OGraphVertex", graphdb.getClassByName("V").name);
+    assert.equal("OGraphEdge", graphdb.getClassByName("OGraphEdge").name);
+    assert.equal("OGraphEdge", graphdb.getClassByName("E").name);
+
     createVertexes(graphdb, function(rootNode, childNode) {
         graphdb.getOutEdges(rootNode, function(err, outEdges) {
             assert(!err);
