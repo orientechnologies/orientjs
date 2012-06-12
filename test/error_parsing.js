@@ -10,22 +10,22 @@ var dbConfig = require("../config/test/dbConfig");
 var server = new Server(serverConfig);
 var db = new Db("temp", server, dbConfig);
 
-
 db.open(function(err, result) {
 
     assert(!err, "Error while opening the database: " + err);
-
-    var cluster = db.clusters[0];
-
-    db.rangeDataClusters(cluster.id, function(err, result) {
-
-        assert(!err, "Error while retrieving data cluster range: " + err);
-
-        if (result.begin !== 0 || result.end !== 1) {
-            throw new Error("Was expecting cluster \"" + cluster.name + "\" to begin at 0 and end at 1 but found " + JSON.stringify(result));
-        }
-
-        db.close();
-    });
+    
+    var count = 0;
+    for (var i = 0; i < 1000; i++) {
+        db.command("SELECT FROM OUser", function() {
+            count++;
+        });
+        db.command("CREATE CLASS OUser", function(err, results) {
+            count++
+            assert(err);
+            if (count === 2000) {
+                db.close();
+            }
+        });
+    }
 });
 

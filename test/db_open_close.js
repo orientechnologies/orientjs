@@ -25,9 +25,23 @@ db.open(function(err) {
 
     assert(db.clusters.length >= 5);
     assert(db.classes.length >= 2);
-    assert.equal(0, db.getClusterIdByName("Internal"));
+    assert.equal(0, db.getClusterByName("Internal").id);
     // cluster name case should not matter
-    assert.equal(4, db.getClusterIdByName("OuSeR"));
+    assert.equal(4, db.getClusterByName("OuSeR").id);
+
+    assert.equal("internal", db.getClusterById(0).name);
+    assert.equal("ouser", db.getClusterById(4).name);
+    assert.equal("MEMORY", db.getClusterById(4).type);
+
+    assert.equal("OUser", db.getClassByName("OUser").name);
+    assert.equal(null, db.getClassByName("ouser"));
+    
+    assert.equal("ouser", db.getClusterByClass("OUser").name);
+    assert.equal("MEMORY", db.getClusterByClass("OUser").type);
+    assert.equal(null, db.getClusterByClass("ouser"));
+
+    //memory storage doesn't have data segments
+    assert.equal(null, db.getDataSegmentById(1));
 
     db.close(function(err) {
 

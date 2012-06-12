@@ -17,8 +17,8 @@ db.open(function(err, result) {
 
     assert(db.clusters && db.clusters.length, "The \"" + db.databaseName + "\" database must have at least one cluster if not more");
 
-    var clusterId = db.clusters[0].id;
-    console.log("Using cluster: " + clusterId + " \"" + db.clusters[0].name + "\"");
+    var cluster = db.clusters[0];
+    console.log("Using cluster: " + cluster.id + " \"" + db.clusters[0].name + "\"");
 
     // insert a first record
     var firstDocData = "TestClass@nick:\"ThePresident\",subdoc:(name:\"subdoc name\",id_field:42),follows:[],followers:[],name:\"Barack\",surname:\"Obama\",location:#3:2,invitedBy:,salary_cloned:,salary:120.3f";
@@ -26,9 +26,10 @@ db.open(function(err, result) {
     data.write(firstDocData);
 
     var recordData = {
-        clusterId: clusterId,
+        clusterId: cluster.id,
         content: data,
-        type: "d"
+        type: "d",
+        dataSegmentId: cluster.dataSegmentId
     };
 
     console.log("Inserting 1st record...");
@@ -41,7 +42,7 @@ db.open(function(err, result) {
         console.log("Created 1st record on position: " + firstRecord);
 
         // insert a second record
-        var secondDocData = firstDocData.replace("followers:[]", "followers:[#" + clusterId + ":" + firstRecord + "]");
+        var secondDocData = firstDocData.replace("followers:[]", "followers:[#" + cluster.id + ":" + firstRecord + "]");
         var data = new Buffer(secondDocData.length);
         data.write(secondDocData);
 
