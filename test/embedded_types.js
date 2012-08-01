@@ -11,7 +11,9 @@ var server = new Server(serverConfig);
 var db = new Db("temp", server, dbConfig);
 
 
-db.open(function(err, result) {
+db.open(function(err) {
+
+    assert(!err, "Error while opening the database: " + err);
 
     var doc = { "@class": "userInfo",
         firstName: "pippo",
@@ -27,6 +29,12 @@ db.open(function(err, result) {
             "@class": "objProperties",
             deletedAt: null,
             "@type": "d" },
+        linked_map: {
+            link1: {
+                '@class': 'objProperties',
+                key: "value"
+            }
+        },
         "@type": "d" };
 
     db.createClass("userInfo", function(err) {
@@ -36,22 +44,34 @@ db.open(function(err, result) {
             assert(!err, err);
             db.command("CREATE PROPERTY userInfo.commonProperties link objProperties", function(err) {
                 assert(!err, err);
-                
-                db.save(doc.commonProperties, function(err, savedCommonProperties) {
-                    assert(!err, err);
-                    doc.commonProperties = savedCommonProperties["@rid"]
-                    
-                    db.save(doc, function(err, savedDoc) {
-                        assert(!err, err);
-                        
-                        console.log(savedDoc);
 
-                        db.close();
+                db.command("CREATE PROPERTY userInfo.linked_map linkmap objProperties", function(err) {
+                    assert(!err, err);
+                    
+                    db.save(doc.commonProperties, function(err, savedCommonProperties) {
+                        assert(!err, err);
+                        doc.commonProperties = savedCommonProperties["@rid"];
+
+                        db.save(doc.linked_map.link1, function(err, savedLink1) {
+                            assert(!err, err);
+
+                            doc.linked_map.link1 = savedLink1["@rid"];
+
+                            db.save(doc, function(err, savedDoc) {
+                                assert(!err, err);
+
+                                db.loadRecord(savedDoc["@rid"], function(err, newDoc) {
+
+                                    assert.equal(doc.linked_map.link1, newDoc.linked_map.link1);
+                                    assert.equal(doc.commonProperties, newDoc.commonProperties);
+
+                                    db.close();
+                                });
+                            });
+                        });
                     });
                 });
-
             })
         });
     });
-
 });
