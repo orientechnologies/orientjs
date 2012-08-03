@@ -49,11 +49,20 @@ db.open(function(err) {
     prepareDatabase(function(err) {
         assert(!err, err);
 
-        db.cascadeSave(doc, function(err, savedDoc) {
+        db.cascadingSave(doc, function(err, savedDoc) {
             assert(!err, err);
-            assert(savedDoc["@rid"]);
-            assert(savedDoc.sub_document["@rid"]);
-            assert(savedDoc.linked_map.link1["@rid"]);
+            assert(typeof savedDoc["@rid"] !== "undefined");
+            assert(typeof savedDoc["@type"] !== "undefined");
+            assert(typeof savedDoc["@class"] !== "undefined");
+            assert(typeof savedDoc["@version"] !== "undefined");
+            assert(typeof savedDoc.sub_document["@rid"] !== "undefined");
+            assert(typeof savedDoc.sub_document["@type"] !== "undefined");
+            assert(typeof savedDoc.sub_document["@class"] !== "undefined");
+            assert(typeof savedDoc.sub_document["@version"] !== "undefined");
+            assert(typeof savedDoc.linked_map.link1["@rid"] !== "undefined");
+            assert(typeof savedDoc.linked_map.link1["@type"] !== "undefined");
+            assert(typeof savedDoc.linked_map.link1["@class"] !== "undefined");
+            assert(typeof savedDoc.linked_map.link1["@version"] !== "undefined");
 
             db.close();
         });
