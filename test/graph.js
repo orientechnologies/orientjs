@@ -27,7 +27,9 @@ function createVertexes(graphdb, callback) {
                 assert.equal(childNode["@rid"], edge["in"]);
 
                 graphdb.createEdge(childNode, rootNode, { label: "child_of" }, function(err, edge) {
+                    assert(!err, err);
                     graphdb.createEdge(childNode, rootNode, function(err, edge) {
+                        assert(!err, err);
                         callback(rootNode, childNode);
                     });
                 });
