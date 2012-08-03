@@ -1,4 +1,5 @@
 var assert = require("assert");
+var parser = require("../lib/orientdb/connection/parser");
 
 var orient = require("../lib/orientdb"),
     Db = orient.Db,
@@ -19,7 +20,7 @@ db.open(function(err, result) {
 
         assert(!err, "Error while retrieving the size of the database: " + err);
 
-        assert(typeof size === "number", "The result must be a numeric value. Received: " + (typeof size));
+        assert(parser.isNumber(size), "The result must be a numeric value. Received: " + size);
 
         console.log("Database size: " + size);
 
