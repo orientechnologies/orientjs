@@ -18,7 +18,7 @@ function createVertexes(graphdb, callback) {
             assert(!err);
 
             graphdb.createEdge(rootNode, childNode, function(err, edge) {
-                assert(!err);
+                assert(!err, err);
 
                 assert.equal(rootNode["out"][0], edge["@rid"]);
                 assert.equal(childNode["in"][0], edge["@rid"]);
