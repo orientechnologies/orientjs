@@ -29,13 +29,17 @@ graphdb.open(function(err) {
 
                             assert.equal(50, fromVertex.out.length);
 
-                            graphdb.close();
-                        });
+                            graphdb.command("select from " + fromVertex["@rid"], function(err, results) {
+                                assert(!err, err);
 
+                                assert.equal(50, results[0].out.length);
+                                
+                                graphdb.close();
+                            });
+                        });
                     }
                 });
             }
-
         });
     });
 });
