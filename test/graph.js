@@ -12,7 +12,7 @@ var graphdb = new GraphDb("temp", server, dbConfig);
 
 function createVertexes(graphdb, callback) {
     graphdb.createVertex({ id: 0 }, function(err, rootNode) {
-        assert(!err);
+        assert(!err, err);
 
         graphdb.createVertex({ name: "first node" }, function(err, childNode) {
             assert(!err);
