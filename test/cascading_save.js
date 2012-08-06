@@ -1,4 +1,5 @@
 var assert = require("assert");
+var parser = require("../lib/orientdb/connection/parser");
 
 var orient = require("../lib/orientdb"),
     Db = orient.Db,
@@ -51,18 +52,18 @@ db.open(function(err) {
 
         db.cascadingSave(doc, function(err, savedDoc) {
             assert(!err, err);
-            assert(typeof savedDoc["@rid"] !== "undefined");
-            assert(typeof savedDoc["@type"] !== "undefined");
-            assert(typeof savedDoc["@class"] !== "undefined");
-            assert(typeof savedDoc["@version"] !== "undefined");
-            assert(typeof savedDoc.sub_document["@rid"] !== "undefined");
-            assert(typeof savedDoc.sub_document["@type"] !== "undefined");
-            assert(typeof savedDoc.sub_document["@class"] !== "undefined");
-            assert(typeof savedDoc.sub_document["@version"] !== "undefined");
-            assert(typeof savedDoc.linked_map.link1["@rid"] !== "undefined");
-            assert(typeof savedDoc.linked_map.link1["@type"] !== "undefined");
-            assert(typeof savedDoc.linked_map.link1["@class"] !== "undefined");
-            assert(typeof savedDoc.linked_map.link1["@version"] !== "undefined");
+            assert(!parser.isUndefined(savedDoc["@rid"]));
+            assert(!parser.isUndefined(savedDoc["@type"]));
+            assert(!parser.isUndefined(savedDoc["@class"]));
+            assert(!parser.isUndefined(savedDoc["@version"]));
+            assert(!parser.isUndefined(savedDoc.sub_document["@rid"]));
+            assert(!parser.isUndefined(savedDoc.sub_document["@type"]));
+            assert(!parser.isUndefined(savedDoc.sub_document["@class"]));
+            assert(!parser.isUndefined(savedDoc.sub_document["@version"]));
+            assert(!parser.isUndefined(savedDoc.linked_map.link1["@rid"]));
+            assert(!parser.isUndefined(savedDoc.linked_map.link1["@type"]));
+            assert(!parser.isUndefined(savedDoc.linked_map.link1["@class"]));
+            assert(!parser.isUndefined(savedDoc.linked_map.link1["@version"]));
 
             db.close();
         });

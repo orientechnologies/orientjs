@@ -1,4 +1,5 @@
 var assert = require("assert");
+var parser = require("../lib/orientdb/connection/parser");
 
 var orient = require("../lib/orientdb"),
     Db = orient.Db,
@@ -34,9 +35,7 @@ db1.open(function(err, result) {
 
             if (err) { console.log(err); return; }
 
-            if (typeof count !== 'number') {
-                throw new Error('The result must be a boolean value. Received: ' + (typeof count));
-            }
+            assert(parser.isNumber(count), "The result must be a number value. Received: " + count);
 
             console.log('Record count through connection 1: ' + count);
 
@@ -44,9 +43,7 @@ db1.open(function(err, result) {
 
                 if (err) { console.log(err); return; }
 
-                if (typeof count !== 'number') {
-                    throw new Error('The result must be a boolean value. Received: ' + (typeof count));
-                }
+                assert(parser.isNumber(count), "The result must be a number value. Received: " + count);
 
                 console.log('Record count through connection 2: ' + count);
 

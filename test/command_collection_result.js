@@ -1,4 +1,5 @@
 var assert = require("assert");
+var parser = require("../lib/orientdb/connection/parser");
 
 var orient = require("../lib/orientdb"),
     Db = orient.Db,
@@ -21,7 +22,7 @@ db.open(function(err, result) {
         assert.equal(results.length, 3, "Weren't there 3 users in this database?");
 
         for (var i in results) {
-            assert.equal(typeof results[i]["@rid"], "string");
+            assert(parser.isString(results[i]["@rid"]));
         }
 
         console.log("Received results: " + JSON.stringify(results));

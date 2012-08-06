@@ -1,4 +1,5 @@
 var assert = require("assert");
+var parser = require("../lib/orientdb/connection/parser");
 
 var orient = require("../lib/orientdb"),
     Db = orient.Db,
@@ -25,9 +26,7 @@ db.open(function(err, result) {
 
         assert(!err, "Error while adding the PHYSICAL data cluster: " + JSON.stringify(err));
 
-        if (typeof physicalClusterNumber !== "number") {
-            throw new Error("The result must be a number value. Received: " + (typeof physicalClusterNumber));
-        }
+        assert(parser.isNumber(physicalClusterNumber), "The result must be a number value. Received: " + physicalClusterNumber);
 
         console.log("New PHYSICAL cluster with number: " + physicalClusterNumber);
 
@@ -40,9 +39,7 @@ db.open(function(err, result) {
 
             assert(!err, "Error while adding the MEMORY data cluster: " + err);
 
-            if (typeof memoryClusterNumber !== "number") {
-                throw new Error("The result must be a number value. Received: " + (typeof memoryClusterNumber));
-            }
+            assert(parser.isNumber(memoryClusterNumber), "The result must be a number value. Received: " + memoryClusterNumber);
 
             console.log("New MEMORY cluster with number: " + memoryClusterNumber);
 
