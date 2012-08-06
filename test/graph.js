@@ -28,8 +28,12 @@ function createVertexes(graphdb, callback) {
 
                 graphdb.createEdge(childNode, rootNode, { label: "child_of" }, function(err, edge) {
                     assert(!err, err);
-                    graphdb.createEdge(childNode, rootNode, function(err, edge) {
+                    graphdb.createEdge(childNode["@rid"], rootNode["@rid"], function(err, edge) {
                         assert(!err, err);
+                        
+                        childNode["out"].push(edge["@rid"]);
+                        rootNode["in"].push(edge["@rid"]);
+                        
                         callback(rootNode, childNode);
                     });
                 });
