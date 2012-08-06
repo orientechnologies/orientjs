@@ -15,7 +15,7 @@ function createVertexes(graphdb, callback) {
         assert(!err, err);
 
         graphdb.createVertex({ name: "first node" }, function(err, childNode) {
-            assert(!err);
+            assert(!err, err);
 
             graphdb.createEdge(rootNode, childNode, function(err, edge) {
                 assert(!err, err);
