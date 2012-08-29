@@ -28,12 +28,27 @@ db.open(function(err) {
         sub_document: {
             "@class": "subClass",
             sub_field: 1,
-            "@type": "d"
+            "@type": "d",
+            sub_sub_document: {
+                "@class": "subClass",
+                sub_field: 50,
+                "@type": "d"
+            }
         },
         sub_documents: [
             {
                 "@class": "subClass",
                 sub_field: 2,
+                "@type": "d",
+                sub_sub_document: {
+                    "@class": "subClass",
+                    sub_field: 99,
+                    "@type": "d"
+                }
+            },
+            {
+                "@class": "subClass",
+                sub_field: 3,
                 "@type": "d"
             }
         ],
@@ -60,10 +75,22 @@ db.open(function(err) {
             assert(!parser.isUndefined(savedDoc.sub_document["@type"]));
             assert(!parser.isUndefined(savedDoc.sub_document["@class"]));
             assert(!parser.isUndefined(savedDoc.sub_document["@version"]));
+            assert(!parser.isUndefined(savedDoc.sub_document.sub_sub_document["@rid"]));
+            assert(!parser.isUndefined(savedDoc.sub_document.sub_sub_document["@type"]));
+            assert(!parser.isUndefined(savedDoc.sub_document.sub_sub_document["@class"]));
+            assert(!parser.isUndefined(savedDoc.sub_document.sub_sub_document["@version"]));
             assert(!parser.isUndefined(savedDoc.sub_documents[0]["@rid"]));
             assert(!parser.isUndefined(savedDoc.sub_documents[0]["@type"]));
             assert(!parser.isUndefined(savedDoc.sub_documents[0]["@class"]));
             assert(!parser.isUndefined(savedDoc.sub_documents[0]["@version"]));
+            assert(!parser.isUndefined(savedDoc.sub_documents[0].sub_sub_document["@rid"]));
+            assert(!parser.isUndefined(savedDoc.sub_documents[0].sub_sub_document["@type"]));
+            assert(!parser.isUndefined(savedDoc.sub_documents[0].sub_sub_document["@class"]));
+            assert(!parser.isUndefined(savedDoc.sub_documents[0].sub_sub_document["@version"]));
+            assert(!parser.isUndefined(savedDoc.sub_documents[1]["@rid"]));
+            assert(!parser.isUndefined(savedDoc.sub_documents[1]["@type"]));
+            assert(!parser.isUndefined(savedDoc.sub_documents[1]["@class"]));
+            assert(!parser.isUndefined(savedDoc.sub_documents[1]["@version"]));
             assert(!parser.isUndefined(savedDoc.linked_map.link1["@rid"]));
             assert(!parser.isUndefined(savedDoc.linked_map.link1["@type"]));
             assert(!parser.isUndefined(savedDoc.linked_map.link1["@class"]));
