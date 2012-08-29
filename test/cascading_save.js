@@ -60,6 +60,10 @@ db.open(function(err) {
             assert(!parser.isUndefined(savedDoc.sub_document["@type"]));
             assert(!parser.isUndefined(savedDoc.sub_document["@class"]));
             assert(!parser.isUndefined(savedDoc.sub_document["@version"]));
+            assert(!parser.isUndefined(savedDoc.sub_documents[0]["@rid"]));
+            assert(!parser.isUndefined(savedDoc.sub_documents[0]["@type"]));
+            assert(!parser.isUndefined(savedDoc.sub_documents[0]["@class"]));
+            assert(!parser.isUndefined(savedDoc.sub_documents[0]["@version"]));
             assert(!parser.isUndefined(savedDoc.linked_map.link1["@rid"]));
             assert(!parser.isUndefined(savedDoc.linked_map.link1["@type"]));
             assert(!parser.isUndefined(savedDoc.linked_map.link1["@class"]));
