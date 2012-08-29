@@ -12,13 +12,13 @@ var graphdb = new GraphDb("temp", server, dbConfig);
 
 function createVertexes(graphdb, callback) {
     graphdb.createVertex({ id: 0 }, function(err, rootNode) {
-        assert(!err);
+        assert(!err, err);
 
         graphdb.createVertex({ name: "first node" }, function(err, childNode) {
-            assert(!err);
+            assert(!err, err);
 
             graphdb.createEdge(rootNode, childNode, function(err, edge) {
-                assert(!err);
+                assert(!err, err);
 
                 assert.equal(rootNode["out"][0], edge["@rid"]);
                 assert.equal(childNode["in"][0], edge["@rid"]);
@@ -27,7 +27,13 @@ function createVertexes(graphdb, callback) {
                 assert.equal(childNode["@rid"], edge["in"]);
 
                 graphdb.createEdge(childNode, rootNode, { label: "child_of" }, function(err, edge) {
-                    graphdb.createEdge(childNode, rootNode, function(err, edge) {
+                    assert(!err, err);
+                    graphdb.createEdge(childNode["@rid"], rootNode["@rid"], function(err, edge) {
+                        assert(!err, err);
+                        
+                        childNode["out"].push(edge["@rid"]);
+                        rootNode["in"].push(edge["@rid"]);
+                        
                         callback(rootNode, childNode);
                     });
                 });

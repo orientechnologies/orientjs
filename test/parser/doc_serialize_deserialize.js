@@ -32,3 +32,6 @@ assert.equal(serialized_document.length, parser.serializeDocument(parser.deseria
 
 serialized_document = "EUsesInstanceOf@out:#8:0,in:#18:1,html:{\"path\":\"html/layout\"},config:{\"title\":\"Github Admin\",\"modules\":(githubDisplay:\"github_display\")},complex:(simple1:\"string1\",one_level1:(simple2:\"string2\"),two_levels:(simple3:\"string3\",one_level2:(simple4:\"string4\")))";
 assert.equal(serialized_document, parser.serializeDocument(parser.deserializeDocument(serialized_document)));
+
+serialized_document = "V@";
+assert.equal("V", parser.deserializeDocument(serialized_document)["@class"]);

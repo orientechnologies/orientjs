@@ -1,4 +1,5 @@
 var assert = require("assert");
+var parser = require("../lib/orientdb/connection/parser");
 
 var orient = require("../lib/orientdb"),
     Db = orient.Db,
@@ -25,7 +26,7 @@ db.open(function(err, result) {
 
         assert(!err, "Error while counting data clusters: " + err);
 
-        assert(typeof result.clusterCount === "number", "Was expecting numeric value. Received " + (typeof result.clusterCount));
+        assert(parser.isNumber(result.clusterCount), "Was expecting numeric value. Received " + result.clusterCount);
 
         console.log("Database \"" + db.databaseName + "\" has " + result.clusterCount + " clusters");
 
