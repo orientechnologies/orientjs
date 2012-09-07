@@ -27,9 +27,34 @@ db.open(function(err, result) {
 
         assert(record, "Null record?");
 
-        console.log(record);
+        var newUser = {
+            "@type": "d",
+            "@class": "OUser",
+            "name": "anotheruser",
+            "password": "password",
+            "status": "ACTIVE",
+            "roles": ["#3:0"]
+        };
 
-        db.close();
+        db.save(newUser, function(err, newUser) {
+            assert(!err);
+
+            var newUserRID = newUser["@rid"];
+
+            db.delete(newUser, function(err) {
+                assert(!err);
+
+                db.loadRecord(newUserRID, function(err, record) {
+                    assert(err); //expect error
+
+                    assert(!record);
+
+                    db.close();
+                });
+
+            });
+        });
+
     });
 });
 
