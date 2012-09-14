@@ -8,8 +8,22 @@ var hash = {
     "@class": "V",
     when: new Date(when_millis),
     bool: true,
-    escape: "\"ciao\""
+    escape: "\"ciao\"",
+    embed: {
+        key: "value"
+    }
 };
 
-assert.equal("", parser.hashToSQLSets({}));
-assert.equal("SET name = \"federico\", @class = \"V\", when = " + when_millis + ", bool = true, escape = \"\\\"ciao\\\"\"", parser.hashToSQLSets(hash));
+var sqlsets = parser.hashToSQLSets({});
+assert.equal("", sqlsets.sqlsets);
+assert.deepEqual({}, sqlsets.remainingHash);
+
+sqlsets = parser.hashToSQLSets(hash);
+assert.equal("SET name = \"federico\", @class = \"V\", when = " + when_millis + ", bool = true, escape = \"\\\"ciao\\\"\"", sqlsets.sqlsets);
+var expectedRemainigHash = {
+    embed: {
+        key: "value"
+    }
+};
+
+assert.deepEqual(expectedRemainigHash, sqlsets.remainingHash);
