@@ -2,7 +2,7 @@
     "name"              : "orientdb",
     "description"       : "A node.js driver for OrientDB",
     "keywords"          : ["orientdb", "orient", "driver", "db", "node", "node.js"],
-    "version"           : "0.9.4",
+    "version"           : "0.9.5",
     "author"            : "Gabriel Petrovay <gabipetrovay@gmail.com>",
     "contributors"      : [
         { "name": "Ryan Fields", "email": "ryan.fields@twoleftbeats.com" },
@@ -13,7 +13,7 @@
         "type"      : "git",
         "url"       : "http://github.com/gabipetrovay/node-orientdb.git" },
     "devDependencies"   : {
-        "tap"       : "0.2.3"
+        "tap"       : "0.3.1"
     },
     "main"              : "./lib/orientdb/index",
     "directories"       : { "lib" : "./lib/orientdb" },
