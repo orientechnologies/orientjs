@@ -19,15 +19,25 @@ db.open(function(err, result) {
 
         assert(!err, "Error while executing a SELECT command: " + err);
 
-        assert.equal(results.length, 3, "Weren't there 3 users in this database?");
+        db.close(function(err) {
 
-        for (var i in results) {
-            assert(parser.isString(results[i]["@rid"]));
-        }
+            assert(!err, "Error while closing the database: " + err);
 
-        console.log("Received results: " + JSON.stringify(results));
+            db.open(function(err, result) {
 
-        db.close();
+                assert(!err, "Error while opening the database: " + err);
+
+                db.command("SELECT FROM OUser", function(err, results) {
+
+                    assert(!err, "Error while executing a SELECT command: " + err);
+
+                    assert.equal(results.length, 3, "Weren't there 3 users in this database?");
+
+                    db.close();
+                });
+            });
+
+        })
     });
 });
 
