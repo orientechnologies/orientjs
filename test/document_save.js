@@ -43,8 +43,9 @@ db.open(function(err, result) {
 
         assert.equal(clazz, document["@class"]);
         assert(doc_id);
-        assert.equal(0, document["@version"]);
         assert.equal(name1, document.name);
+
+        var version = document["@version"];
 
         // change the name
         document.name = name2;
@@ -55,7 +56,7 @@ db.open(function(err, result) {
             console.log("Updated document: " + JSON.stringify(document));
 
             assert.equal(doc_id, document["@rid"]);
-            assert.equal(1, document["@version"]);
+            assert.equal(version, document["@version"] - 1);
             assert.equal(name2, document.name);
 
             db.delete(document, function(err, result) {

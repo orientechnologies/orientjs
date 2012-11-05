@@ -28,23 +28,32 @@ graphdb.open(function(err, result) {
     assert(!err, "Error while opening the database: " + err);
 
     prepareDatabase(function(err, sourceRID, destRID) {
+
         assert(!err, err);
+
         // save the first version of the document
         edge(sourceRID, destRID, edgeHash, edgeOptions, function(err, edgeDoc) {
             assert(!err, err);
             
             console.log("Created edge: " + JSON.stringify(edgeDoc));
 
-            graphdb.close();
+            // remove now the created class to leave a clean environement
+            unprepareDatabase(function() {
+                assert(!err, err);
+                graphdb.close();
+            });
         });
     })
 });
 
 
 function edge(srid, drid, hash, options, callback) {
+
     console.dir(hash);
+
     graphdb.loadRecord(srid, function(err, srecord) {
         if (err) return callback(err);
+
         graphdb.loadRecord(drid, function(err, drecord) {
             if (err) return callback(err);
             graphdb.createEdge(srecord, drecord, hash, options, callback);
@@ -104,3 +113,10 @@ function prepareDatabase(callback) {
         });
     });
 }
+
+// TODO complete this functionality when the following issue is solved
+// https://github.com/gabipetrovay/node-orientdb/issues/83
+function unprepareDatabase(callback) {
+    callback();
+}
+

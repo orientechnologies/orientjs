@@ -21,9 +21,9 @@ db.open(function(err, result) {
 
         assert(!err, "Error while retrieving data cluster range: " + err);
 
-        if (result.begin !== 0 || result.end !== 1) {
-            throw new Error("Was expecting cluster \"" + cluster.name + "\" to begin at 0 and end at 1 but found " + JSON.stringify(result));
-        }
+        assert(result.begin === 0 && result.end > 0, "Was expecting cluster '" + cluster.name + "' to begin at 0 and end at something > 0 but found " + JSON.stringify(result));
+
+        console.log("Found data range for cluster '" + cluster.name + "' from " + result.begin + " to " + result.end);
 
         db.close();
     });
