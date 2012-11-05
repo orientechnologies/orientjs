@@ -42,6 +42,7 @@ db.open(function(err) {
 
         db.createClass("objProperties", function(err) {
             assert(!err, err);
+
             db.command("CREATE PROPERTY userInfo.commonProperties link objProperties", function(err) {
                 assert(!err, err);
 
@@ -65,7 +66,11 @@ db.open(function(err) {
                                     assert.equal(doc.linked_map.link1, newDoc.linked_map.link1);
                                     assert.equal(doc.commonProperties, newDoc.commonProperties);
 
-                                    db.close();
+                                    // remove now the created class to leave a clean environement
+                                    unprepareDatabase(function(err) {
+                                        assert(!err, err);
+                                        db.close();
+                                    });
                                 });
                             });
                         });
@@ -75,3 +80,10 @@ db.open(function(err) {
         });
     });
 });
+
+// TODO complete this functionality when the following issue is solved
+// https://github.com/gabipetrovay/node-orientdb/issues/83
+function unprepareDatabase(callback) {
+    callback();
+}
+

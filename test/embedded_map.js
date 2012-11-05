@@ -38,7 +38,7 @@ graphdb.open(function(err, result) {
             console.log("Created edge: " + JSON.stringify(edgeDoc));
 
             // remove now the created class to leave a clean environement
-            unprepareDatabase(function() {
+            unprepareDatabase(function(err) {
                 assert(!err, err);
                 graphdb.close();
             });
@@ -49,7 +49,7 @@ graphdb.open(function(err, result) {
 
 function edge(srid, drid, hash, options, callback) {
 
-    console.dir(hash);
+    console.log("I have to create edge with hash: " + JSON.stringify(hash));
 
     graphdb.loadRecord(srid, function(err, srecord) {
         if (err) return callback(err);
