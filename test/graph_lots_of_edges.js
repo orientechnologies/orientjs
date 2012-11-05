@@ -10,9 +10,13 @@ var dbConfig = require("../config/test/dbConfig");
 var server = new Server(serverConfig);
 var graphdb = new GraphDb("temp", server, dbConfig);
 
+
 graphdb.open(function(err) {
+    assert(!err, err);
+
     graphdb.createVertex({ name: "from vertex" }, function(err, fromVertex) {
         assert(!err, err);
+
         graphdb.createVertex({ name: "to vertex" }, function(err, toVertex) {
             assert(!err, err);
 
@@ -43,3 +47,4 @@ graphdb.open(function(err) {
         });
     });
 });
+

@@ -15,17 +15,20 @@ db.open(function(err, result) {
 
     assert(!err, "Error while opening the database: " + err);
 
-    var cluster = db.getClusterByClass("OUser");
+    var userCluster = db.getClusterByClass("OUser");
+    var roleCluster = db.getClusterByClass("ORole");
 
-    assert.equal(4, cluster.id);
+    assert(userCluster.id > 0);
+    assert(roleCluster.id > 0);
 
-    var rid = "#" + cluster.id + ":" + 0;
+    var urid = "#" + userCluster.id + ":" + 0;
+    var rrid = "#" + roleCluster.id + ":" + 0;
 
-    db.loadRecord(rid, function(err, record) {
+    db.loadRecord(urid, function(err, record) {
 
         assert(!err, "Error while loading record: " + err);
-
-        assert(record, "Null record?");
+        assert(record, "Null record? Where is the OUser " + urid);
+        console.log("User loaded: " + JSON.stringify(record));
 
         var newUser = {
             "@type": "d",
@@ -33,28 +36,36 @@ db.open(function(err, result) {
             "name": "anotheruser",
             "password": "password",
             "status": "ACTIVE",
-            "roles": ["#3:0"]
+            "roles": [rrid]
         };
 
+        console.log("Saving new user: " + JSON.stringify(newUser));
         db.save(newUser, function(err, newUser) {
-            assert(!err);
 
-            var newUserRID = newUser["@rid"];
+            assert(!err, "Error while saving record " + err);
+            console.log("Saved new record: " + JSON.stringify(newUser));
 
+            var newUserRid = newUser["@rid"];
+
+            console.log("Deleting record: " + newUserRid);
             db.delete(newUser, function(err) {
-                assert(!err);
 
-                db.loadRecord(newUserRID, function(err, record) {
-                    assert(err); //expect error
+                assert(!err, "Error while deleting record " + err);
+                console.log("Deleted record: " + newUserRid);
 
+                console.log("Trying to load the deleted record: " + newUserRid);
+                db.loadRecord(newUserRid, function(err, record) {
+
+                    // expect error
+                    assert(err, "I should have received an error at this point.");
+                    // and an empty result
                     assert(!record);
+                    console.log("Just perfect: no more trace of record " + newUserRid);
 
                     db.close();
                 });
-
             });
         });
-
     });
 });
 
