@@ -10,8 +10,11 @@ var dbConfig = require("../config/test/dbConfig");
 var server = new Server(serverConfig);
 var db = new Db("temp", server, dbConfig);
 
-
-var connectionsToOpen = 10,
+// *************************************************************************
+// Do not use this functionality!!!
+// Check this issue: https://github.com/gabipetrovay/node-orientdb/issues/76
+// *************************************************************************
+var connectionsToOpen = 3,
     openedConnections = 0;
 
 for (var i = 0; i < connectionsToOpen; i++) {

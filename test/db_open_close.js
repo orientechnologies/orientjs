@@ -23,24 +23,25 @@ db.open(function(err) {
     console.log("Database classes: " + JSON.stringify(db.classes));
     console.log("Database configuration: " + JSON.stringify(db.configuration));
 
+    // clusters
     assert(db.clusters.length >= 5);
-    assert(db.classes.length >= 2);
     assert.equal(0, db.getClusterByName("Internal").id);
     // cluster name case should not matter
-    assert.equal(4, db.getClusterByName("OuSeR").id);
-
+    var userCluster = db.getClusterByName("OuSeR");
+    assert(userCluster.id > 0);
+    assert.equal("MEMORY", userCluster.type);
     assert.equal("internal", db.getClusterById(0).name);
-    assert.equal("ouser", db.getClusterById(4).name);
-    assert.equal("MEMORY", db.getClusterById(4).type);
 
+    // classes
+    assert(db.classes.length >= 3);
     assert.equal("OUser", db.getClassByName("OUser").name);
     assert.equal(null, db.getClassByName("ouser"));
-    
+
     assert.equal("ouser", db.getClusterByClass("OUser").name);
     assert.equal("MEMORY", db.getClusterByClass("OUser").type);
     assert.equal(null, db.getClusterByClass("ouser"));
 
-    //memory storage doesn't have data segments
+    // memory storage doesn't have data segments
     assert.equal(null, db.getDataSegmentById(1));
 
     db.close(function(err) {
@@ -50,5 +51,4 @@ db.open(function(err) {
         console.log("Closed database");
     });
 });
-
 
