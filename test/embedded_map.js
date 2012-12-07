@@ -114,9 +114,11 @@ function prepareDatabase(callback) {
     });
 }
 
-// TODO complete this functionality when the following issue is solved
-// https://github.com/gabipetrovay/node-orientdb/issues/83
 function unprepareDatabase(callback) {
-    callback();
+    graphdb.dropClass("VEdge", function(err) {
+        if (err) return callback(err);
+
+        graphdb.dropClass("VNode", callback);
+    });
 }
 

@@ -57,7 +57,11 @@ graphdb.open(function(err) {
                     assert.equal("value1", edge.embed.key);
                     assert(!parser.isUndefined(edge["@rid"]));
 
-                    graphdb.close()
+                    unprepareDatabase(function(err) {
+                        assert(!err, err);
+
+                        graphdb.close()
+                    });
                 });
             });
         });
@@ -102,5 +106,13 @@ function prepareDatabase(callback) {
                 });
             });
         });
+    });
+}
+
+function unprepareDatabase(callback) {
+    graphdb.dropClass("VertexWithMandatoryFields", function(err) {
+        if (err) return callback(err);
+
+        graphdb.dropClass("EdgeWithMandatoryFields", callback);
     });
 }
