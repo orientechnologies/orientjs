@@ -37,53 +37,62 @@ db.open(function(err) {
         },
         "@type": "d" };
 
-    db.createClass("userInfo", function(err) {
+    prepareDatabase(function(err) {
         assert(!err, err);
 
-        db.createClass("objProperties", function(err) {
+        db.save(doc.commonProperties, function(err, savedCommonProperties) {
             assert(!err, err);
+            doc.commonProperties = savedCommonProperties["@rid"];
 
-            db.command("CREATE PROPERTY userInfo.commonProperties link objProperties", function(err) {
+            db.save(doc.linked_map.link1, function(err, savedLink1) {
                 assert(!err, err);
 
-                db.command("CREATE PROPERTY userInfo.linked_map linkmap objProperties", function(err) {
-                    assert(!err, err);
-                    
-                    db.save(doc.commonProperties, function(err, savedCommonProperties) {
-                        assert(!err, err);
-                        doc.commonProperties = savedCommonProperties["@rid"];
+                doc.linked_map.link1 = savedLink1["@rid"];
 
-                        db.save(doc.linked_map.link1, function(err, savedLink1) {
+                db.save(doc, function(err, savedDoc) {
+                    assert(!err, err);
+
+                    db.loadRecord(savedDoc["@rid"], function(err, newDoc) {
+
+                        assert.equal(doc.linked_map.link1, newDoc.linked_map.link1);
+                        assert.equal(doc.commonProperties, newDoc.commonProperties);
+
+                        // remove now the created class to leave a clean environement
+                        unprepareDatabase(function(err) {
                             assert(!err, err);
 
-                            doc.linked_map.link1 = savedLink1["@rid"];
-
-                            db.save(doc, function(err, savedDoc) {
-                                assert(!err, err);
-
-                                db.loadRecord(savedDoc["@rid"], function(err, newDoc) {
-
-                                    assert.equal(doc.linked_map.link1, newDoc.linked_map.link1);
-                                    assert.equal(doc.commonProperties, newDoc.commonProperties);
-
-                                    // remove now the created class to leave a clean environement
-                                    unprepareDatabase(function(err) {
-                                        assert(!err, err);
-                                        db.close();
-                                    });
-                                });
-                            });
+                            db.close();
                         });
                     });
                 });
-            })
+            });
         });
     });
 });
 
-// TODO complete this functionality when the following issue is solved
-// https://github.com/gabipetrovay/node-orientdb/issues/83
+function prepareDatabase(callback) {
+    db.createClass("userInfo", function(err) {
+        if (err) { return callback(err); }
+
+        db.createClass("objProperties", function(err) {
+            if (err) { return callback(err); }
+
+            db.command("CREATE PROPERTY userInfo.commonProperties link objProperties", function(err) {
+                if (err) { return callback(err); }
+
+                db.command("CREATE PROPERTY userInfo.linked_map linkmap objProperties", function(err) {
+                    callback(err);
+                });
+            });
+        });
+    });
+}
+
 function unprepareDatabase(callback) {
-    callback();
+    db.dropClass("userInfo", function(err) {
+        if (err) { return callback(err); }
+
+        db.dropClass("objProperties", callback);
+    });
 }
 
