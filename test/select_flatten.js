@@ -1,5 +1,6 @@
 var assert = require("assert");
 var parser = require("../lib/orientdb/connection/parser");
+var _ = require("underscore");
 
 var orient = require("../lib/orientdb"),
     GraphDb = orient.GraphDb,
@@ -17,24 +18,24 @@ graphdb.open(function(err) {
     graphdb.createVertex({}, function(err, vertex1) {
         assert(!err, err);
 
-        assert(!parser.isUndefined(vertex1["@rid"]));
+        assert(!_.isUndefined(vertex1["@rid"]));
 
         graphdb.createVertex({}, function(err, vertex2) {
             assert(!err, err);
 
-            assert(!parser.isUndefined(vertex2["@rid"]));
+            assert(!_.isUndefined(vertex2["@rid"]));
 
             graphdb.createEdge(vertex1, vertex2, { label: "select_flatten" }, function(err, edge) {
                 assert(!err, err);
 
-                assert(!parser.isUndefined(edge["@rid"]));
+                assert(!_.isUndefined(edge["@rid"]));
 
                 graphdb.command("select flatten(out[label = \"select_flatten\"].in) from V", function(err, results) {
                     assert(!err, err);
 
                     assert.equal(1, results.length);
-                    assert(!parser.isUndefined(results[0]["@rid"]));
-                    assert(!parser.isUndefined(results[0]["@type"]));
+                    assert(!_.isUndefined(results[0]["@rid"]));
+                    assert(!_.isUndefined(results[0]["@type"]));
 
                     graphdb.close()
                 });

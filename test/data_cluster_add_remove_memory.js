@@ -1,5 +1,6 @@
 var assert = require("assert");
 var parser = require("../lib/orientdb/connection/parser");
+var _ = require("underscore");
 
 var orient = require("../lib/orientdb"),
     Db = orient.Db,
@@ -25,7 +26,7 @@ db.open(function(err, result) {
 
         assert(!err, "Error while adding a data cluster: " + err);
 
-        assert(parser.isNumber(clusterNumber), "The result must be a number value. Received: " + clusterNumber);
+        assert(_.isNumber(clusterNumber), "The result must be a number value. Received: " + clusterNumber);
 
         console.log("New MEMORY cluster with number " + clusterNumber);
 

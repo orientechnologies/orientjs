@@ -1,5 +1,6 @@
 var assert = require("assert");
 var parser = require("../lib/orientdb/connection/parser");
+var _ = require("underscore");
 
 var orient = require("../lib/orientdb"),
     GraphDb = orient.GraphDb,
@@ -41,21 +42,21 @@ graphdb.open(function(err) {
             assert.equal("value1_of_v_additional", vertex1.v_additional);
             assert.equal("value1", vertex1.embed.key);
 
-            assert(!parser.isUndefined(vertex1["@rid"]));
+            assert(!_.isUndefined(vertex1["@rid"]));
 
             graphdb.createVertex(vertex(2), { "class": "VertexWithMandatoryFields" }, function(err, vertex2) {
                 assert(!err, err);
 
                 assert.equal("value2_of_v_additional", vertex2.v_additional);
                 assert.equal("value2", vertex2.embed.key);
-                assert(!parser.isUndefined(vertex2["@rid"]));
+                assert(!_.isUndefined(vertex2["@rid"]));
 
                 graphdb.createEdge(vertex1, vertex2, edge(1), { "class": "EdgeWithMandatoryFields" }, function(err, edge) {
                     assert(!err, err);
 
                     assert.equal("value1_of_e_additional", edge.e_additional);
                     assert.equal("value1", edge.embed.key);
-                    assert(!parser.isUndefined(edge["@rid"]));
+                    assert(!_.isUndefined(edge["@rid"]));
 
                     unprepareDatabase(function(err) {
                         assert(!err, err);
