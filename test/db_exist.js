@@ -1,5 +1,6 @@
 var assert = require("assert");
 var parser = require("../lib/orientdb/connection/parser");
+var _ = require("underscore");
 
 var orient = require("../lib/orientdb"),
     Db = orient.Db,
@@ -20,7 +21,7 @@ server.connect(function(err, sessionId) {
 
         assert(!err, "Error while checking if database exists: " + err);
 
-        assert(parser.isBoolean(result), "The result must be a boolean value. Received: " + result);
+        assert(_.isBoolean(result), "The result must be a boolean value. Received: " + result);
         
         assert(result, "The \"temp\" database should be present if you managed to open it.");
 

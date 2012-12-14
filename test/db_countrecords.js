@@ -1,5 +1,6 @@
 var assert = require("assert");
 var parser = require("../lib/orientdb/connection/parser");
+var _ = require("underscore");
 
 var orient = require("../lib/orientdb"),
     Db = orient.Db,
@@ -20,7 +21,7 @@ db.open(function(err, result) {
 
         assert(!err, "Error while counting records: " + err);
 
-        assert(parser.isNumber(count), "The result must be a boolean value. Received: " + count);
+        assert(_.isNumber(count), "The result must be a boolean value. Received: " + count);
 
         console.log("Record count: " + count);
 
