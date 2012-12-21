@@ -16,7 +16,7 @@ db.open(function(err, result) {
 
     assert(!err, "Error while opening the database: " + err);
 
-    db.command("INSERT INTO OUser (name, password) values (\"" + name + "\", \"\")", function(err, results) {
+    db.command("INSERT INTO OUser (name, password, status) values (\"" + name + "\", \"\", \"ACTIVE\")", function(err, results) {
 
         assert(!err, "Error while executing an INSERT command: " + err);
         assert.equal(results.length, 1, "The inserted user should be returned.");
