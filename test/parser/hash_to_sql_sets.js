@@ -19,7 +19,7 @@ assert.equal("", sqlsets.sqlsets);
 assert.deepEqual({}, sqlsets.remainingHash);
 
 sqlsets = parser.hashToSQLSets(hash);
-assert.equal("SET name = \"federico\", @class = \"V\", when = " + when_millis + ", bool = true, escape = \"\\\"ciao\\\"\"", sqlsets.sqlsets);
+assert.equal("SET name = \"federico\", @class = \"V\", when = date(\"2012-09-14T07:44:30.283Z\", \"yyyy-MM-dd\'T\'HH:mm:ss.SSS'Z'\"), bool = true, escape = \"\\\"ciao\\\"\"", sqlsets.sqlsets);
 var expectedRemainigHash = {
     embed: {
         key: "value"
