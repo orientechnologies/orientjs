@@ -52,7 +52,7 @@ to run a specific test.
 
 And make sure all run before you make a pull request.
 
-NOTE: The `test/shutdown.js` will shutdown the server. So make sure it's the last one to run. (i.e. Don't add a test that is after this one in Lexicographical order.)
+NOTE: The `test/z_shutdown.js` will shutdown the server. So make sure it's the last one to run. (i.e. Don't add a test that is after this one in Lexicographical order.)
 
 Connecting to a database
 ========

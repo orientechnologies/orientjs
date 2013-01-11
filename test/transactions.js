@@ -16,57 +16,55 @@ db.open(function(err) {
     prepareDatabase(function(err) {
         assert(!err, err);
 
-        db.begin(function(err) {
-            assert(!err, err);
-            
-            assert.equal(-1, db.transaction.clusterPosition);
-            assert.equal(0, db.transaction.docs.length);
+        var transaction = db.begin();
 
-            db.save({ "@class": "user", name: "first", surname: "first" }, function(err, firstDoc) {
+        assert.equal(-1, transaction.clusterPosition);
+        assert.equal(0, transaction.docs.length);
+
+        db.save({ "@class": "user", name: "first", surname: "first" }, transaction, function(err, firstDoc) {
+            assert(!err, err);
+
+            assert.equal(-2, transaction.clusterPosition);
+            assert.equal(1, transaction.docs.length);
+
+            console.log(arguments);
+
+            firstDoc.name = "first doc name";
+            firstDoc.surname = "first doc surname";
+
+            db.save(firstDoc, transaction, function(err, firstDoc) {
                 assert(!err, err);
 
-                assert.equal(-2, db.transaction.clusterPosition);
-                assert.equal(1, db.transaction.docs.length);
+                assert.equal(-2, transaction.clusterPosition);
+                assert.equal(1, transaction.docs.length);
 
                 console.log(arguments);
 
-                firstDoc.name = "first doc name";
-                firstDoc.surname = "first doc surname";
-
-                db.save(firstDoc, function(err, firstDoc) {
+                db.save({ "@class": "user", name: "second doc name", surname: "second doc surname" }, transaction, function(err, secondDoc) {
                     assert(!err, err);
 
-                    assert.equal(-2, db.transaction.clusterPosition);
-                    assert.equal(1, db.transaction.docs.length);
+                    assert.equal(-3, transaction.clusterPosition);
+                    assert.equal(2, transaction.docs.length);
 
                     console.log(arguments);
 
-                    db.save({ "@class": "user", name: "second doc name", surname: "second doc surname" }, function(err, secondDoc) {
+                    db.save({ "@class": "link", link_to_first: firstDoc["@rid"], link_to_second: secondDoc["@rid"]}, transaction, function(err, link) {
                         assert(!err, err);
 
-                        assert.equal(-3, db.transaction.clusterPosition);
-                        assert.equal(2, db.transaction.docs.length);
+                        assert.equal(-4, transaction.clusterPosition);
+                        assert.equal(3, transaction.docs.length);
 
                         console.log(arguments);
 
-                        db.save({ "@class": "link", link_to_first: firstDoc["@rid"], link_to_second: secondDoc["@rid"]}, function(err, link) {
-                            assert(!err, err);
-
-                            assert.equal(-4, db.transaction.clusterPosition);
-                            assert.equal(3, db.transaction.docs.length);
+                        db.commit(transaction, function(err) {
+                            if (err) db.rollback();
 
                             console.log(arguments);
 
-                            db.commit(function(err) {
-                                if (err) db.rollback();
+                            unprepareDatabase(function(err) {
+                                assert(!err, err);
 
-                                console.log(arguments);
-
-                                unprepareDatabase(function(err) {
-                                    assert(!err, err);
-
-                                    db.close();
-                                });
+                                db.close();
                             });
                         });
                     });
