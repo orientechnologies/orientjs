@@ -56,10 +56,10 @@ db.open(function(err) {
 
                         console.log(arguments);
 
-                        db.commit(transaction, function(err) {
+                        db.commit(transaction, function(err, result) {
                             if (err) db.rollback();
 
-                            console.log(arguments);
+                            console.log(result);
 
                             unprepareDatabase(function(err) {
                                 assert(!err, err);
