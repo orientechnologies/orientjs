@@ -1,4 +1,5 @@
-var assert = require("assert");
+var assert = require("assert"),
+    async = require("async");
 
 var orient = require("../lib/orientdb"),
     Db = orient.Db,
@@ -10,97 +11,110 @@ var dbConfig = require("../config/test/dbConfig");
 var server = new Server(serverConfig);
 var db = new Db("temp", server, dbConfig);
 
-db.open(function(err) {
-    assert(!err, "Error while opening the database: " + err);
+var userClusterId, linkClusterId, transaction, firstDoc, secondDoc, link;
 
-    prepareDatabase(function(err, userClusterId, linkClusterId) {
-        assert(!err, err);
-
-        var transaction = db.begin();
+async.waterfall([
+    function(callback) {
+        db.open(callback);
+    },
+    function(callback) {
+        prepareDatabase(callback);
+    },
+    function(_userClusterId, _linkClusterId, callback) {
+        userClusterId = _userClusterId;
+        linkClusterId = _linkClusterId;
+        transaction = db.begin();
 
         assert.equal(-1, transaction.clusterPosition);
         assert.equal(0, transaction.docs.length);
 
-        var firstDoc = {
+        firstDoc = {
             "@class": "user",
             name: "first",
             surname: "first"
         };
-        db.save(firstDoc, transaction, function(err, firstDoc) {
-            assert(!err, err);
 
-            assert.equal(-2, transaction.clusterPosition);
-            assert.equal(1, transaction.docs.length);
+        db.save(firstDoc, transaction, callback);
+    },
+    function(_firstDoc, callback) {
+        firstDoc = _firstDoc;
 
-            firstDoc.name = "first doc name";
-            firstDoc.surname = "first doc surname";
+        assert.equal(-2, transaction.clusterPosition);
+        assert.equal(1, transaction.docs.length);
 
-            db.save(firstDoc, transaction, function(err, firstDoc) {
-                assert(!err, err);
+        firstDoc.name = "first doc name";
+        firstDoc.surname = "first doc surname";
 
-                assert.equal(-2, transaction.clusterPosition);
-                assert.equal(1, transaction.docs.length);
+        db.save(firstDoc, transaction, callback);
+    },
+    function(_firstDoc, callback) {
+        firstDoc = _firstDoc;
 
-                var secondDoc = {
-                    "@class": "user",
-                    name: "second doc name",
-                    surname: "second doc surname"
-                };
-                db.save(secondDoc, transaction, function(err, secondDoc) {
-                    assert(!err, err);
+        assert.equal(-2, transaction.clusterPosition);
+        assert.equal(1, transaction.docs.length);
 
-                    assert.equal(-3, transaction.clusterPosition);
-                    assert.equal(2, transaction.docs.length);
+        secondDoc = {
+            "@class": "user",
+            name: "second doc name",
+            surname: "second doc surname"
+        };
+        db.save(secondDoc, transaction, callback);
+    },
+    function(_secondDoc, callback) {
+        secondDoc = _secondDoc;
 
-                    var link = {
-                        "@class": "link",
-                        link_to_first: firstDoc["@rid"],
-                        link_to_second: secondDoc["@rid"]
-                    };
-                    db.save(link, transaction, function(err, link) {
-                        assert(!err, err);
+        assert.equal(-3, transaction.clusterPosition);
+        assert.equal(2, transaction.docs.length);
 
-                        assert.equal(-4, transaction.clusterPosition);
-                        assert.equal(3, transaction.docs.length);
+        link = {
+            "@class": "link",
+            link_to_first: firstDoc["@rid"],
+            link_to_second: secondDoc["@rid"]
+        };
 
-                        transaction.docs[0]["@rid"] = "#" + userClusterId + ":-2";
-                        transaction.docs[1]["@rid"] = "#" + userClusterId + ":-3";
-                        transaction.docs[2]["@rid"] = "#" + linkClusterId + ":-4";
-                        transaction.docs[2].link_to_first = transaction.docs[0]["@rid"];
-                        transaction.docs[2].link_to_second = transaction.docs[1]["@rid"];
+        db.save(link, transaction, callback);
+    },
+    function(_link, callback) {
+        link = _link;
 
-                        console.log(transaction);
+        assert.equal(-4, transaction.clusterPosition);
+        assert.equal(3, transaction.docs.length);
 
-                        db.commit(transaction, function(err, result) {
-                            if (err) db.rollback(transaction);
+        transaction.docs[0]["@rid"] = "#" + userClusterId + ":-2";
+        transaction.docs[1]["@rid"] = "#" + userClusterId + ":-3";
+        transaction.docs[2]["@rid"] = "#" + linkClusterId + ":-4";
+        transaction.docs[2].link_to_first = transaction.docs[0]["@rid"];
+        transaction.docs[2].link_to_second = transaction.docs[1]["@rid"];
 
-                            console.log(result);
+        db.commit(transaction, callback);
+    },
+    function(result, callback) {
 
-                            assert.equal(3, result.numberOfRecordsCreated);
-                            assert.equal(8, result.recordsCreated[0].fromClusterId);
-                            assert.equal(-3, result.recordsCreated[0].fromClusterPosition);
-                            assert.equal(8, result.recordsCreated[0].toClusterId);
-                            assert.equal(1, result.recordsCreated[0].toClusterPosition);
-                            assert.equal(8, result.recordsCreated[1].fromClusterId);
-                            assert.equal(-2, result.recordsCreated[1].fromClusterPosition);
-                            assert.equal(8, result.recordsCreated[1].toClusterId);
-                            assert.equal(0, result.recordsCreated[1].toClusterPosition);
-                            assert.equal(9, result.recordsCreated[2].fromClusterId);
-                            assert.equal(-4, result.recordsCreated[2].fromClusterPosition);
-                            assert.equal(9, result.recordsCreated[2].toClusterId);
-                            assert.equal(0, result.recordsCreated[2].toClusterPosition);
+        assert.equal(3, result.numberOfRecordsCreated);
+        assert.equal(8, result.recordsCreated[0].fromClusterId);
+        assert.equal(-3, result.recordsCreated[0].fromClusterPosition);
+        assert.equal(8, result.recordsCreated[0].toClusterId);
+        assert.equal(1, result.recordsCreated[0].toClusterPosition);
+        assert.equal(8, result.recordsCreated[1].fromClusterId);
+        assert.equal(-2, result.recordsCreated[1].fromClusterPosition);
+        assert.equal(8, result.recordsCreated[1].toClusterId);
+        assert.equal(0, result.recordsCreated[1].toClusterPosition);
+        assert.equal(9, result.recordsCreated[2].fromClusterId);
+        assert.equal(-4, result.recordsCreated[2].fromClusterPosition);
+        assert.equal(9, result.recordsCreated[2].toClusterId);
+        assert.equal(0, result.recordsCreated[2].toClusterPosition);
 
-                            unprepareDatabase(function(err) {
-                                assert(!err, err);
+        callback();
+        unprepareDatabase(callback);
+    },
+    function() {
+        db.close();
+    }
 
-                                db.close();
-                            });
-                        });
-                    });
-                });
-            });
-        });
-    });
+], function(err) {
+    if (err) db.rollback(transaction);
+
+    db.close()
 });
 
 function prepareDatabase(callback) {
