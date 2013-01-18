@@ -63,13 +63,11 @@ db.open(function(err) {
                         assert.equal(-4, transaction.clusterPosition);
                         assert.equal(3, transaction.docs.length);
 
-                        /*
-                         transaction.docs[0]["@rid"] = "#" + userClusterId + ":-2";
-                         transaction.docs[1]["@rid"] = "#" + userClusterId + ":-3";
-                         transaction.docs[2]["@rid"] = "#" + linkClusterId + ":-4";
-                         transaction.docs[2].link_to_first = transaction.docs[0]["@rid"];
-                         transaction.docs[2].link_to_second = transaction.docs[1]["@rid"];
-                         */
+                        transaction.docs[0]["@rid"] = "#" + userClusterId + ":-2";
+                        transaction.docs[1]["@rid"] = "#" + userClusterId + ":-3";
+                        transaction.docs[2]["@rid"] = "#" + linkClusterId + ":-4";
+                        transaction.docs[2].link_to_first = transaction.docs[0]["@rid"];
+                        transaction.docs[2].link_to_second = transaction.docs[1]["@rid"];
 
                         console.log(transaction);
 
@@ -79,15 +77,15 @@ db.open(function(err) {
                             console.log(result);
 
                             assert.equal(3, result.numberOfRecordsCreated);
-                            assert.equal(-1, result.recordsCreated[0].fromClusterId);
+                            assert.equal(8, result.recordsCreated[0].fromClusterId);
                             assert.equal(-3, result.recordsCreated[0].fromClusterPosition);
                             assert.equal(8, result.recordsCreated[0].toClusterId);
                             assert.equal(1, result.recordsCreated[0].toClusterPosition);
-                            assert.equal(-1, result.recordsCreated[1].fromClusterId);
+                            assert.equal(8, result.recordsCreated[1].fromClusterId);
                             assert.equal(-2, result.recordsCreated[1].fromClusterPosition);
                             assert.equal(8, result.recordsCreated[1].toClusterId);
                             assert.equal(0, result.recordsCreated[1].toClusterPosition);
-                            assert.equal(-1, result.recordsCreated[2].fromClusterId);
+                            assert.equal(9, result.recordsCreated[2].fromClusterId);
                             assert.equal(-4, result.recordsCreated[2].fromClusterPosition);
                             assert.equal(9, result.recordsCreated[2].toClusterId);
                             assert.equal(0, result.recordsCreated[2].toClusterPosition);
@@ -118,11 +116,9 @@ function prepareDatabase(callback) {
 }
 
 function unprepareDatabase(callback) {
-    return callback()
     db.dropClass("user", function(err) {
         if (err) return callback(err);
 
         db.dropClass("link", callback);
     });
-
 }
