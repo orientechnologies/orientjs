@@ -119,21 +119,25 @@ async.waterfall([
     function(result, callback) {
 
         assert.equal(3, result.numberOfRecordsCreated);
-        assert.equal(8, result.recordsCreated[0].fromClusterId);
-        assert.equal(-3, result.recordsCreated[0].fromClusterPosition);
-        assert.equal(8, result.recordsCreated[0].toClusterId);
-        assert.equal(2, result.recordsCreated[0].toClusterPosition);
-        assert.equal(8, result.recordsCreated[1].fromClusterId);
-        assert.equal(-2, result.recordsCreated[1].fromClusterPosition);
-        assert.equal(8, result.recordsCreated[1].toClusterId);
-        assert.equal(1, result.recordsCreated[1].toClusterPosition);
-        assert.equal(9, result.recordsCreated[2].fromClusterId);
+
+        result.recordsCreated.sort(function(a, b) {
+            return ("" + a.fromClusterId + a.fromClusterPosition).localeCompare("" + b.fromClusterId + b.fromClusterPosition);
+        });
+        assert.equal(userClusterId, result.recordsCreated[0].fromClusterId);
+        assert.equal(-2, result.recordsCreated[0].fromClusterPosition);
+        assert.equal(userClusterId, result.recordsCreated[0].toClusterId);
+        assert.equal(1, result.recordsCreated[0].toClusterPosition);
+        assert.equal(userClusterId, result.recordsCreated[1].fromClusterId);
+        assert.equal(-3, result.recordsCreated[1].fromClusterPosition);
+        assert.equal(userClusterId, result.recordsCreated[1].toClusterId);
+        assert.equal(2, result.recordsCreated[1].toClusterPosition);
+        assert.equal(linkClusterId, result.recordsCreated[2].fromClusterId);
         assert.equal(-4, result.recordsCreated[2].fromClusterPosition);
-        assert.equal(9, result.recordsCreated[2].toClusterId);
+        assert.equal(linkClusterId, result.recordsCreated[2].toClusterId);
         assert.equal(0, result.recordsCreated[2].toClusterPosition);
 
         assert.equal(1, result.numberOfRecordsUpdated);
-        assert.equal(8, result.recordsUpdated[0].clusterId);
+        assert.equal(userClusterId, result.recordsUpdated[0].clusterId);
         assert.equal(0, result.recordsUpdated[0].clusterPosition);
         assert.equal(1, result.recordsUpdated[0].version);
 
