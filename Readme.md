@@ -24,15 +24,30 @@ To start using OrientDB and nodejs, check out the ["Blog Tutorial"](https://gith
 Status
 ========
 
-NOTE: This OrientDB driver is almost mature now, but we are still testing it. While we use it in production already, we recommend you make some thorough tests before you do it as well. If you find any problems, let us know such that we can improve things. Until version 1.0 we also don't guarantee any backwards compatibility and API stability since we are trying things out. But 1.0 should not be far from now.
+This OrientDB driver is almost mature now, but we are still testing it. While we use it in production already and therefore it implements a sufficient number of features for making a fully featured application, we recommend you make some thorough tests before you do it as well. If you find any problems, let us know such that we can improve things. Until version 1.0 we also don't guarantee any backwards compatibility and API stability since we are trying things out. But 1.0 should not be far from now.
 
 The following commands are not implemented yet (just pick one and send us a pull request):
 
+* DATACLUSTER_LH_CLUSTER_IS_USED
 * DATASEGMENT_ADD
-* DATASEGMENT_REMOVE
+* DATASEGMENT_DROP
+* RECORD_CHANGE_IDENTITY
+* POSITIONS_HIGHER
+* POSITIONS_LOWER
+* RECORD_CLEAN_OUT
+* POSITIONS_FLOOR
+* POSITIONS_CEILING
 * CONFIG_GET
 * CONFIG_SET
 * CONFIG_LIST
+* DB_LIST
+* PUSH_RECORD
+* PUSH_DISTRIB_CONFIG
+* DB_COPY
+* REPLICATION
+* CLUSTER
+* DB_FREEZE
+* DB_RELEASE
 
 Supported database versions
 ========
