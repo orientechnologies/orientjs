@@ -3,6 +3,24 @@ Introduction
 
 This is a node.js driver for OrientDB using the OrientDB binary protocol.
 
+Installation
+========
+
+```
+npm install orientdb
+```
+
+As developer you should fork/clone this repo and once you have it on your machine, do the following in your repo directory:
+
+```
+npm install
+```
+
+Tutorial
+========
+
+To start using OrientDB and nodejs, check out the ["Blog Tutorial"](https://github.com/gabipetrovay/node-orientdb/wiki/Blog-Tutorial-with-ExpressJS-and-OrientDB)
+
 Status
 ========
 
@@ -22,24 +40,6 @@ Supported database versions
 We test each release against versions: 1.1.0, 1.3.0.
 
 We've had to drop 1.2.0 support because of this [issue](https://github.com/nuvolabase/orientdb/issues/949). If you're using 1.2.0, we strongly encourage you to evaluate 1.3.0.
-
-Installation
-========
-
-```
-npm install orientdb
-```
-
-As developer you should fork/clone this repo and once you have it on your machine, do the following in your repo directory:
-
-```
-npm install
-```
-
-Tutorial
-========
-
-To start using OrientDB and nodejs, check out the ["Blog Tutorial"](https://github.com/gabipetrovay/node-orientdb/wiki/Blog-Tutorial-with-ExpressJS-and-OrientDB)
 
 Testing
 ========
