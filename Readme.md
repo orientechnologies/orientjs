@@ -40,7 +40,6 @@ The following commands are not implemented yet (just pick one and send us a pull
 * CONFIG_GET
 * CONFIG_SET
 * CONFIG_LIST
-* DB_LIST
 * PUSH_RECORD
 * PUSH_DISTRIB_CONFIG
 * DB_COPY
