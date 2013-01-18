@@ -11,7 +11,7 @@ var dbConfig = require("../config/test/dbConfig");
 var server = new Server(serverConfig);
 var db = new Db("temp", server, dbConfig);
 
-var userClusterId, linkClusterId, transaction, existingDoc, firstNewDoc, secondNewDoc, newLink;
+var userClusterId, linkClusterId, transaction, firstExistingDoc, secondExistingDoc, firstNewDoc, secondNewDoc, newLink;
 
 async.waterfall([
     function(callback) {
@@ -27,18 +27,34 @@ async.waterfall([
         callback();
     },
     function(callback) {
-        existingDoc = {
+        firstExistingDoc = {
             "@class": "user",
-            name: "existing user name",
-            surname: "existing user surname"
+            name: "first existing user name",
+            surname: "first existing user surname"
         };
 
-        db.save(existingDoc, callback);
+        db.save(firstExistingDoc, callback);
     },
-    function(_existingDoc, callback) {
-        existingDoc = _existingDoc;
+    function(_firstExistingDoc, callback) {
+        firstExistingDoc = _firstExistingDoc;
 
-        assert.equal(0, existingDoc["@version"]);
+        assert.equal(0, firstExistingDoc["@version"]);
+
+        callback();
+    },
+    function(callback) {
+        secondExistingDoc = {
+            "@class": "user",
+            name: "second existing user name",
+            surname: "second existing user surname"
+        };
+
+        db.save(secondExistingDoc, callback);
+    },
+    function(_secondExistingDoc, callback) {
+        secondExistingDoc = _secondExistingDoc;
+
+        assert.equal(0, secondExistingDoc["@version"]);
 
         callback();
     },
@@ -100,19 +116,22 @@ async.waterfall([
         callback();
     },
     function(callback) {
-        existingDoc.name = "new " + existingDoc.name;
-        existingDoc.surname = "new " + existingDoc.surname;
+        firstExistingDoc.name = "new " + firstExistingDoc.name;
+        firstExistingDoc.surname = "new " + firstExistingDoc.surname;
 
-        db.save(existingDoc, transaction, callback);
+        db.save(firstExistingDoc, transaction, callback);
     },
-    function(_existingDoc, callback) {
-        existingDoc = _existingDoc;
+    function(_firstExistingDoc, callback) {
+        firstExistingDoc = _firstExistingDoc;
 
         callback();
     },
     function(callback) {
+        db.delete(secondExistingDoc, transaction, callback);
+    },
+    function(callback) {
         assert.equal(-4, transaction.clusterPosition);
-        assert.equal(4, transaction.docs.length);
+        assert.equal(5, transaction.docs.length);
 
         db.commit(transaction, callback);
     },
@@ -126,11 +145,11 @@ async.waterfall([
         assert.equal(userClusterId, result.recordsCreated[0].fromClusterId);
         assert.equal(-2, result.recordsCreated[0].fromClusterPosition);
         assert.equal(userClusterId, result.recordsCreated[0].toClusterId);
-        assert.equal(1, result.recordsCreated[0].toClusterPosition);
+        assert.equal(2, result.recordsCreated[0].toClusterPosition);
         assert.equal(userClusterId, result.recordsCreated[1].fromClusterId);
         assert.equal(-3, result.recordsCreated[1].fromClusterPosition);
         assert.equal(userClusterId, result.recordsCreated[1].toClusterId);
-        assert.equal(2, result.recordsCreated[1].toClusterPosition);
+        assert.equal(3, result.recordsCreated[1].toClusterPosition);
         assert.equal(linkClusterId, result.recordsCreated[2].fromClusterId);
         assert.equal(-4, result.recordsCreated[2].fromClusterPosition);
         assert.equal(linkClusterId, result.recordsCreated[2].toClusterId);
@@ -140,6 +159,10 @@ async.waterfall([
         assert.equal(userClusterId, result.recordsUpdated[0].clusterId);
         assert.equal(0, result.recordsUpdated[0].clusterPosition);
         assert.equal(1, result.recordsUpdated[0].version);
+
+        db.loadRecord(secondExistingDoc["@rid"], function(err) {
+            assert(err);
+        });
 
         unprepareDatabase(callback);
     },
