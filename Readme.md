@@ -12,10 +12,16 @@ The following commands are not implemented yet (just pick one and send us a pull
 
 * DATASEGMENT_ADD
 * DATASEGMENT_REMOVE
-* TX_COMMIT
 * CONFIG_GET
 * CONFIG_SET
 * CONFIG_LIST
+
+Supported database versions
+========
+
+We test each release against versions: 1.1.0, 1.3.0.
+
+We've had to drop 1.2.0 support because of this [issue](https://github.com/nuvolabase/orientdb/issues/949). If you're using 1.2.0, we strongly encourage you to evaluate 1.3.0.
 
 Installation
 ========
