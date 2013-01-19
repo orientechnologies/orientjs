@@ -11,6 +11,8 @@ var dbConfig = require("../config/test/dbConfig");
 
 var server = new Server(serverConfig);
 
+return;
+
 server.connect(function(err) {
 
     assert(!err, err);
