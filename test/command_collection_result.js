@@ -22,8 +22,8 @@ db.open(function(err, result) {
 
         assert.equal(results.length, 3, "Weren't there 3 users in this database?");
 
-        for (var i in results) {
-            assert(_.isString(results[i]["@rid"]));
+        for (var idx = 0; idx < results.length; idx++) {
+            assert(_.isString(results[idx]["@rid"]));
         }
 
         console.log("Received results: " + JSON.stringify(results));
