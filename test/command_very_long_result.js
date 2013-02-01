@@ -75,7 +75,7 @@ db.open(function(err, result) {
 
 function createLongString(length) {
     var string = "";
-    for (var i = 0; i < length; i++) {
+    for (var idx = 0; idx < length; idx++) {
         string += ".";
     }
     return string;

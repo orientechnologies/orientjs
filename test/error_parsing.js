@@ -15,7 +15,7 @@ db.open(function(err, result) {
     assert(!err, "Error while opening the database: " + err);
     
     var count = 0;
-    for (var i = 0; i < 1000; i++) {
+    for (var idx = 0; idx < 1000; idx++) {
         db.command("SELECT FROM OUser", function() {
             count++;
         });

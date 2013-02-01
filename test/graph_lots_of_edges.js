@@ -21,7 +21,7 @@ graphdb.open(function(err) {
             assert(!err, err);
 
             var edges = [];
-            for (var i = 0; i < 50; i++) {
+            for (var idx = 0; idx < 50; idx++) {
                 graphdb.createEdge(fromVertex["@rid"], toVertex["@rid"], function(err, edge) {
                     assert(!err, err);
 

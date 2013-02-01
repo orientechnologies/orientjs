@@ -17,9 +17,9 @@ var db = new Db("temp", server, dbConfig);
 var connectionsToOpen = 3,
     openedConnections = 0;
 
-for (var i = 0; i < connectionsToOpen; i++) {
+for (var idx = 0; idx < connectionsToOpen; idx++) {
 
-    console.log("Opening connection " + i);
+    console.log("Opening connection " + idx);
 
     db.open(function(err) {
 
@@ -27,7 +27,7 @@ for (var i = 0; i < connectionsToOpen; i++) {
 
         if (++openedConnections === connectionsToOpen) {
 
-            for (var j = 0; j < openedConnections; j++) {
+            for (var jdx = 0; jdx < openedConnections; jdx++) {
 
                 console.log("Closing connection.");
                 db.close();

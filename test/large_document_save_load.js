@@ -96,8 +96,8 @@ var document =
     }
 };
 
-for (var i = 0; i < 100; i++) {
-    document["web-app-" + i] = document["web-app"];
+for (var idx = 0; idx < 100; idx++) {
+    document["web-app-" + idx] = document["web-app"];
 }
 
 console.log("document length is " + JSON.stringify(document).length + " chars");
