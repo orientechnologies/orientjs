@@ -1,5 +1,5 @@
 var assert = require("assert");
-var _ = require("underscore");
+var _ = require("lodash");
 
 var orient = require("../lib/orientdb"),
     GraphDb = orient.GraphDb,

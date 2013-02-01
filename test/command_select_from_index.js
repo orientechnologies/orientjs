@@ -1,6 +1,6 @@
 var assert = require("assert");
 var parser = require("../lib/orientdb/connection/parser");
-var _ = require("underscore");
+var _ = require("lodash");
 
 var orient = require("../lib/orientdb"),
     Db = orient.Db,
