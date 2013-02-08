@@ -103,16 +103,9 @@ for (var idx = 0; idx < 100; idx++) {
 console.log("document length is " + JSON.stringify(document).length + " chars");
 
 var assert = require("assert");
+var _ = require("lodash");
 
-var orient = require("../lib/orientdb"),
-    Db = orient.Db,
-    Server = orient.Server;
-
-var serverConfig = require("../config/test/serverConfig");
-var dbConfig = require("../config/test/dbConfig");
-
-var server = new Server(serverConfig);
-var db = new Db("temp", server, dbConfig);
+var db = require("./test_db.js").db;
 
 db.open(function(err) {
 

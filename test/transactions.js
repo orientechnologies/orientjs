@@ -1,15 +1,8 @@
-var assert = require("assert"),
-    async = require("async");
+var assert = require("assert");
+var _ = require("lodash");
+var async = require("async");
 
-var orient = require("../lib/orientdb"),
-    Db = orient.Db,
-    Server = orient.Server;
-
-var serverConfig = require("../config/test/serverConfig");
-var dbConfig = require("../config/test/dbConfig");
-
-var server = new Server(serverConfig);
-var db = new Db("temp", server, dbConfig);
+var db = require("./test_db.js").db;
 
 var userClusterId, linkClusterId, transaction,
     firstExistingDoc, firstExistingDocRID, firstExistingDocVersion,
