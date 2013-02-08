@@ -1,10 +1,10 @@
 0.9.8
 
-* added support "select" from index
-* workaround orientdb 1.3.0 "tombstone byte" bug
+* added support to SELECT from indexes
+* improved support to orientdb 1.3.0
 * added support to transactions
 * improved "long" type handling
 * improved RID parsing
 * errors given to callbacks are now instances of Error
 * new command: Server.listDatabases
-* various minor improvements and bug fixes
+* various minor improvements and bug fixes and contributions
