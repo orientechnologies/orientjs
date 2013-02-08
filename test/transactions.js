@@ -115,8 +115,15 @@ async.waterfall([
         newLink = {
             "@class": "link",
             link_to_first: firstNewDoc["@rid"],
-            link_to_second: secondNewDoc["@rid"]
+            link_to_second: secondNewDoc["@rid"],
+            sub_section: {
+                section_name: "sub link to first doc",
+                linked_doc: firstNewDoc["@rid"]
+            }
         };
+        
+        firstNewDoc.link_to_second = secondNewDoc["@rid"];
+        secondNewDoc.link_to_first = firstNewDoc["@rid"];
 
         db.save(newLink, transaction, callback);
     },
@@ -166,19 +173,29 @@ async.waterfall([
         assert.equal(linkClusterId, result.recordsCreated[2].toClusterId);
         assert.equal(0, result.recordsCreated[2].toClusterPosition);
 
-        assert.equal(1, result.numberOfRecordsUpdated);
+        assert.equal(2, result.numberOfRecordsUpdated);
+
+        result.recordsUpdated.sort(function(a, b) {
+            return ("" + a.clusterId + a.clusterPosition).localeCompare("" + b.clusterId + b.clusterPosition);
+        });
+
         assert.equal(userClusterId, result.recordsUpdated[0].clusterId);
         assert.equal(0, result.recordsUpdated[0].clusterPosition);
         assert.equal(1, result.recordsUpdated[0].version);
+        assert.equal(userClusterId, result.recordsUpdated[1].clusterId);
+        assert.equal(2, result.recordsUpdated[1].clusterPosition);
+        assert.equal(1, result.recordsUpdated[1].version);
         
         assert.equal(firstExistingDoc["@rid"], firstExistingDocRID);
         assert.equal(firstExistingDoc["@version"], firstExistingDocVersion + 1);
         assert(firstNewDoc["@rid"] !== firstNewDocRID);
-        assert.equal(firstNewDoc["@version"], 0);
+        assert.equal(firstNewDoc["@version"], 1);
         assert(secondNewDoc["@rid"] !== secondNewDoc);
         assert.equal(secondNewDoc["@version"], 0);
         assert(newLink["@rid"] !== newLinkRID);
         assert.equal(newLink["@version"], 0);
+        /*assert.equal(newLink.link_to_first, firstNewDoc["@rid"]);
+        assert.equal(newLink.link_to_second, secondNewDoc["@rid"]);*/
 
         db.loadRecord(secondExistingDoc["@rid"], function(err) {
             assert(err);
