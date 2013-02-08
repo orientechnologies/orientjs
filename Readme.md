@@ -106,4 +106,4 @@ db.open(function(err) {
 Changes
 ========
 
-See [ChangeLog](ChangeLog)
+See [ChangeLog](https://github.com/gabipetrovay/node-orientdb/blob/master/ChangeLog)
