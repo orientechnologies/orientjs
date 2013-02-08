@@ -153,38 +153,38 @@ async.waterfall([
 
         db.commit(transaction, callback);
     },
-    function(result, callback) {
+    function(txResult, callback) {
 
-        assert.equal(3, result.numberOfRecordsCreated);
+        assert.equal(3, txResult.numberOfRecordsCreated);
 
-        result.recordsCreated.sort(function(a, b) {
+        txResult.recordsCreated.sort(function(a, b) {
             return ("" + a.fromClusterId + a.fromClusterPosition).localeCompare("" + b.fromClusterId + b.fromClusterPosition);
         });
-        assert.equal(userClusterId, result.recordsCreated[0].fromClusterId);
-        assert.equal(-2, result.recordsCreated[0].fromClusterPosition);
-        assert.equal(userClusterId, result.recordsCreated[0].toClusterId);
-        assert.equal(2, result.recordsCreated[0].toClusterPosition);
-        assert.equal(userClusterId, result.recordsCreated[1].fromClusterId);
-        assert.equal(-3, result.recordsCreated[1].fromClusterPosition);
-        assert.equal(userClusterId, result.recordsCreated[1].toClusterId);
-        assert.equal(3, result.recordsCreated[1].toClusterPosition);
-        assert.equal(linkClusterId, result.recordsCreated[2].fromClusterId);
-        assert.equal(-4, result.recordsCreated[2].fromClusterPosition);
-        assert.equal(linkClusterId, result.recordsCreated[2].toClusterId);
-        assert.equal(0, result.recordsCreated[2].toClusterPosition);
+        assert.equal(userClusterId, txResult.recordsCreated[0].fromClusterId);
+        assert.equal(-2, txResult.recordsCreated[0].fromClusterPosition);
+        assert.equal(userClusterId, txResult.recordsCreated[0].toClusterId);
+        assert.equal(2, txResult.recordsCreated[0].toClusterPosition);
+        assert.equal(userClusterId, txResult.recordsCreated[1].fromClusterId);
+        assert.equal(-3, txResult.recordsCreated[1].fromClusterPosition);
+        assert.equal(userClusterId, txResult.recordsCreated[1].toClusterId);
+        assert.equal(3, txResult.recordsCreated[1].toClusterPosition);
+        assert.equal(linkClusterId, txResult.recordsCreated[2].fromClusterId);
+        assert.equal(-4, txResult.recordsCreated[2].fromClusterPosition);
+        assert.equal(linkClusterId, txResult.recordsCreated[2].toClusterId);
+        assert.equal(0, txResult.recordsCreated[2].toClusterPosition);
 
-        assert.equal(2, result.numberOfRecordsUpdated);
+        assert.equal(2, txResult.numberOfRecordsUpdated);
 
-        result.recordsUpdated.sort(function(a, b) {
+        txResult.recordsUpdated.sort(function(a, b) {
             return ("" + a.clusterId + a.clusterPosition).localeCompare("" + b.clusterId + b.clusterPosition);
         });
 
-        assert.equal(userClusterId, result.recordsUpdated[0].clusterId);
-        assert.equal(0, result.recordsUpdated[0].clusterPosition);
-        assert.equal(1, result.recordsUpdated[0].version);
-        assert.equal(userClusterId, result.recordsUpdated[1].clusterId);
-        assert.equal(2, result.recordsUpdated[1].clusterPosition);
-        assert.equal(1, result.recordsUpdated[1].version);
+        assert.equal(userClusterId, txResult.recordsUpdated[0].clusterId);
+        assert.equal(0, txResult.recordsUpdated[0].clusterPosition);
+        assert.equal(1, txResult.recordsUpdated[0].version);
+        assert.equal(userClusterId, txResult.recordsUpdated[1].clusterId);
+        assert.equal(2, txResult.recordsUpdated[1].clusterPosition);
+        assert.equal(1, txResult.recordsUpdated[1].version);
         
         assert.equal(firstExistingDoc["@rid"], firstExistingDocRID);
         assert.equal(firstExistingDoc["@version"], firstExistingDocVersion + 1);
@@ -194,8 +194,12 @@ async.waterfall([
         assert.equal(secondNewDoc["@version"], 0);
         assert(newLink["@rid"] !== newLinkRID);
         assert.equal(newLink["@version"], 0);
-        /*assert.equal(newLink.link_to_first, firstNewDoc["@rid"]);
-        assert.equal(newLink.link_to_second, secondNewDoc["@rid"]);*/
+        
+        assert.equal(newLink.link_to_first, firstNewDoc["@rid"]);
+        assert.equal(newLink.sub_section.linked_doc, firstNewDoc["@rid"]);
+        assert.equal(newLink.link_to_second, secondNewDoc["@rid"]);
+        assert.equal(firstNewDoc.link_to_second, secondNewDoc["@rid"]);
+        assert.equal(secondNewDoc.link_to_first, firstNewDoc["@rid"]);
 
         db.loadRecord(secondExistingDoc["@rid"], function(err) {
             assert(err);
