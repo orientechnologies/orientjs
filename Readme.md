@@ -101,4 +101,9 @@ db.open(function(err) {
     console.log("Database '" + db.databaseName + "' has " + db.clusters.length + " clusters");
     
 }
-``` 
+```
+ 
+Changes
+========
+
+See [ChangeLog](ChangeLog)
