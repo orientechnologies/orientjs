@@ -11,12 +11,17 @@ var dbConfig = require("../config/test/dbConfig");
 
 var server = new Server(serverConfig);
 
-return;
-
 server.connect(function(err) {
 
     assert(!err, err);
 
+    // disabled due to https://github.com/nuvolabase/orientdb/issues/1291
+    if (server.manager.serverProtocolVersion === 13) {
+        server.disconnect();
+        
+        return;
+    }
+    
     server.configList(function(err, config) {
         assert(!err, err);
 
