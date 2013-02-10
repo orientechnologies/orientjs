@@ -47,6 +47,8 @@ The following commands are not implemented yet (just pick one and send us a pull
 * DB_FREEZE
 * DB_RELEASE
 
+For a more complete list, check out the [Driver Compatibility Matrix](#driver-compatibility-matrix)
+
 Supported database versions
 ========
 
@@ -106,3 +108,311 @@ Changes
 ========
 
 See [ChangeLog](https://github.com/gabipetrovay/node-orientdb/blob/master/ChangeLog)
+
+Driver Compatibility Matrix
+========
+
+The following table list all the commands exposed by OrientDB. It's here to help you helping us: just pick one of the not yet implemented commands and send us a pull request.
+
+Each command has a JS API if it's already supported, or a "not yet implemented" if not.
+
+It also has a Yes/No/Not yet label under each supported OrientDB versions: commands may be implemented but may be available only with recent OrientDB.
+
+<table>
+   <tbody>
+      <tr>
+         <td><strong>Command</strong></td>
+         <td><strong>JS API</strong></td>
+         <td><strong>OrientDB 1.1.0</strong></td>
+         <td><strong>OrientDB 1.3.0</strong></td>
+         <td><strong>OrientDB 1.4.0</strong></td>
+      </tr>
+      <tr>
+         <td>SHUTDOWN</td>
+         <td>Server.shutdown</td>
+         <td>Yes</td>
+         <td>Yes</td>
+         <td>Yes</td>
+      </tr>
+      <tr>
+         <td>CONNECT</td>
+         <td>Server.connect</td>
+         <td>Yes</td>
+         <td>Yes</td>
+         <td>Yes</td>
+      </tr>
+      <tr>
+         <td>DB_OPEN</td>
+         <td>Db.open</td>
+         <td>Yes</td>
+         <td>Yes</td>
+         <td>Yes</td>
+      </tr>
+      <tr>
+         <td>DB_CREATE</td>
+         <td>Db.create</td>
+         <td>Yes</td>
+         <td>Yes</td>
+         <td>Yes</td>
+      </tr>
+      <tr>
+         <td>DB_CLOSE</td>
+         <td>Db.close</td>
+         <td>Yes</td>
+         <td>Yes</td>
+         <td>Yes</td>
+      </tr>
+      <tr>
+         <td>DB_EXIST</td>
+         <td>Db.exist</td>
+         <td>Yes</td>
+         <td>Yes</td>
+         <td>Yes</td>
+      </tr>
+      <tr>
+         <td>DB_DROP</td>
+         <td>Db.drop</td>
+         <td>Yes</td>
+         <td>Yes</td>
+         <td>Yes</td>
+      </tr>
+      <tr>
+         <td>DB_SIZE</td>
+         <td>Db.size</td>
+         <td>Yes</td>
+         <td>Yes</td>
+         <td>Yes</td>
+      </tr>
+      <tr>
+         <td>DB_COUNTRECORDS</td>
+         <td>Db.countRecords</td>
+         <td>Yes</td>
+         <td>Yes</td>
+         <td>Yes</td>
+      </tr>
+      <tr>
+         <td>DATACLUSTER_ADD</td>
+         <td>Db.addDataCluster</td>
+         <td>Yes</td>
+         <td>Yes</td>
+         <td>Yes</td>
+      </tr>
+      <tr>
+         <td>DATACLUSTER_DROP</td>
+         <td>Db.removeDataCluster</td>
+         <td>Yes</td>
+         <td>Yes</td>
+         <td>Yes</td>
+      </tr>
+      <tr>
+         <td>DATACLUSTER_COUNT</td>
+         <td>Db.countDataClusters</td>
+         <td>Yes</td>
+         <td>Yes</td>
+         <td>Yes</td>
+      </tr>
+      <tr>
+         <td>DATACLUSTER_DATARANGE</td>
+         <td>Db.rangeDataClusters</td>
+         <td>Yes</td>
+         <td>Yes</td>
+         <td>Yes</td>
+      </tr>
+      <tr>
+         <td>DATACLUSTER_LH_CLUSTER_IS_USED</td>
+         <td><strong>Not yet implemented</strong></td>
+         <td>No</td>
+         <td>Not yet</td>
+         <td>Not yet</td>
+      </tr>
+      <tr>
+         <td>DATASEGMENT_ADD</td>
+         <td><strong>Not yet implemented</strong></td>
+         <td>Not yet</td>
+         <td>Not yet</td>
+         <td>Not yet</td>
+      </tr>
+      <tr>
+         <td>DATASEGMENT_DROP</td>
+         <td><strong>Not yet implemented</strong></td>
+         <td>Not yet</td>
+         <td>Not yet</td>
+         <td>Not yet</td>
+      </tr>
+      <tr>
+         <td>RECORD_LOAD</td>
+         <td>Db.loadRecord</td>
+         <td>Yes</td>
+         <td>Yes</td>
+         <td>Yes</td>
+      </tr>
+      <tr>
+         <td>RECORD_CREATE</td>
+         <td>Db.createRecord</td>
+         <td>Yes</td>
+         <td>Yes</td>
+         <td>Yes</td>
+      </tr>
+      <tr>
+         <td>RECORD_UPDATE</td>
+         <td>Db.updateRecord</td>
+         <td>Yes</td>
+         <td>Yes</td>
+         <td>Yes</td>
+      </tr>
+      <tr>
+         <td>RECORD_DELETE</td>
+         <td>Db.deleteRecord</td>
+         <td>Yes</td>
+         <td>Yes</td>
+         <td>Yes</td>
+      </tr>
+      <tr>
+         <td>RECORD_CHANGE_IDENTITY</td>
+         <td><strong>Not yet implemented</strong></td>
+         <td>No</td>
+         <td>Not yet</td>
+         <td>Not yet</td>
+      </tr>
+      <tr>
+         <td>POSITIONS_HIGHER</td>
+         <td><strong>Not yet implemented</strong></td>
+         <td>No</td>
+         <td>Not yet</td>
+         <td>Not yet</td>
+      </tr>
+      <tr>
+         <td>POSITIONS_LOWER</td>
+         <td><strong>Not yet implemented</strong></td>
+         <td>No</td>
+         <td>Not yet</td>
+         <td>Not yet</td>
+      </tr>
+      <tr>
+         <td>RECORD_CLEAN_OUT</td>
+         <td><strong>Not yet implemented</strong></td>
+         <td>No</td>
+         <td>Not yet</td>
+         <td>Not yet</td>
+      </tr>
+      <tr>
+         <td>POSITIONS_FLOOR</td>
+         <td><strong>Not yet implemented</strong></td>
+         <td>No</td>
+         <td>Not yet</td>
+         <td>Not yet</td>
+      </tr>
+      <tr>
+         <td>POSITIONS_CEILING</td>
+         <td><strong>Not yet implemented</strong></td>
+         <td>No</td>
+         <td>Not yet</td>
+         <td>Not yet</td>
+      </tr>
+      <tr>
+         <td>COUNT</td>
+         <td>Db.countRecords</td>
+         <td>Yes</td>
+         <td>Yes</td>
+         <td>Yes</td>
+      </tr>
+      <tr>
+         <td>COMMAND</td>
+         <td>Db.command</td>
+         <td>Yes</td>
+         <td>Yes</td>
+         <td>Yes</td>
+      </tr>
+      <tr>
+         <td>TX_COMMIT</td>
+         <td>Db.commit</td>
+         <td>Yes</td>
+         <td>Yes</td>
+         <td>Yes</td>
+      </tr>
+      <tr>
+         <td>CONFIG_GET</td>
+         <td><strong>Not yet implemented</strong></td>
+         <td>Not yet</td>
+         <td>Not yet</td>
+         <td>Not yet</td>
+      </tr>
+      <tr>
+         <td>CONFIG_SET</td>
+         <td><strong>Not yet implemented</strong></td>
+         <td>Not yet</td>
+         <td>Not yet</td>
+         <td>Not yet</td>
+      </tr>
+      <tr>
+         <td>CONFIG_LIST</td>
+         <td>Server.configList</td>
+         <td>Yes</td>
+         <td>No</td>
+         <td>Yes</td>
+      </tr>
+      <tr>
+         <td>DB_RELOAD</td>
+         <td>Db.reload</td>
+         <td>Yes</td>
+         <td>Yes</td>
+         <td>Yes</td>
+      </tr>
+      <tr>
+         <td>DB_LIST</td>
+         <td>Server.listDatabases</td>
+         <td>Yes</td>
+         <td>Yes</td>
+         <td>Yes</td>
+      </tr>
+      <tr>
+         <td>PUSH_RECORD</td>
+         <td><strong>Not yet implemented</strong></td>
+         <td>Yes</td>
+         <td>Yes</td>
+         <td>Yes</td>
+      </tr>
+      <tr>
+         <td>PUSH_DISTRIB_CONFIG</td>
+         <td><strong>Not yet implemented</strong></td>
+         <td>Yes</td>
+         <td>Yes</td>
+         <td>Yes</td>
+      </tr>
+      <tr>
+         <td>DB_COPY</td>
+         <td><strong>Not yet implemented</strong></td>
+         <td>Yes</td>
+         <td>Yes</td>
+         <td>Yes</td>
+      </tr>
+      <tr>
+         <td>REPLICATION</td>
+         <td><strong>Not yet implemented</strong></td>
+         <td>Yes</td>
+         <td>Yes</td>
+         <td>Yes</td>
+      </tr>
+      <tr>
+         <td>CLUSTER</td>
+         <td><strong>Not yet implemented</strong></td>
+         <td>Yes</td>
+         <td>Yes</td>
+         <td>Yes</td>
+      </tr>
+      <tr>
+         <td>DB_FREEZE</td>
+         <td><strong>Not yet implemented</strong></td>
+         <td>Yes</td>
+         <td>Yes</td>
+         <td>Yes</td>
+      </tr>
+      <tr>
+         <td>DB_RELEASE</td>
+         <td><strong>Not yet implemented</strong></td>
+         <td>Yes</td>
+         <td>Yes</td>
+         <td>Yes</td>
+      </tr>
+   </tbody>
+</table>
