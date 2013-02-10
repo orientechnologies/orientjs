@@ -39,7 +39,6 @@ The following commands are not implemented yet (just pick one and send us a pull
 * POSITIONS_CEILING
 * CONFIG_GET
 * CONFIG_SET
-* CONFIG_LIST
 * PUSH_RECORD
 * PUSH_DISTRIB_CONFIG
 * DB_COPY
