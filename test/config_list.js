@@ -15,22 +15,18 @@ server.connect(function(err) {
 
     assert(!err, err);
 
-    // disabled due to https://github.com/nuvolabase/orientdb/issues/1291
-    if (server.manager.serverProtocolVersion === 13) {
-        server.disconnect();
-        
-        return;
-    }
-    
     server.configList(function(err, config) {
-        assert(!err, err);
+        if (server.manager.serverProtocolVersion === 13) {
+            assert(err);
+        } else {
+            assert(!err, err);
 
-        assert(!_.isEmpty(config));
-        assert(config["log.file.level"]);
-        assert(config["log.console.level"]);
+            assert(!_.isEmpty(config));
+            assert(config["log.file.level"]);
+            assert(config["log.console.level"]);
+        }
 
         server.disconnect();
     })
 
 });
-
