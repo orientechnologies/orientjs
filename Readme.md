@@ -97,11 +97,15 @@ var db = new Db("temp", server, dbConfig);
 
 db.open(function(err) {
 
-    if (err) { console.log(err); return; }
+    if (err) {
+        console.log(err);
+        return;
+    }
 
     console.log("Database '" + db.databaseName + "' has " + db.clusters.length + " clusters");
-    
-}
+
+    // use db.command(...) function to run OrientDB SQL queries
+});
 ```
  
 Changes
