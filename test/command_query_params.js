@@ -29,7 +29,31 @@ db.open(function(err, result) {
 
             console.log("Received results: " + JSON.stringify(results));
 
-            db.close();
+            db.query("SELECT FROM OUser where name = ?", { params: [ "admin" ] }, function(err, results) {
+
+                assert(!err, "Error while executing a SELECT command: " + err);
+
+                assert.equal(results.length, 1);
+
+                var admin = results[0];
+                assert(_.isString(admin["@rid"]));
+
+                console.log("Received results: " + JSON.stringify(results));
+
+                db.query("SELECT FROM OUser where name = ?", { fetchPlan: "*:-1", params: [ "admin" ] }, function(err, results) {
+
+                    assert(!err, "Error while executing a SELECT command: " + err);
+
+                    assert.equal(results.length, 1);
+
+                    var admin = results[0];
+                    assert(_.isString(admin["@rid"]));
+
+                    console.log("Received results: " + JSON.stringify(results));
+
+                    db.close();
+                });
+            });
         });
     });
 });
