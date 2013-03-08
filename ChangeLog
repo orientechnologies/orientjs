@@ -1,3 +1,8 @@
+0.9.9
+
+* db.query() is now an alias of db.command()
+* added support to query parameters (ex: "SELECT FROM OUser where name = :name")
+
 0.9.8
 
 * added support to SELECT from indexes
