@@ -37,7 +37,6 @@ The following commands are not implemented yet (just pick one and send us a pull
 * RECORD_CLEAN_OUT
 * POSITIONS_FLOOR
 * POSITIONS_CEILING
-* CONFIG_GET
 * CONFIG_SET
 * PUSH_RECORD
 * PUSH_DISTRIB_CONFIG
@@ -336,10 +335,10 @@ It also has a Yes/No/Not yet label under each supported OrientDB versions: comma
       </tr>
       <tr>
          <td>CONFIG_GET</td>
-         <td><strong>Not yet implemented</strong></td>
-         <td>Not yet</td>
-         <td>Not yet</td>
-         <td>Not yet</td>
+         <td>Server.configGet</td>
+         <td>Yes</td>
+         <td>Yes</td>
+         <td>Yes</td>
       </tr>
       <tr>
          <td>CONFIG_SET</td>
