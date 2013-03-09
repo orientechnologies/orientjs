@@ -1,6 +1,6 @@
 0.9.9
 
-* new command: server.configList(), server.configGet()                          
+* new commands: server.configList(), server.configGet(), server.configSet()                          
 * db.query() is now an alias of db.command()
 * added support to query parameters (ex: "SELECT FROM OUser where name = :name")
 

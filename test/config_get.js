@@ -19,11 +19,13 @@ server.connect(function(err) {
         assert(!err, err);
 
         assert(_.isString(value));
-        
+        assert(value !== "");
+
         server.configGet("mvrbtree.loadFactor", function(err, value) {
             assert(!err, err);
 
             assert(_.isString(value));
+            assert(value !== "");
 
             server.disconnect();
         })
