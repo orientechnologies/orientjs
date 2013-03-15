@@ -201,7 +201,7 @@ It also has a Yes/No/Not yet label under each supported OrientDB versions: comma
       </tr>
       <tr>
          <td>DATACLUSTER_DROP</td>
-         <td>Db.removeDataCluster</td>
+         <td>Db.dropDataCluster</td>
          <td>Yes</td>
          <td>Yes</td>
          <td>Yes</td>
@@ -229,17 +229,17 @@ It also has a Yes/No/Not yet label under each supported OrientDB versions: comma
       </tr>
       <tr>
          <td>DATASEGMENT_ADD</td>
-         <td><strong>Not yet implemented</strong></td>
-         <td>Not yet</td>
-         <td>Not yet</td>
-         <td>Not yet</td>
+         <td>Db.addDataSegment</td>
+         <td>Yes</td>
+         <td>Yes</td>
+         <td>Yes</td>
       </tr>
       <tr>
          <td>DATASEGMENT_DROP</td>
-         <td><strong>Not yet implemented</strong></td>
-         <td>Not yet</td>
-         <td>Not yet</td>
-         <td>Not yet</td>
+         <td>Db.dropDataSegment</td>
+         <td>Yes</td>
+         <td>Yes</td>
+         <td>Yes</td>
       </tr>
       <tr>
          <td>RECORD_LOAD</td>
