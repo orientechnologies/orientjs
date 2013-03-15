@@ -39,21 +39,31 @@ server.connect(function(err, sessionId) {
                     assert.equal(db.configuration.dataSegments[segmentNumber].dataName, "test_create_drop_new_data_segment");
                     assert.equal(db.configuration.dataSegments[segmentNumber].holeFile.path, path.join(location, "test_create_drop_new_data_segment.odh"));
 
-                    db.close(function(err) {
+                    db.dropDataSegment("test_create_drop_new_data_segment", function(err, successful) {
 
                         assert(!err, err);
 
-                        server.connect(function(err, sessionId) {
+                        assert(successful);
+                        assert.equal(db.configuration.dataSegments.length, 2);
+                        assert.equal(db.configuration.dataSegments[1].dataId, -1);
+                        assert.equal(db.configuration.dataSegments[1].dataName, "${STORAGE_PATH}/txlog.otx");
+
+                        db.close(function(err) {
 
                             assert(!err, err);
 
-                            db.drop(function(err) {
+                            server.connect(function(err, sessionId) {
 
-                                assert(!err, "Error while dropping the database: " + err);
+                                assert(!err, err);
 
-                                console.log("Dropped database " + db.databaseName);
+                                db.drop(function(err) {
 
-                                server.disconnect();
+                                    assert(!err, "Error while dropping the database: " + err);
+
+                                    console.log("Dropped database " + db.databaseName);
+
+                                    server.disconnect();
+                                });
                             });
                         });
                     });
