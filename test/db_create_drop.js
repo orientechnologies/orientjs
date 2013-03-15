@@ -17,7 +17,7 @@ server.connect(function(err, sessionId) {
 
     db.create(function(err) {
 
-        assert(!err, "Error while connecting to the server: " + err);
+        assert(!err, "Error while creating db: " + err);
 
         console.log("Created database: " + db.databaseName);
 
