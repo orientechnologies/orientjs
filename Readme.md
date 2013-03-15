@@ -28,7 +28,6 @@ This OrientDB driver is almost mature now, but we are still testing it. While we
 
 The following commands are not implemented yet (just pick one and send us a pull request):
 
-* DATACLUSTER_LH_CLUSTER_IS_USED
 * RECORD_CHANGE_IDENTITY
 * POSITIONS_HIGHER
 * POSITIONS_LOWER
@@ -220,10 +219,10 @@ It also has a Yes/No/Not yet label under each supported OrientDB versions: comma
       </tr>
       <tr>
          <td>DATACLUSTER_LH_CLUSTER_IS_USED</td>
-         <td><strong>Not yet implemented</strong></td>
+         <td>Db.isLHClustersUsed</td>
          <td>No</td>
-         <td>Not yet</td>
-         <td>Not yet</td>
+         <td>Yes</td>
+         <td>Yes</td>
       </tr>
       <tr>
          <td>DATASEGMENT_ADD</td>

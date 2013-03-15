@@ -1,5 +1,6 @@
 0.9.9 (in progress)
 
+* new command: db.isLHClustersUsed()                          
 * new commands: db.addDataSegment(), db.dropDataSegment()                          
 * new commands: server.configList(), server.configGet(), server.configSet()                          
 * db.query() is now an alias of db.command()
