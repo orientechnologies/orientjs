@@ -44,13 +44,13 @@ db.open(function(err, result) {
 
             console.log("New MEMORY cluster with number: " + memoryClusterNumber);
 
-            db.removeDataCluster(memoryClusterNumber, function(err) {
+            db.dropDataCluster(memoryClusterNumber, function(err) {
 
                 assert(!err, "Error while removing the MEMORY data cluster: " + err);
 
                 console.log("MEMORY cluster removed");
 
-                db.removeDataCluster(physicalClusterNumber, function(err) {
+                db.dropDataCluster(physicalClusterNumber, function(err) {
 
                     assert(!err, "Error while removing the PHYSICAL data cluster: " + err);
 

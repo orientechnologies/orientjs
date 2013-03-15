@@ -20,7 +20,7 @@ db.open(function(err, result) {
 
         console.log("New MEMORY cluster with number " + clusterNumber);
 
-        db.removeDataCluster(clusterNumber, function(err) {
+        db.dropDataCluster(clusterNumber, function(err) {
 
             assert(!err, "Error while removing a data cluster: " + err);
 

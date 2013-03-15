@@ -113,7 +113,7 @@ db.open(function(err, result) {
                                         assert(result);
 
 
-                                        db.removeDataCluster(clusterId, function() {
+                                        db.dropDataCluster(clusterId, function() {
                                             db.close();
                                         });
                                     });
