@@ -29,8 +29,6 @@ This OrientDB driver is almost mature now, but we are still testing it. While we
 The following commands are not implemented yet (just pick one and send us a pull request):
 
 * DATACLUSTER_LH_CLUSTER_IS_USED
-* DATASEGMENT_ADD
-* DATASEGMENT_DROP
 * RECORD_CHANGE_IDENTITY
 * POSITIONS_HIGHER
 * POSITIONS_LOWER
