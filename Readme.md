@@ -39,8 +39,6 @@ The following commands are not implemented yet (just pick one and send us a pull
 * DB_COPY
 * REPLICATION
 * CLUSTER
-* DB_FREEZE
-* DB_RELEASE
 
 For a more complete list, check out the [Driver Compatibility Matrix](#driver-compatibility-matrix)
 
@@ -401,14 +399,14 @@ It also has a Yes/No/Not yet label under each supported OrientDB versions: comma
       </tr>
       <tr>
          <td>DB_FREEZE</td>
-         <td><strong>Not yet implemented</strong></td>
+         <td><strong>Work in Progress</strong></td>
          <td>Yes</td>
          <td>Yes</td>
          <td>Yes</td>
       </tr>
       <tr>
          <td>DB_RELEASE</td>
-         <td><strong>Not yet implemented</strong></td>
+         <td><strong>Work in Progress</strong></td>
          <td>Yes</td>
          <td>Yes</td>
          <td>Yes</td>
