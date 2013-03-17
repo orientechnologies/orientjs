@@ -1,7 +1,7 @@
 var assert = require("assert");
 var _ = require("lodash");
 
-var db = require("./test_db.js").db;
+var db = require("./setup_db.js").db;
 
 //var binary_data = new Buffer(1);
 //binary_data.writeUInt8(42, 0);

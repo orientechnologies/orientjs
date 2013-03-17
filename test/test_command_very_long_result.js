@@ -1,7 +1,7 @@
 var assert = require("assert");
 var _ = require("lodash");
 
-var db = require("./test_db.js").db;
+var db = require("./setup_db.js").db;
 
 var LONG_STRING_LENGTH = 100000;
 

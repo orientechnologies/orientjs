@@ -1,7 +1,7 @@
 var assert = require("assert");
 var _ = require("lodash");
 
-var db = require("./test_db.js").db;
+var db = require("./setup_db.js").db;
 
 var className = "TestObjectRecord",
     obj = { "one": 1 };

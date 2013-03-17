@@ -2,7 +2,7 @@ var assert = require("assert");
 var _ = require("lodash");
 var async = require("async");
 
-var db = require("./test_db.js").db;
+var db = require("./setup_db.js").db;
 
 var userClusterId, linkClusterId, transaction,
     firstExistingDoc, firstExistingDocRID, firstExistingDocVersion,

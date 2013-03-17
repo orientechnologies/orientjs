@@ -1,7 +1,7 @@
 var assert = require("assert");
 var _ = require("lodash");
 
-var testDb = require("./test_db.js");
+var testDb = require("./setup_db.js");
 var server = testDb.server;
 var db = testDb.db;
 

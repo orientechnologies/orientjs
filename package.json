@@ -23,7 +23,7 @@
     "directories"       : { "lib" : "./lib/orientdb" },
     "engines"           : { "node" : ">=0.6.0" },
     "scripts"           : {
-        "test"          : "node ./node_modules/tap/bin/tap.js ./test"
+        "test"          : "node ./node_modules/tap/bin/tap.js ./test/errors/test_* ./test/parser/test_* ./test/test_*"
     },
     "licenses"          : [ {
         "type"      : "Apache License, Version 2.0",

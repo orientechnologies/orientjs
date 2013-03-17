@@ -105,7 +105,7 @@ console.log("document length is " + JSON.stringify(document).length + " chars");
 var assert = require("assert");
 var _ = require("lodash");
 
-var db = require("./test_db.js").db;
+var db = require("./setup_db.js").db;
 
 db.open(function(err) {
 
