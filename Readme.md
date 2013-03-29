@@ -29,7 +29,6 @@ This OrientDB driver is almost mature now, but we are still testing it. While we
 The following commands are not implemented yet (just pick one and send us a pull request):
 
 * RECORD_CHANGE_IDENTITY
-* POSITIONS_LOWER
 * RECORD_CLEAN_OUT
 * POSITIONS_FLOOR
 * POSITIONS_CEILING
@@ -279,10 +278,10 @@ It also has a Yes/No/Not yet label under each supported OrientDB versions: comma
       </tr>
       <tr>
          <td>POSITIONS_LOWER</td>
-         <td><strong>Not yet implemented</strong></td>
+         <td><strong>Work in progress</strong></td>
          <td>No</td>
-         <td>Not yet</td>
-         <td>Not yet</td>
+         <td>Yes</td>
+         <td><strong>Not yet</strong></td>
       </tr>
       <tr>
          <td>RECORD_CLEAN_OUT</td>
