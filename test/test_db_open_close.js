@@ -25,6 +25,7 @@ db.open(function(err) {
     assert.equal("internal", db.getClusterById(0).name);
 
     // classes
+    assert(_.isArray(db.classes));
     assert(db.classes.length >= 3);
     assert.equal("OUser", db.getClassByName("OUser").name);
     assert.equal(null, db.getClassByName("ouser"));
