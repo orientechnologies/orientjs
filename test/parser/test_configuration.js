@@ -75,3 +75,13 @@ configAsString = "4| |#0:1| |#0:2|it|IT|yyyy-MM-dd|yyyy-MM-dd HH:mm:ss|UTC|UTF-8
 config = parser.parseConfiguration(configAsString);
 assert.equal("UTC", config.timeZone);
 assert.equal("UTF-8", config.charset);
+
+configAsString = "5| |#0:1| |#0:2|it|IT|yyyy-MM-dd|yyyy-MM-dd HH:mm:ss|UTC|UTF-8| |0|mmap|500Kb|500Mb|50%|auto|0|9|0|internal|0|p| |0|mmap|1Mb|500Mb|50%|auto|1|${STORAGE_PATH}/internal.0.ocl|mmap|500Mb|f|${STORAGE_PATH}/internal.och|mmap|500Mb|1|index|0|p| |0|mmap|1Mb|500Mb|50%|auto|1|${STORAGE_PATH}/index.0.ocl|mmap|500Mb|f|${STORAGE_PATH}/index.och|mmap|500Mb|2|manindex|0|p| |0|mmap|1Mb|500Mb|50%|auto|1|${STORAGE_PATH}/manindex.0.ocl|mmap|500Mb|f|${STORAGE_PATH}/manindex.och|mmap|500Mb|3|default|0|p| |0|mmap|1Mb|500Mb|50%|auto|1|${STORAGE_PATH}/default.0.ocl|mmap|500Mb|f|${STORAGE_PATH}/default.och|mmap|500Mb|4|orole|0|p| |0|mmap|1Mb|500Mb|50%|auto|1|${STORAGE_PATH}/orole.0.ocl|mmap|500Mb|f|${STORAGE_PATH}/orole.och|mmap|500Mb|5|ouser|0|p| |0|mmap|1Mb|500Mb|50%|auto|1|${STORAGE_PATH}/ouser.0.ocl|mmap|500Mb|f|${STORAGE_PATH}/ouser.och|mmap|500Mb|6|ofunction|0|p| |0|mmap|1Mb|500Mb|50%|auto|1|${STORAGE_PATH}/ofunction.0.ocl|mmap|500Mb|f|${STORAGE_PATH}/ofunction.och|mmap|500Mb|7|oschedule|0|p| |0|mmap|1Mb|500Mb|50%|auto|1|${STORAGE_PATH}/oschedule.0.ocl|mmap|500Mb|f|${STORAGE_PATH}/oschedule.och|mmap|500Mb|8|orids|0|p| |0|mmap|1Mb|500Mb|50%|auto|1|${STORAGE_PATH}/orids.0.ocl|mmap|500Mb|f|${STORAGE_PATH}/orids.och|mmap|500Mb|1|0|default| |0|mmap|1Mb|500Mb|100%|auto|1|${STORAGE_PATH}/default.0.oda|mmap|500Mb|/home/federico/materiale/works_My/orientdb-graphed-1.4.0-SNAPSHOT/databases/test_create_drop/default.odh|mmap|0|${STORAGE_PATH}/txlog.otx|mmap|512mb|false|true|0|";
+config = parser.parseConfiguration(configAsString);
+assert.equal(1, config.dataSegments.length);
+assert.equal(0, config.dataSegments[0].dataId);
+assert.equal("${STORAGE_PATH}/txlog.otx", config.txSegment.path);
+assert.equal("mmap", config.txSegment.type);
+assert.equal("512mb", config.txSegment.maxSize);
+assert.equal(false, config.txSegment.synchRecord);
+assert.equal(true, config.txSegment.synchTx);
