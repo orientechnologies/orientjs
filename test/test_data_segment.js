@@ -31,6 +31,7 @@ server.connect(function(err, sessionId) {
                 assert(!err, err);
                 
                 var location = path.dirname(db.configuration.dataSegments[0].holeFile.path);
+                var segmentCount = db.configuration.dataSegments.length;
 
                 db.addDataSegment("test_create_drop_new_data_segment", location, function(err, segmentNumber) {
 
@@ -44,7 +45,8 @@ server.connect(function(err, sessionId) {
                         assert(!err, err);
 
                         assert(successful);
-                        assert.equal(db.configuration.dataSegments.length, 1);
+                        // starting with Orient 1.4.0 there is an additional "index" segment with ID 1
+                        assert.equal(db.configuration.dataSegments.length, segmentCount);
                         assert.equal(db.configuration.dataSegments[0].dataId, 0);
                         assert.equal(db.configuration.dataSegments[0].dataName, "default");
 
