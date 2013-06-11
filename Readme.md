@@ -16,6 +16,23 @@ As developer you should fork/clone this repo and once you have it on your machin
 npm install
 ```
 
+Versioning
+==========
+
+In order to make it clearer what OrientDB version is supported we will the following versionning scheme: `x.y.z`, where `x.y` is the the OrientDB major and minor version.
+
+For example:
+- when OrientDB releases version `1.3.0` we will start publishing versions `1.3.z`
+- when OrientDB version `1.4.0` is out, we will start publishing 1.4.z versions
+
+The `z` part of our version is **our internal** patch number for that OrientDB release. This will be used using the [semantic versioning (semver)](http://semver.org/) rules.
+
+For example:
+- before an OrientDB release (say `1.5.0`), we will use versions like `1.5.0-alpha1` or `1.5.0-beta1`
+- by the time OrientDB releases version `1.5.1`, we are probably further with the patch number `z` (say `1.5.3`) due to bug correction, forgotten features, etc. To test OrientDB `1.5.1` we will start using versions like: `1.5.4-beta1`, where our `1.5.4` version will correspond to the OrientDB release `1.5.1`.
+
+Is this clear? ;)
+
 Tutorial
 ========
 
