@@ -13,7 +13,7 @@ db.open(function(err, result) {
         clusterIds.push(db.clusters[idx].id);
     }
 
-    db.countDataClusters(clusterIds, function(err, result) {
+    db.dataClusterCount(clusterIds, function(err, result) {
 
         assert(!err, "Error while counting data clusters: " + err);
 

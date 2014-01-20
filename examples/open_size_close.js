@@ -4,8 +4,8 @@ var orient = require("../lib/orientdb"),
 
 
 var dbConfig = {
-    user_name: "admin",
-    user_password: "admin"
+    userName: "admin",
+    userPassword: "admin"
 };
 var serverConfig = {
     host: "localhost",
@@ -18,25 +18,24 @@ var server = new Server(serverConfig);
 var db = new Db("temp", server, dbConfig);
 
 
-db.open(function(err, result) {
+db.open(function(error, results) {
+    if(error) {
+		console.log(error);
+		return;
+	}
 
-    if (err) { console.log(err); return; }
-
-    console.log("Opened database on session: " + result.sessionId);
+    console.log("Opened database on session: " + results.sessionId);
     console.log("Database '" + db.databaseName + "' has " + db.clusters.length + " clusters");
 
     db.size(function(err, size) {
-
-        if (err) { console.log(err); return; }
+        if(error) {
+			console.log(error);
+			return;
+		}
 
         console.log("Database size: " + size);
 
-        db.close(function(err) {
-    
-            if (err) { console.log(err); return; }
-    
-            console.log("Closed database");
-        });
+        db.close();
     });
 });
 

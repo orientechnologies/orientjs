@@ -16,23 +16,6 @@ As developer you should fork/clone this repo and once you have it on your machin
 npm install
 ```
 
-Versioning
-==========
-
-In order to make it clearer what OrientDB version is supported we will the following versionning scheme: `x.y.z`, where `x.y` is the the OrientDB major and minor version.
-
-For example:
-- when OrientDB releases version `1.3.0` we will start publishing versions `1.3.z`
-- when OrientDB version `1.4.0` is out, we will start publishing 1.4.z versions
-
-The `z` part of our version is **our internal** patch number for that OrientDB release. This will be used using the [semantic versioning (semver)](http://semver.org/) rules.
-
-For example:
-- before an OrientDB release (say `1.5.0`), we will use versions like `1.5.0-alpha1` or `1.5.0-beta1`
-- by the time OrientDB releases version `1.5.1`, we are probably further with the patch number `z` (say `1.5.3`) due to bug correction, forgotten features, etc. To test OrientDB `1.5.1` we will start using versions like: `1.5.4-beta1`, where our `1.5.4` version will correspond to the OrientDB release `1.5.1`.
-
-Is this clear? ;)
-
 Tutorial
 ========
 
@@ -47,27 +30,25 @@ The following commands are not implemented yet (just pick one and send us a pull
 
 * RECORD_CHANGE_IDENTITY
 * RECORD_CLEAN_OUT
-* POSITIONS_FLOOR
-* POSITIONS_CEILING
-* PUSH_RECORD
-* PUSH_DISTRIB_CONFIG
-* DB_COPY
-* REPLICATION
-* CLUSTER
+* REQUEST_POSITIONS_FLOOR
+* REQUEST_POSITIONS_CEILING
+* REQUEST_PUSH_RECORD
+* REQUEST_PUSH_DISTRIB_CONFIG
+* REQUEST_DB_COPY
+* REQUEST_REPLICATION
+* REQUEST_CLUSTER
 
 For a more complete list, check out the [Driver Compatibility Matrix](#driver-compatibility-matrix)
 
 Supported database versions
 ========
 
-We test each release against the following OrientDB versions: 1.1.0, 1.3.0.
-
-We've had to drop OrientDB 1.2.0 support because of this [issue](https://github.com/nuvolabase/orientdb/issues/949). If you're using 1.2.0, we strongly encourage you to evaluate 1.3.0.
+We test each release against the most recent OrientDB version: 1.6.3.
 
 Testing
 ========
 
-An OrientDB Graph Edition server instance must be running. Use the [test configuration files](https://github.com/gabipetrovay/node-orientdb/tree/master/config/test) to provide data to the tests about the running instance (user, port, etc.).
+An OrientDB Graph Edition server instance must be running. Use the [test configuration files](https://github.com/nitrog7/node-orientdb/tree/master/config/test) to provide data to the tests about the running instance (user, port, etc.).
 
 Then run:
 
@@ -87,34 +68,46 @@ Connecting to a database
 ========
 
 ```javascript
-var orient = require("orientdb"),
-    Db = orient.Db,
-    Server = orient.Server;
+var orientdb = require("orientdb"),
+var Db       = orientdb.Db;
 
 var dbConfig = {
-    user_name: "admin",
-    user_password: "admin"
-};
-var serverConfig = {
+    username:"admin",
+    password:"admin",
+    database:"test",
     host: "localhost",
-    port: 2424
+    port: 2424,
+    database_type: "document", //Optional. Default: document.
+    storage_type: "local" //Optional. Default: local.
 };
 
-var server = new Server(serverConfig);
-var db = new Db("temp", server, dbConfig);
+var db = new Db(dbConfig);
 
-db.open(function(err) {
-
-    if (err) {
-        console.log(err);
+db.open(function(error) {
+    if(error) {
+        console.log(error);
         return;
     }
 
+    //Details
     console.log("Database '" + db.databaseName + "' has " + db.clusters.length + " clusters");
 
-    // use db.command(...) function to run OrientDB SQL queries
+    //Queries
+    db.query("SELECT FROM People", options, function(error, results){
+        db.close();
+        
+        if(error) {
+            console.log(error);
+            return;
+        }
+
+        console.log(results);
+    });
 });
 ```
+
+Methods:
+========
  
 Changes
 ========
@@ -287,21 +280,21 @@ It also has a Yes/No/Not yet label under each supported OrientDB versions: comma
          <td>Not yet</td>
       </tr>
       <tr>
-         <td>POSITIONS_HIGHER</td>
+         <td>REQUEST_POSITIONS_HIGHER</td>
          <td><strong>Work in progress</strong></td>
          <td>No</td>
          <td>Yes</td>
          <td><strong>Not yet</strong></td>
       </tr>
       <tr>
-         <td>POSITIONS_LOWER</td>
+         <td>REQUEST_POSITIONS_LOWER</td>
          <td><strong>Work in progress</strong></td>
          <td>No</td>
          <td>Yes</td>
          <td><strong>Not yet</strong></td>
       </tr>
       <tr>
-         <td>RECORD_CLEAN_OUT</td>
+         <td>REQUEST_RECORD_CLEAN_OUT</td>
          <td><strong>Not yet implemented</strong></td>
          <td>No</td>
          <td>Not yet</td>
@@ -378,35 +371,35 @@ It also has a Yes/No/Not yet label under each supported OrientDB versions: comma
          <td>Yes</td>
       </tr>
       <tr>
-         <td>PUSH_RECORD</td>
+         <td>REQUEST_PUSH_RECORD</td>
          <td><strong>Not yet implemented</strong></td>
          <td>Yes</td>
          <td>Yes</td>
          <td>Yes</td>
       </tr>
       <tr>
-         <td>PUSH_DISTRIB_CONFIG</td>
+         <td>REQUEST_PUSH_DISTRIB_CONFIG</td>
          <td><strong>Not yet implemented</strong></td>
          <td>Yes</td>
          <td>Yes</td>
          <td>Yes</td>
       </tr>
       <tr>
-         <td>DB_COPY</td>
+         <td>REQUEST_DB_COPY</td>
          <td><strong>Not yet implemented</strong></td>
          <td>Yes</td>
          <td>Yes</td>
          <td>Yes</td>
       </tr>
       <tr>
-         <td>REPLICATION</td>
+         <td>REQUEST_REPLICATION</td>
          <td><strong>Not yet implemented</strong></td>
          <td>Yes</td>
          <td>Yes</td>
          <td>Yes</td>
       </tr>
       <tr>
-         <td>CLUSTER</td>
+         <td>REQUEST_CLUSTER</td>
          <td><strong>Not yet implemented</strong></td>
          <td>Yes</td>
          <td>Yes</td>

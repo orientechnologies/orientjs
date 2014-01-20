@@ -14,7 +14,7 @@ db.open(function(err, result) {
 
     var previousClustersLength = db.clusters.length;
 
-    db.addDataCluster(clusterOptions, function(err, clusterId) {
+    db.dataClusterAdd(clusterOptions, function(err, clusterId) {
 
         assert(!err, "Error while adding the data cluster: " + err);
 
@@ -41,7 +41,7 @@ db.open(function(err, result) {
 
                 console.log("Creating record: " + firstDocData);
 
-                db.createRecord(recordData, function(err, result) {
+                db.recordCreate(recordData, function(err, result) {
 
                     assert(!err, "Error while creating record: " + err);
 
@@ -74,7 +74,7 @@ db.open(function(err, result) {
 
                         console.log("Updating record: " + secondDocData);
 
-                        db.updateRecord(updateRecordPreviousVersion, function(err, result) {
+                        db.recordUpdate(updateRecordPreviousVersion, function(err, result) {
 
                             assert(!err, "Error while updating record (1st time): " + JSON.stringify(err));
 
@@ -87,7 +87,7 @@ db.open(function(err, result) {
 
                             console.log("Updating record again: " + secondDocData);
 
-                            db.updateRecord(updateRecordPreviousVersion, function(err, result) {
+                            db.recordUpdate(updateRecordPreviousVersion, function(err, result) {
 
                                 assert(!err, "Error while updating record (2nd time): " + JSON.stringify(err));
 

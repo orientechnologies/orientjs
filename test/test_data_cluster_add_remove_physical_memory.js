@@ -23,7 +23,7 @@ db.open(function(err, result) {
         file_name: "a_filename"
     };
 
-    db.addDataCluster(clusterOptions, function(err, physicalClusterNumber) {
+    db.dataClusterAdd(clusterOptions, function(err, physicalClusterNumber) {
 
         assert(!err, "Error while adding the PHYSICAL data cluster: " + JSON.stringify(err));
 
@@ -36,7 +36,7 @@ db.open(function(err, result) {
             name: "test_memory"
         };
 
-        db.addDataCluster(clusterOptions, function(err, memoryClusterNumber) {
+        db.dataClusterAdd(clusterOptions, function(err, memoryClusterNumber) {
 
             assert(!err, "Error while adding the MEMORY data cluster: " + err);
 

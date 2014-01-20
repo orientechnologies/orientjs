@@ -16,7 +16,7 @@ server.connect(function(err) {
     assert(!err, err);
 
     server.configList(function(err, config) {
-        if (server.manager.serverProtocolVersion === 13) {
+        if (db.serverProtocolVersion === 13) {
             assert(err);
         } else {
             assert(!err, err);

@@ -33,14 +33,14 @@ server.connect(function(err, sessionId) {
                 var location = path.dirname(db.configuration.dataSegments[0].holeFile.path);
                 var segmentCount = db.configuration.dataSegments.length;
 
-                db.addDataSegment("test_create_drop_new_data_segment", location, function(err, segmentNumber) {
+                db.dataSegmentAdd("test_create_drop_new_data_segment", location, function(err, segmentNumber) {
 
                     assert(!err, err);
 
                     assert.equal(db.configuration.dataSegments[segmentNumber].dataName, "test_create_drop_new_data_segment");
                     assert.equal(db.configuration.dataSegments[segmentNumber].holeFile.path, path.join(location, "test_create_drop_new_data_segment.odh"));
 
-                    db.dropDataSegment("test_create_drop_new_data_segment", function(err, successful) {
+                    db.dataSegmentDrop("test_create_drop_new_data_segment", function(err, successful) {
 
                         assert(!err, err);
 

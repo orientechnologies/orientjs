@@ -9,7 +9,7 @@ db.open(function(err, result) {
 
     var cluster = db.clusters[0];
 
-    db.rangeDataClusters(cluster.id, function(err, result) {
+    db.dataClusterDataRange(cluster.id, function(err, result) {
 
         assert(!err, "Error while retrieving data cluster range: " + err);
 

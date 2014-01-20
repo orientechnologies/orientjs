@@ -12,7 +12,7 @@ db.open(function(err, result) {
         name: "test_memory"
     };
 
-    db.addDataCluster(clusterOptions, function(err, clusterNumber) {
+    db.dataClusterAdd(clusterOptions, function(err, clusterNumber) {
 
         assert(!err, "Error while adding a data cluster: " + err);
 

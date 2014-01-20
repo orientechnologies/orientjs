@@ -26,7 +26,7 @@ db.open(function(err, result) {
 
     console.log("Inserting 1st record...");
 
-    db.createRecord(recordData, function(err, result) {
+    db.recordCreate(recordData, function(err, result) {
 
         assert(!err, "Error while creating the 1st record: " + err);
 
@@ -42,7 +42,7 @@ db.open(function(err, result) {
 
         console.log("Inserting 2nd record...");
 
-        db.createRecord(recordData, function(err, result) {
+        db.recordCreate(recordData, function(err, result) {
 
             assert(!err, "Error while creating the 2nd record: " + err);
 

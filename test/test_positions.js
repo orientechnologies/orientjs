@@ -21,7 +21,7 @@ db.open(function(err) {
 
         db.positionsHigher(firstUser["@rid"], function(err, positions) {
 
-            if (server.manager.serverProtocolVersion < 13) {
+            if (db.serverProtocolVersion < 13) {
                 assert(err);
 
                 db.close();

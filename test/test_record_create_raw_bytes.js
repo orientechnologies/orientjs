@@ -18,11 +18,11 @@ db.open(function(err, result) {
         dataSegmentId: cluster.dataSegmentId
     };
 
-    db.createRecord(recordData, function(err, result) {
+    db.recordCreate(recordData, function(err, result) {
 
         var firstRecord = result.position;
 
-        db.createRecord(recordData, function(err, result) {
+        db.recordCreate(recordData, function(err, result) {
 
             assert(result.position === (firstRecord + 1));
 
