@@ -19,31 +19,22 @@ npm install
 Tutorial
 ========
 
-To start using OrientDB and nodejs, check out the ["Blog Tutorial"](https://github.com/gabipetrovay/node-orientdb/wiki/Blog-Tutorial-with-ExpressJS-and-OrientDB).
+To start using OrientDB, check out the following YouTube tutorials based on version 1.6.2:
+* ["Getting Started"](https://www.youtube.com/watch?v=X-pXqvVTK6E)
+* ["Querying"](https://www.youtube.com/watch?v=w0VfWljYEbw)
+* ["Creating a Schema"](https://www.youtube.com/watch?v=KzkjKwkpMII)
+* ["Populating the Database"](https://www.youtube.com/watch?v=MeXLuErdDHw)
+* ["Using the Database"](https://www.youtube.com/watch?v=oAeY-pXBi-I)
 
 Status
 ========
 
-This OrientDB driver is almost mature now, but we are still testing it. While we use it in production already and therefore it implements a sufficient number of features for making a fully featured application, we recommend you make some thorough tests before you do it as well. If you find any problems, let us know such that we can improve things. Until version 1.0 we also don't guarantee any backwards compatibility and API stability since we are trying things out. But 1.0 should not be far from now.
-
-The following commands are not implemented yet (just pick one and send us a pull request):
-
-* RECORD_CHANGE_IDENTITY
-* RECORD_CLEAN_OUT
-* REQUEST_POSITIONS_FLOOR
-* REQUEST_POSITIONS_CEILING
-* REQUEST_PUSH_RECORD
-* REQUEST_PUSH_DISTRIB_CONFIG
-* REQUEST_DB_COPY
-* REQUEST_REPLICATION
-* REQUEST_CLUSTER
-
-For a more complete list, check out the [Driver Compatibility Matrix](#driver-compatibility-matrix)
+The NodeJS OrientDB driver is almost mature, but we are still testing. While we use it in production already and therefore it implements a sufficient number of features for making a fully featured application, we recommend you make some thorough tests before you do it as well. If you find any problems, let us know such that we can improve things. Until version 1.0 we also don't guarantee any backwards compatibility and API stability since we are trying things out. But 1.0 should not be far from now.
 
 Supported database versions
 ========
 
-We test each release against the most recent OrientDB version: 1.6.3.
+We test each release with the most recent version of OrientDB: 1.7.0.
 
 Testing
 ========
@@ -83,17 +74,16 @@ var dbConfig = {
 
 var db = new Db(dbConfig);
 
-db.open(function(error) {
+db.connect(function(error, results) {
     if(error) {
         console.log(error);
         return;
     }
 
-    //Details
-    console.log("Database '" + db.databaseName + "' has " + db.clusters.length + " clusters");
+    console.log('Session ID: ', results);
 
-    //Queries
-    db.query("SELECT FROM People", options, function(error, results){
+    //List databases
+    db.list(function(error, results){
         db.close();
         
         if(error) {
@@ -105,319 +95,13 @@ db.open(function(error) {
     });
 });
 ```
-
-Methods:
-========
  
 Changes
 ========
 
-See [ChangeLog](https://github.com/gabipetrovay/node-orientdb/blob/master/ChangeLog)
+See [ChangeLog](https://github.com/nitrog7/node-orientdb/blob/master/ChangeLog)
 
-Driver Compatibility Matrix
+Driver Compatibility
 ========
 
-The following table list all the commands exposed by OrientDB. It's here to help you helping us: just pick one of the not yet implemented commands and send us a pull request.
-
-Each command has a JS API if it's already supported, or a "not yet implemented" if not.
-
-It also has a Yes/No/Not yet label under each supported OrientDB versions: commands may be implemented but may be available only with recent OrientDB.
-
-<table>
-   <tbody>
-      <tr>
-         <td><strong>Command</strong></td>
-         <td><strong>JS API</strong></td>
-         <td><strong>OrientDB 1.1.0</strong></td>
-         <td><strong>OrientDB 1.3.0</strong></td>
-         <td><strong>OrientDB 1.4.0</strong></td>
-      </tr>
-      <tr>
-         <td>SHUTDOWN</td>
-         <td>Server.shutdown</td>
-         <td>Yes</td>
-         <td>Yes</td>
-         <td>Yes</td>
-      </tr>
-      <tr>
-         <td>CONNECT</td>
-         <td>Server.connect</td>
-         <td>Yes</td>
-         <td>Yes</td>
-         <td>Yes</td>
-      </tr>
-      <tr>
-         <td>DB_OPEN</td>
-         <td>Db.open</td>
-         <td>Yes</td>
-         <td>Yes</td>
-         <td>Yes</td>
-      </tr>
-      <tr>
-         <td>DB_CREATE</td>
-         <td>Db.create</td>
-         <td>Yes</td>
-         <td>Yes</td>
-         <td>Yes</td>
-      </tr>
-      <tr>
-         <td>DB_CLOSE</td>
-         <td>Db.close</td>
-         <td>Yes</td>
-         <td>Yes</td>
-         <td>Yes</td>
-      </tr>
-      <tr>
-         <td>DB_EXIST</td>
-         <td>Db.exist</td>
-         <td>Yes</td>
-         <td>Yes</td>
-         <td>Yes</td>
-      </tr>
-      <tr>
-         <td>DB_DROP</td>
-         <td>Db.drop</td>
-         <td>Yes</td>
-         <td>Yes</td>
-         <td>Yes</td>
-      </tr>
-      <tr>
-         <td>DB_SIZE</td>
-         <td>Db.size</td>
-         <td>Yes</td>
-         <td>Yes</td>
-         <td>Yes</td>
-      </tr>
-      <tr>
-         <td>DB_COUNTRECORDS</td>
-         <td>Db.countRecords</td>
-         <td>Yes</td>
-         <td>Yes</td>
-         <td>Yes</td>
-      </tr>
-      <tr>
-         <td>DATACLUSTER_ADD</td>
-         <td>Db.addDataCluster</td>
-         <td>Yes</td>
-         <td>Yes</td>
-         <td>Yes</td>
-      </tr>
-      <tr>
-         <td>DATACLUSTER_DROP</td>
-         <td>Db.dropDataCluster</td>
-         <td>Yes</td>
-         <td>Yes</td>
-         <td>Yes</td>
-      </tr>
-      <tr>
-         <td>DATACLUSTER_COUNT</td>
-         <td>Db.countDataClusters</td>
-         <td>Yes</td>
-         <td>Yes</td>
-         <td>Yes</td>
-      </tr>
-      <tr>
-         <td>DATACLUSTER_DATARANGE</td>
-         <td>Db.rangeDataClusters</td>
-         <td>Yes</td>
-         <td>Yes</td>
-         <td>Yes</td>
-      </tr>
-      <tr>
-         <td>DATACLUSTER_LH_CLUSTER_IS_USED</td>
-         <td>Db.isLHClustersUsed</td>
-         <td>No</td>
-         <td>Yes</td>
-         <td>Yes</td>
-      </tr>
-      <tr>
-         <td>DATASEGMENT_ADD</td>
-         <td>Db.addDataSegment</td>
-         <td>Yes</td>
-         <td>Yes</td>
-         <td>Yes</td>
-      </tr>
-      <tr>
-         <td>DATASEGMENT_DROP</td>
-         <td>Db.dropDataSegment</td>
-         <td>Yes</td>
-         <td>Yes</td>
-         <td>Yes</td>
-      </tr>
-      <tr>
-         <td>RECORD_LOAD</td>
-         <td>Db.loadRecord</td>
-         <td>Yes</td>
-         <td>Yes</td>
-         <td>Yes</td>
-      </tr>
-      <tr>
-         <td>RECORD_CREATE</td>
-         <td>Db.createRecord</td>
-         <td>Yes</td>
-         <td>Yes</td>
-         <td>Yes</td>
-      </tr>
-      <tr>
-         <td>RECORD_UPDATE</td>
-         <td>Db.updateRecord</td>
-         <td>Yes</td>
-         <td>Yes</td>
-         <td>Yes</td>
-      </tr>
-      <tr>
-         <td>RECORD_DELETE</td>
-         <td>Db.deleteRecord</td>
-         <td>Yes</td>
-         <td>Yes</td>
-         <td>Yes</td>
-      </tr>
-      <tr>
-         <td>RECORD_CHANGE_IDENTITY</td>
-         <td><strong>Not yet implemented</strong></td>
-         <td>No</td>
-         <td>Not yet</td>
-         <td>Not yet</td>
-      </tr>
-      <tr>
-         <td>REQUEST_POSITIONS_HIGHER</td>
-         <td><strong>Work in progress</strong></td>
-         <td>No</td>
-         <td>Yes</td>
-         <td><strong>Not yet</strong></td>
-      </tr>
-      <tr>
-         <td>REQUEST_POSITIONS_LOWER</td>
-         <td><strong>Work in progress</strong></td>
-         <td>No</td>
-         <td>Yes</td>
-         <td><strong>Not yet</strong></td>
-      </tr>
-      <tr>
-         <td>REQUEST_RECORD_CLEAN_OUT</td>
-         <td><strong>Not yet implemented</strong></td>
-         <td>No</td>
-         <td>Not yet</td>
-         <td>Not yet</td>
-      </tr>
-      <tr>
-         <td>POSITIONS_FLOOR</td>
-         <td><strong>Not yet implemented</strong></td>
-         <td>No</td>
-         <td>Not yet</td>
-         <td>Not yet</td>
-      </tr>
-      <tr>
-         <td>POSITIONS_CEILING</td>
-         <td><strong>Not yet implemented</strong></td>
-         <td>No</td>
-         <td>Not yet</td>
-         <td>Not yet</td>
-      </tr>
-      <tr>
-         <td>COUNT</td>
-         <td>Db.countRecords</td>
-         <td>Yes</td>
-         <td>Yes</td>
-         <td>Yes</td>
-      </tr>
-      <tr>
-         <td>COMMAND</td>
-         <td>Db.command</td>
-         <td>Yes</td>
-         <td>Yes</td>
-         <td>Yes</td>
-      </tr>
-      <tr>
-         <td>TX_COMMIT</td>
-         <td>Db.commit</td>
-         <td>Yes</td>
-         <td>Yes</td>
-         <td>Yes</td>
-      </tr>
-      <tr>
-         <td>CONFIG_GET</td>
-         <td>Server.configGet</td>
-         <td>Yes</td>
-         <td>Yes</td>
-         <td>Yes</td>
-      </tr>
-      <tr>
-         <td>CONFIG_SET</td>
-         <td>Server.configSet</td>
-         <td>Yes</td>
-         <td>Yes</td>
-         <td>Yes</td>
-      </tr>
-      <tr>
-         <td>CONFIG_LIST</td>
-         <td>Server.configList</td>
-         <td>Yes</td>
-         <td>No</td>
-         <td>Yes</td>
-      </tr>
-      <tr>
-         <td>DB_RELOAD</td>
-         <td>Db.reload</td>
-         <td>Yes</td>
-         <td>Yes</td>
-         <td>Yes</td>
-      </tr>
-      <tr>
-         <td>DB_LIST</td>
-         <td>Server.listDatabases</td>
-         <td>Yes</td>
-         <td>Yes</td>
-         <td>Yes</td>
-      </tr>
-      <tr>
-         <td>REQUEST_PUSH_RECORD</td>
-         <td><strong>Not yet implemented</strong></td>
-         <td>Yes</td>
-         <td>Yes</td>
-         <td>Yes</td>
-      </tr>
-      <tr>
-         <td>REQUEST_PUSH_DISTRIB_CONFIG</td>
-         <td><strong>Not yet implemented</strong></td>
-         <td>Yes</td>
-         <td>Yes</td>
-         <td>Yes</td>
-      </tr>
-      <tr>
-         <td>REQUEST_DB_COPY</td>
-         <td><strong>Not yet implemented</strong></td>
-         <td>Yes</td>
-         <td>Yes</td>
-         <td>Yes</td>
-      </tr>
-      <tr>
-         <td>REQUEST_REPLICATION</td>
-         <td><strong>Not yet implemented</strong></td>
-         <td>Yes</td>
-         <td>Yes</td>
-         <td>Yes</td>
-      </tr>
-      <tr>
-         <td>REQUEST_CLUSTER</td>
-         <td><strong>Not yet implemented</strong></td>
-         <td>Yes</td>
-         <td>Yes</td>
-         <td>Yes</td>
-      </tr>
-      <tr>
-         <td>DB_FREEZE</td>
-         <td><strong>Work in Progress</strong></td>
-         <td>Yes</td>
-         <td>Yes</td>
-         <td>Yes</td>
-      </tr>
-      <tr>
-         <td>DB_RELEASE</td>
-         <td><strong>Work in Progress</strong></td>
-         <td>Yes</td>
-         <td>Yes</td>
-         <td>Yes</td>
-      </tr>
-   </tbody>
-</table>
+To see if your version of OrientDB supports a method, please see the compatibility list: [Operation Types](https://github.com/orientechnologies/orientdb/wiki/Network-Binary-Protocol#operation-types)
