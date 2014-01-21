@@ -4,8 +4,8 @@
 * Consolidated configuration
 * Fixed quoting issue with RecordIDs in parameters
 * Changed method names to match protocol 19
-* new commands: db.dataClusterCopy(), db.recordMetadata(), db.positionsCeiling, 
-    db.positionsFloor
+* new commands: db.copy(), db.dataClusterCopy(), db.recordMetadata(), 
+    db.positionsCeiling(), db.positionsFloor()
 
 0.9.9 (2013/06/13)
 

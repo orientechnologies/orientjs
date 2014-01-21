@@ -1,32 +1,33 @@
 {
-    "name"              : "orientdb",
-    "description"       : "A node.js driver for OrientDB",
-    "keywords"          : ["orientdb", "orient", "driver", "db", "node", "node.js"],
-    "version"           : "1.6.3",
-    "author"            : "Gabriel Petrovay <gabipetrovay@gmail.com>",
-    "contributors"      : [
+    "name"          : "orientdb-binary",
+    "description"   : "A Node.js driver for OrientDB based on binary protocols.",
+    "keywords"      : ["orientdb", "orient", "driver", "graph", "database", "db", "graphdb", "node", "node.js"],
+    "version"       : "1.7.0",
+    "author"        : "Giraldo Rosales <giraldo@nitrogenlabs.com>",
+    "contributors"  : [
+        { "name": "Gabriel Petrovay", "email": "gabipetrovay@gmail.com" },
         { "name": "Ryan Fields", "email": "ryan.fields@twoleftbeats.com" },
         { "name": "Federico Fissore", "email": "federico@fissore.org" },
-        { "name": "Navin Parray", "email": "navinparray@gmail.com" },
-        { "name": "Giraldo Rosales", "email": "giraldo@nitrogenlabs.com" }
+        { "name": "Navin Parray", "email": "navinparray@gmail.com" }
     ],
-    "repository"        : {
+    "repository" : {
         "type"      : "git",
-        "url"       : "http://github.com/nitrog7/node-orientdb.git" },
-    "dependencies"   : {
-        "lodash" : "*"
+        "url"       : "http://github.com/nitrog7/node-orientdb.git"
     },
-    "devDependencies"   : {
+    "dependencies" : {
+        "lodash"    : "*"
+    },
+    "devDependencies" : {
         "tap"       : "0.4",
-        "async"       : "*"
+        "async"     : "*"
     },
-    "main"              : "./lib/orientdb/index",
-    "directories"       : { "lib" : "./lib/orientdb" },
-    "engines"           : { "node" : ">=0.6.0" },
-    "scripts"           : {
-        "test"          : "node ./node_modules/tap/bin/tap.js ./test/errors/test_* ./test/parser/test_* ./test/test_*"
+    "main"          : "./lib/orientdb/index",
+    "directories"   : { "lib" : "./lib/orientdb" },
+    "engines"       : { "node" : ">=0.6.0" },
+    "scripts"       : {
+        "test"      : "node ./node_modules/tap/bin/tap.js ./test/errors/test_* ./test/parser/test_* ./test/test_*"
     },
-    "licenses"          : [ {
+    "licenses"      : [ {
         "type"      : "Apache License, Version 2.0",
         "url"       : "http://www.apache.org/licenses/LICENSE-2.0"
     } ]

@@ -7,7 +7,7 @@ Installation
 ========
 
 ```
-npm install orientdb
+npm install orientdb-binary
 ```
 
 As developer you should fork/clone this repo and once you have it on your machine, do the following in your repo directory:
@@ -69,7 +69,7 @@ Example
 ========
 
 ```javascript
-var orientdb = require("orientdb"),
+var orientdb = require("orientdb-binary"),
 var Db       = orientdb.Db;
 
 var dbConfig = {
