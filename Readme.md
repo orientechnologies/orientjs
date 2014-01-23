@@ -7,7 +7,7 @@ Installation
 ========
 
 ```
-npm install orientdb-binary
+npm install node-orientdb
 ```
 
 As developer you should fork/clone this repo and once you have it on your machine, do the following in your repo directory:
@@ -69,17 +69,22 @@ Example
 ========
 
 ```javascript
-var orientdb = require("orientdb-binary"),
-var Db       = orientdb.Db;
+var orientdb = require('node-orientdb');
+var Db       = orientdb.GraphDb;
 
 var dbConfig = {
-    username:"admin",
-    password:"admin",
-    database:"test",
-    host: "localhost",
-    port: 2424,
-    database_type: "document", //Optional. Default: document.
-    storage_type: "local" //Optional. Default: local.
+    //Server
+    server_host:'localhost',
+    server_port:2424,
+    server_username:'admin',
+    server_password:'admin',
+
+    //Database
+    database_name:'test',
+    database_username:'admin',
+    database_password:'admin',
+    database_type: 'document', //Optional. Default: document.
+    database_storage: 'local' //Optional. Default: local.
 };
 
 var db = new Db(dbConfig);

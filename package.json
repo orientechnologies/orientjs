@@ -1,5 +1,5 @@
 {
-    "name"          : "orientdb-binary",
+    "name"          : "node-orientdb",
     "description"   : "A Node.js driver for OrientDB based on binary protocols.",
     "keywords"      : ["orientdb", "orient", "driver", "graph", "database", "db", "graphdb", "node", "node.js"],
     "version"       : "1.7.0",
