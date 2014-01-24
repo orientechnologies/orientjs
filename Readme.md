@@ -69,8 +69,8 @@ Example
 ========
 
 ```javascript
-var orientdb = require('node-orientdb');
-var Db       = orientdb.GraphDb;
+var Orientdb = require('node-orientdb');
+var Db       = Orientdb.GraphDb;
 
 var dbConfig = {
     //Server
@@ -89,25 +89,23 @@ var dbConfig = {
 
 var db = new Db(dbConfig);
 
-db.open(function(error) {
-    if(error) {
-        console.log(error);
-        return;
-    }
+db.open().then(
+	function(results) {
+		//Details
+        console.log("Database '" + db.databaseName + "' has " + db.clusters.length + " clusters");
 
-    //Details
-    console.log("Database '" + db.databaseName + "' has " + db.clusters.length + " clusters");
-
-    //Queries
-    db.query("SELECT FROM Users", options, function(error, results){
-        db.close();
-        
-        if(error) {
-            console.log(error);
-            return;
-        }
-
-        console.log(results);
-    });
-});
+        //Queries
+        db.query("SELECT FROM Users", options).then(
+        	function(results) {
+        		console.log(results);
+        	},
+        	function(error) {
+        		console.log(error);
+        	}
+        );
+	},
+	function(error) {
+		console.log(error);
+	}
+);
 ```

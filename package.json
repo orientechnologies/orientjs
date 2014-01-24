@@ -2,7 +2,7 @@
     "name"          : "node-orientdb",
     "description"   : "A Node.js driver for OrientDB based on binary protocols.",
     "keywords"      : ["orientdb", "orient", "driver", "graph", "database", "db", "graphdb", "node", "node.js"],
-    "version"       : "1.7.0",
+    "version"       : "1.7.0.1",
     "author"        : "Giraldo Rosales <giraldo@nitrogenlabs.com>",
     "contributors"  : [
         { "name": "Gabriel Petrovay", "email": "gabipetrovay@gmail.com" },
@@ -15,7 +15,8 @@
         "url"       : "http://github.com/nitrog7/node-orientdb.git"
     },
     "dependencies" : {
-        "lodash"    : "*"
+		"lodash"	: "*",
+		"promise"	: "*"
     },
     "devDependencies" : {
         "tap"       : "0.4",
