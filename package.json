@@ -1,36 +1,78 @@
 {
-    "name"          : "node-orientdb",
-    "description"   : "A Node.js driver for OrientDB based on binary protocols.",
-    "keywords"      : ["orientdb", "orient", "driver", "graph", "database", "db", "graphdb", "node", "node.js"],
-    "version"       : "1.7.0.1",
-    "author"        : "Giraldo Rosales <giraldo@nitrogenlabs.com>",
-    "contributors"  : [
-        { "name": "Gabriel Petrovay", "email": "gabipetrovay@gmail.com" },
-        { "name": "Ryan Fields", "email": "ryan.fields@twoleftbeats.com" },
-        { "name": "Federico Fissore", "email": "federico@fissore.org" },
-        { "name": "Navin Parray", "email": "navinparray@gmail.com" }
-    ],
-    "repository" : {
-        "type"      : "git",
-        "url"       : "http://github.com/nitrog7/node-orientdb.git"
+  "name": "node-orientdb",
+  "description": "A Node.js driver for OrientDB based on binary protocols.",
+  "keywords": [
+    "orientdb",
+    "orient",
+    "driver",
+    "graph",
+    "database",
+    "db",
+    "graphdb",
+    "node",
+    "node.js"
+  ],
+  "version": "1.7.0-2",
+  "author": {
+    "name": "Giraldo Rosales",
+    "email": "giraldo@nitrogenlabs.com"
+  },
+  "contributors": [
+    {
+      "name": "Gabriel Petrovay",
+      "email": "gabipetrovay@gmail.com"
     },
-    "dependencies" : {
-		"lodash"	: "*",
-		"promise"	: "*"
+    {
+      "name": "Ryan Fields",
+      "email": "ryan.fields@twoleftbeats.com"
     },
-    "devDependencies" : {
-        "tap"       : "0.4",
-        "async"     : "*"
+    {
+      "name": "Federico Fissore",
+      "email": "federico@fissore.org"
     },
-    "main"          : "./lib/orientdb/index",
-    "directories"   : { "lib" : "./lib/orientdb" },
-    "engines"       : { "node" : ">=0.6.0" },
-    "scripts"       : {
-        "test"      : "node ./node_modules/tap/bin/tap.js ./test/errors/test_* ./test/parser/test_* ./test/test_*"
-    },
-    "licenses"      : [ {
-        "type"      : "Apache License, Version 2.0",
-        "url"       : "http://www.apache.org/licenses/LICENSE-2.0"
-    } ]
+    {
+      "name": "Navin Parray",
+      "email": "navinparray@gmail.com"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/nitrog7/node-orientdb.git"
+  },
+  "dependencies": {
+    "lodash": "*",
+    "bluebird": "*"
+  },
+  "devDependencies": {
+    "tap": "0.4",
+    "async": "*"
+  },
+  "main": "./lib/orientdb/index",
+  "directories": {
+    "lib": "./lib/orientdb"
+  },
+  "engines": {
+    "node": ">=0.6.0"
+  },
+  "scripts": {
+    "test": "node ./node_modules/tap/bin/tap.js ./test/errors/test_* ./test/parser/test_* ./test/test_*"
+  },
+  "licenses": [
+    {
+      "type": "Apache License, Version 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0"
+    }
+  ],
+  "readme": "Introduction\n========\n\nThis is a node.js driver for OrientDB using the OrientDB binary protocol. This driver is based on the latest version of OrientDB: 1.7.0.\n\nInstallation\n========\n\n```\nnpm install node-orientdb\n```\n\nAs developer you should fork/clone this repo and once you have it on your machine, do the following in your repo directory:\n\n```\nnpm install\n```\n\nStatus\n========\n\nThe NodeJS OrientDB driver is almost mature, but we are still testing. While we use it in production already and therefore it implements a sufficient number of features for making a fully featured application, we recommend you make some thorough tests before you do it as well. If you find any problems, let us know such that we can improve things. Until version 1.0 we also don't guarantee any backwards compatibility and API stability since we are trying things out. But 1.0 should not be far from now.\n\nSupported Versions\n========\n\nWe test each release with the most recent version of OrientDB. Although we try to remain backwards compatible, it may not be fully tested. If you experience any problems with an older version than the current, please inform us.\n\nChanges\n========\n\nSee [ChangeLog](https://github.com/nitrog7/node-orientdb/blob/master/ChangeLog)\n\nDriver Compatibility\n========\n\nTo see if your version of OrientDB supports a method, please see the compatibility list: [Operation Types](https://github.com/orientechnologies/orientdb/wiki/Network-Binary-Protocol#operation-types)\n\nTesting\n========\n\nAn OrientDB Graph Edition server instance must be running. Use the [test configuration files](https://github.com/nitrog7/node-orientdb/tree/master/config/test) to provide data to the tests about the running instance (user, port, etc.).\n\nThen run:\n\n`npm test`\n\nto run all the tests under `test`, or\n\n`node test/db_open_close.js`\n\nto run a specific test.\n\nAnd make sure all run before you make a pull request.\n\nNOTE: The `test/z_shutdown.js` will shutdown the server. So make sure it's the last one to run. (i.e. Don't add a test that is after this one in Lexicographical order.)\n\nTutorial\n========\n\nTo start using OrientDB, check out the following YouTube tutorials based on version 1.6.2:\n* [Getting Started](https://www.youtube.com/watch?v=X-pXqvVTK6E)\n* [Querying](https://www.youtube.com/watch?v=w0VfWljYEbw)\n* [Creating a Schema](https://www.youtube.com/watch?v=KzkjKwkpMII)\n* [Populating the Database](https://www.youtube.com/watch?v=MeXLuErdDHw)\n* [Using the Database](https://www.youtube.com/watch?v=oAeY-pXBi-I)\n\nExample\n========\n\n```javascript\nvar Orientdb = require('node-orientdb');\nvar Db       = Orientdb.GraphDb;\n\nvar dbConfig = {\n    //Server\n    server_host:'localhost',\n    server_port:2424,\n    server_username:'admin',\n    server_password:'admin',\n\n    //Database\n    database_name:'test',\n    database_username:'admin',\n    database_password:'admin',\n    database_type: 'document', //Optional. Default: document.\n    database_storage: 'local' //Optional. Default: local.\n};\n\nvar db = new Db(dbConfig);\n\ndb.open().then(\n\tfunction(results) {\n\t\t//Details\n        console.log(\"Database '\" + db.databaseName + \"' has \" + db.clusters.length + \" clusters\");\n\n        //Queries\n        db.query(\"SELECT FROM Users\", options).then(\n        \tfunction(results) {\n        \t\tconsole.log(results);\n        \t},\n        \tfunction(error) {\n        \t\tconsole.log(error);\n        \t}\n        );\n\t},\n\tfunction(error) {\n\t\tconsole.log(error);\n\t}\n);\n```",
+  "readmeFilename": "Readme.md",
+  "bugs": {
+    "url": "https://github.com/nitrog7/node-orientdb/issues"
+  },
+  "homepage": "https://github.com/nitrog7/node-orientdb",
+  "_id": "node-orientdb@1.7.0-2",
+  "dist": {
+    "shasum": "7fb87843ec73f7c24b5adcefcd5ea3f1d1117056"
+  },
+  "_from": "node-orientdb@",
+  "_resolved": "https://registry.npmjs.org/node-orientdb/-/node-orientdb-1.7.0-2.tgz"
 }
-
