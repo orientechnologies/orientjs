@@ -26,34 +26,17 @@ Supported Versions
 
 We test each release with the most recent version of OrientDB. Although we try to remain backwards compatible, it may not be fully tested. If you experience any problems with an older version than the current, please inform us.
 
-Changes
+Documentation
 ========
 
-See [ChangeLog](https://github.com/nitrog7/node-orientdb/blob/master/ChangeLog)
-
-Driver Compatibility
-========
-
-To see if your version of OrientDB supports a method, please see the compatibility list: [Operation Types](https://github.com/orientechnologies/orientdb/wiki/Network-Binary-Protocol#operation-types)
-
-Testing
-========
-
-An OrientDB Graph Edition server instance must be running. Use the [test configuration files](https://github.com/nitrog7/node-orientdb/tree/master/config/test) to provide data to the tests about the running instance (user, port, etc.).
-
-Then run:
-
-`npm test`
-
-to run all the tests under `test`, or
-
-`node test/db_open_close.js`
-
-to run a specific test.
-
-And make sure all run before you make a pull request.
-
-NOTE: The `test/z_shutdown.js` will shutdown the server. So make sure it's the last one to run. (i.e. Don't add a test that is after this one in Lexicographical order.)
+* [Server](https://github.com/nitrog7/node-orientdb/wiki/Server-API)
+* [Database](https://github.com/nitrog7/node-orientdb/wiki/Document-Database)
+    * [Records](https://github.com/nitrog7/node-orientdb/wiki/Document-Database#records)
+    * [Data Clusters](https://github.com/nitrog7/node-orientdb/wiki/Document-Database#data-clusters)
+    * [Data Segments](https://github.com/nitrog7/node-orientdb/wiki/Document-Database#data-cluster)
+* **Graph Database**
+    * [Vertex](https://github.com/nitrog7/node-orientdb/wiki/Graph-Database#wiki-vertex)
+    * [Edge](https://github.com/nitrog7/node-orientdb/wiki/Graph-Database#wiki-edges)
 
 Tutorial
 ========
@@ -89,23 +72,50 @@ var dbConfig = {
 
 var db = new Db(dbConfig);
 
-db.open().then(
-	function(results) {
-		//Details
+db.open()
+    .then(function(results) {
+	    //Details
         console.log("Database '" + db.databaseName + "' has " + db.clusters.length + " clusters");
 
         //Queries
-        db.query("SELECT FROM Users", options).then(
-        	function(results) {
+        db.query("SELECT FROM Users", options)
+            .then(function(results) {
         		console.log(results);
-        	},
-        	function(error) {
+        	})
+        	.error(function(error) {
         		console.log(error);
-        	}
-        );
-	},
-	function(error) {
+        	});
+	})
+	.error)function(error) {
 		console.log(error);
-	}
-);
+	});
 ```
+
+Changes
+========
+
+See [ChangeLog](https://github.com/nitrog7/node-orientdb/blob/master/ChangeLog)
+
+Driver Compatibility
+========
+
+To see if your version of OrientDB supports a method, please see the compatibility list: [Operation Types](https://github.com/orientechnologies/orientdb/wiki/Network-Binary-Protocol#operation-types)
+
+Testing
+========
+
+An OrientDB Graph Edition server instance must be running. Use the [test configuration files](https://github.com/nitrog7/node-orientdb/tree/master/config/test) to provide data to the tests about the running instance (user, port, etc.).
+
+Then run:
+
+`npm test`
+
+to run all the tests under `test`, or
+
+`node test/db_open_close.js`
+
+to run a specific test.
+
+And make sure all run before you make a pull request.
+
+NOTE: The `test/z_shutdown.js` will shutdown the server. So make sure it's the last one to run. (i.e. Don't add a test that is after this one in Lexicographical order.)
