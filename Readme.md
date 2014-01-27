@@ -34,7 +34,7 @@ Documentation
     * [Records](https://github.com/nitrog7/node-orientdb/wiki/Document-Database#records)
     * [Data Clusters](https://github.com/nitrog7/node-orientdb/wiki/Document-Database#data-clusters)
     * [Data Segments](https://github.com/nitrog7/node-orientdb/wiki/Document-Database#data-cluster)
-* **Graph Database**
+* [Graph Database](https://github.com/nitrog7/node-orientdb/wiki/Graph-Database)
     * [Vertex](https://github.com/nitrog7/node-orientdb/wiki/Graph-Database#wiki-vertex)
     * [Edge](https://github.com/nitrog7/node-orientdb/wiki/Graph-Database#wiki-edges)
 
@@ -86,7 +86,7 @@ db.open()
         		console.log(error);
         	});
 	})
-	.error)function(error) {
+	.error(function(error) {
 		console.log(error);
 	});
 ```
