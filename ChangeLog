@@ -1,4 +1,17 @@
-1.0.0 (in progress)
+1.7.0-3 (2014/01/26)
+
+* Bug fixes
+
+1.7.0-2 (2014/01/26)
+
+* Updated promises to use bluebird.
+* Moved Server methods out of Db.
+
+1.7.0-1 (2014/01/24)
+
+* Added promises
+
+1.7.0 (2014/01/21)
 
 * improved support to orientdb 1.7.0
 * Consolidated configuration
