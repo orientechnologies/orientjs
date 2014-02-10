@@ -7,7 +7,7 @@ Installation
 ========
 
 ```
-npm install orientdb-binary
+npm install node-orientdb
 ```
 
 As developer you should fork/clone this repo and once you have it on your machine, do the following in your repo directory:
@@ -25,6 +25,71 @@ Supported Versions
 ========
 
 We test each release with the most recent version of OrientDB. Although we try to remain backwards compatible, it may not be fully tested. If you experience any problems with an older version than the current, please inform us.
+
+Documentation
+========
+
+* [Server](https://github.com/nitrog7/node-orientdb/wiki/Server-API)
+* [Database](https://github.com/nitrog7/node-orientdb/wiki/Document-Database)
+    * [Records](https://github.com/nitrog7/node-orientdb/wiki/Document-Database#records)
+    * [Data Clusters](https://github.com/nitrog7/node-orientdb/wiki/Document-Database#data-clusters)
+    * [Data Segments](https://github.com/nitrog7/node-orientdb/wiki/Document-Database#data-cluster)
+* [Graph Database](https://github.com/nitrog7/node-orientdb/wiki/Graph-Database)
+    * [Vertex](https://github.com/nitrog7/node-orientdb/wiki/Graph-Database#wiki-vertex)
+    * [Edge](https://github.com/nitrog7/node-orientdb/wiki/Graph-Database#wiki-edges)
+
+Tutorial
+========
+
+To start using OrientDB, check out the following YouTube tutorials based on version 1.6.2:
+* [Getting Started](https://www.youtube.com/watch?v=X-pXqvVTK6E)
+* [Querying](https://www.youtube.com/watch?v=w0VfWljYEbw)
+* [Creating a Schema](https://www.youtube.com/watch?v=KzkjKwkpMII)
+* [Populating the Database](https://www.youtube.com/watch?v=MeXLuErdDHw)
+* [Using the Database](https://www.youtube.com/watch?v=oAeY-pXBi-I)
+
+Example
+========
+
+```javascript
+var Orientdb = require('node-orientdb');
+var Db       = Orientdb.GraphDb;
+
+var dbConfig = {
+    //Server
+    server_host:'localhost',
+    server_port:2424,
+    server_username:'admin',
+    server_password:'admin',
+
+    //Database
+    database_name:'test',
+    database_username:'admin',
+    database_password:'admin',
+    database_type: 'document', //Optional. Default: document.
+    database_storage: 'local' //Optional. Default: local.
+};
+
+var db = new Db(dbConfig);
+
+db.open()
+    .then(function(results) {
+	    //Details
+        console.log("Database '" + db.databaseName + "' has " + db.clusters.length + " clusters");
+
+        //Queries
+        db.query("SELECT FROM Users", options)
+            .then(function(results) {
+        		console.log(results);
+        	})
+        	.error(function(error) {
+        		console.log(error);
+        	});
+	})
+	.error(function(error) {
+		console.log(error);
+	});
+```
 
 Changes
 ========
@@ -54,55 +119,3 @@ to run a specific test.
 And make sure all run before you make a pull request.
 
 NOTE: The `test/z_shutdown.js` will shutdown the server. So make sure it's the last one to run. (i.e. Don't add a test that is after this one in Lexicographical order.)
-
-Tutorial
-========
-
-To start using OrientDB, check out the following YouTube tutorials based on version 1.6.2:
-* [Getting Started](https://www.youtube.com/watch?v=X-pXqvVTK6E)
-* [Querying](https://www.youtube.com/watch?v=w0VfWljYEbw)
-* [Creating a Schema](https://www.youtube.com/watch?v=KzkjKwkpMII)
-* [Populating the Database](https://www.youtube.com/watch?v=MeXLuErdDHw)
-* [Using the Database](https://www.youtube.com/watch?v=oAeY-pXBi-I)
-
-Example
-========
-
-```javascript
-var orientdb = require("orientdb-binary"),
-var Db       = orientdb.Db;
-
-var dbConfig = {
-    username:"admin",
-    password:"admin",
-    database:"test",
-    host: "localhost",
-    port: 2424,
-    database_type: "document", //Optional. Default: document.
-    storage_type: "local" //Optional. Default: local.
-};
-
-var db = new Db(dbConfig);
-
-db.open(function(error) {
-    if(error) {
-        console.log(error);
-        return;
-    }
-
-    //Details
-    console.log("Database '" + db.databaseName + "' has " + db.clusters.length + " clusters");
-
-    //Queries
-    db.query("SELECT FROM Users", options, function(error, results){
-        db.close();
-        
-        if(error) {
-            console.log(error);
-            return;
-        }
-
-        console.log(results);
-    });
-});
-```

@@ -1,35 +1,66 @@
 {
-    "name"          : "orientdb-binary",
-    "description"   : "A Node.js driver for OrientDB based on binary protocols.",
-    "keywords"      : ["orientdb", "orient", "driver", "graph", "database", "db", "graphdb", "node", "node.js"],
-    "version"       : "1.7.0",
-    "author"        : "Giraldo Rosales <giraldo@nitrogenlabs.com>",
-    "contributors"  : [
-        { "name": "Gabriel Petrovay", "email": "gabipetrovay@gmail.com" },
-        { "name": "Ryan Fields", "email": "ryan.fields@twoleftbeats.com" },
-        { "name": "Federico Fissore", "email": "federico@fissore.org" },
-        { "name": "Navin Parray", "email": "navinparray@gmail.com" }
-    ],
-    "repository" : {
-        "type"      : "git",
-        "url"       : "http://github.com/nitrog7/node-orientdb.git"
+  "name": "node-orientdb",
+  "description": "A Node.js driver for OrientDB based on binary protocols.",
+  "keywords": [
+    "orientdb",
+    "orient",
+    "driver",
+    "graph",
+    "database",
+    "db",
+    "graphdb",
+    "node",
+    "node.js"
+  ],
+  "version": "1.7.0-3",
+  "author": {
+    "name": "Giraldo Rosales",
+    "email": "giraldo@nitrogenlabs.com"
+  },
+  "contributors": [
+    {
+      "name": "Gabriel Petrovay",
+      "email": "gabipetrovay@gmail.com"
     },
-    "dependencies" : {
-        "lodash"    : "*"
+    {
+      "name": "Ryan Fields",
+      "email": "ryan.fields@twoleftbeats.com"
     },
-    "devDependencies" : {
-        "tap"       : "0.4",
-        "async"     : "*"
+    {
+      "name": "Federico Fissore",
+      "email": "federico@fissore.org"
     },
-    "main"          : "./lib/orientdb/index",
-    "directories"   : { "lib" : "./lib/orientdb" },
-    "engines"       : { "node" : ">=0.6.0" },
-    "scripts"       : {
-        "test"      : "node ./node_modules/tap/bin/tap.js ./test/errors/test_* ./test/parser/test_* ./test/test_*"
-    },
-    "licenses"      : [ {
-        "type"      : "Apache License, Version 2.0",
-        "url"       : "http://www.apache.org/licenses/LICENSE-2.0"
-    } ]
+    {
+      "name": "Navin Parray",
+      "email": "navinparray@gmail.com"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/nitrog7/node-orientdb.git"
+  },
+  "dependencies": {
+    "lodash": "*",
+    "bluebird": "*"
+  },
+  "devDependencies": {
+    "tap": "0.4",
+    "async": "*"
+  },
+  "main": "./lib/orientdb/index",
+  "directories": {
+    "lib": "./lib/orientdb"
+  },
+  "engines": {
+    "node": ">=0.6.0"
+  },
+  "scripts": {
+    "test": "node ./node_modules/tap/bin/tap.js ./test/errors/test_* ./test/parser/test_* ./test/test_*"
+  },
+  "licenses": [
+    {
+      "type": "Apache License, Version 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0"
+    }
+  ]
 }
-
