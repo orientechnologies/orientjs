@@ -29,6 +29,7 @@ We test each release with the most recent version of OrientDB. Although we try t
 Documentation
 ========
 
+* [Quick Start](https://github.com/orientechnologies/orientdb/wiki/Quick-Start)
 * [Server](https://github.com/nitrog7/node-orientdb/wiki/Server-API)
 * [Database](https://github.com/nitrog7/node-orientdb/wiki/Document-Database)
     * [Records](https://github.com/nitrog7/node-orientdb/wiki/Document-Database#records)
@@ -40,6 +41,9 @@ Documentation
 
 Tutorial
 ========
+
+Overview of OrientDB and concepts:
+* [Overview](http://www.youtube.com/watch?v=o_7NCiTLVis)
 
 To start using OrientDB, check out the following YouTube tutorials based on version 1.6.2:
 * [Getting Started](https://www.youtube.com/watch?v=X-pXqvVTK6E)
@@ -77,8 +81,12 @@ db.open()
 	    //Details
         console.log("Database '" + db.databaseName + "' has " + db.clusters.length + " clusters");
 
+		//SQL Statement
+		var sql  = 'SELECT FROM Users';
+		var opts = {};
+		
         //Queries
-        db.query("SELECT FROM Users", options)
+        db.query(sql, options)
             .then(function(results) {
         		console.log(results);
         	})
@@ -100,22 +108,3 @@ Driver Compatibility
 ========
 
 To see if your version of OrientDB supports a method, please see the compatibility list: [Operation Types](https://github.com/orientechnologies/orientdb/wiki/Network-Binary-Protocol#operation-types)
-
-Testing
-========
-
-An OrientDB Graph Edition server instance must be running. Use the [test configuration files](https://github.com/nitrog7/node-orientdb/tree/master/config/test) to provide data to the tests about the running instance (user, port, etc.).
-
-Then run:
-
-`npm test`
-
-to run all the tests under `test`, or
-
-`node test/db_open_close.js`
-
-to run a specific test.
-
-And make sure all run before you make a pull request.
-
-NOTE: The `test/z_shutdown.js` will shutdown the server. So make sure it's the last one to run. (i.e. Don't add a test that is after this one in Lexicographical order.)
