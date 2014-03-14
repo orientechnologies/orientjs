@@ -9,7 +9,7 @@ global.should = require('should');
 
 global.TEST_SERVER_CONFIG = require('./test-server.json');
 
-global.LIB = require('../lib/orientdb');
+global.LIB = require('../lib');
 
 global.TEST_SERVER = new LIB.Server(TEST_SERVER_CONFIG);
 
