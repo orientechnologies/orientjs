@@ -33,6 +33,10 @@
     {
       "name": "Navin Parray",
       "email": "navinparray@gmail.com"
+    },
+    {
+      "name": "Charles Pick",
+      "email": "charles@codemix.com"
     }
   ],
   "repository": {
@@ -44,8 +48,9 @@
     "bluebird": "*"
   },
   "devDependencies": {
-    "tap": "0.4",
-    "async": "*"
+    "mocha": "*",
+    "should": "*",
+    "expect.js": "*"
   },
   "main": "./lib/orientdb/index",
   "directories": {
