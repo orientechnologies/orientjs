@@ -60,7 +60,7 @@
     "node": ">=0.6.0"
   },
   "scripts": {
-    "test": "node ./node_modules/tap/bin/tap.js ./test/errors/test_* ./test/parser/test_* ./test/test_*"
+    "test": "node ./node_modules/mocha/bin/mocha ./test/index.js ./test/**/*.js ./test/**/**/*.js --reporter=spec"
   },
   "licenses": [
     {
