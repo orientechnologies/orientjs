@@ -212,6 +212,19 @@ describe("Database Operations", function () {
       }, done)
       .done();
     });
+    it("should load a record with a fetch plan", function (done) {
+      TEST_SERVER.send('record-load', {
+        sessionId: dbSessionId,
+        cluster: 5,
+        position: 0,
+        fetchPlan: '*:-1'
+      })
+      .then(function (response) {
+        response.records.length.should.be.above(1);
+        done();
+      }, done)
+      .done();
+    });
   });
   describe('record-update', function () {
     it("should update a record", function (done) {
