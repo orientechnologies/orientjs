@@ -75,6 +75,22 @@ describe("Database API - Class", function () {
         }, done).done();
       });
     });
+
+    describe('Db::Class::create()', function () {
+      it('should create a new record for the class', function (done) {
+        this.OUser.create({
+          name: 'TestUser',
+          password: 'AtestPassWord',
+          status: 'ACTIVE'
+        })
+        .then(function (user) {
+          user['@rid'].position.should.be.above(-1);
+          done();
+        }, done).done();
+      });
+    });
+
+
   });
 
 });
