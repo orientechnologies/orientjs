@@ -87,10 +87,19 @@ describe("Database API - Class - Property", function () {
     });
   });
 
+  describe('Db::class.property.rename()', function () {
+    it('should rename a property with the given name', function (done) {
+      this.class.property.rename('myprop2', 'myprop')
+      .then(function (item) {
+        done();
+      }, done).done();
+    });
+  });
+
 
   describe('Db::class.property.delete()', function () {
     it('should delete a property with the given name', function (done) {
-      this.class.property.delete('myprop2')
+      this.class.property.delete('myprop')
       .then(function (item) {
         done();
       }, done).done();
