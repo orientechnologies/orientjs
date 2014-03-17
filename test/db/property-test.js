@@ -38,6 +38,15 @@ describe("Database API - Class - Property", function () {
         done();
       }, done).done();
     });
+    it('should create an array of properties', function (done) {
+      this.class.property.create(['myotherprop', 'myextraotherprop'])
+      .then(function (items) {
+        items.length.should.equal(2);
+        items[0].name.should.equal('myotherprop');
+        items[1].name.should.equal('myextraotherprop');
+        done();
+      }, done).done();
+    });
   });
 
 
