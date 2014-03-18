@@ -83,6 +83,45 @@ describe("Migration Manager", function () {
     })
   });
 
+  describe('Migration.Manager::loadMigration()', function () {
+    it('should load the given migration', function () {
+      var migration = this.manager.loadMigration('m20140318_014253_my_test_migration');
+      migration.name.should.equal('my test migration');
+    })
+  });
+
+  describe('Migration.Manager::up()', function () {
+    it('should migrate up by one', function (done) {
+      this.manager.up(1)
+      .bind(this)
+      .then(function (response) {
+        response.length.should.equal(1);
+        return this.manager.listApplied();
+      })
+      .then(function (items) {
+        items.length.should.equal(1);
+        return this.manager.list();
+      })
+      .then(function (items) {
+        items.length.should.equal(1);
+        done();
+      }, done)
+      .done();
+    });
+    it('should migrate up fully', function (done) {
+      this.manager.up()
+      .bind(this)
+      .then(function (response) {
+        response.length.should.equal(1);
+        return this.manager.list();
+      })
+      .then(function (items) {
+        items.length.should.equal(0);
+        done();
+      }, done).done();
+    });
+  });
+
 
 
 });
