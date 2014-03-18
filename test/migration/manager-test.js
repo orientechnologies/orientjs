@@ -122,6 +122,36 @@ describe("Migration Manager", function () {
     });
   });
 
-
+  describe('Migration.Manager::down()', function () {
+    it('should migrate down by one', function (done) {
+      this.manager.down(1)
+      .bind(this)
+      .then(function (response) {
+        response.length.should.equal(1);
+        return this.manager.listApplied();
+      })
+      .then(function (items) {
+        items.length.should.equal(1);
+        return this.manager.list();
+      })
+      .then(function (items) {
+        items.length.should.equal(1);
+        done();
+      }, done)
+      .done();
+    });
+    it('should migrate down fully', function (done) {
+      this.manager.down()
+      .bind(this)
+      .then(function (response) {
+        response.length.should.equal(1);
+        return this.manager.list();
+      })
+      .then(function (items) {
+        items.length.should.equal(2);
+        done();
+      }, done).done();
+    });
+  });
 
 });
