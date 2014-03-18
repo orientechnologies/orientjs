@@ -90,6 +90,58 @@ describe("Database API - Class", function () {
       });
     });
 
+    describe('Db::Class::find()', function () {
+      it('should find records in the class', function (done) {
+        this.OUser.find({
+          name: 'TestUser',
+          status: 'ACTIVE'
+        })
+        .then(function (users) {
+          users.length.should.be.above(0);
+          users[0].should.have.property('@rid');
+          users[0].name.should.equal('TestUser')
+          done();
+        }, done).done();
+      });
+      it('should find records in the class with a limit', function (done) {
+        this.OUser.find({
+          status: 'ACTIVE'
+        }, 1)
+        .then(function (users) {
+          users.length.should.equal(1);
+          users[0].status.should.equal('ACTIVE');
+          done();
+        }, done).done();
+      });
+      it('should find records in the class with a limit and an offset', function (done) {
+        this.OUser.find({
+          status: 'ACTIVE'
+        }, 1, 1)
+        .then(function (users) {
+          users.length.should.equal(1);
+          users[0].status.should.equal('ACTIVE');
+          done();
+        }, done).done();
+      });
+      it('should not find records in the class', function (done) {
+        this.OUser.find({
+          name: 'TestUser',
+          status: 'NOT_REAL_STATUS'
+        })
+        .then(function (users) {
+          users.length.should.equal(0);
+          done();
+        }, done).done();
+      });
+      it('should find records in the class when no conditions are specified', function (done) {
+        this.OUser.find({})
+        .then(function (users) {
+          users.length.should.be.above(0);
+          users[0].should.have.property('@rid');
+          done();
+        }, done).done();
+      });
+    });
 
   });
 
