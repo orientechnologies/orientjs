@@ -245,11 +245,30 @@ describe("Database Operations", function () {
   });
 
  describe('record-clean-out', function () {
-  it.skip("should clean-out a record", function (done) {
+  before(function (done) {
+    TEST_SERVER.send('record-create', {
+      sessionId: dbSessionId,
+      cluster: 1,
+      record: {
+        name: 'Test',
+        email: 'test@test.com'
+      }
+    })
+    .bind(this)
+    .then(function (response) {
+      this.recordId = new LIB.RID({
+        cluster: 1,
+        position: response.position
+      })
+      done();
+    }, done)
+    .done();
+  });
+  it("should clean-out a record", function (done) {
     TEST_SERVER.send('record-clean-out', {
       sessionId: dbSessionId,
-      cluster: recordId.cluster,
-      position: recordId.position,
+      cluster: this.recordId.cluster,
+      position: this.recordId.position,
     })
     .then(function (response) {
       response.success.should.be.true;
