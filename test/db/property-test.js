@@ -38,6 +38,18 @@ describe("Database API - Class - Property", function () {
         done();
       }, done).done();
     });
+    it('should create a property with the given configuration', function (done) {
+      this.class.property.create({
+        name: 'customprop',
+        type: 'string',
+        max: 20
+      })
+      .then(function (item) {
+        item.name.should.equal('customprop');
+        item.max.should.eql(20);
+        done();
+      }, done).done();
+    });
     it('should create an array of properties', function (done) {
       this.class.property.create(['myotherprop', 'myextraotherprop'])
       .then(function (items) {
