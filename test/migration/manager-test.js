@@ -44,9 +44,9 @@ describe("Migration Manager", function () {
     });
   });
 
-  describe('Migration.Manager::list()', function () {
+  describe('Migration.Manager::listAvailable()', function () {
     it('should list the available migrations', function (done) {
-      this.manager.list()
+      this.manager.listAvailable()
       .then(function (files) {
         files.length.should.be.above(0);
         done();
@@ -72,5 +72,7 @@ describe("Migration Manager", function () {
       }, done).done();
     })
   });
+
+
 
 });
