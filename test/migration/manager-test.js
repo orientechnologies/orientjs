@@ -73,6 +73,16 @@ describe("Migration Manager", function () {
     })
   });
 
+  describe('Migration.Manager::list()', function () {
+    it('should list the missing migrations', function (done) {
+      this.manager.list()
+      .then(function (migrations) {
+        migrations.length.should.equal(2);
+        done();
+      }, done).done();
+    })
+  });
+
 
 
 });
