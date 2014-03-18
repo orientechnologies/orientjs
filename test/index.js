@@ -13,6 +13,9 @@ global.LIB = require('../lib');
 
 global.TEST_SERVER = new LIB.Server(TEST_SERVER_CONFIG);
 
+// Uncomment the following line to enable debug logging
+// global.TEST_SERVER.logger.debug = console.log.bind(console, '[ORIENTDB]');
+
 
 global.CREATE_TEST_DB = function (context, name) {
   return TEST_SERVER.exists(name, 'memory')
