@@ -45,7 +45,8 @@
   },
   "dependencies": {
     "lodash": "*",
-    "bluebird": "*"
+    "bluebird": "*",
+    "yargs": "*"
   },
   "devDependencies": {
     "mocha": "*",
