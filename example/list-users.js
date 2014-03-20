@@ -1,7 +1,7 @@
 var config = require('../test/test-server.json'),
-    OrientDB = require('../lib'),
-    orientdb = OrientDB(config),
-    db = orientdb.use('GratefulDeadConcerts');
+    Oriento = require('../lib'),
+    oriento = Oriento(config),
+    db = oriento.use('GratefulDeadConcerts');
 
 
 db.class.get('OUser')

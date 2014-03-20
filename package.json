@@ -1,5 +1,5 @@
 {
-  "name": "node-orientdb",
+  "name": "oriento",
   "description": "A Node.js driver for OrientDB based on binary protocols.",
   "keywords": [
     "orientdb",
@@ -12,12 +12,16 @@
     "node",
     "node.js"
   ],
-  "version": "1.7.0-6",
+  "version": "0.0.1",
   "author": {
-    "name": "Giraldo Rosales",
-    "email": "giraldo@nitrogenlabs.com"
+    "name": "Charles Pick",
+    "email": "charles@codemix.com"
   },
   "contributors": [
+    {
+      "name": "Giraldo Rosales",
+      "email": "giraldo@nitrogenlabs.com"
+    },
     {
       "name": "Gabriel Petrovay",
       "email": "gabipetrovay@gmail.com"
@@ -33,19 +37,15 @@
     {
       "name": "Navin Parray",
       "email": "navinparray@gmail.com"
-    },
-    {
-      "name": "Charles Pick",
-      "email": "charles@codemix.com"
     }
   ],
   "repository": {
     "type": "git",
-    "url": "http://github.com/nitrog7/node-orientdb.git"
+    "url": "http://github.com/codemix/oriento.git"
   },
   "dependencies": {
-    "lodash": "*",
-    "bluebird": "*"
+    "bluebird": "*",
+    "yargs": "*"
   },
   "devDependencies": {
     "mocha": "*",
@@ -57,7 +57,10 @@
     "lib": "./lib"
   },
   "engines": {
-    "node": ">=0.6.0"
+    "node": ">=0.10.0"
+  },
+  "bin": {
+    "oriento": "./bin/oriento"
   },
   "scripts": {
     "test": "echo \"\n\nNOTICE: If tests fail, please ensure you've set the correct credentials in test/test-server.json\n\n\"; node ./node_modules/mocha/bin/mocha ./test/index.js ./test/**/*.js ./test/**/**/*.js --reporter=spec"
