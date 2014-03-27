@@ -190,6 +190,69 @@ MyClass.list()
 });
 ```
 
+### Creating a new, empty vertex
+
+```js
+db.vertex.create('V')
+.then(function (vertex) {
+  console.log('created vertex', vertex);
+});
+```
+
+### Creating a new vertex with some properties
+
+```js
+db.vertex.create({
+  '@class': 'V',
+  key: 'value',
+  foo: 'bar'
+})
+.then(function (vertex) {
+  console.log('created vertex', vertex);
+});
+```
+### Deleting a vertex
+
+```js
+db.vertex.delete('#12:12')
+.then(function (count) {
+  console.log('deleted ' + count + ' vertices');
+});
+```
+
+### Creating a simple edge between vertices
+
+```js
+db.edge.from('#12:12').to('#12:13').create('E')
+.then(function (edge) {
+  console.log('created edge:', edge);
+});
+```
+
+
+### Creating an edge with properties
+
+```js
+db.edge.from('#12:12').to('#12:13').create({
+  '@class': 'E',
+  key: 'value',
+  foo: 'bar'
+})
+.then(function (edge) {
+  console.log('created edge:', edge);
+});
+```
+
+### Deleting an edge between vertices
+
+```js
+db.edge.from('#12:12').to('#12:13').delete({
+.then(function (count) {
+  console.log('deleted ' + count + ' edges');
+});
+```
+
+
 # CLI
 
 An extremely minimalist command line interface is provided to allow
