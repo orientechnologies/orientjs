@@ -2,7 +2,7 @@ describe("Database API", function () {
   before(function (done) {
     TEST_SERVER.create({
       name: 'testdb_dbapi',
-      type: 'document',
+      type: 'graph',
       storage: 'memory'
     })
     .bind(this)

@@ -16,7 +16,7 @@ describe("Server", function () {
     it("should handle errors correctly", function (done) {
       TEST_SERVER.send('db-open', {
         name: 'not_an_existing_database',
-        type: 'document',
+        type: 'graph',
         username: 'admin',
         password: 'admin'
       })
@@ -34,7 +34,7 @@ describe('Server::create()', function () {
   it("should create a new database", function (done) {
     TEST_SERVER.create({
       name: 'testdb_server',
-      type: 'document',
+      type: 'graph',
       storage: 'memory'
     })
     .then(function (db) {
@@ -80,7 +80,7 @@ describe('Server::delete()', function () {
   it("should delete a database", function (done) {
     TEST_SERVER.delete({
       name: 'testdb_server',
-      type: 'document',
+      type: 'graph',
       storage: 'memory'
     })
     .then(function (response) {

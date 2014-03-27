@@ -14,7 +14,7 @@ describe("Database Operations", function () {
       TEST_SERVER.send('db-create', {
         name: 'testdb_tmp',
         storage: 'memory',
-        type: 'document',
+        type: 'graph',
         username: TEST_SERVER_CONFIG.username,
         password: TEST_SERVER_CONFIG.password
       })
@@ -65,7 +65,7 @@ describe("Database Operations", function () {
       TEST_SERVER.send('db-open', {
         sessionId: -1,
         name: 'testdb_tmp',
-        type: 'document',
+        type: 'graph',
         username: 'admin',
         password: 'admin'
       })

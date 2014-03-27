@@ -2,7 +2,7 @@ describe("Database API - Cluster", function () {
   before(function (done) {
     TEST_SERVER.create({
       name: 'testdb_dbapi_cluster',
-      type: 'document',
+      type: 'graph',
       storage: 'memory'
     })
     .bind(this)
