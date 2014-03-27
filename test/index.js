@@ -33,7 +33,7 @@ global.CREATE_TEST_DB = function (context, name) {
   .then(function () {
     return TEST_SERVER.create({
       name: name,
-      type: 'document',
+      type: 'graph',
       storage: 'memory'
     });
   })
