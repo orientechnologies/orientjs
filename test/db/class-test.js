@@ -74,6 +74,15 @@ describe("Database API - Class", function () {
           done();
         }, done).done();
       });
+      it('should list the records in the class with a fetch plan', function (done) {
+        this.OUser.list({
+          fetchPlan: '*:-1'
+        })
+        .then(function (users) {
+          users.length.should.be.above(0);
+          done();
+        }, done).done();
+      });
     });
 
     describe('Db::Class::create()', function () {
