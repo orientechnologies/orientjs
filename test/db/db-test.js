@@ -38,28 +38,28 @@ describe("Database API", function () {
     it('should execute a simple query', function (done) {
       this.db.query('SELECT * FROM OUser')
       .then(function (response) {
-        response.content.length.should.be.above(1);
+        response.length.should.be.above(1);
         done();
       }, done).done();
     });
     it('should execute a simple query with a limit', function (done) {
       this.db.query('SELECT * FROM OUser LIMIT 1')
       .then(function (response) {
-        response.content.length.should.equal(1);
+        response.length.should.equal(1);
         done();
       }, done).done();
     });
     it('should execute a simple query with a limit and a condition', function (done) {
       this.db.query('SELECT * FROM OUser WHERE name = \'reader\'LIMIT 1')
       .then(function (response) {
-        response.content.length.should.equal(1);
+        response.length.should.equal(1);
         done();
       }, done).done();
     });
     it('should execute a simple query with a limit and a condition that fails', function (done) {
       this.db.query('SELECT * FROM OUser WHERE name = \'not_an_existing_user\'LIMIT 1')
       .then(function (response) {
-        response.content.length.should.equal(0);
+        response.length.should.equal(0);
         done();
       }, done).done();
     });
@@ -68,8 +68,8 @@ describe("Database API", function () {
         params: ['reader']
       })
       .then(function (response) {
-        response.content.length.should.equal(1);
-        response.content[0].value.name.should.equal('reader');
+        response.length.should.equal(1);
+        response[0].name.should.equal('reader');
         done();
       }, done).done();
     });
@@ -80,8 +80,8 @@ describe("Database API", function () {
         }
       })
       .then(function (response) {
-        response.content.length.should.equal(1);
-        response.content[0].value.name.should.equal('writer');
+        response.length.should.equal(1);
+        response[0].name.should.equal('writer');
         done();
       }, done).done();
     });
