@@ -85,6 +85,63 @@ var db = server.use({
 console.log('Using database: ' + db.name);
 ```
 
+### Query Builder: Insert Record
+
+```js
+db.insert().into('OUser').set({name: 'demo', password: 'demo', status: 'ACTIVE'}).one()
+.then(function (user) {
+  console.log('created', user);
+});
+```
+
+### Query Builder: Update Record
+
+```js
+db.update('OUser').set({password: 'changed'}).where({name: 'demo'}).scalar()
+.then(function (total) {
+  console.log('updated', total, 'users');
+});
+```
+
+### Query Builder: Delete Record
+
+```js
+db.delete().from('OUser').where({name: 'demo'}).limit(1).scalar()
+.then(function (total) {
+  console.log('deleted', total, 'users');
+});
+```
+
+
+### Query Builder: Select Records
+
+```js
+db.select().from('OUser').where({status: 'ACTIVE'}).all()
+.then(function (users) {
+  console.log('active users', users);
+});
+```
+
+### Query Builder: Select an expression
+
+```js
+db.select('count(*)').from('OUser').where({status: 'ACTIVE'}).scalar()
+.then(function (total) {
+  console.log('total active users', total);
+});
+```
+
+### Query Builder: Traverse Records
+
+```js
+db.traverse().from('OUser').where({name: 'guest'}).all()
+.then(function (records) {
+  console.log('found records', records);
+});
+```
+
+
+
 ### Loading a record by RID.
 
 ```js
