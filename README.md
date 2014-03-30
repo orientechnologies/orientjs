@@ -6,6 +6,8 @@ A lightweight node.js driver for [orientdb](http://www.orientechnologies.com/ori
 > This is work in progress, alpha quality software.
 > Please [report any bugs](https://github.com/codemix/oriento/issues) you find so that we can improve the library for everyone.
 
+> **warning** oriento currently only works with the distributed version of orientdb (dserver). This will be corrected soon.
+
 
 # Supported Versions
 
