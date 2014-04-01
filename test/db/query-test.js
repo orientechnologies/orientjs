@@ -88,7 +88,7 @@ describe("Database API - Query", function () {
       }, done).done();
     });
     it('should select a user with a fetch plan', function (done) {
-      this.db.select().from('OUser').where({name: 'reader'}).with({roles: 3}).one()
+      this.db.select().from('OUser').where({name: 'reader'}).fetch({roles: 3}).one()
       .then(function (user) {
         user.name.should.equal('reader');
         user.roles.length.should.be.above(0);
@@ -97,7 +97,7 @@ describe("Database API - Query", function () {
       }, done).done();
     });
     it('should select a user with multiple fetch plans', function (done) {
-      this.db.select().from('OUser').where({name: 'reader'}).with({roles: 3, '*': -1}).one()
+      this.db.select().from('OUser').where({name: 'reader'}).fetch({roles: 3, '*': -1}).one()
       .then(function (user) {
         user.name.should.equal('reader');
         user.roles.length.should.be.above(0);

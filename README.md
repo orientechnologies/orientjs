@@ -127,7 +127,7 @@ db.select().from('OUser').where({status: 'ACTIVE'}).all()
 ### Query Builder: Select Records with Fetch Plan
 
 ```js
-db.select().from('OUser').where({status: 'ACTIVE'}).with({role: 5}).all()
+db.select().from('OUser').where({status: 'ACTIVE'}).fetch({role: 5}).all()
 .then(function (users) {
   console.log('active users', users);
 });
