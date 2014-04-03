@@ -38,7 +38,8 @@ odb_download () {
 odb_download_server () {
   #http://www.orientdb.org/portal/function/portal/download/phpuser@unknown.com/%20/%20/%20/%20/unknown/orientdb-community-1.6.2.tar.gz/false/false
 
-  DOWN_USER=robot-php@travi-ci.com
+  COMMIT_HASH=$(git rev-parse HEAD)
+  DOWN_USER=oriento+travis${COMMIT_HASH}@codemix.com
   ODB_VERSION=$1
   CI_DIR=$2
 
