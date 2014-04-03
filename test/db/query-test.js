@@ -17,7 +17,7 @@ describe("Database API - Query", function () {
   });
 
   describe('Query::one()', function () {
-    it ('should return one record', function (done) {
+    it('should return one record', function (done) {
       this.query.select().from('OUser').limit(1).one()
       .then(function (user) {
         Array.isArray(user).should.be.false;
@@ -25,7 +25,7 @@ describe("Database API - Query", function () {
         done();
       }, done).done();
     });
-    it ('should return one record with parameters', function (done) {
+    it('should return one record with parameters', function (done) {
       this.query.select().from('OUser').where('name = :name').limit(1).one({name: 'reader'})
       .then(function (user) {
         Array.isArray(user).should.be.false;
@@ -36,7 +36,7 @@ describe("Database API - Query", function () {
     });
   });
   describe('Query::all()', function () {
-    it ('should return all the records', function (done) {
+    it('should return all the records', function (done) {
       this.query.select().from('OUser').limit(2).all()
       .then(function (users) {
         Array.isArray(users).should.be.true;
@@ -44,7 +44,7 @@ describe("Database API - Query", function () {
         done();
       }, done).done();
     });
-    it ('should return all the records with parameters', function (done) {
+    it('should return all the records with parameters', function (done) {
       this.query.select().from('OUser').where('name = :name').all({name: 'reader'})
       .then(function (users) {
         Array.isArray(users).should.be.true;
@@ -56,26 +56,92 @@ describe("Database API - Query", function () {
     });
   });
   describe('Query::scalar()', function () {
-    it ('should return the scalar result', function (done) {
+    it('should return the scalar result', function (done) {
       this.query.select('count(*)').from('OUser').scalar()
       .then(function (response) {
         response.should.equal(3);
         done();
       }, done).done();
     });
-    it ('should return the scalar result, even when many columns are selected', function (done) {
+    it('should return the scalar result, even when many columns are selected', function (done) {
       this.query.select('count(*), max(count(*))').from('OUser').scalar()
       .then(function (response) {
         response.should.equal(3);
         done();
       }, done).done();
     });
-    it ('should return the scalar result with parameters', function (done) {
+    it('should return the scalar result with parameters', function (done) {
       this.query.select('name').from('OUser').where('name = :name').scalar({name: 'reader'})
       .then(function (name) {
         name.should.equal('reader');
         done();
       }, done).done();
+    });
+  });
+
+  describe('Query::cast()', function () {
+    it('should apply a single cast function', function (done) {
+      this.query
+      .select()
+      .from('OUser')
+      .cast(function (user) {
+        user.wat = true;
+        return user;
+      })
+      .limit(1)
+      .one()
+      .then(function (user) {
+        user.wat.should.be.true;
+        done();
+      }, done)
+      .done();
+    });
+
+    it('should cast values according to an object', function (done) {
+      this.query
+      .select()
+      .from('OUser')
+      .cast({
+        '@rid': String,
+        name: function (name) {
+          return name.toUpperCase();
+        }
+      })
+      .where({name: 'reader'})
+      .limit(1)
+      .one()
+      .then(function (user) {
+        (typeof user['@rid']).should.equal('string');
+        user.name.should.equal('READER');
+        done();
+      }, done)
+      .done();
+    });
+
+    it('should apply multiple casts in order', function (done) {
+      this.query
+      .select()
+      .from('OUser')
+      .cast(function (user) {
+        user.wat = true;
+        return user;
+      })
+      .cast({
+        '@rid': String,
+        name: function (name) {
+          return name.toUpperCase();
+        }
+      })
+      .where({name: 'reader'})
+      .limit(1)
+      .one()
+      .then(function (user) {
+        user.wat.should.be.true;
+        (typeof user['@rid']).should.equal('string');
+        user.name.should.equal('READER');
+        done();
+      }, done)
+      .done();
     });
   });
 
