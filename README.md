@@ -2,6 +2,8 @@
 
 A lightweight node.js driver for [orientdb](http://www.orientechnologies.com/orientdb/) using orient's binary protocol.
 
+[![Build Status](https://travis-ci.org/codemix/oriento.svg?branch=master)](https://travis-ci.org/codemix/oriento)
+
 > **status: alpha**
 > This is work in progress, alpha quality software.
 > Please [report any bugs](https://github.com/codemix/oriento/issues) you find so that we can improve the library for everyone.
