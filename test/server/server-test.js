@@ -7,9 +7,9 @@ describe("Server", function () {
       TEST_SERVER.connect()
       .then(function (server) {
         server.sessionId.should.be.above(-1);
-        server.protocolVersion.should.be.above(18);
         done();
-      }, done);
+      }, done)
+      .done();
     });
   });
   describe('Server::send()', function  () {
