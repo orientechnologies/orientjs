@@ -30,10 +30,11 @@ npm install oriento
 - Access multiple databases via the same socket.
 - Migration support.
 - Simple CLI.
+- Connection Pooling
 
 # Usage
 
-### Configuring the connection.
+### Configuring the client.
 
 ```js
 var Oriento =  require('oriento');
@@ -42,7 +43,10 @@ var server = Oriento({
   host: 'localhost',
   port: 2424,
   username: 'root',
-  password: 'yourpassword'
+  password: 'yourpassword',
+  pool: {
+    max: 10 // 1 by default, depending on your use case 1 connection may be faster than a pool.
+  }
 });
 ```
 
