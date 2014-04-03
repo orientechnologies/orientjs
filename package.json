@@ -63,7 +63,7 @@
     "oriento": "./bin/oriento"
   },
   "scripts": {
-    "test": "echo \"\n\nNOTICE: If tests fail, please ensure you've set the correct credentials in test/test-server.json\n\n\"; node ./node_modules/mocha/bin/mocha ./test/index.js ./test/**/*.js ./test/**/**/*.js --reporter=spec"
+    "test": "echo \"\n\nNOTICE: If tests fail, please ensure you've set the correct credentials in test/test-server.json\n\n\"; node ./node_modules/mocha/bin/mocha ./test/index.js ./test/**/*.js ./test/**/**/*.js --reporter=spec -t 10000"
   },
   "licenses": [
     {
