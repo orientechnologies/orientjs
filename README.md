@@ -186,14 +186,14 @@ db
 ```
 
 
-### Query Builder: Cast / Transform a field
+### Query Builder: Transform a field
 
 ```js
 db
 .select('name')
 .from('OUser')
 .where({status: 'ACTIVE'})
-.cast({
+.transform({
   status: function (status) {
     return status.toLowerCase();
   }
@@ -206,14 +206,14 @@ db
 ```
 
 
-### Query Builder: Cast / Transform a record
+### Query Builder: Transform a record
 
 ```js
 db
 .select('name')
 .from('OUser')
 .where({status: 'ACTIVE'})
-.cast(function (record) {
+.transform(function (record) {
   return new User(record);
 })
 .limit(1)

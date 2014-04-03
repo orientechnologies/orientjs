@@ -14,10 +14,10 @@ describe("Deserialize results into custom models", function () {
     .select()
     .from('OUser')
     .fetch('roles:-1')
-    .cast({
+    .transform({
       roles: Role
     })
-    .cast(User)
+    .transform(User)
     .limit(1)
     .one()
     .then(function (user) {
@@ -32,10 +32,10 @@ describe("Deserialize results into custom models", function () {
     .select()
     .from('OUser')
     .fetch('roles:-1')
-    .cast({
+    .transform({
       roles: Role
     })
-    .cast(User)
+    .transform(User)
     .all()
     .then(function (users) {
       users.length.should.be.above(0);

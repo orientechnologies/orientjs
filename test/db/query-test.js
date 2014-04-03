@@ -79,12 +79,12 @@ describe("Database API - Query", function () {
     });
   });
 
-  describe('Query::cast()', function () {
-    it('should apply a single cast function', function (done) {
+  describe('Query::transform()', function () {
+    it('should apply a single transform function', function (done) {
       this.query
       .select()
       .from('OUser')
-      .cast(function (user) {
+      .transform(function (user) {
         user.wat = true;
         return user;
       })
@@ -97,11 +97,11 @@ describe("Database API - Query", function () {
       .done();
     });
 
-    it('should cast values according to an object', function (done) {
+    it('should transform values according to an object', function (done) {
       this.query
       .select()
       .from('OUser')
-      .cast({
+      .transform({
         '@rid': String,
         name: function (name) {
           return name.toUpperCase();
@@ -118,15 +118,15 @@ describe("Database API - Query", function () {
       .done();
     });
 
-    it('should apply multiple casts in order', function (done) {
+    it('should apply multiple transforms in order', function (done) {
       this.query
       .select()
       .from('OUser')
-      .cast(function (user) {
+      .transform(function (user) {
         user.wat = true;
         return user;
       })
-      .cast({
+      .transform({
         '@rid': String,
         name: function (name) {
           return name.toUpperCase();
