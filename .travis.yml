@@ -1,0 +1,5 @@
+language: node_js
+node_js:
+  - "0.10"
+before_script:
+  - sh -c ./ci/initialize-ci.sh 1.7-rc2
