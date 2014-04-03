@@ -145,6 +145,63 @@ describe("Database API - Query", function () {
     });
   });
 
+  describe('Query::column()', function () {
+    it('should return a specific column', function (done) {
+      this.query
+      .select('name')
+      .from('OUser')
+      .column('name')
+      .all()
+      .then(function (names) {
+        names.length.should.be.above(2);
+        (typeof names[0]).should.equal('string');
+        (typeof names[1]).should.equal('string');
+        (typeof names[2]).should.equal('string');
+        done();
+      }, done)
+      .done();
+    });
+
+    it('should return two columns', function (done) {
+      this.query
+      .select('name', 'status')
+      .from('OUser')
+      .column('name', 'status')
+      .all()
+      .then(function (results) {
+        results.length.should.be.above(2);
+        results.map(function (result) {
+          Object.keys(result).length.should.equal(2);
+          result.should.have.property('name');
+          result.should.have.property('status');
+        });
+        done();
+      }, done)
+      .done();
+    });
+
+    it('should alias columns to different names', function (done) {
+      this.query
+      .select()
+      .from('OUser')
+      .column({
+        name: 'nom',
+        status: 'stat'
+      })
+      .all()
+      .then(function (results) {
+        results.length.should.be.above(2);
+        results.map(function (result) {
+          Object.keys(result).length.should.equal(2);
+          result.should.have.property('nom');
+          result.should.have.property('stat');
+        });
+        done();
+      }, done)
+      .done();
+    });
+  });
+
   describe('Db::select()', function () {
     it('should select a user', function (done) {
       this.db.select().from('OUser').where({name: 'reader'}).one()
