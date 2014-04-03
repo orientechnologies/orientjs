@@ -171,6 +171,58 @@ db.traverse().from('OUser').where({name: 'guest'}).all()
 });
 ```
 
+### Query Builder: Return a specific column
+
+```js
+db
+.select('name')
+.from('OUser')
+.where({status: 'ACTIVE'})
+.column('name')
+.all()
+.then(function (names) {
+  console.log('active user names', names.join(', '));
+});
+```
+
+
+### Query Builder: Cast / Transform a field
+
+```js
+db
+.select('name')
+.from('OUser')
+.where({status: 'ACTIVE'})
+.cast({
+  status: function (status) {
+    return status.toLowerCase();
+  }
+})
+.limit(1)
+.one()
+.then(function (user) {
+  console.log('user status: ', user.status); // 'active'
+});
+```
+
+
+### Query Builder: Cast / Transform a record
+
+```js
+db
+.select('name')
+.from('OUser')
+.where({status: 'ACTIVE'})
+.cast(function (record) {
+  return new User(record);
+})
+.limit(1)
+.one()
+.then(function (user) {
+  console.log('user is an instance of User?', (user instanceof User)); // true
+});
+```
+
 
 
 ### Loading a record by RID.
