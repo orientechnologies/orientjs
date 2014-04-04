@@ -224,6 +224,23 @@ db
 ```
 
 
+### Query Builder: Specify default values
+
+```js
+db
+.select('name')
+.from('OUser')
+.where({status: 'ACTIVE'})
+.defaults({
+  something: 123
+})
+.limit(1)
+.one()
+.then(function (user) {
+  console.log(user.name, user.something);
+});
+```
+
 
 ### Loading a record by RID.
 

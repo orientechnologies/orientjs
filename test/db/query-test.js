@@ -202,6 +202,87 @@ describe("Database API - Query", function () {
     });
   });
 
+  describe('Query::defaults()', function () {
+    it('should apply the given default values', function (done) {
+      this.query
+      .select()
+      .from('OUser')
+      .defaults({
+        name: 'NEVER_MATCHES',
+        nonsense: true
+      })
+      .where({name: 'reader'})
+      .limit(1)
+      .one()
+      .then(function (user) {
+        user.name.should.equal('reader');
+        user.nonsense.should.be.true;
+        done();
+      }, done)
+      .done();
+    });
+
+    it('should apply the given default values to many records', function (done) {
+      this.query
+      .select()
+      .from('OUser')
+      .defaults({
+        name: 'NEVER_MATCHES',
+        nonsense: true
+      })
+      .all()
+      .then(function (users) {
+        users.length.should.be.above(0);
+        users.forEach(function (user) {
+          user.name.should.not.equal('NEVER_MATCHES');
+          user.nonsense.should.be.true;
+        });
+        done();
+      }, done)
+      .done();
+    });
+
+    it('should apply the given default values to many records before returning a single column', function (done) {
+      this.query
+      .select()
+      .from('OUser')
+      .defaults({
+        name: 'NEVER_MATCHES',
+        nonsense: true
+      })
+      .column('nonsense')
+      .all()
+      .then(function (names) {
+        names.length.should.be.above(0);
+        names.forEach(function (name) {
+          name.should.not.equal('NEVER_MATCHES');
+        });
+        done();
+      }, done)
+      .done();
+    });
+    it('should apply the given default values to many records before returning  2 columns', function (done) {
+      this.query
+      .select()
+      .from('OUser')
+      .defaults({
+        name: 'NEVER_MATCHES',
+        nonsense: true
+      })
+      .column('name', 'nonsense')
+      .all()
+      .then(function (users) {
+        users.length.should.be.above(0);
+        users.forEach(function (user) {
+          user.name.should.not.equal('NEVER_MATCHES');
+          user.nonsense.should.be.true;
+        });
+        done();
+      }, done)
+      .done();
+    });
+  });
+
   describe('Db::select()', function () {
     it('should select a user', function (done) {
       this.db.select().from('OUser').where({name: 'reader'}).one()
