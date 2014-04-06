@@ -1,16 +1,12 @@
 describe("Deserialize results into custom models", function () {
-  before(function (done) {
-    CREATE_TEST_DB(this, 'testdb_dbapi_workflow2')
-    .then(done, done)
-    .done();
+  before(function () {
+    return CREATE_TEST_DB(this, 'testdb_dbapi_workflow2');
   });
-  after(function (done) {
-    DELETE_TEST_DB('testdb_dbapi_workflow2')
-    .then(done, done)
-    .done();
+  after(function () {
+    return DELETE_TEST_DB('testdb_dbapi_workflow2');
   });
-  it('should load a single user', function (done) {
-    this.db
+  it('should load a single user', function () {
+    return this.db
     .select()
     .from('OUser')
     .fetch('roles:-1')
@@ -24,11 +20,10 @@ describe("Deserialize results into custom models", function () {
       user.should.be.an.instanceOf(User);
       user.roles.length.should.be.above(0);
       user.roles[0].should.be.an.instanceOf(Role);
-      done();
-    }, done).done();
+    });
   });
-  it('should load a list of users', function (done) {
-    this.db
+  it('should load a list of users', function () {
+    return this.db
     .select()
     .from('OUser')
     .fetch('roles:-1')
@@ -42,8 +37,7 @@ describe("Deserialize results into custom models", function () {
       users[0].should.be.an.instanceOf(User);
       users[0].roles.length.should.be.above(0);
       users[0].roles[0].should.be.an.instanceOf(Role);
-      done();
-    }, done).done();
+    });
   });
 });
 

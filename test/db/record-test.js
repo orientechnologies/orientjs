@@ -19,19 +19,18 @@ describe("Database API - Record", function () {
   });
 
   describe('Db::record.get()', function () {
-    it('should get the record with the given rid', function (done) {
-      this.db.record.get('#5:0')
+    it('should get the record with the given rid', function () {
+      return this.db.record.get('#5:0')
       .then(function (record) {
         record['@class'].should.equal('OUser');
         record['@rid'].should.have.properties({
           cluster: 5,
           position: 0
         });
-        done();
-      }, done).done();
+      });
     });
-    it('should get the record with a fetch plan', function (done) {
-      this.db.record.get({
+    it('should get the record with a fetch plan', function () {
+      return this.db.record.get({
         '@rid': '#5:0',
         '@options': {
           fetchPlan: '*:-1'
@@ -45,14 +44,13 @@ describe("Database API - Record", function () {
         });
         record.roles.length.should.be.above(0);
         record.roles[0]['@class'].should.equal('ORole');
-        done();
-      }, done).done();
+      });
     });
   });
 
   describe('Db::record.create()', function () {
-    it('should create a record', function (done) {
-      this.db.record.create({
+    it('should create a record', function () {
+      return this.db.record.create({
         '@class': 'OUser',
         name: 'testuser',
         password: 'testpassword',
@@ -60,8 +58,7 @@ describe("Database API - Record", function () {
       })
       .then(function (record) {
         createdRID = record['@rid'];
-        done();
-      }, done).done();
+      });
     });
 
     it('should create a record with a dynamic linked field', function () {
@@ -107,8 +104,8 @@ describe("Database API - Record", function () {
   });
 
   describe('Db::record.update()', function () {
-    it('should update a record', function (done) {
-      this.db.record.update({
+    it('should update a record', function () {
+      return this.db.record.update({
         '@rid': createdRID,
         '@options': {
           preserve: true
@@ -117,27 +114,22 @@ describe("Database API - Record", function () {
       })
       .then(function (record) {
         record.name.should.equal('testuserrenamed');
-        done();
-      }, done).done();
+      });
     });
   });
 
   describe('Db::record.meta()', function () {
-    it('should get the metadata for a record', function (done) {
-      this.db.record.meta(createdRID)
+    it('should get the metadata for a record', function () {
+      return this.db.record.meta(createdRID)
       .then(function (record) {
         record['@version'].should.be.above(0);
-        done();
-      }, done).done();
+      });
     });
   });
 
   describe('Db::record.delete()', function () {
-    it('should delete a record', function (done) {
-      this.db.record.delete(createdRID)
-      .then(function (result) {
-        done();
-      }, done).done();
+    it('should delete a record', function () {
+      return this.db.record.delete(createdRID);
     });
   });
 

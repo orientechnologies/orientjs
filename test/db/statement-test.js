@@ -1,15 +1,11 @@
 var Statement = require('../../lib/db/statement');
 
 describe("Database API - Statement", function () {
-  before(function (done) {
-    CREATE_TEST_DB(this, 'testdb_dbapi_statement')
-    .then(done, done)
-    .done();
+  before(function () {
+    return CREATE_TEST_DB(this, 'testdb_dbapi_statement');
   });
-  after(function (done) {
-    DELETE_TEST_DB('testdb_dbapi_statement')
-    .then(done, done)
-    .done();
+  after(function () {
+    return DELETE_TEST_DB('testdb_dbapi_statement');
   });
 
   beforeEach(function () {
