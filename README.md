@@ -24,6 +24,19 @@ Install via npm.
 npm install oriento
 ```
 
+# Running Tests
+
+To run the test suite, first invoke the following command within the repo, installing the development dependencies:
+
+```
+npm install
+```
+
+Then run the tests:
+```
+npm test
+```
+
 # Features
 
 - Tested with latest orientdb (1.7).
