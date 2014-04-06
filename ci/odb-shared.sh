@@ -38,7 +38,8 @@ odb_download () {
 odb_download_server () {
   #http://www.orientdb.org/portal/function/portal/download/phpuser@unknown.com/%20/%20/%20/%20/unknown/orientdb-community-1.6.2.tar.gz/false/false
 
-  DOWN_USER=robot-php@travi-ci.com
+  COMMIT_HASH=$(git rev-parse HEAD)
+  DOWN_USER=oriento+travis${COMMIT_HASH}@codemix.com
   ODB_VERSION=$1
   CI_DIR=$2
 
@@ -48,14 +49,10 @@ odb_download_server () {
   # possible since the OrientDB guys keep changing the compressed archive
   # format and moving the downloadable packages URLs. Luckily for us, we
   # are smart enough to cope with that... at least until the next change.
-  if [ $(odb_compare_version $ODB_VERSION 1.6.1) -ge 0 ]; then
-    ODB_PACKAGE_EXT="tar.gz"
-    ODB_PACKAGE_URL="http://www.orientdb.org/portal/function/portal/download/${DOWN_USER}/%20/%20/%20/%20/unknown/${ODB_PACKAGE}.${ODB_PACKAGE_EXT}/false/false"
-    ODB_C_PACKAGE=${ODB_PACKAGE}.${ODB_PACKAGE_EXT}
-  else
-    ODB_PACKAGE_EXT="zip"
-    ODB_PACKAGE_URL="https://orient.googlecode.com/files/${ODB_PACKAGE}.${ODB_PACKAGE_EXT}"
-  fi
+
+  ODB_PACKAGE_EXT="tar.gz"
+  ODB_PACKAGE_URL="http://www.orientdb.org/portal/function/portal/download/${DOWN_USER}/%20/%20/%20/%20/unknown/${ODB_PACKAGE}.${ODB_PACKAGE_EXT}/false/false"
+  ODB_C_PACKAGE=${ODB_PACKAGE}.${ODB_PACKAGE_EXT}
 
   echo ${ODB_PACKAGE_URL}
 

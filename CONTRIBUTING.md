@@ -18,6 +18,14 @@ To run the tests:
 npm test
 ```
 
+To generate the code coverage report, run:
+
+```
+npm run coverage
+```
+
+And have a look at `coverage/lcov-report/index.html`.
+
 
 
 ## Git Workflow For Contributors
