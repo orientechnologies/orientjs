@@ -1,4 +1,4 @@
-var createdRID;
+var createdRID, demoRID1, demoRID2;
 
 describe("Database API - Record", function () {
   before(function () {
@@ -72,6 +72,7 @@ describe("Database API - Record", function () {
       })
       .bind(this)
       .then(function (obj) {
+        demoRID1 = obj['@rid'];
         return this.db.record.get(obj['@rid']);
       })
       .then(function (record) {
@@ -93,6 +94,8 @@ describe("Database API - Record", function () {
       })
       .bind(this)
       .then(function (obj) {
+        demoRID2 = obj['@rid'];
+        demoRID2.should.not.eql(demoRID1);
         return this.db.record.get(obj['@rid']);
       })
       .then(function (record) {
@@ -114,6 +117,45 @@ describe("Database API - Record", function () {
       })
       .then(function (record) {
         record.name.should.equal('testuserrenamed');
+      });
+    });
+
+    it('should update a record with a dynamic linked field', function () {
+      return this.db.record.get(demoRID1)
+      .bind(this)
+      .then(function (record) {
+        record.wat = 'foo';
+        return this.db.record.update(record)
+      })
+      .then(function (record) {
+        // refresh
+        return this.db.record.get(demoRID1);
+      })
+      .then(function (record) {
+        record.name.should.equal('othertestuser');
+        record.wat.should.equal('foo');
+        expect(record.linkedTest1).to.equal(null); // because we did not pass a RID.
+        expect(typeof record.linkedTest2).to.equal('string'); // because we did not pass a RID, this is not a link
+        record.linkedTest2.should.equal('#5:1');
+      });
+    });
+
+    it('should update a record with a dynamic linked field, with RIDs', function () {
+      return this.db.record.get(demoRID2)
+      .bind(this)
+      .then(function (record) {
+        record.wat = 'foo';
+        return this.db.record.update(record)
+      })
+      .then(function (record) {
+        // refresh
+        return this.db.record.get(demoRID2);
+      })
+      .then(function (record) {
+        record.name.should.equal('othertestuser2');
+        record.wat.should.equal('foo');
+        record.linkedTest1.should.be.an.instanceOf(LIB.RID); // a real link
+        record.linkedTest2.should.be.an.instanceOf(LIB.RID); // a real link
       });
     });
   });
