@@ -30,12 +30,7 @@ describe("Database API - Record", function () {
       });
     });
     it('should get the record with a fetch plan', function () {
-      return this.db.record.get({
-        '@rid': '#5:0',
-        '@options': {
-          fetchPlan: '*:-1'
-        }
-      })
+      return this.db.record.get({'@rid': '#5:0'}, {fetchPlan: '*:-1'})
       .then(function (record) {
         record['@class'].should.equal('OUser');
         record['@rid'].should.have.properties({
@@ -108,13 +103,7 @@ describe("Database API - Record", function () {
 
   describe('Db::record.update()', function () {
     it('should update a record', function () {
-      return this.db.record.update({
-        '@rid': createdRID,
-        '@options': {
-          preserve: true
-        },
-        name: 'testuserrenamed',
-      })
+      return this.db.record.update({'@rid': createdRID, name: 'testuserrenamed'}, {preserve: true})
       .then(function (record) {
         record.name.should.equal('testuserrenamed');
       });
@@ -158,6 +147,8 @@ describe("Database API - Record", function () {
         record.linkedTest2.should.be.an.instanceOf(LIB.RID); // a real link
       });
     });
+
+
   });
 
   describe('Db::record.meta()', function () {
