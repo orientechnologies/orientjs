@@ -44,15 +44,10 @@ describe('Server::list()', function () {
   it("should list the existing databases", function () {
     return TEST_SERVER.list()
     .then(function (dbs) {
-      var names = Object.keys(dbs),
-          total = names.length,
-          i, db, name;
-      for (i = 0; i < total; i++) {
-        name = names[i];
-        db = dbs[name];
+      dbs.length.should.be.above(0);
+      dbs.forEach(function (db) {
         db.should.be.an.instanceOf(LIB.Db);
-      }
-      dbs.testdb_server.storage.should.equal('memory');
+      });
     });
   });
 });
