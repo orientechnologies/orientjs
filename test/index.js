@@ -21,10 +21,10 @@ global.TEST_SERVER = new LIB.Server({
 
 global.REST_SERVER = new LIB.Server({
   host: TEST_SERVER_CONFIG.host,
-  port: TEST_SERVER_CONFIG.port,
+  port: TEST_SERVER_CONFIG.httpPort,
   username: TEST_SERVER_CONFIG.username,
   password: TEST_SERVER_CONFIG.password,
-  transport: 'binary'
+  transport: 'rest'
 });
 
 // Uncomment the following lines to enable debug logging
