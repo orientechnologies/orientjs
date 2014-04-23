@@ -1,5 +1,4 @@
-var path = require('path'),
-    dbSessionId = -1,
+var dbSessionId = -1,
     dataCluster = -1,
     dataSegment = -1,
     serverCluster = {},
