@@ -45,7 +45,8 @@
   },
   "dependencies": {
     "bluebird": "*",
-    "yargs": "*"
+    "yargs": "*",
+    "request": "~2.34.0"
   },
   "devDependencies": {
     "mocha": ">=1.18.2",
