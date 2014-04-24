@@ -1,5 +1,5 @@
 describe("Bug #27: Slow compared to Restful API", function () {
-  var LIMIT = 10000;
+  var LIMIT = 5000;
   before(function () {
     return CREATE_TEST_DB(this, 'testdb_bug_27_slow')
     .bind(this)
@@ -46,7 +46,7 @@ describe("Bug #27: Slow compared to Restful API", function () {
     return this.db.send('command', {
       database: 'testdb_bug_27_slow',
       class: 'com.orientechnologies.orient.core.sql.query.OSQLSynchQuery',
-      limit: 20000,
+      limit: LIMIT * 2,
       query: 'SELECT * FROM School',
       mode: 's'
     })
@@ -62,7 +62,7 @@ describe("Bug #27: Slow compared to Restful API", function () {
     return REST_SERVER.send('command', {
       database: 'testdb_bug_27_slow',
       class: 'com.orientechnologies.orient.core.sql.query.OSQLSynchQuery',
-      limit: 20000,
+      limit: LIMIT * 2,
       query: 'SELECT * FROM School',
       mode: 's'
     })
@@ -82,6 +82,52 @@ describe("Bug #27: Slow compared to Restful API", function () {
       console.log('Binary DB Api Took ', (stop - start) + 'ms,', Math.round((LIMIT / (stop - start)) * 1000), 'documents per second')
     })
   });
+
+  it('should load a lot of records, one at a time, using binary', function () {
+    var start = Date.now();
+    var cluster = this.class.defaultClusterId,
+        promises = [],
+        i;
+
+    for (i = 0; i < LIMIT; i++) {
+      promises.push(this.db.send('record-load', {
+        database: 'testdb_bug_27_slow',
+        cluster: cluster,
+        position: i
+      }));
+    }
+
+    return Promise.all(promises)
+    .then(function (results) {
+      var stop = Date.now();
+      results.length.should.equal(LIMIT);
+      console.log('Binary Record Load Took ', (stop - start) + 'ms,', Math.round((LIMIT / (stop - start)) * 1000), 'documents per second')
+    })
+  });
+
+  it('should load a lot of records, one at a time, using rest', function () {
+    var start = Date.now();
+    var cluster = this.class.defaultClusterId,
+        promises = [],
+        i;
+
+    for (i = 0; i < LIMIT; i++) {
+      promises.push(REST_SERVER.send('record-load', {
+        database: 'testdb_bug_27_slow',
+        cluster: cluster,
+        position: i
+      }));
+    }
+
+    return Promise.all(promises)
+    .then(function (results) {
+      var stop = Date.now();
+      results.length.should.equal(LIMIT);
+      console.log('Rest Record Load Took ', (stop - start) + 'ms,', Math.round((LIMIT / (stop - start)) * 1000), 'documents per second')
+    })
+  });
+
+
 
 
 });
