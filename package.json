@@ -45,7 +45,8 @@
   },
   "dependencies": {
     "bluebird": "*",
-    "yargs": "*"
+    "yargs": "*",
+    "request": "~2.34.0"
   },
   "devDependencies": {
     "mocha": ">=1.18.2",
@@ -64,9 +65,9 @@
     "oriento": "./bin/oriento"
   },
   "scripts": {
-    "test": "echo \"\n\nNOTICE: If tests fail, please ensure you've set the correct credentials in test/test-server.json\n\n\"; node ./node_modules/mocha/bin/mocha ./test/index.js ./test/**/*.js ./test/**/**/*.js --reporter=spec -t 10000",
-    "watch": "node ./node_modules/mocha/bin/mocha ./test/index.js ./test/**/*.js ./test/**/**/*.js --reporter=spec -t 10000 --watch",
-    "coverage": "./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha ./test/index.js ./test/**/*.js ./test/**/**/*.js --reporter=spec"
+    "test": "echo \"\n\nNOTICE: If tests fail, please ensure you've set the correct credentials in test/test-server.json\n\n\"; node ./node_modules/mocha/bin/mocha ./test/index.js ./test/**/*.js ./test/**/**/*.js ./test/**/**/**/*.js ./test/**/**/**/**/*.js --reporter=spec -t 10000",
+    "watch": "node ./node_modules/mocha/bin/mocha ./test/index.js ./test/**/*.js ./test/**/**/*.js ./test/**/**/**/*.js ./test/**/**/**/**/*.js --reporter=spec -t 10000 --watch",
+    "coverage": "./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha ./test/index.js ./test/**/*.js ./test/**/**/*.js  ./test/**/**/**/*.js ./test/**/**/**/**/*.js --reporter=spec"
   },
   "licenses": [
     {

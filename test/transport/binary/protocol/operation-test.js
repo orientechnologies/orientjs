@@ -1,4 +1,4 @@
-var Operation = LIB.protocol.Operation;
+var Operation = LIB.transport.Binary.protocol.Operation;
 
 
 describe('Operation', function () {
