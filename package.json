@@ -44,15 +44,16 @@
     "url": "http://github.com/codemix/oriento.git"
   },
   "dependencies": {
-    "bluebird": "*",
-    "yargs": "*",
+    "bluebird": "~1.2.3",
+    "yargs": "~1.2.1",
     "request": "~2.34.0"
   },
   "devDependencies": {
-    "mocha": ">=1.18.2",
-    "should": "*",
-    "expect.js": "*",
-    "istanbul": "*"
+    "mocha": "~1.18.2",
+    "should": "~3.3.1",
+    "expect.js": "~0.3.1",
+    "istanbul": "~0.2.7",
+    "jshint": "~2.5.0"
   },
   "main": "./lib/index.js",
   "directories": {
@@ -65,9 +66,11 @@
     "oriento": "./bin/oriento"
   },
   "scripts": {
+    "pretest": "./node_modules/.bin/jshint ./lib",
     "test": "echo \"\n\nNOTICE: If tests fail, please ensure you've set the correct credentials in test/test-server.json\n\n\"; node ./node_modules/mocha/bin/mocha ./test/index.js ./test/**/*.js ./test/**/**/*.js ./test/**/**/**/*.js ./test/**/**/**/**/*.js --reporter=spec -t 10000",
     "watch": "node ./node_modules/mocha/bin/mocha ./test/index.js ./test/**/*.js ./test/**/**/*.js ./test/**/**/**/*.js ./test/**/**/**/**/*.js --reporter=spec -t 10000 --watch",
-    "coverage": "./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha ./test/index.js ./test/**/*.js ./test/**/**/*.js  ./test/**/**/**/*.js ./test/**/**/**/**/*.js --reporter=spec"
+    "coverage": "./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha ./test/index.js ./test/**/*.js ./test/**/**/*.js  ./test/**/**/**/*.js ./test/**/**/**/**/*.js --reporter=spec",
+    "lint": "./node_modules/.bin/jshint ./lib"
   },
   "licenses": [
     {

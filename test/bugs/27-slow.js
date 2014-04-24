@@ -1,3 +1,5 @@
+var Promise = require('bluebird');
+
 describe("Bug #27: Slow compared to Restful API", function () {
   var LIMIT = 5000;
   before(function () {
