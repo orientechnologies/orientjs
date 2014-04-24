@@ -44,15 +44,15 @@
     "url": "http://github.com/codemix/oriento.git"
   },
   "dependencies": {
-    "bluebird": "*",
-    "yargs": "*",
+    "bluebird": "~1.2.3",
+    "yargs": "~1.2.1",
     "request": "~2.34.0"
   },
   "devDependencies": {
-    "mocha": ">=1.18.2",
-    "should": "*",
-    "expect.js": "*",
-    "istanbul": "*",
+    "mocha": "~1.18.2",
+    "should": "~3.3.1",
+    "expect.js": "~0.3.1",
+    "istanbul": "~0.2.7",
     "jshint": "~2.5.0"
   },
   "main": "./lib/index.js",
