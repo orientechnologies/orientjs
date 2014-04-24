@@ -52,7 +52,8 @@
     "mocha": ">=1.18.2",
     "should": "*",
     "expect.js": "*",
-    "istanbul": "*"
+    "istanbul": "*",
+    "jshint": "~2.5.0"
   },
   "main": "./lib/index.js",
   "directories": {
@@ -67,7 +68,8 @@
   "scripts": {
     "test": "echo \"\n\nNOTICE: If tests fail, please ensure you've set the correct credentials in test/test-server.json\n\n\"; node ./node_modules/mocha/bin/mocha ./test/index.js ./test/**/*.js ./test/**/**/*.js ./test/**/**/**/*.js ./test/**/**/**/**/*.js --reporter=spec -t 10000",
     "watch": "node ./node_modules/mocha/bin/mocha ./test/index.js ./test/**/*.js ./test/**/**/*.js ./test/**/**/**/*.js ./test/**/**/**/**/*.js --reporter=spec -t 10000 --watch",
-    "coverage": "./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha ./test/index.js ./test/**/*.js ./test/**/**/*.js  ./test/**/**/**/*.js ./test/**/**/**/**/*.js --reporter=spec"
+    "coverage": "./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha ./test/index.js ./test/**/*.js ./test/**/**/*.js  ./test/**/**/**/*.js ./test/**/**/**/**/*.js --reporter=spec",
+    "lint": "./node_modules/.bin/jshint ./lib"
   },
   "licenses": [
     {
