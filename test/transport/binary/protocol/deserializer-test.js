@@ -1,6 +1,6 @@
-var deserializer = require(LIB_ROOT + '/transport/binary/protocol/new-deserializer');
+var deserializer = require(LIB_ROOT + '/transport/binary/protocol/deserializer');
 
-describe("New Deserializer", function () {
+describe("Deserializer", function () {
   it('should go fast!', function () {
     var limit = 100000,
         input = 'OUser@foo:123,baz:"bazz\\"za",int: 1234,true:true,false:false,null:null,date:123456a,rid:#12:10',
@@ -19,9 +19,22 @@ describe("New Deserializer", function () {
 
   describe('deserialize()', function () {
     it('should parse a very simple record', function () {
-      var input = 'OUser@foo:123,baz:"bazx\\"za",int:1234,true:true,false:false,null:null,date:123456a,rid:#12:10,array:[1,2,3,4,5],twice:"\"127.0.0.1\""';
+      var input = 'OUser@foo:123,baz:"bazx\\"za",int:1234,true:true,false:false,null:null,date:123456a,rid:#12:10,array:[1,2,3,4,5],twice:"\\"127.0.0.1\\""';
       var parsed = deserializer.deserialize(input);
-      console.log(parsed);
+      parsed.should.eql({
+        '@type': 'd',
+        '@class': 'OUser',
+        foo: 123,
+        baz: 'bazx"za',
+        int: 1234,
+        true: true,
+        false: false,
+        null: null,
+        date: new Date(123456),
+        rid: new LIB.RID('#12:10'),
+        array: [1, 2, 3, 4, 5],
+        twice: '"127.0.0.1"'
+      });
     });
   });
   describe('eatString()', function () {
