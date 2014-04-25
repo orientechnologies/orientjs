@@ -1,6 +1,8 @@
 // test bootstrap
 
-var Promise = require('bluebird');
+var Promise = require('bluebird'),
+    path = require('path');
+
 Promise.longStackTraces();
 
 global.expect = require('expect.js'),
@@ -9,7 +11,10 @@ global.should = require('should');
 
 global.TEST_SERVER_CONFIG = require('./test-server.json');
 
-global.LIB = require('../lib');
+global.LIB_ROOT = path.resolve(__dirname, '..', 'lib');
+
+global.LIB = require(LIB_ROOT);
+
 
 global.TEST_SERVER = new LIB.Server({
   host: TEST_SERVER_CONFIG.host,
