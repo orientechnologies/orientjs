@@ -194,6 +194,22 @@ describe("Deserializer", function () {
       parsed[1].length.should.equal(1);
     });
   });
+  describe('eatBinary()', function () {
+    it('should eat a binary field', function () {
+      var input = new Buffer('Hello World', 'utf8');
+      var parsed = deserializer.eatBinary(input.toString('base64') + '_');
+      parsed[0].should.be.instanceOf(Buffer);
+      parsed[0].should.eql(input);
+      parsed[1].length.should.equal(0);
+    });
+    it('should eat an empty binary field', function () {
+      var input = new Buffer('', 'utf8');
+      var parsed = deserializer.eatBinary(input.toString('base64') + '_');
+      parsed[0].should.be.instanceOf(Buffer);
+      parsed[0].should.eql(input);
+      parsed[1].length.should.equal(0);
+    });
+  });
   describe('eatKey', function () {
     it('should eat an unquoted key', function () {
       var input = 'mykey:123';
