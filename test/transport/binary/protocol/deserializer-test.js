@@ -182,15 +182,17 @@ describe("Deserializer", function () {
   });
   describe('eatBag()', function () {
     it('should eat a RID bag', function () {
-      var input = 'aGVsbG8gd29ybGQ=;';
+      var input = 'AQAAAAoACwAAAAAAAAACAAsAAAAAAAAAAQALAAAAAAAAAAoACwAAAAAAAAAJAAsAAAAAAAAACAALAAAAAAAAAAcACwAAAAAAAAAGAAsAAAAAAAAABQALAAAAAAAAAAQACwAAAAAAAAAD;';
       var parsed = deserializer.eatBag(input);
-      parsed[0].should.eql('aGVsbG8gd29ybGQ=');
+      parsed[0].should.be.an.instanceOf(LIB.Bag);
+      parsed[0].length.should.equal(10);
       parsed[1].length.should.equal(0);
     });
     it('should eat a RID bag with a trailing comma', function () {
-      var input = 'aGVsbG8gd29ybGQ=;,';
+      var input = 'AQAAAAoACwAAAAAAAAACAAsAAAAAAAAAAQALAAAAAAAAAAoACwAAAAAAAAAJAAsAAAAAAAAACAALAAAAAAAAAAcACwAAAAAAAAAGAAsAAAAAAAAABQALAAAAAAAAAAQACwAAAAAAAAAD;,';
       var parsed = deserializer.eatBag(input);
-      parsed[0].should.eql('aGVsbG8gd29ybGQ=');
+      parsed[0].should.be.an.instanceOf(LIB.Bag);
+      parsed[0].length.should.equal(10);
       parsed[1].length.should.equal(1);
     });
   });
