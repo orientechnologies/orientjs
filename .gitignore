@@ -1,5 +1,6 @@
 /node_modules
 /ci/environment
+/coverage
 .DS_Store
 *.swp
 .idea
