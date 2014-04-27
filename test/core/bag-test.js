@@ -56,11 +56,11 @@ describe("RID Bag", function () {
       this.bag.should.be.an.instanceOf(LIB.Bag)
       this.bag.type.should.equal(LIB.Bag.BAG_EMBEDDED);
       expect(this.bag.uuid).to.equal(null);
-      this.bag.length.should.equal(10);
+      this.bag.size.should.equal(10);
     });
 
     it('should iterate the contents in the bag', function () {
-      var length = this.bag.length,
+      var size = this.bag.size,
           i = 0,
           item;
       while((item = this.bag.next())) {
@@ -145,7 +145,7 @@ describe("RID Bag", function () {
       this.bag.should.be.an.instanceOf(LIB.Bag)
       this.bag.type.should.equal(LIB.Bag.BAG_TREE);
       expect(this.bag.uuid).to.equal(null);
-      this.bag.length.should.equal(120);
+      this.bag.size.should.equal(120);
     });
   });
 });
