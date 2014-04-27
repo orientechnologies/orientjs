@@ -43,6 +43,24 @@ describe('Server::create()', function () {
     }, done).done();
   });
 });
+describe('Server::freeze()', function () {
+  it("should freeze", function (done) {
+    TEST_SERVER.freeze("testdb_server")
+    .then(function (response) {
+      response.should.be.true;
+      done();
+    }, done).done();
+  });
+});
+describe('Server::release()', function () {
+  it("should release", function (done) {
+    TEST_SERVER.release("testdb_server")
+    .then(function (response) {
+      response.should.be.true;
+      done();
+    }, done).done();
+  });
+});
 describe('Server::list()', function () {
   it("should list the existing databases", function (done) {
     TEST_SERVER.list()
