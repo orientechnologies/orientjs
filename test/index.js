@@ -45,13 +45,14 @@ global.DELETE_REST_DB = deleteTestDb.bind(null, REST_SERVER);
 
 
 
-function createTestDb(server, context, name) {
-  return server.exists(name, 'memory')
+function createTestDb(server, context, name, type) {
+  type = type || 'memory';
+  return server.exists(name, type)
   .then(function (exists) {
     if (exists) {
       return server.delete({
         name: name,
-        storage: 'memory'
+        storage: type
       });
     }
     else {
@@ -62,7 +63,7 @@ function createTestDb(server, context, name) {
     return server.create({
       name: name,
       type: 'graph',
-      storage: 'memory'
+      storage: type
     });
   })
   .then(function (db) {
@@ -71,13 +72,14 @@ function createTestDb(server, context, name) {
   });
 }
 
-function deleteTestDb (server, name) {
-  return server.exists(name, 'memory')
+function deleteTestDb (server, name, type) {
+  type = type || 'memory';
+  return server.exists(name, type)
   .then(function (exists) {
     if (exists) {
       return server.delete({
         name: name,
-        storage: 'memory'
+        storage: type
       });
     }
     else {
