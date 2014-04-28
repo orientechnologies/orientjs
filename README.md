@@ -273,6 +273,22 @@ db.record.delete('#1:1')
 });
 ```
 
+### Transactions
+
+```js
+db.begin()
+.create({'@class': 'MyClass', name: 'me'})
+.create({'@class': 'MyOtherClass', name: 'wat?'})
+.update(myRecord)
+.delete(someOtherRecord)
+.commit()
+.then(function (results) {
+  console.log('Created ', results.created);
+  console.log('Updated ', results.updated);
+  console.log('Deleted ', results.deleted);
+})
+```
+
 ### Listing all the classes in the database
 
 ```js
