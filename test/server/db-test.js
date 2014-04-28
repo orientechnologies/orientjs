@@ -3,7 +3,7 @@ describe("Database commands", function () {
     return CREATE_TEST_DB(this, 'test_db_commands', 'plocal');
   });
   after(function () {
-    return DELETE_TEST_DB('test_db_commands');
+    return DELETE_TEST_DB('test_db_commands', 'plocal');
   });
   describe('Server::freeze()', function () {
     it("should freeze", function () {
