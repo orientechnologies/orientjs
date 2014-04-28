@@ -1,8 +1,12 @@
 var Transaction = require('../../lib/db/transaction');
 
-describe("Database API - Transaction", function () {
+describe.only("Database API - Transaction", function () {
   before(function () {
-    return CREATE_TEST_DB(this, 'testdb_dbapi_tx');
+    return CREATE_TEST_DB(this, 'testdb_dbapi_tx')
+    .bind(this)
+    .then(function () {
+      return this.db.class.create('TestClass', 'V');
+    });
   });
   after(function () {
     return DELETE_TEST_DB('testdb_dbapi_tx');
@@ -18,18 +22,26 @@ describe("Database API - Transaction", function () {
     beforeEach(function () {
       this.tx = this.db.begin();
     });
-    it('should create a single record', function () {
+    it.only('should create a single record', function () {
       var completed = false;
       this.tx.create({
-        '@class': 'OUser',
-        name: 'testuser',
-        password: 'testpassword',
-        status: 'ACTIVE'
+        '@class': 'TestClass',
+        name: 'item1'
       })
       .then(function (record) {
         record['@rid'].should.be.an.instanceOf(LIB.RID);
         completed = true;
       });
+
+      this.tx.create({
+        '@class': 'TestClass',
+        name: 'item2'
+      })
+
+      this.tx.create({
+        '@class': 'TestClass',
+        name: 'item3'
+      })
 
       return this.tx.commit()
       .then(function (results) {
@@ -39,7 +51,6 @@ describe("Database API - Transaction", function () {
     });
   });
   describe("Db::transaction.delete()", function () {
-
   });
 
 });
