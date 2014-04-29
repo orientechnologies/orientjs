@@ -12,6 +12,22 @@ describe('Server::create()', function () {
     });
   });
 });
+describe('Server::freeze()', function () {
+  it("should freeze", function () {
+    return TEST_SERVER.freeze("testdb_server")
+    .then(function (response) {
+      response.should.be.true;
+    });
+  });
+});
+describe('Server::release()', function () {
+  it("should release", function () {
+    return TEST_SERVER.release("testdb_server")
+    .then(function (response) {
+      response.should.be.true;
+    });
+  });
+});
 describe('Server::list()', function () {
   it("should list the existing databases", function () {
     return TEST_SERVER.list()
