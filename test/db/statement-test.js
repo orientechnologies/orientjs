@@ -29,7 +29,7 @@ describe("Database API - Statement", function () {
       .let('statuses', sub2)
       .buildStatement()
       .should
-      .equal('LET names = SELECT name FROM OUser WHERE status = "ACTIVE"\nLET statuses = SELECT status FROM OUser');
+      .equal('LET names = SELECT name FROM OUser WHERE status = "ACTIVE" LET statuses = SELECT status FROM OUser');
     });
     it('should let a variable equal a subexpression, more than once, using locks', function () {
       var sub1 = (new Statement(this.db)).select('name').from('OUser').where({status: 'ACTIVE'}),
@@ -39,24 +39,24 @@ describe("Database API - Statement", function () {
       .let('statuses', sub2)
       .buildStatement()
       .should
-      .equal('LET names = SELECT name FROM OUser WHERE status = "ACTIVE"\nLET statuses = SELECT status FROM OUser LOCK record');
+      .equal('LET names = SELECT name FROM OUser WHERE status = "ACTIVE" LET statuses = SELECT status FROM OUser LOCK record');
     });
   });
 
-  describe('Statement::commit()', function () {
+  describe('Statement::commit() and Statement::return()', function () {
     it('should generate an empty transaction', function () {
       this.statement
       .commit()
       .buildStatement()
       .should
-      .equal('BEGIN\n COMMIT \n');
+      .equal('BEGIN COMMIT');
     });
     it('should generate an empty transaction, with retries', function () {
       this.statement
       .commit(100)
       .buildStatement()
       .should
-      .equal('BEGIN\n COMMIT RETRY 100\n');
+      .equal('BEGIN COMMIT RETRY 100');
     });
     it('should generate an update transaction', function () {
       this.statement
@@ -65,7 +65,7 @@ describe("Database API - Statement", function () {
       .commit()
       .toString()
       .should
-      .equal('BEGIN\n UPDATE OUser SET name = "name" COMMIT \n');
+      .equal('BEGIN UPDATE OUser SET name = "name" COMMIT');
     });
     it('should generate an update transaction, with retries', function () {
       this.statement
@@ -74,7 +74,17 @@ describe("Database API - Statement", function () {
       .commit(100)
       .toString()
       .should
-      .equal('BEGIN\n UPDATE OUser SET name = "name" COMMIT RETRY 100\n');
+      .equal('BEGIN UPDATE OUser SET name = "name" COMMIT RETRY 100');
+    });
+    it('should generate an update transaction, with returns', function () {
+      var sub = (new Statement(this.db)).update('OUser').set({name: 'name'});
+      this.statement
+      .let('names', sub)
+      .commit()
+      .return('$names')
+      .toString()
+      .should
+      .equal('BEGIN LET names = UPDATE OUser SET name = "name" COMMIT RETURN $names');
     });
   });
 
