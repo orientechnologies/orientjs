@@ -49,14 +49,14 @@ describe("Database API - Statement", function () {
       .commit()
       .buildStatement()
       .should
-      .equal('BEGIN COMMIT');
+      .equal('BEGIN; ;COMMIT ;');
     });
     it('should generate an empty transaction, with retries', function () {
       this.statement
       .commit(100)
       .buildStatement()
       .should
-      .equal('BEGIN COMMIT RETRY 100');
+      .equal('BEGIN; ;COMMIT RETRY 100 ;');
     });
     it('should generate an update transaction', function () {
       this.statement
@@ -65,7 +65,7 @@ describe("Database API - Statement", function () {
       .commit()
       .toString()
       .should
-      .equal('BEGIN UPDATE OUser SET name = "name" COMMIT');
+      .equal('BEGIN; UPDATE OUser SET name = "name" ;COMMIT ;');
     });
     it('should generate an update transaction, with retries', function () {
       this.statement
@@ -74,7 +74,7 @@ describe("Database API - Statement", function () {
       .commit(100)
       .toString()
       .should
-      .equal('BEGIN UPDATE OUser SET name = "name" COMMIT RETRY 100');
+      .equal('BEGIN; UPDATE OUser SET name = "name" ;COMMIT RETRY 100 ;');
     });
     it('should generate an update transaction, with returns', function () {
       var sub = (new Statement(this.db)).update('OUser').set({name: 'name'});
@@ -84,7 +84,7 @@ describe("Database API - Statement", function () {
       .return('$names')
       .toString()
       .should
-      .equal('BEGIN LET names = UPDATE OUser SET name = "name" COMMIT RETURN $names');
+      .equal('BEGIN; LET names = UPDATE OUser SET name = "name" ;COMMIT ; RETURN $names;');
     });
   });
 
