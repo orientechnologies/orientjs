@@ -305,7 +305,7 @@ describe("Database API - Query", function () {
     });
   });
 
-  describe.only('Transactional Queries', function () {
+  describe.skip('Transactional Queries', function () {
     it('should execute a simple transaction', function () {
       return this.db
       .update('OUser')
