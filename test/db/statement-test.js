@@ -166,6 +166,16 @@ describe("Database API - Statement", function () {
     });
   });
 
+  describe('Statement::containsText()', function () {
+    it('should build a where clause with a map of values', function () {
+      this.statement.select().from('OUser').containsText({
+        name: 'root',
+        foo: 'bar'
+      });
+      this.statement.buildStatement().should.equal('SELECT * FROM OUser WHERE (name CONTAINSTEXT :paramname0 AND foo CONTAINSTEXT :paramfoo1)');
+    });
+  });
+
   describe('Statement::lock()', function () {
     it('should lock a record', function () {
       this.statement.update('OUser').lock('record');
