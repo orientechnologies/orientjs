@@ -157,6 +157,15 @@ db.select().from('OUser').where({status: 'ACTIVE'}).all()
 });
 ```
 
+### Query Builder: Text Search
+
+```js
+db.select().from('OUser').containsText({name: 'er'}).all()
+.then(function (users) {
+  console.log('found users', users);
+});
+```
+
 ### Query Builder: Select Records with Fetch Plan
 
 ```js
