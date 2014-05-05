@@ -2,4 +2,10 @@ language: node_js
 node_js:
   - "0.10"
 before_script:
-  - sh -c ./ci/initialize-ci.sh 1.7-rc2
+  - ./ci/initialize-ci.sh $ORIENTDB_VERSION
+env:
+  - ORIENTDB_VERSION=1.7-rc2
+  - ORIENTDB_VERSION=1.7-SNAPSHOT
+matrix:
+  allow_failures:
+    - env: ORIENTDB_VERSION=1.7-SNAPSHOT
