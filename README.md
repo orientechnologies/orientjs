@@ -116,6 +116,33 @@ var db = server.use({
 console.log('Using database: ' + db.name);
 ```
 
+### Execute a Query String with Params
+
+```js
+db.query('select from OUser where name=:name', {
+  params: {
+    name: 'Radu'
+  },
+  limit: 1
+}).then(function (results){
+  console.log(results);
+});
+
+```
+
+### Raw Execution of a Query String with Params
+
+```js
+db.exec('select from OUser where name=:name', {
+  params: {
+    name: 'Radu'
+  }
+}).then(function (response){
+  console.log(response.results);
+});
+
+```
+
 ### Query Builder: Insert Record
 
 ```js

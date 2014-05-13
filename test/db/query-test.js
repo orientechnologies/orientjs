@@ -305,7 +305,7 @@ describe("Database API - Query", function () {
     });
   });
   describe('Db::execute()', function() {
-    it('should execute a query string (without limit)', function () {
+    it('should exec a raw command', function () {
       return this.db.exec('select from OUser where name=:name', {
         params: {
           name: 'reader'
@@ -316,16 +316,17 @@ describe("Database API - Query", function () {
         result.results[0].content.length.should.be.above(0);
       });
     });
-    it('should execute a query string (with limit)', function () {
-      return this.db.exec('select from OUser where name=:name', {
+    it('should execute a query string', function () {
+      return this.db.query('select from OUser where name=:name', {
         params: {
           name: 'reader'
         },
-        limit: 5
+        limit: 1 
       })
       .then(function (result){
-        Array.isArray(result.results[0].content).should.be.true;
-        result.results[0].content.length.should.be.above(0);
+        Array.isArray(result).should.be.true;
+        result.length.should.be.above(0);
+        (result[0]['@class']).should.eql('OUser');
       });
     });
   });
