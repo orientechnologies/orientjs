@@ -50,7 +50,7 @@ function createTestDb(server, context, name, type) {
   return server.exists(name, type)
   .then(function (exists) {
     if (exists) {
-      return server.delete({
+      return server.drop({
         name: name,
         storage: type
       });
@@ -77,7 +77,7 @@ function deleteTestDb (server, name, type) {
   return server.exists(name, type)
   .then(function (exists) {
     if (exists) {
-      return server.delete({
+      return server.drop({
         name: name,
         storage: type
       });

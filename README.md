@@ -483,7 +483,7 @@ For an example of such a file, see [test/fixtures/oriento.opts](./test/fixtures/
 
 ### Destroying an existing database
 
-`oriento db delete mydb`
+`oriento db drop mydb`
 
 ## Migrations
 

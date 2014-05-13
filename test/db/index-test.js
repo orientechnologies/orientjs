@@ -54,9 +54,9 @@ describe("Database API - Index", function () {
     });
   });
 
-  describe('Db::index.delete()', function () {
+  describe('Db::index.drop()', function () {
     it('should delete an index', function () {
-      return this.db.index.delete('TestClass.name');
+      return this.db.index.drop('TestClass.name');
     });
   });
 

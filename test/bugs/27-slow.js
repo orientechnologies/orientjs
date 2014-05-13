@@ -1,6 +1,7 @@
 var Promise = require('bluebird');
 
 describe("Bug #27: Slow compared to Restful API", function () {
+  this.timeout(10 * 10000);
   var LIMIT = 5000;
   before(function () {
     return CREATE_TEST_DB(this, 'testdb_bug_27_slow')

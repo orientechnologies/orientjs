@@ -11,7 +11,7 @@ describe("Database API", function () {
     });
   });
   after(function () {
-    return TEST_SERVER.delete({
+    return TEST_SERVER.drop({
       name: 'testdb_dbapi',
       storage: 'memory'
     });

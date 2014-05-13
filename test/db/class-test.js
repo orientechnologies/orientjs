@@ -38,9 +38,9 @@ describe("Database API - Class", function () {
     });
   });
 
-  describe('Db::class.delete()', function () {
+  describe('Db::class.drop()', function () {
     it('should delete a class with the given name', function () {
-      return this.db.class.delete('TestClass');
+      return this.db.class.drop('TestClass');
     });
   });
 
