@@ -304,17 +304,25 @@ describe("Database API - Query", function () {
       });
     });
   });
-  describe('Db::execute()', function() {
+  describe('Db::query()', function() {
     it('should execute an insert query', function () {
-      return this.db.query('insert into OUser (name, password, status) values ("Radu", "mypassword", "active")')
-        .then(function (response){ 
-        response[0].name.should.equal('Radu');
+      return this.db.query('insert into OUser (name, password, status) values (:name, :password, :status)',
+        {
+          params: {
+            name: 'Samson',
+            password: 'mypassword',
+            status: 'active'
+          }
+        }
+      ).then(function (response){ 
+        console.log(response)
+        response[0].name.should.equal('Samson');
       });
     });
     it('should exec a raw select command', function () {
       return this.db.exec('select from OUser where name=:name', {
         params: {
-          name: 'Radu'
+          name: 'Samson'
         }
       })
       .then(function (result){
@@ -325,7 +333,7 @@ describe("Database API - Query", function () {
     it('should execute a selectquery string', function () {
       return this.db.query('select from OUser where name=:name', {
         params: {
-          name: 'Radu'
+          name: 'Samson'
         },
         limit: 1 
       })
@@ -338,7 +346,7 @@ describe("Database API - Query", function () {
     it('should execute a delete query', function () {
       return this.db.query('delete from OUser where name=:name', {
         params: {
-          name: 'Radu'
+          name: 'Samson'
         }
       }).then(function (response){ 
         response[0].should.eql('1');

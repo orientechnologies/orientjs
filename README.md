@@ -119,8 +119,15 @@ console.log('Using database: ' + db.name);
 ### Execute an Insert Query
 
 ```js
-db.query('insert into OUser (name, password, status) values ("Radu", "mypassword", "active")')
-.then(function (response){ 
+db.query('insert into OUser (name, password, status) values (:name, :password, :status)',
+  {
+    params: {
+      name: 'Radu',
+      password: 'mypassword',
+      status: 'active'
+    }
+  }
+).then(function (response){ 
   console.log(response); //an Array of records inserted
 });
 
