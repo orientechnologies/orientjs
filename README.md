@@ -116,7 +116,18 @@ var db = server.use({
 console.log('Using database: ' + db.name);
 ```
 
-### Execute a Query String with Params
+### Execute an Insert Query
+
+```js
+db.query('insert into OUser (name, password, status) values ("Radu", "mypassword", "active")')
+.then(function (response){ 
+  console.log(response); //an Array of records inserted
+});
+
+```
+
+
+### Execute a Select Query with Params
 
 ```js
 db.query('select from OUser where name=:name', {

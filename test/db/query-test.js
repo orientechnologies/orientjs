@@ -305,10 +305,16 @@ describe("Database API - Query", function () {
     });
   });
   describe('Db::execute()', function() {
-    it('should exec a raw command', function () {
+    it('should execute an insert query', function () {
+      return this.db.query('insert into OUser (name, password, status) values ("Radu", "mypassword", "active")')
+        .then(function (response){ 
+        response[0].name.should.equal('Radu');
+      });
+    });
+    it('should exec a raw select command', function () {
       return this.db.exec('select from OUser where name=:name', {
         params: {
-          name: 'reader'
+          name: 'Radu'
         }
       })
       .then(function (result){
@@ -316,10 +322,10 @@ describe("Database API - Query", function () {
         result.results[0].content.length.should.be.above(0);
       });
     });
-    it('should execute a query string', function () {
+    it('should execute a selectquery string', function () {
       return this.db.query('select from OUser where name=:name', {
         params: {
-          name: 'reader'
+          name: 'Radu'
         },
         limit: 1 
       })
@@ -329,9 +335,16 @@ describe("Database API - Query", function () {
         (result[0]['@class']).should.eql('OUser');
       });
     });
+    it('should execute a delete query', function () {
+      return this.db.query('delete from OUser where name=:name', {
+        params: {
+          name: 'Radu'
+        }
+      }).then(function (response){ 
+        response[0].should.eql('1');
+      });
+    });
   });
-
-
   describe.skip('Transactional Queries', function () {
     it('should execute a simple transaction', function () {
       return this.db
