@@ -1,6 +1,6 @@
 var Query = require('../../lib/db/query');
 
-describe.only("Database API - Query", function () {
+describe("Database API - Query", function () {
   before(function () {
     return CREATE_TEST_DB(this, 'testdb_dbapi_query');
 
@@ -312,11 +312,10 @@ describe.only("Database API - Query", function () {
         }
       })
       .then(function (result){
+        Array.isArray(result.results[0].content).should.be.true;
         result.results[0].content.length.should.be.above(0);
       });
     });
-  });
-  describe('Db::execute()', function() {
     it('should execute a query string (with limit)', function () {
       return this.db.exec('select from OUser where name=:name', {
         params: {
@@ -325,7 +324,8 @@ describe.only("Database API - Query", function () {
         limit: 5
       })
       .then(function (result){
-        expect(result.results[0].content.length).to.equal(undefined);
+        Array.isArray(result.results[0].content).should.be.true;
+        result.results[0].content.length.should.be.above(0);
       });
     });
   });
