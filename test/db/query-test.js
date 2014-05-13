@@ -304,7 +304,55 @@ describe("Database API - Query", function () {
       });
     });
   });
-
+  describe('Db::query()', function() {
+    it('should execute an insert query', function () {
+      return this.db.query('insert into OUser (name, password, status) values (:name, :password, :status)',
+        {
+          params: {
+            name: 'Samson',
+            password: 'mypassword',
+            status: 'active'
+          }
+        }
+      ).then(function (response){ 
+        console.log(response)
+        response[0].name.should.equal('Samson');
+      });
+    });
+    it('should exec a raw select command', function () {
+      return this.db.exec('select from OUser where name=:name', {
+        params: {
+          name: 'Samson'
+        }
+      })
+      .then(function (result){
+        Array.isArray(result.results[0].content).should.be.true;
+        result.results[0].content.length.should.be.above(0);
+      });
+    });
+    it('should execute a selectquery string', function () {
+      return this.db.query('select from OUser where name=:name', {
+        params: {
+          name: 'Samson'
+        },
+        limit: 1 
+      })
+      .then(function (result){
+        Array.isArray(result).should.be.true;
+        result.length.should.be.above(0);
+        (result[0]['@class']).should.eql('OUser');
+      });
+    });
+    it('should execute a delete query', function () {
+      return this.db.query('delete from OUser where name=:name', {
+        params: {
+          name: 'Samson'
+        }
+      }).then(function (response){ 
+        response[0].should.eql('1');
+      });
+    });
+  });
   describe.skip('Transactional Queries', function () {
     it('should execute a simple transaction', function () {
       return this.db
