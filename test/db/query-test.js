@@ -1,6 +1,6 @@
 var Query = require('../../lib/db/query');
 
-describe("Database API - Query", function () {
+describe.only("Database API - Query", function () {
   before(function () {
     return CREATE_TEST_DB(this, 'testdb_dbapi_query');
 
@@ -304,6 +304,32 @@ describe("Database API - Query", function () {
       });
     });
   });
+  describe('Db::execute()', function() {
+    it('should execute a query string (without limit)', function () {
+      return this.db.exec('select from OUser where name=:name', {
+        params: {
+          name: 'reader'
+        }
+      })
+      .then(function (result){
+        result.results[0].content.length.should.be.above(0);
+      });
+    });
+  });
+  describe('Db::execute()', function() {
+    it('should execute a query string (with limit)', function () {
+      return this.db.exec('select from OUser where name=:name', {
+        params: {
+          name: 'reader'
+        },
+        limit: 5
+      })
+      .then(function (result){
+        expect(result.results[0].content.length).to.equal(undefined);
+      });
+    });
+  });
+
 
   describe.skip('Transactional Queries', function () {
     it('should execute a simple transaction', function () {
