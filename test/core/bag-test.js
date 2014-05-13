@@ -90,7 +90,7 @@ describe("RID Bag", function () {
 
   describe('Tree Bag', function () {
     before(function () {
-      this.timeout(10 * 10000);
+      this.timeout(20000);
       var self = this;
       return CREATE_TEST_DB(this, 'testdb_dbapi_rid_bag_tree', 'plocal')
       .bind(this)

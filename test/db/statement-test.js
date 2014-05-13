@@ -12,6 +12,82 @@ describe("Database API - Statement", function () {
     this.statement = new Statement(this.db);
   });
 
+  describe('Statement::let()', function () {
+    it('should let a variable equal a subexpression', function () {
+      var sub = (new Statement(this.db)).select('name').from('OUser').where({status: 'ACTIVE'});
+      this.statement
+      .let('names', sub)
+      .buildStatement()
+      .should
+      .equal('LET names = SELECT name FROM OUser WHERE status = "ACTIVE"');
+    });
+    it('should let a variable equal a subexpression, more than once', function () {
+      var sub1 = (new Statement(this.db)).select('name').from('OUser').where({status: 'ACTIVE'}),
+          sub2 = (new Statement(this.db)).select('status').from('OUser');
+      this.statement
+      .let('names', sub1)
+      .let('statuses', sub2)
+      .buildStatement()
+      .should
+      .equal('LET names = SELECT name FROM OUser WHERE status = "ACTIVE" LET statuses = SELECT status FROM OUser');
+    });
+    it('should let a variable equal a subexpression, more than once, using locks', function () {
+      var sub1 = (new Statement(this.db)).select('name').from('OUser').where({status: 'ACTIVE'}),
+          sub2 = (new Statement(this.db)).select('status').from('OUser').lock('record');
+      this.statement
+      .let('names', sub1)
+      .let('statuses', sub2)
+      .buildStatement()
+      .should
+      .equal('LET names = SELECT name FROM OUser WHERE status = "ACTIVE" LET statuses = SELECT status FROM OUser LOCK record');
+    });
+  });
+
+  describe('Statement::commit() and Statement::return()', function () {
+    it('should generate an empty transaction', function () {
+      this.statement
+      .commit()
+      .buildStatement()
+      .should
+      .equal('BEGIN; ;COMMIT ;');
+    });
+    it('should generate an empty transaction, with retries', function () {
+      this.statement
+      .commit(100)
+      .buildStatement()
+      .should
+      .equal('BEGIN; ;COMMIT RETRY 100 ;');
+    });
+    it('should generate an update transaction', function () {
+      this.statement
+      .update('OUser')
+      .set({name: 'name'})
+      .commit()
+      .toString()
+      .should
+      .equal('BEGIN; UPDATE OUser SET name = "name" ;COMMIT ;');
+    });
+    it('should generate an update transaction, with retries', function () {
+      this.statement
+      .update('OUser')
+      .set({name: 'name'})
+      .commit(100)
+      .toString()
+      .should
+      .equal('BEGIN; UPDATE OUser SET name = "name" ;COMMIT RETRY 100 ;');
+    });
+    it('should generate an update transaction, with returns', function () {
+      var sub = (new Statement(this.db)).update('OUser').set({name: 'name'});
+      this.statement
+      .let('names', sub)
+      .commit()
+      .return('$names')
+      .toString()
+      .should
+      .equal('BEGIN; LET names = UPDATE OUser SET name = "name" ;COMMIT ; RETURN $names;');
+    });
+  });
+
   describe('Statement::select()', function () {
     it('should select all the columns by default', function () {
       this.statement.select();
@@ -89,4 +165,25 @@ describe("Database API - Statement", function () {
       this.statement.buildStatement().should.equal('SELECT * FROM OUser WHERE ((1=1) OR 2=2 OR 3=3 OR 4=4) AND 5=5');
     });
   });
+
+  describe('Statement::containsText()', function () {
+    it('should build a where clause with a map of values', function () {
+      this.statement.select().from('OUser').containsText({
+        name: 'root',
+        foo: 'bar'
+      });
+      this.statement.buildStatement().should.equal('SELECT * FROM OUser WHERE (name CONTAINSTEXT :paramname0 AND foo CONTAINSTEXT :paramfoo1)');
+    });
+  });
+
+  describe('Statement::lock()', function () {
+    it('should lock a record', function () {
+      this.statement.update('OUser').lock('record');
+      this.statement.buildStatement().should.equal('UPDATE OUser LOCK record');
+    });
+    it('should lock a record with an expression', function () {
+      this.statement.update('OUser').where('1=1').lock('record');
+      this.statement.buildStatement().should.equal('UPDATE OUser WHERE 1=1 LOCK record');
+    });
+  })
 });

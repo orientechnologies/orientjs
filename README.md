@@ -4,10 +4,6 @@ A lightweight node.js driver for [orientdb](http://www.orientechnologies.com/ori
 
 [![Build Status](https://travis-ci.org/codemix/oriento.svg?branch=master)](https://travis-ci.org/codemix/oriento)
 
-> **status: alpha**
-> This is work in progress, alpha quality software.
-> Please [report any bugs](https://github.com/codemix/oriento/issues) you find so that we can improve the library for everyone.
-
 
 
 # Supported Versions
@@ -157,6 +153,15 @@ db.select().from('OUser').where({status: 'ACTIVE'}).all()
 });
 ```
 
+### Query Builder: Text Search
+
+```js
+db.select().from('OUser').containsText({name: 'er'}).all()
+.then(function (users) {
+  console.log('found users', users);
+});
+```
+
 ### Query Builder: Select Records with Fetch Plan
 
 ```js
@@ -271,6 +276,22 @@ db.record.delete('#1:1')
 .then(function () {
   console.log('Record deleted');
 });
+```
+
+### Transactions
+
+```js
+db.begin()
+.create({'@class': 'MyClass', name: 'me'})
+.create({'@class': 'MyOtherClass', name: 'wat?'})
+.update(myRecord)
+.delete(someOtherRecord)
+.commit()
+.then(function (results) {
+  console.log('Created ', results.created);
+  console.log('Updated ', results.updated);
+  console.log('Deleted ', results.deleted);
+})
 ```
 
 ### Listing all the classes in the database
@@ -462,7 +483,7 @@ For an example of such a file, see [test/fixtures/oriento.opts](./test/fixtures/
 
 ### Destroying an existing database
 
-`oriento db delete mydb`
+`oriento db drop mydb`
 
 ## Migrations
 
