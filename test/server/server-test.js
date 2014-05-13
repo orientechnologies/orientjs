@@ -55,7 +55,7 @@ describe('Server::exists()', function () {
 });
 describe('Server::delete()', function () {
   it("should delete a database", function () {
-    return TEST_SERVER.delete({
+    return TEST_SERVER.drop({
       name: 'testdb_server',
       type: 'graph',
       storage: 'memory'

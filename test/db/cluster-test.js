@@ -11,7 +11,7 @@ describe("Database API - Cluster", function () {
     });
   });
   after(function () {
-    return TEST_SERVER.delete({
+    return TEST_SERVER.drop({
       name: 'testdb_dbapi_cluster',
       storage: 'memory'
     });
@@ -86,9 +86,9 @@ describe("Database API - Cluster", function () {
     });
   });
 
-  describe('Db::cluster.delete()', function () {
+  describe('Db::cluster.drop()', function () {
     it('should delete a cluster with the given name', function () {
-      return this.db.cluster.delete('mycluster');
+      return this.db.cluster.drop('mycluster');
     });
   });
 
