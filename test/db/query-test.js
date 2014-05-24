@@ -314,8 +314,7 @@ describe("Database API - Query", function () {
             status: 'active'
           }
         }
-      ).then(function (response){ 
-        console.log(response)
+      ).then(function (response){
         response[0].name.should.equal('Samson');
       });
     });
@@ -335,7 +334,7 @@ describe("Database API - Query", function () {
         params: {
           name: 'Samson'
         },
-        limit: 1 
+        limit: 1
       })
       .then(function (result){
         Array.isArray(result).should.be.true;
@@ -348,7 +347,7 @@ describe("Database API - Query", function () {
         params: {
           name: 'Samson'
         }
-      }).then(function (response){ 
+      }).then(function (response){
         response[0].should.eql('1');
       });
     });
