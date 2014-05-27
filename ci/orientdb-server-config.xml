@@ -54,7 +54,7 @@
     </network>
     <storages/>
     <users>
-        <user resources="*" password="3BA5DB89CC6206DBF835B36B70FF8A0EDCEFA617A229F0D44D1D726ABA04216A" name="root"/>
+        <user resources="*" password="root" name="root"/>
         <user resources="connect,server.listDatabases,server.dblist" password="guest" name="guest"/>
     </users>
     <properties>
