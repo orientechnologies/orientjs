@@ -103,9 +103,9 @@ describe("Database API - Class - Property", function () {
   });
 
 
-  describe('Db::class.property.delete()', function () {
-    it('should delete a property with the given name', function () {
-      return this.class.property.delete('myprop');
+  describe('Db::class.property.drop()', function () {
+    it('should drop a property with the given name', function () {
+      return this.class.property.drop('myprop');
     });
   });
 
