@@ -426,6 +426,27 @@ MyClass.list()
 });
 ```
 
+### Create a new index for a class property
+
+```js
+db.index.create({
+  name: 'MyClass.myProp',
+  type: 'unique'
+})
+.then(function(index){
+  console.log('Created index: ', index);
+});
+```
+
+### Get entry from class property index
+
+```js
+db.index.get('MyClass.myProp')
+.then(function (index) {
+  index.get('foo').then(console.log.bind(console));
+});
+```
+
 ### Creating a new, empty vertex
 
 ```js
