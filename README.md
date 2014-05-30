@@ -8,7 +8,7 @@ A lightweight node.js driver for [orientdb](http://www.orientechnologies.com/ori
 
 # Supported Versions
 
-Oriento aims to work with version 1.7 of orientdb and later. While it may work with earlier versions, they are not currently supported, [pull requests are welcome!](./CONTRIBUTING.md)
+Oriento aims to work with version 1.7.1 of orientdb and later. While it may work with earlier versions, they are not currently supported, [pull requests are welcome!](./CONTRIBUTING.md)
 
 
 
@@ -127,7 +127,7 @@ db.query('insert into OUser (name, password, status) values (:name, :password, :
       status: 'active'
     }
   }
-).then(function (response){ 
+).then(function (response){
   console.log(response); //an Array of records inserted
 });
 
