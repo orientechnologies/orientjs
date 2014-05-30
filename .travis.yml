@@ -4,11 +4,4 @@ node_js:
 before_script:
   - ./ci/initialize-ci.sh $ORIENTDB_VERSION
 env:
-  - ORIENTDB_VERSION=1.7-rc2
-
-## @todo Restore me when snapshot stabilises
-
-#  - ORIENTDB_VERSION=1.7-SNAPSHOT
-# matrix:
-#   allow_failures:
-#     - env: ORIENTDB_VERSION=1.7-SNAPSHOT
+  - ORIENTDB_VERSION=1.7.1-SNAPSHOT
