@@ -36,49 +36,13 @@ odb_download () {
 }
 
 odb_download_server () {
-  if [[ $1 == *SNAPSHOT ]]; then
-    odb_download_via_mvn $1 $2;
-  else
-    odb_download_via_website $1 $2;
-  fi;
-
-}
-
-odb_download_via_website () {
-  COMMIT_HASH=$(git rev-parse HEAD)
-  DOWN_USER=oriento+travis${COMMIT_HASH}@codemix.com
-  ODB_VERSION=$1
-  CI_DIR=$2
-
-  ODB_PACKAGE="orientdb-community-${ODB_VERSION}"
-
-  # We need to resort to tricks to automate our CI environment as much as
-  # possible since the OrientDB guys keep changing the compressed archive
-  # format and moving the downloadable packages URLs. Luckily for us, we
-  # are smart enough to cope with that... at least until the next change.
-
-  ODB_PACKAGE_EXT="tar.gz"
-  ODB_PACKAGE_URL="http://www.orientdb.org/portal/function/portal/download/${DOWN_USER}/%20/%20/%20/%20/unknown/${ODB_PACKAGE}.${ODB_PACKAGE_EXT}/false/false"
-  ODB_C_PACKAGE=${ODB_PACKAGE}.${ODB_PACKAGE_EXT}
-
-  odb_download $ODB_PACKAGE_URL $CI_DIR
-  ODB_PACKAGE_PATH="${CI_DIR}/${ODB_PACKAGE}.${ODB_PACKAGE_EXT}"
-
-  if [ $ODB_PACKAGE_EXT = "zip" ]; then
-    unzip -q $ODB_PACKAGE_PATH -d ${CI_DIR}
-  elif [ $ODB_PACKAGE_EXT = "tar.gz" ]; then
-    tar xf $ODB_PACKAGE_PATH -C $CI_DIR
-  fi
-}
-
-odb_download_via_mvn () {
   ODB_VERSION=$1
   CI_DIR=$2
 
   ODB_PACKAGE="orientdb-community-${ODB_VERSION}"
 
 
-  ODB_PACKAGE_EXT="tar.gz"
+  ODB_PACKAGE_EXT="zip"
   ODB_C_PACKAGE=${ODB_PACKAGE}.${ODB_PACKAGE_EXT}
 
   OUTPUT_DIR="${2:-$(pwd)}"
@@ -86,8 +50,9 @@ odb_download_via_mvn () {
   if [ ! -d "$OUTPUT_DIR" ]; then
     mkdir "$OUTPUT_DIR"
   fi
+
   if odb_command_exists "mvn" ; then
-    mvn org.apache.maven.plugins:maven-dependency-plugin:2.8:get -Dartifact=com.orientechnologies:orientdb-community:"${ODB_VERSION}":"${ODB_PACKAGE_EXT}":distribution -DremoteRepositories=https://oss.sonatype.org/content/repositories/snapshots/ -Ddest="$OUTPUT_DIR/$ODB_C_PACKAGE"
+    mvn org.apache.maven.plugins:maven-dependency-plugin:2.8:get -Dartifact=com.orientechnologies:orientdb-community:$ODB_VERSION:$ODB_PACKAGE_EXT:distribution -DremoteRepositories="https://oss.sonatype.org/content/repositories/snapshots/,https://oss.sonatype.org/content/repositories/releases/" -Ddest=$OUTPUT_DIR/$ODB_C_PACKAGE
   else
     echo "Cannot download $1 [maven is not installed]"
     exit 1
