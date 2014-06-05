@@ -1,4 +1,4 @@
-describe.only("Bug #65: Passing JSON array to db.index.create", function () {
+describe("Bug #65: Passing JSON array to db.index.create", function () {
   before(function () {
     return CREATE_TEST_DB(this, 'testdb_bug_65')
     .bind(this)
