@@ -34,7 +34,7 @@ describe("Bug #69: Order by date", function () {
         },
         {
           name: 'd',
-          creation: '2012-01-01 21:00:01'
+          creation: '2014-09-01 00:01:01'
         },
         {
           name: 'e',
