@@ -22,23 +22,23 @@ describe("Bug #69: Order by date", function () {
       return this.class.create([
         {
           name: 'a',
-          creation: new Date('2001-01-01')
+          creation: '2001-01-01 00:00:01'
         },
         {
           name: 'b',
-          creation: new Date('2001-01-02')
+          creation: '2001-01-02 12:00:01'
         },
         {
           name: 'c',
-          creation: new Date('2009-01-01')
+          creation: '2009-01-01 00:12:01'
         },
         {
           name: 'd',
-          creation: new Date('2012-01-01')
+          creation: '2014-09-01 00:01:01'
         },
         {
           name: 'e',
-          creation: new Date('2014-09-01')
+          creation: '2014-09-01 00:24:01'
         }
       ])
     });
