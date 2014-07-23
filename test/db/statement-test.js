@@ -185,5 +185,16 @@ describe("Database API - Statement", function () {
       this.statement.update('OUser').where('1=1').lock('record');
       this.statement.buildStatement().should.equal('UPDATE OUser WHERE 1=1 LOCK record');
     });
+  });
+
+  describe('Statement::upsert()', function () {
+    it('should upsert a record', function () {
+      this.statement.update('OUser').set("foo = 'bar'").upsert().where('1 = 1');
+      this.statement.buildStatement().should.equal("UPDATE OUser SET (foo = 'bar') UPSERT WHERE 1 = 1");
+    });
+    it('should upsert a record, with a where clause', function () {
+      this.statement.update('OUser').set("foo = 'bar'").upsert('1 = 1');
+      this.statement.buildStatement().should.equal("UPDATE OUser SET (foo = 'bar') UPSERT WHERE 1 = 1");
+    });
   })
 });
