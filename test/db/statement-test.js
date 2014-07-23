@@ -41,6 +41,44 @@ describe("Database API - Statement", function () {
       .should
       .equal('LET names = SELECT name FROM OUser WHERE status = "ACTIVE"\n LET statuses = SELECT status FROM OUser LOCK record\n');
     });
+
+    it('should allow RIDs in LET expressions', function () {
+      var rec1 = {
+        '@rid': new LIB.RID({
+          cluster: 23,
+          position: 1234567
+        })
+      };
+      var rec2 = {
+        '@rid': new LIB.RID({
+          cluster: 23,
+          position: 98765432
+        })
+      };
+      this.statement
+      .let('foo', function (statement) {
+        return statement.select().from('Foo');
+      })
+      .let('edge', function (statement) {
+        return statement
+        .create('edge', 'E')
+        .from('$foo')
+        .to(rec1['@rid']);
+      })
+      .let('updated', function (statement) {
+        return statement.update(rec2['@rid']).set({foo: 'bar'});
+      })
+      .commit()
+      .return('$edge')
+      .buildStatement()
+      .should.equal('BEGIN\n\
+ LET foo = SELECT * FROM Foo\n\
+ LET edge = CREATE edge E FROM $foo TO #23:1234567\n\
+ LET updated = UPDATE #23:98765432 SET foo = "bar"\n\
+ \n\
+COMMIT \n\
+ RETURN $edge');
+    });
   });
 
   describe('Statement::commit() and Statement::return()', function () {
@@ -129,6 +167,17 @@ describe("Database API - Statement", function () {
     it('should select from a subexpression', function () {
       this.statement.select().from('SELECT * FROM OUser');
       this.statement.buildStatement().should.equal('SELECT * FROM (SELECT * FROM OUser)');
+    });
+  });
+
+  describe('Statement::to()', function () {
+    it('should create an edge', function () {
+      this.statement.create('EDGE', 'E').from('#5:0').to('#5:1');
+      this.statement.buildStatement().should.equal('CREATE EDGE E FROM #5:0 TO #5:1');
+    });
+    it('should create an edge from a record id to a record id', function () {
+      this.statement.create('EDGE', 'E').from(LIB.RID('#5:0')).to(LIB.RID('#22:310540'));
+      this.statement.buildStatement().should.equal('CREATE EDGE E FROM #5:0 TO #22:310540');
     });
   });
 
