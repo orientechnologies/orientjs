@@ -1,4 +1,5 @@
-var Transaction = require('../../lib/db/transaction');
+var Transaction = require('../../lib/db/transaction'),
+    Promise = require('bluebird');
 
 describe("Database API - Transaction", function () {
   before(function () {
@@ -193,6 +194,92 @@ describe("Database API - Transaction", function () {
         results.updated.length.should.equal(0);
         results.deleted.length.should.equal(2);
       });
+    });
+  });
+});
+
+describe('Transactional Queries', function () {
+  before(function () {
+    return CREATE_TEST_DB(this, 'testdb_dbapi_tx_queries')
+    .bind(this)
+    .then(function () {
+      return Promise.all([
+        this.db.class.create('TestVertex', 'V'),
+        this.db.class.create('TestEdge', 'E')
+      ]);
+    });
+  });
+  after(function () {
+    return DELETE_TEST_DB('testdb_dbapi_tx_queries');
+  });
+
+  it('should execute a simple transaction, using a raw query', function () {
+    return this.db.query('begin\nupdate OUser set someField = true\ncommit', {
+      class: 's'
+    })
+    .spread(function (result) {
+      result.should.be.above(2);
+    });
+  });
+  it('should execute a simple transaction, using the query builder', function () {
+    return this.db
+    .update('OUser')
+    .set({newField: true})
+    .commit()
+    .all()
+    .spread(function (result) {
+      result.should.be.above(2);
+    });
+  });
+
+  it('should execute a complex transaction, using a raw query', function () {
+    return this.db.query('begin\nlet vert = create vertex TestVertex set name = "thing"\nlet user = select from OUser where name = "admin"\nlet edge = create edge TestEdge from $vert to $user\ncommit retry 100\nreturn $edge', {
+      class: 's'
+    })
+    .spread(function (result) {
+      result['@class'].should.equal('TestEdge');
+    });
+  });
+  it('should execute a complex transaction, using the query builder', function () {
+    return this.db
+    .let('vert', 'create vertex TestVertex set name="wat"')
+    .let('user', 'select from OUser where name="reader"')
+    .let('edge', 'create edge TestEdge from $vert to $user')
+    .commit(100)
+    .return('$edge')
+    .one()
+    .then(function (result) {
+      result['@class'].should.equal('TestEdge');
+    });
+  });
+  it('should execute a complex transaction, using the query builder for let statements', function () {
+    return this.db
+    .let('vert', function (s) {
+      return s
+      .create('vertex', 'TestVertex')
+      .set({
+        name: "foo"
+      });
+    })
+    .let('user', function (s) {
+      return s
+      .select()
+      .from('OUser')
+      .where({
+        name: 'reader'
+      });
+    })
+    .let('edge', function (s) {
+      return s
+      .create('edge', 'TestEdge')
+      .from('$vert')
+      .to('$user')
+    })
+    .commit(100)
+    .return('$edge')
+    .one()
+    .then(function (result) {
+      result['@class'].should.equal('TestEdge');
     });
   });
 });
