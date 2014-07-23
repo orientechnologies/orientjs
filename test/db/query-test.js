@@ -352,16 +352,4 @@ describe("Database API - Query", function () {
       });
     });
   });
-  describe.skip('Transactional Queries', function () {
-    it('should execute a simple transaction', function () {
-      return this.db
-      .update('OUser')
-      .set({newField: true})
-      .commit()
-      .all()
-      .then(function (results) {
-        console.log(results);
-      });
-    });
-  });
 });
