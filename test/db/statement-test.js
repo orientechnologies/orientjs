@@ -165,7 +165,7 @@ COMMIT \n\
       this.statement.buildStatement().should.equal('SELECT * FROM #4:4');
     });
     it('should select from a subexpression', function () {
-      this.statement.select().from('SELECT * FROM OUser');
+      this.statement.select().from('(SELECT * FROM OUser)');
       this.statement.buildStatement().should.equal('SELECT * FROM (SELECT * FROM OUser)');
     });
   });
@@ -239,11 +239,11 @@ COMMIT \n\
   describe('Statement::upsert()', function () {
     it('should upsert a record', function () {
       this.statement.update('OUser').set("foo = 'bar'").upsert().where('1 = 1');
-      this.statement.buildStatement().should.equal("UPDATE OUser SET (foo = 'bar') UPSERT WHERE 1 = 1");
+      this.statement.buildStatement().should.equal("UPDATE OUser SET foo = 'bar' UPSERT WHERE 1 = 1");
     });
     it('should upsert a record, with a where clause', function () {
       this.statement.update('OUser').set("foo = 'bar'").upsert('1 = 1');
-      this.statement.buildStatement().should.equal("UPDATE OUser SET (foo = 'bar') UPSERT WHERE 1 = 1");
+      this.statement.buildStatement().should.equal("UPDATE OUser SET foo = 'bar' UPSERT WHERE 1 = 1");
     });
   })
 });
