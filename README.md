@@ -1,6 +1,6 @@
 # Oriento
 
-A lightweight node.js driver for [orientdb](http://www.orientechnologies.com/orientdb/) using orient's binary protocol.
+Official [orientdb](http://www.orientechnologies.com/orientdb/) driver for node.js. Fast, lightweight, uses the binary protocol.
 
 [![Build Status](https://travis-ci.org/codemix/oriento.svg?branch=master)](https://travis-ci.org/codemix/oriento)
 
