@@ -25,11 +25,16 @@ describe("Bug #82: db.query errors when parsing emojis ", function () {
     return this.db.update(rid).set({value: 'hello 😢😂😭', foo: 'bar'}).one();
   });
 
-  it.skip('should allow emojis using db.query() directly', function () {
-    var query = 'UPDATE ' + rid + ' SET bio="Aiming to be Miranda Kerr, Candice Swanepoel, Adriana Lima, Alessandra Ambrosio, Doutzen Kroes, Erin Heatherton, or Behati Prinsloo 😢😂 foo"';
+  it('should allow emojis using db.query() directly', function () {
+    var query = 'UPDATE #5:0 SET bio="😢😂"';
     return this.db.query(query)
+    .bind(this)
     .spread(function (result) {
-      result.should.equal(1);
+      result.should.eql(1);
+      return this.db.query('SELECT * FROM #5:0');
+    })
+    .spread(function (result) {
+      result.bio.should.equal("😢😂");
     });
   });
 });
