@@ -65,7 +65,7 @@
     "worker"        : false,
     "wsh"           : false,
     "yui"           : false,
-
+    "predef"        : ["-Promise"],
     "globals"       : {
       "angular"     : false,
       "$"           : false,
