@@ -3,7 +3,7 @@
 Official [orientdb](http://www.orientechnologies.com/orientdb/) driver for node.js. Fast, lightweight, uses the binary protocol.
 
 [![Build Status](https://travis-ci.org/codemix/oriento.svg?branch=master)](https://travis-ci.org/codemix/oriento)
-
+[![Gitter chat](https://badges.gitter.im/codemix/oriento.png)](https://gitter.im/codemix/oriento)
 
 
 # Supported Versions
