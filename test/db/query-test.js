@@ -329,7 +329,16 @@ describe("Database API - Query", function () {
         result.results[0].content.length.should.be.above(0);
       });
     });
-    it('should execute a selectquery string', function () {
+    it('should execute a script command', function () {
+      return this.db.exec('123456;', {
+        language: 'javascript',
+        class: 's'
+      })
+      .then(function (response) {
+        response.results.length.should.equal(1);
+      });
+    });
+    it('should execute a select query string', function () {
       return this.db.query('select from OUser where name=:name', {
         params: {
           name: 'Samson'
