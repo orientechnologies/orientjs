@@ -155,6 +155,18 @@ COMMIT \n\
     });
   });
 
+  describe('Statement::delete()', function () {
+    it('should delete a record', function () {
+      this.statement.delete().from('OUser').where({foo: 'bar', greeting: 'hello world'});
+      this.statement.buildStatement().should.equal('DELETE FROM OUser WHERE (foo = :paramfoo0 AND greeting = :paramgreeting1)');
+    });
+
+    it('should delete an edge', function () {
+      this.statement.delete('EDGE', 'foo').from(LIB.RID('#1:23')).to(LIB.RID('#4:56'));
+      this.statement.buildStatement().should.equal('DELETE EDGE foo FROM #1:23 TO #4:56');
+    });
+  });
+
   describe('Statement::from()', function () {
     it('should select from a class', function () {
       this.statement.select().from('OUser');
