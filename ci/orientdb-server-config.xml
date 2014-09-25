@@ -26,7 +26,7 @@
         <handler class="com.orientechnologies.orient.server.handler.OServerSideScriptInterpreter">
             <parameters>
                 <parameter value="true" name="enabled"/>
-                <parameter value="SQL" name="allowedLanguages"/>
+                <parameter value="SQL,Javascript" name="allowedLanguages"/>
             </parameters>
         </handler>
     </handlers>
