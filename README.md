@@ -16,7 +16,7 @@ Oriento aims to work with version 1.7.1 of orientdb and later. While it may work
 
 Install via npm.
 
-```
+```sh
 npm install oriento
 ```
 
@@ -24,12 +24,13 @@ npm install oriento
 
 To run the test suite, first invoke the following command within the repo, installing the development dependencies:
 
-```
+```sh
 npm install
 ```
 
 Then run the tests:
-```
+
+```sh
 npm test
 ```
 
@@ -48,7 +49,7 @@ npm test
 ### Configuring the client.
 
 ```js
-var Oriento =  require('oriento');
+var Oriento = require('oriento');
 
 var server = Oriento({
   host: 'localhost',
@@ -502,7 +503,7 @@ To be useful, oriento requires some arguments to authenticate against the server
 
 You can get a list of the supported arguments using `oriento --help`.
 
-```
+```sh
   -d, --cwd         The working directory to use.
   -h, --host        The server hostname or IP address.
   -p, --port        The server port.
@@ -524,15 +525,21 @@ For an example of such a file, see [test/fixtures/oriento.opts](./test/fixtures/
 
 ### Listing all the databases on the server.
 
-`oriento db list`
+```sh
+oriento db list
+```
 
 ### Creating a new database
 
-`oriento db create mydb graph plocal`
+```sh
+oriento db create mydb graph plocal
+```
 
 ### Destroying an existing database
 
-`oriento db drop mydb`
+```sh
+oriento db drop mydb
+```
 
 ## Migrations
 
@@ -568,11 +575,15 @@ manager.up(1)
 
 To list all the unapplied migrations:
 
-`oriento migrate list`
+```sh
+oriento migrate list
+```
 
 ### Creating a new migration
 
-`oriento migrate create my new migration`
+```sh
+oriento migrate create my new migration
+```
 
 creates a file called something like `m20140318_200948_my_new_migration` which you should edit to specify the migration up and down methods.
 
@@ -581,23 +592,31 @@ creates a file called something like `m20140318_200948_my_new_migration` which y
 
 To apply all the migrations:
 
-`oriento migrate up`
+```sh
+oriento migrate up
+```
 
 ### Migrating up by 1
 
 To apply only the first migration:
 
-`oriento migrate up 1`
+```sh
+oriento migrate up 1
+```
 
 ### Migrating down fully
 
 To revert all migrations:
 
-`oriento migrate down`
+```sh
+oriento migrate down
+```
 
 ### Migrating down by 1
 
-`oriento migrate down 1`
+```sh
+oriento migrate down 1
+```
 
 
 # History
@@ -607,7 +626,6 @@ In 2012, [Gabriel Petrovay](https://github.com/gabipetrovay) created the origina
 In early 2014, [Giraldo Rosales](https://github.com/nitrog7) made a [whole host of improvements](https://github.com/nitrog7/node-orientdb), including support for orientdb 1.7 and switched to a promise based API.
 
 Later in 2014, codemix refactored the library to make it easier to extend and maintain, and introduced an API similar to [nano](https://github.com/dscape/nano). The result is so different from the original codebase that it warranted its own name and npm package. This also gave us the opportunity to switch to semantic versioning.
-
 
 
 # Notes for contributors
