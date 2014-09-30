@@ -14,13 +14,13 @@ Before running the tests, ensure you've configured your orientdb server to use t
 
 To run the tests:
 
-```
+```sh
 npm test
 ```
 
 To generate the code coverage report, run:
 
-```
+```sh
 npm run coverage
 ```
 
@@ -35,16 +35,20 @@ And have a look at `coverage/lcov-report/index.html`.
 
 
 ### 1. [Fork](http://help.github.com/fork-a-repo/) the oriento repository on github and clone your fork to your development environment
-<pre>
+
+```sh
 git clone git@github.com:YOUR-GITHUB-USERNAME/oriento.git
-</pre>
+```
+
 If you have trouble setting up GIT with GitHub in Linux, or are getting errors like "Permission Denied (publickey)", then you must [setup your GIT installation to work with GitHub](http://help.github.com/linux-set-up-git/)
 
 ### 2. Add the main oriento repository as an additional git remote called "upstream"
 Change to the directory where you cloned oriento normally, "oriento". Then enter the following command:
-<pre>
+
+```sh
 git remote add upstream git://github.com/codemix/oriento.git
-</pre>
+```
+
 
 ### 3. Make sure there is an issue created for the thing you are working on.
 
@@ -53,9 +57,11 @@ All new features and bug fixes should have an associated issue to provide a sing
 > For small changes or documentation issues, you don't need to create an issue, a pull request is enough in this case.
 
 ### 4. Fetch the latest code from the main oriento branch
-<pre>
+
+```sh
 git fetch upstream
-</pre>
+```
+
 You should start at this point for every new contribution to make sure you are working on the latest code.
 
 ### 5. Create a new branch for your feature based on the current oriento master branch
@@ -63,10 +69,11 @@ You should start at this point for every new contribution to make sure you are w
 > That's very important since you will not be able to submit more than one pull request from your account if you'll use master.
 
 Each separate bug fix or change should go in its own branch. Branch names should be descriptive and start with the number of the issue that your code relates to. If you aren't fixing any particular issue, just skip number. For example:
-<pre>
+
+```sh
 git checkout upstream/master
 git checkout -b 999-name-of-your-branch-goes-here
-</pre>
+```
 
 ### 6. Do your magic, write your code
 Make sure it works and run the tests :)
@@ -76,26 +83,33 @@ Unit tests are always welcome. Tested and well covered code greatly simplifies t
 ### 7. Commit your changes
 
 add the files/changes you want to commit to the [staging area](http://gitref.org/basic/#add) with
-<pre>
+
+```sh
 git add path/to/my/file.js
-</pre>
+```
+
 You can use the <code>-p</code> option to select the changes you want to have in your commit.
 
 Commit your changes with a descriptive commit message. Make sure to mention the ticket number with #XXX so github will automatically link your commit with the ticket:
-<pre>
+
+```sh
 git commit -m "A brief description of this change which fixes #42 goes here"
-</pre>
+```
 
 ### 8. Pull the latest oriento code from upstream into your branch
-<pre>
+
+```sh
 git pull upstream master
-</pre>
+```
+
 This ensures you have the latest code in your branch before you open your pull request. If there are any merge conflicts, you should fix them now and commit the changes again. This ensures that it's easy for the oriento team to merge your changes with one click.
 
 ### 9. Having resolved any conflicts, push your code to github
-<pre>
+
+```sh
 git push -u origin 999-name-of-your-branch-goes-here
-</pre>
+```
+
 The `-u` parameter ensures that your branch will now automatically push and pull from the github branch. That means if you type `git push` the next time it will know where to push to.
 
 ### 10. Open a [pull request](http://help.github.com/send-pull-requests/) against upstream.
@@ -109,27 +123,27 @@ Someone will review your code, and you might be asked to make some changes, if s
 ### 12. Cleaning it up
 
 After your code was either accepted or declined you can delete branches you've worked with from your local repository and `origin`.
-<pre>
+
+```sh
 git checkout master
 git branch -D 999-name-of-your-branch-goes-here
 git push origin --delete 999-name-of-your-branch-goes-here
-</pre>
+```
 
 ### Command overview (for advanced contributors)
 
-<pre>
+```sh
 git clone git@github.com:YOUR-GITHUB-USERNAME/oriento.git
 git remote add upstream git://github.com/codemix/oriento.git
-</pre>
-<pre>
+
 git fetch upstream
 git checkout upstream/master
 git checkout -b 999-name-of-your-branch-goes-here
 
-/* do your magic, update changelog if needed */
+# do your magic, update changelog if needed
 
 git add path/to/my/file.js
 git commit -m "A brief description of this change which fixes #42 goes here"
 git pull upstream master
 git push -u origin 999-name-of-your-branch-goes-here
-</pre>
+```
