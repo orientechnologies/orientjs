@@ -70,6 +70,12 @@ describe("Deserializer", function () {
       parsed[0].should.equal(1234);
       parsed[1].length.should.equal(0);
     });
+    it('should eat a float in scientific notation', function () {
+      var input = '1.234e-04f';
+      var parsed = deserializer.eatNumber(input);
+      parsed[0].should.equal(1.234e-04);
+      parsed[1].length.should.equal(0);
+    });
     it('should eat a date', function () {
       var input = '1a';
       var parsed = deserializer.eatNumber(input);
