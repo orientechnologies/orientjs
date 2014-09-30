@@ -48,7 +48,7 @@ npm test
 ### Configuring the client.
 
 ```js
-var Oriento =  require('oriento');
+var Oriento = require('oriento');
 
 var server = Oriento({
   host: 'localhost',
