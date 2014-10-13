@@ -24,4 +24,18 @@ describe("Bug #110: Connection lifecycle", function () {
       (rec['@rid']+'').should.equal('#5:1');
     });
   });
+  it('should close the database connection', function () {
+    return this.db.close()
+    .bind(this)
+    .then(function (db) {
+      db.should.equal(this.db);
+      return db.record.get('#5:0');
+    })
+    .catch(function (err) {
+      return this.db.record.get('#5:0');
+    })
+    .then(function (rec) {
+      (''+rec['@rid']).should.equal('#5:0');
+    });
+  });
 });
