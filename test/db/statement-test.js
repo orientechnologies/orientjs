@@ -124,6 +124,16 @@ COMMIT \n\
       .should
       .equal('BEGIN\n LET names = UPDATE OUser SET name = "name"\n \nCOMMIT \n RETURN $names');
     });
+    it('should generate an update transaction, with returns and a return clause before while', function () {
+      var sub = (new Statement(this.db)).update('OUser').set({name: 'name'}).return('COUNT');
+      this.statement
+      .let('names', sub)
+      .commit()
+      .return('$names')
+      .toString()
+      .should
+      .equal('BEGIN\n LET names = UPDATE OUser SET name = "name" RETURN COUNT\n \nCOMMIT \n RETURN $names');
+    });
   });
 
   describe('Statement::select()', function () {
@@ -193,6 +203,21 @@ COMMIT \n\
     });
   });
 
+  describe('Statement::return()', function () {
+    it('should build a return clause', function () {
+      this.statement.update('#1:1').set({foo: 'bar', greeting: 'hello world'}).return('AFTER');
+      this.statement.buildStatement().should.equal('UPDATE #1:1 SET foo = :paramfoo0, greeting = :paramgreeting1 RETURN AFTER');
+    });
+    it('should build a return clause before the where clause', function () {
+      this.statement.delete().from('OUser').return('BEFORE').where({foo: 'bar', greeting: 'hello world'});
+      this.statement.buildStatement().should.equal('DELETE FROM OUser RETURN BEFORE WHERE (foo = :paramfoo0 AND greeting = :paramgreeting1)');
+    });
+    it('should build a return clause after the insert query', function () {
+      this.statement.insert().into('OUser').set({foo: 'bar', greeting: 'hello world'}).return('AFTER');
+      this.statement.buildStatement().should.equal('INSERT INTO OUser SET foo = :paramfoo0, greeting = :paramgreeting1 RETURN AFTER');
+    });
+  });
+
   describe('Statement::where(), Statement::and(), Statement::or()', function () {
     it('should build a where clause with an expression', function () {
       this.statement.select().from('OUser').where('1=1');
@@ -257,5 +282,5 @@ COMMIT \n\
       this.statement.update('OUser').set("foo = 'bar'").upsert('1 = 1');
       this.statement.buildStatement().should.equal("UPDATE OUser SET foo = 'bar' UPSERT WHERE 1 = 1");
     });
-  })
+  });
 });
