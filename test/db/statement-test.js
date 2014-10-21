@@ -181,6 +181,17 @@ COMMIT \n\
       this.statement.buildStatement().should.equal('SELECT * FROM (SELECT * FROM OUser)');
     });
   });
+  
+  describe('Statement::returning()', function () {
+    it('should build a return clause', function () {
+      this.statement.update('#1:1').set({foo: 'bar', greeting: 'hello world'}).returning('AFTER');
+      this.statement.buildStatement().should.equal('UPDATE #1:1 SET foo = :paramfoo0, greeting = :paramgreeting1 RETURN AFTER');
+    });
+    it('should build a return clause before the where clause', function () {
+      this.statement.update('#1:1').set({foo: 'bar', greeting: 'hello world'}).returning('AFTER').where('1=1');
+      this.statement.buildStatement().should.equal('UPDATE #1:1 SET foo = :paramfoo0, greeting = :paramgreeting1 RETURN AFTER WHERE 1=1');
+    });
+  });
 
   describe('Statement::to()', function () {
     it('should create an edge', function () {
@@ -257,5 +268,5 @@ COMMIT \n\
       this.statement.update('OUser').set("foo = 'bar'").upsert('1 = 1');
       this.statement.buildStatement().should.equal("UPDATE OUser SET foo = 'bar' UPSERT WHERE 1 = 1");
     });
-  })
+  });
 });
