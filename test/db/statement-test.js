@@ -190,6 +190,16 @@ COMMIT \n\
       this.statement.select().from('(SELECT * FROM OUser)');
       this.statement.buildStatement().should.equal('SELECT * FROM (SELECT * FROM OUser)');
     });
+    it('should select from a subquery', function () {
+      this.statement.select().from((new Statement(this.db).select().from('OUser')));
+      this.statement.buildStatement().should.equal('SELECT * FROM (SELECT * FROM OUser)');
+    });
+    it('should select from a subquery, using a function', function () {
+      this.statement.select().from(function (s) {
+        s.select().from('OUser');
+      });
+      this.statement.buildStatement().should.equal('SELECT * FROM (SELECT * FROM OUser)');
+    });
   });
 
   describe('Statement::to()', function () {
