@@ -66,6 +66,10 @@ describe("Migration Manager", function () {
       return this.manager.list()
       .then(function (migrations) {
         migrations.length.should.equal(2);
+        migrations.should.eql([
+          'm20140318_014253_my_test_migration',
+          'm20140318_014300_my_second_test_migration'
+        ]);
       });
     })
   });
