@@ -74,7 +74,7 @@ describe("RID Bag", function () {
       var contents = this.bag.all();
       contents.length.should.equal(10);
       contents.forEach(function (item) {
-        item.should.be.an.instanceOf(LIB.RID);
+        item.should.have.property('@rid');
       });
     });
 
@@ -83,7 +83,7 @@ describe("RID Bag", function () {
           decoded = JSON.parse(json);
       decoded.length.should.equal(10);
       decoded.forEach(function (item) {
-        (typeof item).should.equal('string');
+        item.should.have.property('@rid');
       });
     });
   });
