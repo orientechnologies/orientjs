@@ -261,6 +261,13 @@ describe("Database API - Query", function () {
         user.name.should.equal('reader');
       });
     });
+    it('should select a record by its RID', function () {
+      return this.db.select().from('OUser').where({'@rid': new LIB.RID('#5:0')}).one()
+      .then(function (user) {
+        expect(typeof user).to.equal('object');
+        user.name.should.equal('admin');
+      });
+    });
     it('should select a user with a fetch plan', function () {
       return this.db.select().from('OUser').where({name: 'reader'}).fetch({roles: 3}).one()
       .then(function (user) {
