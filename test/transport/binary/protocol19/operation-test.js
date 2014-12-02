@@ -1,4 +1,4 @@
-var Operation = LIB.transport.Binary.protocol.Operation;
+var Operation = require(LIB_ROOT + '/transport/binary/protocol19/operation');
 
 
 describe('Operation', function () {
