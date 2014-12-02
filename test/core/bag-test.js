@@ -86,6 +86,18 @@ describe("RID Bag", function () {
         item.should.have.property('@rid');
       });
     });
+
+    describe('Optional RIDBags', function () {
+      before(function () {
+        this.db.server.transport.connection.protocol.deserializer.enableRIDBags = false;
+      });
+      after(function () {
+        this.db.server.transport.connection.protocol.deserializer.enableRIDBags = true;
+      });
+      it('should optionally disable RIDBags', function () {
+        Array.isArray(this.bag).should.be.true;
+      });
+    });
   });
 
   describe('Tree Bag', function () {
