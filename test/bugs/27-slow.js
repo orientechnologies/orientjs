@@ -4,7 +4,7 @@ describe("Bug #27: Slow compared to Restful API", function () {
   this.timeout(10 * 10000);
   var LIMIT = 5000;
   before(function () {
-    return CREATE_TEST_DB(this, 'testdb_bug_27_slow')
+    return CREATE_TEST_DB(this, 'testdb_bug_27_slow', 'plocal')
     .bind(this)
     .then(function () {
       return this.db.class.create('School', 'V');
@@ -41,7 +41,7 @@ describe("Bug #27: Slow compared to Restful API", function () {
     });
   });
   after(function () {
-    return DELETE_TEST_DB('testdb_bug_27_slow');
+    return DELETE_TEST_DB('testdb_bug_27_slow', 'plocal');
   });
 
   it('should load a lot of records quickly, using the binary raw command interface', function () {

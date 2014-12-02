@@ -43,8 +43,6 @@ global.DELETE_TEST_DB = deleteTestDb.bind(null, TEST_SERVER);
 global.CREATE_REST_DB = createTestDb.bind(null, REST_SERVER);
 global.DELETE_REST_DB = deleteTestDb.bind(null, REST_SERVER);
 
-
-
 function createTestDb(server, context, name, type) {
   type = type || 'memory';
   return server.exists(name, type)
