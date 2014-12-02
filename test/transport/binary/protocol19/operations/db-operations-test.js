@@ -294,16 +294,6 @@ describe("Database Operations", function () {
       });
     });
   });
-  describe('datasegment-add', function () {
-    it("should add a data segment", function () {
-      return TEST_SERVER.send('datasegment-add', {
-        sessionId: dbSessionId,
-        location: '/tmp',
-        name: 'test_segment'
-      });
-    });
-  });
-
   describe('db-close', function () {
     it("should close a database", function () {
       return TEST_SERVER.send('db-close', {
