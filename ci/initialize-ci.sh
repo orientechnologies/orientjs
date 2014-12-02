@@ -22,7 +22,11 @@ if [ ! -d "$ODB_DIR" ]; then
   echo "--- Setting up OrientDB ---"
   chmod +x $ODB_LAUNCHER
   chmod -R +rw "${ODB_DIR}/config/"
-  cp $PARENT_DIR/ci/orientdb-server-config.xml "${ODB_DIR}/config/"
+  if [[ $ODB_VERSION == *"1.7"* ]]; then
+    cp $PARENT_DIR/ci/orientdb-server-config-1.7.xml "${ODB_DIR}/config/orientdb-server-config.xml"
+  else
+    cp $PARENT_DIR/ci/orientdb-server-config.xml "${ODB_DIR}/config/"
+  fi
   cp $PARENT_DIR/ci/orientdb-server-log.properties "${ODB_DIR}/config/"
 else
   echo "!!! Found OrientDB v${ODB_VERSION} in ${ODB_DIR} !!!"

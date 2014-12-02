@@ -1,4 +1,4 @@
-var deserializer = require(LIB_ROOT + '/transport/binary/protocol/deserializer');
+var deserializer = require(LIB_ROOT + '/transport/binary/protocol19/deserializer');
 
 describe("Deserializer", function () {
   it('should go fast!', function () {

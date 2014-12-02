@@ -146,7 +146,10 @@ describe("RID Bag", function () {
       this.bag.should.be.an.instanceOf(LIB.Bag)
       this.bag.type.should.equal(LIB.Bag.BAG_TREE);
       expect(this.bag.uuid).to.equal(null);
-      this.bag.size.should.equal(120);
+      // > note: following behavior changes since protocol 19
+      // old versions return the number of records, newer ones don't.
+      // newer versions must ask orient
+      expect(this.bag.size === -1 || this.bag.size === 120).to.be.true;
     });
   });
 });

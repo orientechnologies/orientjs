@@ -159,8 +159,8 @@ describe("Database API - Index", function () {
 
 
     describe('Db::index::delete()', function () {
-      it('should delete a rid', function () {
-        return this.index.delete(this.items[4]['@rid']);
+      it('should delete a key', function () {
+        return this.index.delete(this.items[4].name);
       });
     });
   });
