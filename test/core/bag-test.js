@@ -1,3 +1,5 @@
+var utils = require('../../lib/utils');
+
 describe("RID Bag", function () {
   describe('Embedded Bag', function () {
     before(function () {
@@ -79,7 +81,7 @@ describe("RID Bag", function () {
     });
 
     it('should return the right JSON representation', function () {
-      var json = JSON.stringify(this.bag)
+      var json = utils.jsonify(this.bag)
           decoded = JSON.parse(json);
       decoded.length.should.equal(10);
       decoded.forEach(function (item) {
