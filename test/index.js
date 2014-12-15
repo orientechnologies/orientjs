@@ -33,7 +33,7 @@ global.REST_SERVER = new LIB.Server({
 });
 
 // Uncomment the following lines to enable debug logging
-// global.TEST_SERVER.logger.debug = console.log.bind(console, '[ORIENTDB]');
+global.TEST_SERVER.logger.debug = console.log.bind(console, '[ORIENTDB]');
 // global.REST_SERVER.logger.debug = console.log.bind(console, '[ORIENTDB]');
 
 
@@ -47,6 +47,7 @@ function createTestDb(server, context, name, type) {
   type = type || 'memory';
   return server.exists(name, type)
   .then(function (exists) {
+    console.log('here');
     if (exists) {
       return server.drop({
         name: name,
