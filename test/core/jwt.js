@@ -140,5 +140,29 @@ describe('JWT', function () {
         users.length.should.be.above(0);
       });
     });
+
+    describe('Db::createUserContext()', function () {
+      var context;
+      before(function () {
+        if (hasProtocolSupport) {
+          context = db.createUserContext(reader);
+        }
+      });
+      ifSupportedIt('should create a user context', function () {
+        return context.select().from('OUser').all()
+        .then(function (users) {
+          users.length.should.be.above(1);
+        });
+      });
+      ifSupportedIt('should ensure that the token is used correctly', function () {
+        return context.create('VERTEX', 'V').set({greeting: 'hello world'}).one()
+        .then(function () {
+          throw new Error('No, this should not happen');
+        })
+        .catch(LIB.errors.RequestError, function (err) {
+          /permission/i.test(err.message).should.be.true;
+        });
+      });
+    });
   });
 });
