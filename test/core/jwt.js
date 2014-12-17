@@ -144,7 +144,9 @@ describe('JWT', function () {
     describe('Db::createUserContext()', function () {
       var context;
       before(function () {
-        context = db.createUserContext(reader);
+        if (hasProtocolSupport) {
+          context = db.createUserContext(reader);
+        }
       });
       ifSupportedIt('should create a user context', function () {
         return context.select().from('OUser').all()
