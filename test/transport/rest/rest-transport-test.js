@@ -22,10 +22,10 @@ describe("Rest Transport", function () {
 
   describe('REST Operations', function () {
     before(function () {
-      return CREATE_TEST_DB(this, 'testdb_rest', 'plocal');
+      return CREATE_TEST_DB(this, 'testdb_rest');
     });
     after(function () {
-      return DELETE_TEST_DB('testdb_rest', 'plocal');
+      return DELETE_TEST_DB('testdb_rest');
     });
 
 

@@ -1,6 +1,7 @@
 var Class = require('../../lib/db/class');
 
 describe("Database API - Vertex", function () {
+  var created1, created2;
   before(function () {
     return CREATE_TEST_DB(this, 'testdb_dbapi_vertex');
   });
@@ -14,7 +15,7 @@ describe("Database API - Vertex", function () {
       .bind(this)
       .then(function (vertex) {
         vertex['@rid'].should.be.an.instanceOf(LIB.RID);
-        this.created1 = vertex;
+        created1 = vertex;
       });
     });
     it('should create a vertex with some attributes', function () {
@@ -28,20 +29,20 @@ describe("Database API - Vertex", function () {
         vertex['@rid'].should.be.an.instanceOf(LIB.RID);
         vertex.key1.should.equal('val1');
         vertex.key2.should.equal('val2');
-        this.created2 = vertex;
+        created2 = vertex;
       });
     });
   });
   describe("Db::vertex.delete()", function () {
     it('should delete a vertex', function () {
-      return this.db.vertex.delete(this.created1)
+      return this.db.vertex.delete(created1)
       .bind(this)
       .then(function (count) {
         count.should.equal(1);
       });
     });
     it('should delete a vertex with properties', function () {
-      return this.db.vertex.delete(this.created2)
+      return this.db.vertex.delete(created2)
       .bind(this)
       .then(function (count) {
         count.should.equal(1);
