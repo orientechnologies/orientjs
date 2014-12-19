@@ -10,7 +10,11 @@ Official [orientdb](http://www.orientechnologies.com/orientdb/) driver for node.
 
 Oriento aims to work with version 1.7.1 of orientdb and later. While it may work with earlier versions, they are not currently supported, [pull requests are welcome!](./CONTRIBUTING.md)
 
-
+> **IMPORTANT**: Oriento does not currently support OrientDB's Tree Based [RIDBag](https://github.com/orientechnologies/orientdb/wiki/RidBag) feature because it relies on making additional network requests.
+> This means that by default, the result of e.g. `JSON.stringify(record)` for a record with up to 119 edges will be very different from a record with 120+ edges.
+> This can lead to very nasty surprises which may not manifest themselves during development but could appear at any time in production.
+> There is an [open issue](https://github.com/orientechnologies/orientdb/issues/2315) for this in OrientDB, until that gets fixed, it is **strongly recommended** that you set `RID_BAG_EMBEDDED_TO_SBTREEBONSAI_THRESHOLD` to a very large value, e.g. 2147483647.
+> Please see the [relevant section in the OrientDB manual](http://www.orientechnologies.com/docs/2.0/orientdb.wiki/RidBag.html#configuration) for more information.
 
 # Installation
 
@@ -307,22 +311,6 @@ db.record.delete('#1:1')
 });
 ```
 
-### Transactions
-
-```js
-db.begin()
-.create({'@class': 'MyClass', name: 'me'})
-.create({'@class': 'MyOtherClass', name: 'wat?'})
-.update(myRecord)
-.delete(someOtherRecord)
-.commit()
-.then(function (results) {
-  console.log('Created ', results.created);
-  console.log('Updated ', results.updated);
-  console.log('Deleted ', results.deleted);
-})
-```
-
 ### Listing all the classes in the database
 
 ```js
@@ -434,7 +422,7 @@ db.index.get('MyClass.myProp')
 ### Creating a new, empty vertex
 
 ```js
-db.vertex.create('V')
+db.create('VERTEX', 'V').one()
 .then(function (vertex) {
   console.log('created vertex', vertex);
 });
@@ -443,11 +431,12 @@ db.vertex.create('V')
 ### Creating a new vertex with some properties
 
 ```js
-db.vertex.create({
-  '@class': 'V',
+db.create('VERTEX', 'V')
+.set({
   key: 'value',
   foo: 'bar'
 })
+.one()
 .then(function (vertex) {
   console.log('created vertex', vertex);
 });
@@ -455,7 +444,9 @@ db.vertex.create({
 ### Deleting a vertex
 
 ```js
-db.vertex.delete('#12:12')
+db.delete('VERTEX')
+.where('@rid = #12:12')
+.one()
 .then(function (count) {
   console.log('deleted ' + count + ' vertices');
 });
@@ -464,7 +455,10 @@ db.vertex.delete('#12:12')
 ### Creating a simple edge between vertices
 
 ```js
-db.edge.from('#12:12').to('#12:13').create('E')
+db.create('EDGE', 'E')
+.from('#12:12')
+.to('#12:13')
+.one()
 .then(function (edge) {
   console.log('created edge:', edge);
 });
@@ -474,11 +468,14 @@ db.edge.from('#12:12').to('#12:13').create('E')
 ### Creating an edge with properties
 
 ```js
-db.edge.from('#12:12').to('#12:13').create({
-  '@class': 'E',
+db.create('EDGE', 'E')
+.from('#12:12')
+.to('#12:13')
+.set({
   key: 'value',
   foo: 'bar'
 })
+.one()
 .then(function (edge) {
   console.log('created edge:', edge);
 });
@@ -487,7 +484,10 @@ db.edge.from('#12:12').to('#12:13').create({
 ### Deleting an edge between vertices
 
 ```js
-db.edge.from('#12:12').to('#12:13').delete({
+db.delete('EDGE', 'E')
+.from('#12:12')
+.to('#12:13')
+.scalar()
 .then(function (count) {
   console.log('deleted ' + count + ' edges');
 });
