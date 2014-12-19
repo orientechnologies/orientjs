@@ -1,4 +1,5 @@
 var deserializer = require(LIB_ROOT + '/transport/binary/protocol19/deserializer');
+var serializer = require(LIB_ROOT + '/transport/binary/protocol19/serializer');
 
 describe("Deserializer", function () {
   it('should go fast!', function () {
@@ -16,6 +17,60 @@ describe("Deserializer", function () {
 
     console.log('Done in ' + total + 's, ', (limit / total).toFixed(3), 'documents / sec', (((size / total) / 1024) / 1024).toFixed(3), ' Mb / sec')
   });
+
+  it('should go fast, using simple string keys', function () {
+    var record = {};
+    for (var k = 0; k < 15; k++) {
+      record["name" + k] = "Luca" + k;
+    }
+
+    var limit = 100000,
+        input = serializer.serializeDocument(record),
+        size = input.length * limit,
+        start = Date.now();
+
+    for (var i = 0; i < limit; i++) {
+      deserializer.deserialize(input);
+    }
+
+    var stop = Date.now(),
+        total = (stop - start) / 1000;
+
+    console.log('Done in ' + total + 's, ', (limit / total).toFixed(3), 'documents / sec', (((size / total) / 1024) / 1024).toFixed(3), ' Mb / sec')
+  });
+
+
+  it('should go fast, using more complex keys', function () {
+    var record = {};
+    record["name"] = "john";
+    record["surname"] = "wood";
+    record["age"] = 20;
+    record["born"] = new Date();
+    record["money"] = 10.0;
+    record["address"] = "somewhere bla bla";
+    record["active"] = true;
+    record["timestamp"] = 20;
+    record["other1"] = "other1";
+    record["other2"] = 2;
+    record["other3"] = 3;
+
+    var limit = 100000,
+        input = serializer.serializeDocument(record),
+        size = input.length * limit,
+        start = Date.now();
+
+    for (var i = 0; i < limit; i++) {
+      deserializer.deserialize(input);
+    }
+
+    var stop = Date.now(),
+        total = (stop - start) / 1000;
+
+    console.log('Done in ' + total + 's, ', (limit / total).toFixed(3), 'documents / sec', (((size / total) / 1024) / 1024).toFixed(3), ' Mb / sec')
+  });
+
+
+
 
   describe('deserialize()', function () {
     it('should parse a very simple record', function () {
