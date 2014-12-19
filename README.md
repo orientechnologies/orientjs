@@ -311,22 +311,6 @@ db.record.delete('#1:1')
 });
 ```
 
-### Transactions
-
-```js
-db.begin()
-.create({'@class': 'MyClass', name: 'me'})
-.create({'@class': 'MyOtherClass', name: 'wat?'})
-.update(myRecord)
-.delete(someOtherRecord)
-.commit()
-.then(function (results) {
-  console.log('Created ', results.created);
-  console.log('Updated ', results.updated);
-  console.log('Deleted ', results.deleted);
-})
-```
-
 ### Listing all the classes in the database
 
 ```js
@@ -438,7 +422,7 @@ db.index.get('MyClass.myProp')
 ### Creating a new, empty vertex
 
 ```js
-db.vertex.create('V')
+db.create('VERTEX', 'V').one()
 .then(function (vertex) {
   console.log('created vertex', vertex);
 });
@@ -447,11 +431,12 @@ db.vertex.create('V')
 ### Creating a new vertex with some properties
 
 ```js
-db.vertex.create({
-  '@class': 'V',
+db.create('VERTEX', 'V')
+.set({
   key: 'value',
   foo: 'bar'
 })
+.one()
 .then(function (vertex) {
   console.log('created vertex', vertex);
 });
@@ -459,7 +444,9 @@ db.vertex.create({
 ### Deleting a vertex
 
 ```js
-db.vertex.delete('#12:12')
+db.delete('VERTEX')
+.where('@rid = #12:12')
+.one()
 .then(function (count) {
   console.log('deleted ' + count + ' vertices');
 });
@@ -468,7 +455,10 @@ db.vertex.delete('#12:12')
 ### Creating a simple edge between vertices
 
 ```js
-db.edge.from('#12:12').to('#12:13').create('E')
+db.create('EDGE', 'E')
+.from('#12:12')
+.to('#12:13')
+.one()
 .then(function (edge) {
   console.log('created edge:', edge);
 });
@@ -478,11 +468,14 @@ db.edge.from('#12:12').to('#12:13').create('E')
 ### Creating an edge with properties
 
 ```js
-db.edge.from('#12:12').to('#12:13').create({
-  '@class': 'E',
+db.create('EDGE', 'E')
+.from('#12:12')
+.to('#12:13')
+.set({
   key: 'value',
   foo: 'bar'
 })
+.one()
 .then(function (edge) {
   console.log('created edge:', edge);
 });
@@ -491,7 +484,10 @@ db.edge.from('#12:12').to('#12:13').create({
 ### Deleting an edge between vertices
 
 ```js
-db.edge.from('#12:12').to('#12:13').delete({
+db.delete('EDGE', 'E')
+.from('#12:12')
+.to('#12:13')
+.scalar()
 .then(function (count) {
   console.log('deleted ' + count + ' edges');
 });
