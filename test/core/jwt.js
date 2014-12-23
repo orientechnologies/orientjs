@@ -5,7 +5,7 @@ describe('JWT', function () {
   function ifSupportedIt (text, fn) {
     it(text, function () {
       if (hasProtocolSupport) {
-        return fn();
+        return fn.call(this);
       }
     });
   }
