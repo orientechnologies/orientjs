@@ -48,7 +48,7 @@ describe("Bug #186: resolveReferences fail with duplicates present", function ()
         this[key] = data[key];
       }
     }
-    
+
     function Eat (data) {
       if (!(this instanceof Eat)) {
         return new Eat(data);
@@ -61,7 +61,7 @@ describe("Bug #186: resolveReferences fail with duplicates present", function ()
         this[key] = data[key];
       }
     }
-    
+
     function testPerson(person, verbose){
       (person.name === 'Luca' || person.name === 'Heisenberg').should.be.ok;
       person.should.have.property('out_Eat');
@@ -79,13 +79,13 @@ describe("Bug #186: resolveReferences fail with duplicates present", function ()
       edge.in.should.have.property('name');  // breaks for depth 2: no name, as 'in' is a RID
       edge.in.name.should.equal('Dante');
     }
-    
+
     before(function () {
       this.db.registerTransformer('Person', Person);
       this.db.registerTransformer('Restaurant', Restaurant);
       this.db.registerTransformer('Eat', Eat);
     });
-    
+
     // Control tests
     it('should return linked vertices when using @this.toJSON(fetchPlan) with depth 2', function () {
       return this.db.query('SELECT @this.toJSON("fetchPlan:out_Eat:1 out_Eat.in:2") from Person').all()
@@ -100,7 +100,7 @@ describe("Bug #186: resolveReferences fail with duplicates present", function ()
         });
       });
     });
-    
+
     it('should return linked vertices when using .fetch() with depth 1', function () {
       return this.db.select().from('Person').fetch('out_Eat:1 out_Eat.in:1').all()
       .then(function (people) {
@@ -111,7 +111,7 @@ describe("Bug #186: resolveReferences fail with duplicates present", function ()
         });
       });
     });
-    
+
     it('should return one linked vertex when using .fetch() with depth 2', function () {
       return this.db.select().from('Person')
         .limit(1)
@@ -128,7 +128,7 @@ describe("Bug #186: resolveReferences fail with duplicates present", function ()
       // this.db.exec('select from Person', { fetchPlan: 'out_Eat:1 out_Eat.in:2' }).then(function (resultset) {
         // console.log('results: ' + require('util').inspect(resultset.results) + '\n');
       // });
-      
+
       return this.db.select().from('Person').fetch('out_Eat:1 out_Eat.in:2').all()
       .then(function (people) {
         //console.log('\npeople: ' + require('util').inspect(people, {depth: 4}));
@@ -138,6 +138,6 @@ describe("Bug #186: resolveReferences fail with duplicates present", function ()
         });
       });
     });
-    
+
   });
 });
