@@ -213,6 +213,20 @@ COMMIT \n\
     });
   });
 
+  describe('Statement::retry()', function () {
+    it('should create an edge with retry', function () {
+      this.statement.create('EDGE', 'E').from('#5:0').to('#5:1').retry(5);
+      this.statement.buildStatement().should.equal('CREATE EDGE E FROM #5:0 TO #5:1 RETRY 5');
+    });
+  });
+
+  describe('Statement::wait()', function () {
+    it('should create an edge with retry and wait', function () {
+      this.statement.create('EDGE', 'E').from('#5:0').to('#5:1').retry(5).wait(100);
+      this.statement.buildStatement().should.equal('CREATE EDGE E FROM #5:0 TO #5:1 RETRY 5 WAIT 100');
+    });
+  });
+
   describe('Statement::return()', function () {
     it('should build a return clause', function () {
       this.statement.update('#1:1').set({foo: 'bar', greeting: 'hello world'}).return('AFTER');
