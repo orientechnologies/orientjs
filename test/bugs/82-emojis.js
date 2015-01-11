@@ -1,4 +1,4 @@
-describe("Bug #82: db.query errors when parsing emojis ", function () {
+describe.only("Bug #82: db.query errors when parsing emojis ", function () {
   var rid;
   before(function () {
     return CREATE_TEST_DB(this, 'testdb_bug_82')
@@ -35,6 +35,15 @@ describe("Bug #82: db.query errors when parsing emojis ", function () {
     })
     .spread(function (result) {
       result.bio.should.equal("😢😂");
+    });
+  });
+
+  describe('Bug #180: Emoji characters are not saved correctly', function () {
+    it('should insert some emojis', function () {
+      return this.db.insert().into('Emoji').set({value: "testing emoji 💪💦👌"}).one()
+      .then(function (result) {
+        result.value.should.equal("testing emoji 💪💦👌");
+      });
     });
   });
 });
