@@ -1,4 +1,4 @@
-describe.only("Bug #82: db.query errors when parsing emojis ", function () {
+describe("Bug #82: db.query errors when parsing emojis ", function () {
   var rid;
   before(function () {
     return CREATE_TEST_DB(this, 'testdb_bug_82')
