@@ -23,6 +23,10 @@ describe("Bug #189: Error inserting new document with embedded document containi
               type: 'link'
             },
             {
+              name: 'url',
+              type: 'string'
+            },
+            {
               name: 'primaryAddress',
               type: 'embedded',
               linkedType: 'Address'
@@ -37,6 +41,10 @@ describe("Bug #189: Error inserting new document with embedded document containi
             {
               name: 'link',
               type: 'link'
+            },
+            {
+              name: 'url',
+              type: 'string'
             },
             {
               name: 'city',
@@ -57,16 +65,20 @@ describe("Bug #189: Error inserting new document with embedded document containi
     .set({
       name: 'Bob',
       referrer: new LIB.RID('#5:0'),
+      url: 'http://example.com/',
       primaryAddress: {
         '@type': 'document',
         '@class': 'Address',
         city: 'London',
-        link: new LIB.RID('#5:0')
+        link: new LIB.RID('#5:0'),
+        url: 'http://example.com/'
       }
     })
     return query.one()
     .then(function (result) {
       result.primaryAddress.city.should.equal('London');
+      result.url.should.equal('http://example.com/');
+      result.primaryAddress.url.should.equal('http://example.com/');
     });
   });
 
@@ -77,23 +89,27 @@ describe("Bug #189: Error inserting new document with embedded document containi
     .set({
       name: 'Alice',
       referrer: new LIB.RID('#5:0'),
+      url: 'http://example.com/',
       primaryAddress: {
         '@type': 'document',
         '@class': 'Address',
-        city: 'London'
+        city: 'London',
+        url: 'http://example.com/'
       },
       addresses: [
         {
           '@type': 'document',
           '@class': 'Address',
           city: 'London',
-          link: new LIB.RID('#5:0')
+          link: new LIB.RID('#5:0'),
+          url: 'http://example.com/'
         },
         {
           '@type': 'document',
           '@class': 'Address',
           city: 'Paris',
-          link: new LIB.RID('#5:1')
+          link: new LIB.RID('#5:1'),
+          url: 'http://example.com/'
         }
       ]
     })
