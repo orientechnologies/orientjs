@@ -186,8 +186,12 @@ COMMIT \n\
       this.statement.select().from(new LIB.RID('#4:4'));
       this.statement.buildStatement().should.equal('SELECT * FROM #4:4');
     });
-    it('should select from a subexpression', function () {
+    it('should select from a subexpression with parentheses', function () {
       this.statement.select().from('(SELECT * FROM OUser)');
+      this.statement.buildStatement().should.equal('SELECT * FROM (SELECT * FROM OUser)');
+    });
+    it('should select from a subexpression without parentheses', function () {
+      this.statement.select().from('SELECT * FROM OUser');
       this.statement.buildStatement().should.equal('SELECT * FROM (SELECT * FROM OUser)');
     });
     it('should select from a subquery', function () {
@@ -210,6 +214,18 @@ COMMIT \n\
     it('should create an edge from a record id to a record id', function () {
       this.statement.create('EDGE', 'E').from(LIB.RID('#5:0')).to(LIB.RID('#22:310540'));
       this.statement.buildStatement().should.equal('CREATE EDGE E FROM #5:0 TO #22:310540');
+    });
+    it('should create an edge using a subexpression with parentheses', function () {
+      this.statement.create('EDGE', 'E').to('(SELECT * FROM OUser)').from(LIB.RID('#1:23'));
+      this.statement.buildStatement().should.equal('CREATE EDGE E FROM #1:23 TO (SELECT * FROM OUser)');
+    });
+    it('should create an edge using a subexpression without parentheses', function () {
+      this.statement.create('EDGE', 'E').to('SELECT * FROM OUser').from(LIB.RID('#1:23'));
+      this.statement.buildStatement().should.equal('CREATE EDGE E FROM #1:23 TO (SELECT * FROM OUser)');
+    });
+    it('should create an edge using a subquery', function () {
+      this.statement.create('EDGE', 'E').to((new Statement(this.db).select().from('OUser'))).from(LIB.RID('#1:23'));
+      this.statement.buildStatement().should.equal('CREATE EDGE E FROM #1:23 TO (SELECT * FROM OUser)');
     });
   });
 
