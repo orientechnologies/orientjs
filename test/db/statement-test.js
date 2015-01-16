@@ -323,4 +323,57 @@ COMMIT \n\
       this.statement.buildStatement().should.equal("UPDATE OUser SET foo = 'bar' UPSERT WHERE 1 = 1");
     });
   });
+
+
+  describe('Statement::lucene()', function () {
+    it('should accept a string query', function () {
+      this.statement.select().from('OUser').lucene('name', '(name:"admin")');
+      this.statement.buildStatement().should.equal('SELECT * FROM OUser WHERE name LUCENE "(name:\\"admin\\")"');
+    });
+
+    it('should accept a naked string query', function () {
+      this.statement.select().from('OUser').lucene('name', 'admin');
+      this.statement.buildStatement().should.equal('SELECT * FROM OUser WHERE name LUCENE "admin"');
+    });
+
+    it('should accept a query object', function () {
+      this.statement.select().from('OUser').lucene({
+        name: 'admin',
+        status: 'ACTIVE'
+      });
+      this.statement.buildStatement().should.equal('SELECT * FROM OUser WHERE name LUCENE "admin" AND status LUCENE "ACTIVE"');
+    });
+
+    it('should accept multiple parameters', function () {
+      this.statement.select().from('OUser').lucene('name', 'status', '(name:"admin" AND status:"ACTIVE")');
+      this.statement.buildStatement().should.equal('SELECT * FROM OUser WHERE [name,status] LUCENE "(name:\\"admin\\" AND status:\\"ACTIVE\\")"');
+    });
+  });
+
+
+  describe('Statement::near()', function () {
+    it('should accept plain values', function () {
+      this.statement.select().from('OUser').near('longitude', 'latitude', 1, 2);
+      this.statement.buildStatement().should.equal('SELECT * FROM OUser WHERE [longitude,latitude] NEAR [1,2]');
+    });
+    it('should accept plain values with a max distance', function () {
+      this.statement.select().from('OUser').near('longitude', 'latitude', 1, 2, 100);
+      this.statement.buildStatement().should.equal('SELECT * FROM OUser WHERE [longitude,latitude,$spatial] NEAR [1,2,{"maxDistance":100}]');
+    });
+    it('should accept an object of values', function () {
+      this.statement.select().from('OUser').near({longitude: 1, latitude: 2});
+      this.statement.buildStatement().should.equal('SELECT * FROM OUser WHERE [longitude,latitude] NEAR [1,2]');
+    });
+    it('should accept an object of values, with a max distance', function () {
+      this.statement.select().from('OUser').near({longitude: 1, latitude: 2}, 100);
+      this.statement.buildStatement().should.equal('SELECT * FROM OUser WHERE [longitude,latitude,$spatial] NEAR [1,2,{"maxDistance":100}]');
+    });
+  });
+
+  describe('Statement::within()', function () {
+    it('should build a within query', function () {
+      this.statement.select().from('OUser').within('longitude', 'latitude', [[1, 2], [3, 4]]);
+      this.statement.buildStatement().should.equal('SELECT * FROM OUser WHERE [longitude,latitude] WITHIN [[1,2],[3,4]]');
+    });
+  });
 });
