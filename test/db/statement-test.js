@@ -13,13 +13,25 @@ describe("Database API - Statement", function () {
   });
 
   describe('Statement::let()', function () {
+
+    it('should let a variable in a select() query', function () {
+      this.statement
+      .select('$thing')
+      .from('OUser')
+      .let('thing', '$current.thing')
+      .where('1=1')
+      .buildStatement()
+      .should
+      .equal('SELECT $thing FROM OUser LET thing = $current.thing WHERE 1=1');
+    });
+
     it('should let a variable equal a subexpression', function () {
       var sub = (new Statement(this.db)).select('name').from('OUser').where({status: 'ACTIVE'});
       this.statement
       .let('names', sub)
       .buildStatement()
       .should
-      .equal('LET names = SELECT name FROM OUser WHERE status = "ACTIVE"\n');
+      .equal('LET names = SELECT name FROM OUser WHERE status = "ACTIVE"');
     });
     it('should let a variable equal a subexpression, more than once', function () {
       var sub1 = (new Statement(this.db)).select('name').from('OUser').where({status: 'ACTIVE'}),
@@ -29,7 +41,7 @@ describe("Database API - Statement", function () {
       .let('statuses', sub2)
       .buildStatement()
       .should
-      .equal('LET names = SELECT name FROM OUser WHERE status = "ACTIVE"\n LET statuses = SELECT status FROM OUser\n');
+      .equal('LET names = SELECT name FROM OUser WHERE status = "ACTIVE"\nLET statuses = SELECT status FROM OUser');
     });
     it('should let a variable equal a subexpression, more than once, using locks', function () {
       var sub1 = (new Statement(this.db)).select('name').from('OUser').where({status: 'ACTIVE'}),
@@ -39,7 +51,7 @@ describe("Database API - Statement", function () {
       .let('statuses', sub2)
       .buildStatement()
       .should
-      .equal('LET names = SELECT name FROM OUser WHERE status = "ACTIVE"\n LET statuses = SELECT status FROM OUser LOCK record\n');
+      .equal('LET names = SELECT name FROM OUser WHERE status = "ACTIVE"\nLET statuses = SELECT status FROM OUser LOCK record');
     });
 
     it('should allow RIDs in LET expressions', function () {
@@ -353,27 +365,27 @@ COMMIT \n\
 
   describe('Statement::near()', function () {
     it('should accept plain values', function () {
-      this.statement.select().from('OUser').near('longitude', 'latitude', 1, 2);
-      this.statement.buildStatement().should.equal('SELECT * FROM OUser WHERE [longitude,latitude] NEAR [1,2]');
+      this.statement.select().from('OUser').near('latitude', 'longitude', 1, 2);
+      this.statement.buildStatement().should.equal('SELECT * FROM OUser WHERE [latitude,longitude] NEAR [1,2]');
     });
     it('should accept plain values with a max distance', function () {
-      this.statement.select().from('OUser').near('longitude', 'latitude', 1, 2, 100);
-      this.statement.buildStatement().should.equal('SELECT * FROM OUser WHERE [longitude,latitude,$spatial] NEAR [1,2,{"maxDistance":100}]');
+      this.statement.select().from('OUser').near('latitude', 'longitude', 1, 2, 100);
+      this.statement.buildStatement().should.equal('SELECT * FROM OUser WHERE [latitude,longitude,$spatial] NEAR [1,2,{"maxDistance":100}]');
     });
     it('should accept an object of values', function () {
-      this.statement.select().from('OUser').near({longitude: 1, latitude: 2});
-      this.statement.buildStatement().should.equal('SELECT * FROM OUser WHERE [longitude,latitude] NEAR [1,2]');
+      this.statement.select().from('OUser').near({latitude: 1, longitude: 2});
+      this.statement.buildStatement().should.equal('SELECT * FROM OUser WHERE [latitude,longitude] NEAR [1,2]');
     });
     it('should accept an object of values, with a max distance', function () {
-      this.statement.select().from('OUser').near({longitude: 1, latitude: 2}, 100);
-      this.statement.buildStatement().should.equal('SELECT * FROM OUser WHERE [longitude,latitude,$spatial] NEAR [1,2,{"maxDistance":100}]');
+      this.statement.select().from('OUser').near({latitude: 1, longitude: 2}, 100);
+      this.statement.buildStatement().should.equal('SELECT * FROM OUser WHERE [latitude,longitude,$spatial] NEAR [1,2,{"maxDistance":100}]');
     });
   });
 
   describe('Statement::within()', function () {
     it('should build a within query', function () {
-      this.statement.select().from('OUser').within('longitude', 'latitude', [[1, 2], [3, 4]]);
-      this.statement.buildStatement().should.equal('SELECT * FROM OUser WHERE [longitude,latitude] WITHIN [[1,2],[3,4]]');
+      this.statement.select().from('OUser').within('latitude', 'longitude', [[1, 2], [3, 4]]);
+      this.statement.buildStatement().should.equal('SELECT * FROM OUser WHERE [latitude,longitude] WITHIN [[1,2],[3,4]]');
     });
   });
 });
