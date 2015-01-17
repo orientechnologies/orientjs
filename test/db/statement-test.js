@@ -41,7 +41,7 @@ describe("Database API - Statement", function () {
       .let('statuses', sub2)
       .buildStatement()
       .should
-      .equal('LET names = SELECT name FROM OUser WHERE status = "ACTIVE"\nLET statuses = SELECT status FROM OUser');
+      .equal('LET names = SELECT name FROM OUser WHERE status = "ACTIVE",statuses = SELECT status FROM OUser');
     });
     it('should let a variable equal a subexpression, more than once, using locks', function () {
       var sub1 = (new Statement(this.db)).select('name').from('OUser').where({status: 'ACTIVE'}),
@@ -51,7 +51,7 @@ describe("Database API - Statement", function () {
       .let('statuses', sub2)
       .buildStatement()
       .should
-      .equal('LET names = SELECT name FROM OUser WHERE status = "ACTIVE"\nLET statuses = SELECT status FROM OUser LOCK record');
+      .equal('LET names = SELECT name FROM OUser WHERE status = "ACTIVE",statuses = SELECT status FROM OUser LOCK record');
     });
 
     it('should allow RIDs in LET expressions', function () {
