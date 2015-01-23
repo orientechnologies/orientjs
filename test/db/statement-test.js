@@ -282,6 +282,13 @@ COMMIT \n\
       });
       this.statement.buildStatement().should.equal('SELECT * FROM OUser WHERE (name = :paramname0 AND foo = :paramfoo1)');
     });
+    it('should generate IS NULL in a where clause', function () {
+      this.statement.select().from('OUser').where({
+        name: 'root',
+        foo: null
+      });
+      this.statement.toString().should.equal('SELECT * FROM OUser WHERE (name = "root" AND foo IS NULL)');
+    });
     it('should build a chained where clause', function () {
       this.statement.select().from('OUser').where('1=1').where('2=2');
       this.statement.buildStatement().should.equal('SELECT * FROM OUser WHERE 1=1 AND 2=2');
