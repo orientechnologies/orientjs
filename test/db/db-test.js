@@ -153,4 +153,36 @@ describe("Database API", function () {
       });
     });
   });
+
+  describe('Db::on()', function () {
+    it('should emit a beginQuery event', function () {
+      var emitedObject;
+      this.db.on("beginQuery", function(obj) {
+        emitedObject = obj;
+      });
+
+      return this.db.select('name, status').from('OUser').limit(1).one()
+      .then(function () {
+        emitedObject.should.have.propertyByPath("query");
+        emitedObject.should.have.propertyByPath("mode");
+        emitedObject.should.have.propertyByPath("fetchPlan");
+        emitedObject.should.have.propertyByPath("limit");
+        emitedObject.should.have.propertyByPath("params");
+        emitedObject.query.should.equal("SELECT name, status FROM OUser LIMIT 1");
+      });
+    });
+
+    it('should emit a endQuery event', function () {
+      var emitedObject;
+      this.db.on("endQuery", function(obj) {
+        emitedObject = obj;
+      });
+
+      return this.db.select('name, status').from('OUser').limit(1).one()
+      .then(function () {
+        emitedObject.should.have.propertyByPath("perf", "query");
+        emitedObject.perf.query.should.be.above(0);
+      });
+    });
+  });
 });
