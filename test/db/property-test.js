@@ -40,7 +40,7 @@ describe("Database API - Class - Property", function () {
       })
       .then(function (item) {
         item.name.should.equal('customprop');
-        item.max.should.eql(20);
+        item.max.should.eql('20');
       });
     });
     it('should create an array of properties', function () {
@@ -91,7 +91,7 @@ describe("Database API - Class - Property", function () {
       })
       .then(function (item) {
         item.name.should.equal('myprop2');
-        item.max.should.eql(20);
+        item.max.should.eql('20');
       });
     });
   });
