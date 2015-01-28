@@ -163,11 +163,11 @@ describe("Database API", function () {
 
       return this.db.select('name, status').from('OUser').limit(1).one()
       .then(function () {
-        emitedObject.should.have.propertyByPath("query");
-        emitedObject.should.have.propertyByPath("mode");
-        emitedObject.should.have.propertyByPath("fetchPlan");
-        emitedObject.should.have.propertyByPath("limit");
-        emitedObject.should.have.propertyByPath("params");
+        emitedObject.should.have.property("query");
+        emitedObject.should.have.property("mode");
+        emitedObject.should.have.property("fetchPlan");
+        emitedObject.should.have.property("limit");
+        emitedObject.should.have.property("params");
         emitedObject.query.should.equal("SELECT name, status FROM OUser LIMIT 1");
       });
     });
