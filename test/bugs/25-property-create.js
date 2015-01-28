@@ -22,7 +22,10 @@ describe("Bug #25: Create undefined in Myclass.property.create", function () {
     };
     return this.class.property.create(values)
     .then(function (prop) {
-      prop.should.have.properties(values);
+      prop.should.have.property('name');
+      prop.should.have.property('type');
+      prop.should.have.property('mandatory');
+      prop.should.have.property('max');
     })
   });
 });
