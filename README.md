@@ -371,7 +371,7 @@ MyClass.property.create({
 ### Deleting a property from a class
 
 ```js
-MyClass.property.delete('myprop')
+MyClass.property.drop('myprop')
 .then(function () {
   console.log('Property deleted.');
 });
