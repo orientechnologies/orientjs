@@ -30,7 +30,7 @@ describe("Bug #82: db.query errors when parsing emojis ", function () {
     return this.db.query(query)
     .bind(this)
     .spread(function (result) {
-      result.should.eql(1);
+      result.should.eql('1');
       return this.db.query('SELECT * FROM #5:0');
     })
     .spread(function (result) {
