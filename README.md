@@ -377,6 +377,15 @@ MyClass.property.delete('myprop')
 });
 ```
 
+### Renaming a property on a class
+
+```js
+MyClass.property.rename('myprop', 'mypropchanged');
+.then(function () {
+  console.log('Property renamed.');
+});
+```
+
 ### Creating a record for a class
 
 ```js
