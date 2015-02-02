@@ -179,6 +179,7 @@ describe("Database API", function () {
       });
 
       return this.db.select('name, status').from('OUser').limit(1).one()
+      .delay(10) // solves a strange race condition which happens about 1/20th of the time, needs further investigation.
       .then(function () {
         emitedObject.should.have.propertyByPath("perf", "query");
         emitedObject.perf.query.should.be.above(0);
