@@ -172,7 +172,7 @@ describe("Database API", function () {
       });
     });
 
-    it('should emit a endQuery event', function () {
+    it('should emit a endQuery event with success', function () {
       var emitedObject;
       this.db.on("endQuery", function(obj) {
         emitedObject = obj;
@@ -181,8 +181,26 @@ describe("Database API", function () {
       return this.db.select('name, status').from('OUser').limit(1).one()
       .then(function () {
         emitedObject.should.have.propertyByPath("perf", "query");
+        emitedObject.should.have.property("err");
         emitedObject.perf.query.should.be.above(0);
+        (isNaN(emitedObject.err)).should.be.true;
       });
     });
+
+    it('should emit a endQuery event with error', function () {
+      var emitedObject;
+      this.db.on("endQuery", function(obj) {
+        emitedObject = obj;
+      });
+
+      return this.db.select('name, status').from('Invalid').limit(1).one()
+      .catch(function (err) {
+        emitedObject.should.have.propertyByPath("perf", "query");
+        emitedObject.should.have.property("err");
+        emitedObject.perf.query.should.be.above(0);
+        emitedObject.err.should.be.ok;
+      });
+    });
+
   });
 });
