@@ -299,6 +299,23 @@ COMMIT \n\
     });
   });
 
+  describe('Statement::skip() and Statement::limit()', function () {
+    it('should build a statement with a skip clause', function () {
+      this.statement.select().from('OUser').skip(2);
+      this.statement.buildStatement().should.equal('SELECT * FROM OUser SKIP 2');
+    });
+
+    it('should build a statement with a limit clause', function () {
+      this.statement.select().from('OUser').limit(2);
+      this.statement.buildStatement().should.equal('SELECT * FROM OUser LIMIT 2');
+    });
+
+    it('should build a statement with skip and limit clauses', function () {
+      this.statement.select().from('OUser').skip(1).limit(2);
+      this.statement.buildStatement().should.equal('SELECT * FROM OUser LIMIT 2 SKIP 1');
+    });
+  });
+
   describe('Statement::where(), Statement::and(), Statement::or()', function () {
     it('should build a where clause with an expression', function () {
       this.statement.select().from('OUser').where('1=1');
