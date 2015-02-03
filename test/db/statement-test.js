@@ -289,6 +289,14 @@ COMMIT \n\
       this.statement.update('#1:1').set({foo: 'bar', greeting: 'hello world'}).return('AFTER');
       this.statement.buildStatement().should.equal('UPDATE #1:1 SET foo = :paramfoo0, greeting = :paramgreeting1 RETURN AFTER');
     });
+    it('should build a return clause with object parameters', function () {
+      this.statement.update('#1:1').set({foo: 'bar', greeting: 'hello world'}).return({rid: '@rid'});
+      this.statement.buildStatement().should.equal('UPDATE #1:1 SET foo = :paramfoo0, greeting = :paramgreeting1 RETURN {"rid":@rid}');
+    });
+    it('should build a return clause with array parameters', function () {
+      this.statement.update('#1:1').set({foo: 'bar', greeting: 'hello world'}).return(['@rid', '@class']);
+      this.statement.buildStatement().should.equal('UPDATE #1:1 SET foo = :paramfoo0, greeting = :paramgreeting1 RETURN [@rid,@class]');
+    });
     it('should build a return clause before the where clause', function () {
       this.statement.delete().from('OUser').return('BEFORE').where({foo: 'bar', greeting: 'hello world'});
       this.statement.buildStatement().should.equal('DELETE FROM OUser RETURN BEFORE WHERE (foo = :paramfoo0 AND greeting = :paramgreeting1)');
@@ -296,6 +304,23 @@ COMMIT \n\
     it('should build a return clause after the insert query', function () {
       this.statement.insert().into('OUser').set({foo: 'bar', greeting: 'hello world'}).return('AFTER');
       this.statement.buildStatement().should.equal('INSERT INTO OUser SET foo = :paramfoo0, greeting = :paramgreeting1 RETURN AFTER');
+    });
+  });
+
+  describe('Statement::skip() and Statement::limit()', function () {
+    it('should build a statement with a skip clause', function () {
+      this.statement.select().from('OUser').skip(2);
+      this.statement.buildStatement().should.equal('SELECT * FROM OUser SKIP 2');
+    });
+
+    it('should build a statement with a limit clause', function () {
+      this.statement.select().from('OUser').limit(2);
+      this.statement.buildStatement().should.equal('SELECT * FROM OUser LIMIT 2');
+    });
+
+    it('should build a statement with skip and limit clauses', function () {
+      this.statement.select().from('OUser').skip(1).limit(2);
+      this.statement.buildStatement().should.equal('SELECT * FROM OUser LIMIT 2 SKIP 1');
     });
   });
 
