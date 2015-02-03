@@ -2,7 +2,19 @@ var Bluebird = require('bluebird');
 var Statement = require('../../lib/db/statement');
 
 describe("Bug #231: Field filtering does not handle substitutions", function () {
-  var rid;
+  var rid, hasProtocolSupport = false;
+
+  function ifSupportedIt (text, fn) {
+    it(text, function () {
+      if (hasProtocolSupport) {
+        return fn.call(this);
+      }
+      else {
+        console.log('      skipping, "'+text+'": operation not supported by OrientDB version');
+      }
+    });
+  }
+
   before(function () {
     var self = this;
     return CREATE_TEST_DB(this, 'testdb_bug_231')
@@ -30,10 +42,12 @@ describe("Bug #231: Field filtering does not handle substitutions", function () 
     })
     .then(function (result) {
       rid = result;
+      hasProtocolSupport = self.db.server.transport.connection.protocolVersion >= 28;
     });
   });
+
   after(function () {
-    return DELETE_TEST_DB('testdb_bug_231');
+    // return DELETE_TEST_DB('testdb_bug_231');
   });
 
   it('should substitute parameters in filters', function () {
@@ -44,14 +58,14 @@ describe("Bug #231: Field filtering does not handle substitutions", function () 
   });
 
 
-  it('should select using a normal query', function () {
+  ifSupportedIt('should select using a normal query', function () {
     return this.db.query("SELECT expand(out(\"Drives\")[vin=\"1234\"]) FROM Person WHERE name = \"Fred\"")
     .spread(function (data) {
       data.vin.should.equal('1234');
     });
   });
 
-  it('should select using a prepared query', function () {
+  ifSupportedIt('should select using a prepared query', function () {
     return this.db.query("select expand( out( :d )[vin=:v] ) from Person WHERE name = :name", {
       params: {
         d: 'Drives',
@@ -65,7 +79,7 @@ describe("Bug #231: Field filtering does not handle substitutions", function () 
   });
 
 
-  it('should select using the query builder', function () {
+  ifSupportedIt('should select using the query builder', function () {
     var query =  this.db
     .select("expand(out(:d)[vin=:v])")
     .from('Person')
