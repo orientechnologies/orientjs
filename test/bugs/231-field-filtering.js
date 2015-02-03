@@ -47,7 +47,7 @@ describe("Bug #231: Field filtering does not handle substitutions", function () 
   });
 
   after(function () {
-    // return DELETE_TEST_DB('testdb_bug_231');
+    return DELETE_TEST_DB('testdb_bug_231');
   });
 
   it('should substitute parameters in filters', function () {
