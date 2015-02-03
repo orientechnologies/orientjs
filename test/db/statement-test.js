@@ -408,10 +408,10 @@ COMMIT \n\
         name: 'mario'
       });
       this.statement.buildStatement().should.equal('UPDATE #1:1 PUT ' +
-        'fooMap = \'foo\', :paramfooMapfoo0, ' +
-        'fooMap = \'greeting\', :paramfooMapgreeting1, ' +
-        'barMap = \'bar\', :parambarMapbar2, ' +
-        'barMap = \'name\', :parambarMapname3');
+        'fooMap = "foo", :paramfooMapfoo0, ' +
+        'fooMap = "greeting", :paramfooMapgreeting1, ' +
+        'barMap = "bar", :parambarMapbar2, ' +
+        'barMap = "name", :parambarMapname3');
     });
   });
 });
