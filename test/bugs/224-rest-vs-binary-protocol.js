@@ -1,19 +1,7 @@
 var Bluebird = require('bluebird');
 
 describe("Bug #224: REST vs BINARY protocol", function () {
-  var rid,
-      hasProtocolSupport = false;
-
-  function ifSupportedIt (text, fn) {
-    it(text, function () {
-      if (hasProtocolSupport) {
-        return fn.call(this);
-      }
-      else {
-        console.log('      skipping, "'+text+'": operation not supported by OrientDB version');
-      }
-    });
-  }
+  var rid;
   before(function () {
     var self = this;
     return CREATE_TEST_DB(this, 'testdb_bug_224')
@@ -47,7 +35,6 @@ describe("Bug #224: REST vs BINARY protocol", function () {
     })
     .then(function (result) {
       rid = result;
-      hasProtocolSupport = self.db.server.transport.connection.protocolVersion >= 28;
     });
   });
   after(function () {
@@ -64,7 +51,8 @@ describe("Bug #224: REST vs BINARY protocol", function () {
     });
   });
 
-  ifSupportedIt('should work correctly', function () {
+  // skipping due to bug in versions of OrientDB <= 2.1-SNAPSHOT
+  it.skip('should work correctly', function () {
     var query = this.db
     .select('name')
     .select('$DescendingPosts AS Posts')
