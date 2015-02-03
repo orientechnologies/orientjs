@@ -289,6 +289,14 @@ COMMIT \n\
       this.statement.update('#1:1').set({foo: 'bar', greeting: 'hello world'}).return('AFTER');
       this.statement.buildStatement().should.equal('UPDATE #1:1 SET foo = :paramfoo0, greeting = :paramgreeting1 RETURN AFTER');
     });
+    it('should build a return clause with object parameters', function () {
+      this.statement.update('#1:1').set({foo: 'bar', greeting: 'hello world'}).return({rid: '@rid'});
+      this.statement.buildStatement().should.equal('UPDATE #1:1 SET foo = :paramfoo0, greeting = :paramgreeting1 RETURN {"rid":@rid}');
+    });
+    it('should build a return clause with array parameters', function () {
+      this.statement.update('#1:1').set({foo: 'bar', greeting: 'hello world'}).return(['@rid', '@class']);
+      this.statement.buildStatement().should.equal('UPDATE #1:1 SET foo = :paramfoo0, greeting = :paramgreeting1 RETURN [@rid,@class]');
+    });
     it('should build a return clause before the where clause', function () {
       this.statement.delete().from('OUser').return('BEFORE').where({foo: 'bar', greeting: 'hello world'});
       this.statement.buildStatement().should.equal('DELETE FROM OUser RETURN BEFORE WHERE (foo = :paramfoo0 AND greeting = :paramgreeting1)');
