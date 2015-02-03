@@ -163,6 +163,35 @@ COMMIT \n\
     });
   });
 
+  describe('Statement::traverse()', function () {
+    it('should traverse all the edges by default', function () {
+      this.statement.traverse();
+      this.statement.buildStatement().should.equal('TRAVERSE *');
+    });
+
+    it('should traverse a single edge type', function () {
+      this.statement.traverse('out("Thing")');
+      this.statement.buildStatement().should.equal('TRAVERSE out("Thing")');
+    });
+
+    it('should traverse multiple edge types', function () {
+      this.statement.traverse('in("Thing")', 'out("Thing")');
+      this.statement.buildStatement().should.equal('TRAVERSE in("Thing"), out("Thing")');
+    });
+  });
+
+  describe('Statement::while()', function () {
+    it('should add a while clause to traverses', function () {
+      this.statement.traverse().from('OUser').while('$depth < 1');
+      this.statement.buildStatement().should.equal("TRAVERSE * FROM OUser WHILE $depth < 1");
+    });
+
+    it('should add multiple while clauses to traverses', function () {
+      this.statement.traverse().from('OUser').while('$depth < 1').and('1=1');
+      this.statement.buildStatement().should.equal("TRAVERSE * FROM OUser WHILE $depth < 1 AND 1=1");
+    });
+  });
+
   describe('Statement::insert()', function () {
     it('should insert a record', function () {
       this.statement.insert().into('OUser').set({foo: 'bar', greeting: 'hello world'});
