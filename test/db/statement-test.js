@@ -395,4 +395,23 @@ COMMIT \n\
       this.statement.buildStatement().should.equal('SELECT * FROM OUser WHERE [latitude,longitude] WITHIN [[1,2],[3,4]]');
     });
   });
+
+  describe('Statement::put()', function () {
+    it('should build a put query', function () {
+      this.statement.update('#1:1')
+      .put('fooMap', {
+        foo: 'fooVal',
+        greeting: 'hello world'
+      })
+      .put('barMap', {
+        bar: 'barVal',
+        name: 'mario'
+      });
+      this.statement.buildStatement().should.equal('UPDATE #1:1 PUT ' +
+        'fooMap = "foo", :paramfooMapfoo0, ' +
+        'fooMap = "greeting", :paramfooMapgreeting1, ' +
+        'barMap = "bar", :parambarMapbar2, ' +
+        'barMap = "name", :parambarMapname3');
+    });
+  });
 });
