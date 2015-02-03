@@ -293,6 +293,22 @@ db
 ```
 
 
+### Query Builder: Put a map entry into a map
+
+```js
+db
+.update('#1:1')
+.put('mapProperty', {
+  key: 'value',
+  foo: 'bar'
+})
+.scalar()
+.then(function (total) {
+  console.log('updated', total, 'records');
+});
+```
+
+
 ### Loading a record by RID.
 
 ```js
