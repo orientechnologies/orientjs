@@ -7,6 +7,9 @@ describe('JWT', function () {
       if (hasProtocolSupport) {
         return fn.call(this);
       }
+      else {
+        console.log('        skipping, "'+text+'": operation not supported by OrientDB version');
+      }
     });
   }
   before(function () {
