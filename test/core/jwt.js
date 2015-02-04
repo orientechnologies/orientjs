@@ -145,25 +145,32 @@ describe('JWT', function () {
     });
 
     describe('Db::createUserContext()', function () {
-      var context;
+      var readerContext, adminContext;
       before(function () {
         if (hasProtocolSupport) {
-          context = db.createUserContext(reader);
+          readerContext = db.createUserContext(reader);
+          adminContext = db.createUserContext(admin);
         }
       });
       ifSupportedIt('should create a user context', function () {
-        return context.select().from('OUser').all()
+        return readerContext.select().from('OUser').all()
         .then(function (users) {
           users.length.should.be.above(1);
         });
       });
       ifSupportedIt('should ensure that the token is used correctly', function () {
-        return context.create('VERTEX', 'V').set({greeting: 'hello world'}).one()
+        return readerContext.create('VERTEX', 'V').set({greeting: 'hello world'}).one()
         .then(function () {
           throw new Error('No, this should not happen');
         })
         .catch(LIB.errors.RequestError, function (err) {
           /permission/i.test(err.message).should.be.true;
+        });
+      });
+      ifSupportedIt('should insert a row using the admin context', function () {
+        return adminContext.insert().into('OUser').set({name: 'foo', password: 'bar', status: 'active'}).one()
+        .then(function (data) {
+          data['@class'].should.equal('OUser');
         });
       });
     });

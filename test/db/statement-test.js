@@ -450,6 +450,58 @@ COMMIT \n\
     });
   });
 
+  describe('Statement::increment()', function () {
+    it('should increment a field using the default value', function () {
+      this.statement.update('#1:1').increment('foo');
+      this.statement.toString().should.equal('UPDATE #1:1 INCREMENT foo = 1');
+    });
+
+    it('should increment a field using the specified positive value', function () {
+      this.statement.update('#1:1').increment('foo', 100);
+      this.statement.toString().should.equal('UPDATE #1:1 INCREMENT foo = 100');
+    });
+
+
+    it('should increment a field using the specified negative value', function () {
+      this.statement.update('#1:1').increment('foo', -100);
+      this.statement.toString().should.equal('UPDATE #1:1 INCREMENT foo = -100');
+    });
+  });
+
+  describe('Statement::add()', function () {
+    it('should add a string value to a property', function () {
+      this.statement.update('#1:1').add('foo', 'bar');
+      this.statement.toString().should.equal('UPDATE #1:1 ADD foo = "bar"');
+    });
+
+    it('should add a numerical value to a property', function () {
+      this.statement.update('#1:1').add('foo', 123);
+      this.statement.toString().should.equal('UPDATE #1:1 ADD foo = 123');
+    });
+
+    it('should add multiple values to a property', function () {
+      this.statement.update('#1:1').add('foo', 123, 'bar');
+      this.statement.toString().should.equal('UPDATE #1:1 ADD foo = 123, foo = "bar"');
+    });
+  });
+
+  describe('Statement::remove()', function () {
+    it('should remove a string value from a property', function () {
+      this.statement.update('#1:1').remove('foo', 'bar');
+      this.statement.toString().should.equal('UPDATE #1:1 REMOVE foo = "bar"');
+    });
+
+    it('should remove a numerical value from a property', function () {
+      this.statement.update('#1:1').remove('foo', 123);
+      this.statement.toString().should.equal('UPDATE #1:1 REMOVE foo = 123');
+    });
+
+    it('should remove multiple values from a property', function () {
+      this.statement.update('#1:1').remove('foo', 123, 'bar');
+      this.statement.toString().should.equal('UPDATE #1:1 REMOVE foo = 123, foo = "bar"');
+    });
+  });
+
   describe('Statement::put()', function () {
     it('should build a put query', function () {
       this.statement.update('#1:1')
