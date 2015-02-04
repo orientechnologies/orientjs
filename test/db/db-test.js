@@ -172,7 +172,7 @@ describe("Database API", function () {
       });
     });
 
-    it('should emit a endQuery event', function () {
+    it('should emit a endQuery event with success', function () {
       var emitedObject;
       this.db.on("endQuery", function(obj) {
         emitedObject = obj;
@@ -182,8 +182,30 @@ describe("Database API", function () {
       .delay(10) // solves a strange race condition which happens about 1/20th of the time, needs further investigation.
       .then(function () {
         emitedObject.should.have.propertyByPath("perf", "query");
+        emitedObject.should.have.property("err");
+        emitedObject.should.have.property("result");
         emitedObject.perf.query.should.be.above(0);
+        (isNaN(emitedObject.err)).should.be.true;
+        emitedObject.result.should.be.ok;
       });
     });
+
+    it('should emit a endQuery event with error', function () {
+      var emitedObject;
+      this.db.on("endQuery", function(obj) {
+        emitedObject = obj;
+      });
+
+      return this.db.select('name, status').from('Invalid').limit(1).one()
+      .catch(function (err) {
+        emitedObject.should.have.propertyByPath("perf", "query");
+        emitedObject.should.have.property("err");
+        emitedObject.should.have.property("result");
+        emitedObject.perf.query.should.be.above(0);
+        emitedObject.err.should.be.ok;
+        (isNaN(emitedObject.result)).should.be.true;
+      });
+    });
+
   });
 });

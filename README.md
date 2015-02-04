@@ -643,6 +643,40 @@ oriento migrate down
 oriento migrate down 1
 ```
 
+## Events
+You can also bind to the following events
+
+### `beginQuery`
+Given the query
+
+    db.select('name, status').from('OUser').where({"status": "active"}).limit(1).fetch({"role": 1}).one();
+
+The following event will be triggered
+
+    db.on("beginQuery", function(obj) {
+      // => {
+      //  query: 'SELECT name, status FROM OUser WHERE status = :paramstatus0 LIMIT 1',
+      //  mode: 'a',
+      //  fetchPlan: 'role:1',
+      //  limit: -1,
+      //  params: { params: { paramstatus0: 'active' } }
+      // }
+    });
+
+
+### `endQuery`
+After a query has been run, you'll get the the following event emitted
+
+    db.on("endQuery", function(obj) {
+      // => {
+      //   "err": errObj,
+      //   "result": resultObj,
+      //   "perf": {
+      //     "query": timeInMs
+      //   }
+      // }
+    });
+
 
 # History
 
