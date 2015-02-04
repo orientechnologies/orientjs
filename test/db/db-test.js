@@ -182,8 +182,10 @@ describe("Database API", function () {
       .then(function () {
         emitedObject.should.have.propertyByPath("perf", "query");
         emitedObject.should.have.property("err");
+        emitedObject.should.have.property("result");
         emitedObject.perf.query.should.be.above(0);
         (isNaN(emitedObject.err)).should.be.true;
+        emitedObject.result.should.be.ok;
       });
     });
 
@@ -197,8 +199,10 @@ describe("Database API", function () {
       .catch(function (err) {
         emitedObject.should.have.propertyByPath("perf", "query");
         emitedObject.should.have.property("err");
+        emitedObject.should.have.property("result");
         emitedObject.perf.query.should.be.above(0);
         emitedObject.err.should.be.ok;
+        (isNaN(emitedObject.result)).should.be.true;
       });
     });
 
