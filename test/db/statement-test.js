@@ -204,6 +204,15 @@ COMMIT \n\
       this.statement.update('#1:1').set({foo: 'bar', greeting: 'hello world'});
       this.statement.buildStatement().should.equal('UPDATE #1:1 SET foo = :paramfoo0, greeting = :paramgreeting1');
     });
+
+    it('should update a record with a nested statement', function () {
+      this.statement.update('#1:1').set({
+        foo: function (s) {
+          s.select().from('OUser');
+        }
+      });
+      this.statement.buildStatement().should.equal('UPDATE #1:1 SET foo = (SELECT * FROM OUser)');
+    });
   });
 
   describe('Statement::delete()', function () {
