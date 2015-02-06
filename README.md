@@ -518,6 +518,29 @@ db.delete('EDGE', 'E')
 });
 ```
 
+### Creating a function
+You can create a function by supplying a plain javascript function. Please note that the method stringifies the `function` passed so you can't use any varaibles outside the function closure.
+
+```js
+db.createFn("nameOfFunction", function(arg1, arg2) {
+  return arg1 + arg2;
+})
+.then(function (count) {
+  // Function created!
+});
+```
+
+You can also omit the name and it'll default to the `Function#name`
+
+```js
+db.createFn(function nameOfFunction(arg1, arg2) {
+  return arg1 + arg2;
+})
+.then(function (count) {
+  // Function created!
+});
+```
+
 
 # CLI
 

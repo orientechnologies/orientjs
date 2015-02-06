@@ -207,5 +207,29 @@ describe("Database API", function () {
       });
     });
 
+    it('should create a runnable function with name arg as function name', function () {
+      var db = this.db;
+
+      return db.createFn("runme1", function(str) {
+        return "this "+str+" work";
+      }).then(function() {
+        return db.select('runme1("does") as testresult').from('OUser').limit(1).one();
+      }).then(function(res) {
+        res.testresult.should.be.equal("this does work");
+      });
+    });
+
+    it('should create runnable function with function name as name', function () {
+      var db = this.db;
+
+      return db.createFn(function runme2(str) {
+        return "this "+str+" work";
+      }).then(function() {
+        return db.select('runme2("does") as testresult').from('OUser').limit(1).one();
+      }).then(function(res) {
+        res.testresult.should.be.equal("this does work");
+      });
+    });
+
   });
 });
