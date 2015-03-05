@@ -178,6 +178,26 @@ COMMIT \n\
       this.statement.traverse('in("Thing")', 'out("Thing")');
       this.statement.buildStatement().should.equal('TRAVERSE in("Thing"), out("Thing")');
     });
+
+    it('should traverse in depth first', function () {
+      this.statement.traverse().strategy('DEPTH_FIRST').from('Abc');
+      this.statement.buildStatement().should.equal('TRAVERSE * FROM Abc STRATEGY DEPTH_FIRST');
+    });
+
+    it('should traverse in breadth first', function () {
+      this.statement.traverse().strategy('BREADTH_FIRST').from('#23:4');
+      this.statement.buildStatement().should.equal('TRAVERSE * FROM #23:4 STRATEGY BREADTH_FIRST');
+    });
+
+    it('should traverse with no strategy spec', function () {
+      this.statement.traverse().strategy('XYZ');
+      this.statement.buildStatement().should.equal('TRAVERSE *');
+    });
+
+    it('should traverse in breadth first and with limit', function () {
+      this.statement.traverse().strategy('BREADTH_FIRST').limit(2).from('Xyz');
+      this.statement.buildStatement().should.equal('TRAVERSE * FROM Xyz LIMIT 2 STRATEGY BREADTH_FIRST');
+    });
   });
 
   describe('Statement::while()', function () {
