@@ -37,7 +37,7 @@ describe("Database API - Class", function () {
         item.should.be.an.instanceOf(Class);
       });
     });
-    it('should create a class with the given name and a super class', function () {
+    it('should create a class with the given name and a superClass', function () {
       return this.db.class.create('TestClassExtended', 'V')
       .then(function (item) {
         item.name.should.equal('TestClassExtended');
