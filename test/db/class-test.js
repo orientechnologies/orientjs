@@ -33,6 +33,29 @@ describe("Database API - Class", function () {
       return this.db.class.create('TestClass')
       .then(function (item) {
         item.name.should.equal('TestClass');
+        item.should.have.property('superClass', null);
+        item.should.be.an.instanceOf(Class);
+      });
+    });
+    it('should create a class with the given name and a super class', function () {
+      return this.db.class.create('TestClassExtended', 'V')
+      .then(function (item) {
+        item.name.should.equal('TestClassExtended');
+        item.should.have.property('superClass', 'V');
+        item.should.be.an.instanceOf(Class);
+      });
+    });
+  });
+
+  describe('Db::class.update()', function () {
+    it('should update a class with the given superClass', function () {
+      return this.db.class.update({
+        name: 'TestClass',
+        superClass: 'V'
+      })
+      .then(function (item) {
+        item.name.should.equal('TestClass');
+        item.should.have.property('superClass', 'V');
         item.should.be.an.instanceOf(Class);
       });
     });
@@ -43,7 +66,6 @@ describe("Database API - Class", function () {
       return this.db.class.drop('TestClass');
     });
   });
-
 
   describe('Instance functions', function () {
     before(function () {
