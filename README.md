@@ -363,6 +363,18 @@ db.class.get('MyClass')
 });
 ```
 
+### Updating an existing class
+
+```js
+db.class.update({
+  name: 'MyClass',
+  superClass: 'V'
+})
+.then(function (MyClass) {
+  console.log('Updated class: ' + MyClass.name + ' that extends ' + MyClass.superClass);
+});
+```
+
 ### Listing properties in a class
 
 ```js
