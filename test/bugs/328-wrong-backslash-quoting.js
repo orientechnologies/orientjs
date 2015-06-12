@@ -10,7 +10,7 @@ describe("Bug #328: wrong serialization of fields with multiple backslash charac
     return DELETE_TEST_DB('testdb_bug_328');
   });
 
-  it('should insert a document with with correct quotes', function () {
+  it('should insert a document with correct quotes for backslashes', function () {
     return this.db
     .insert()
     .into('TestSerializeBackslash')
