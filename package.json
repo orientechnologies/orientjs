@@ -1,5 +1,5 @@
 {
-  "name": "oriento",
+  "name": "orientjs",
   "description": "Official node.js driver for OrientDB. Fast, lightweight, uses the binary protocol.",
   "keywords": [
     "orientdb",
@@ -12,12 +12,16 @@
     "node",
     "node.js"
   ],
-  "version": "1.1.3",
+  "version": "2.0",
   "author": {
-    "name": "Charles Pick",
-    "email": "charles@codemix.com"
+    "name": "Enrico Risa",
+    "email": "e.risa@orientdb.com"
   },
   "contributors": [
+    {
+      "name": "Charles Pick",
+      "email": "charles@codemix.com"
+    },
     {
       "name": "Giraldo Rosales",
       "email": "giraldo@nitrogenlabs.com"
@@ -41,7 +45,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "http://github.com/codemix/oriento.git"
+    "url": "http://github.com/orientechnologies/orientjs.git"
   },
   "dependencies": {
     "bluebird": "~2.9.2",
@@ -65,7 +69,7 @@
     "node": ">=0.10.0"
   },
   "bin": {
-    "oriento": "./bin/oriento"
+    "orientjs": "./bin/orientjs"
   },
   "scripts": {
     "pretest": "./node_modules/.bin/jshint ./lib",
