@@ -1,16 +1,15 @@
-# Oriento
+# OrientJS driver
 
 Official [orientdb](http://www.orientechnologies.com/orientdb/) driver for node.js. Fast, lightweight, uses the binary protocol.
 
-[![Build Status](https://travis-ci.org/codemix/oriento.svg?branch=master)](https://travis-ci.org/codemix/oriento)
-[![Gitter chat](https://badges.gitter.im/codemix/oriento.png)](https://gitter.im/codemix/oriento)
+[![Build Status](https://travis-ci.org/orientechnologies/orientjs.svg?branch=master)](https://travis-ci.org/orientechnologies/orientjs)
 
 
 # Supported Versions
 
-Oriento aims to work with version 1.7.1 of orientdb and later. While it may work with earlier versions, they are not currently supported, [pull requests are welcome!](./CONTRIBUTING.md)
+OrientJS aims to work with version 1.7.1 of OrientDB and later. While it may work with earlier versions, they are not currently supported, [pull requests are welcome!](./CONTRIBUTING.md)
 
-> **IMPORTANT**: Oriento does not currently support OrientDB's Tree Based [RIDBag](https://github.com/orientechnologies/orientdb/wiki/RidBag) feature because it relies on making additional network requests.
+> **IMPORTANT**: OrientJS does not currently support OrientDB's Tree Based [RIDBag](https://github.com/orientechnologies/orientdb/wiki/RidBag) feature because it relies on making additional network requests.
 > This means that by default, the result of e.g. `JSON.stringify(record)` for a record with up to 119 edges will be very different from a record with 120+ edges.
 > This can lead to very nasty surprises which may not manifest themselves during development but could appear at any time in production.
 > There is an [open issue](https://github.com/orientechnologies/orientdb/issues/2315) for this in OrientDB, until that gets fixed, it is **strongly recommended** that you set `RID_BAG_EMBEDDED_TO_SBTREEBONSAI_THRESHOLD` to a very large value, e.g. 2147483647.
@@ -21,7 +20,7 @@ Oriento aims to work with version 1.7.1 of orientdb and later. While it may work
 Install via npm.
 
 ```sh
-npm install oriento
+npm install orientjs
 ```
 
 # Running Tests
@@ -40,7 +39,7 @@ npm test
 
 # Features
 
-- Tested with latest orientdb (1.7).
+- Tested with latest OrientDB (1.7, 2.0.x and 2.1).
 - Intuitive API, based on [bluebird](https://github.com/petkaantonov/bluebird) promises.
 - Fast binary protocol parser.
 - Access multiple databases via the same socket.
@@ -53,9 +52,9 @@ npm test
 ### Configuring the client.
 
 ```js
-var Oriento = require('oriento');
+var OrientDB = require('orientjs');
 
-var server = Oriento({
+var server = OrientDB({
   host: 'localhost',
   port: 2424,
   username: 'root',
@@ -559,9 +558,9 @@ db.createFn(function nameOfFunction(arg1, arg2) {
 An extremely minimalist command line interface is provided to allow
 databases to created and migrations to be applied via the terminal.
 
-To be useful, oriento requires some arguments to authenticate against the server. All operations require the `password` argument unless the user is configured with an empty password. For operations that involve a specific db, include the `dbname` argument (with `dbuser` and `dbpassword` if they are set to something other than the default).
+To be useful, OrientJS requires some arguments to authenticate against the server. All operations require the `password` argument unless the user is configured with an empty password. For operations that involve a specific db, include the `dbname` argument (with `dbuser` and `dbpassword` if they are set to something other than the default).
 
-You can get a list of the supported arguments using `oriento --help`.
+You can get a list of the supported arguments using `orientjs --help`.
 
 ```sh
   -d, --cwd         The working directory to use.
@@ -575,40 +574,40 @@ You can get a list of the supported arguments using `oriento --help`.
   -?, --help        Show the help screen.
 ```
 
-If it's too tedious to type these options in every time, you can also create an `oriento.opts` file containing them. Oriento will search for this file in the working directory and apply any arguments it contains.
-For an example of such a file, see [test/fixtures/oriento.opts](./test/fixtures/oriento.opts).
+If it's too tedious to type these options in every time, you can also create an `orientjs.opts` file containing them. OrientJS will search for this file in the working directory and apply any arguments it contains.
+For an example of such a file, see [test/fixtures/orientjs.opts](./test/fixtures/orientjs.opts).
 
 
-> Note: For brevity, all these examples assume you've installed oriento globally (`npm install -g oriento`) and have set up an oriento.opts file with your server and database credentials.
+> Note: For brevity, all these examples assume you've installed OrientJS globally (`npm install -g orientjs`) and have set up an orientjs.opts file with your server and database credentials.
 
 ## Database CLI Commands.
 
 ### Listing all the databases on the server.
 
 ```sh
-oriento db list
+orientjs db list
 ```
 
 ### Creating a new database
 
 ```sh
-oriento db create mydb graph plocal
+orientjs db create mydb graph plocal
 ```
 
 ### Destroying an existing database
 
 ```sh
-oriento db drop mydb
+orientjs db drop mydb
 ```
 
 ## Migrations
 
-Oriento supports a simple database migration system. This makes it easy to keep track of changes to your orientdb database structure between multiple environments and distributed teams.
+OrientJS supports a simple database migration system. This makes it easy to keep track of changes to your orientdb database structure between multiple environments and distributed teams.
 
-When you run a migration command, oriento first looks for an orient class called `Migration`. If this class doesn't exist it will be created.
+When you run a migration command, OrientJS first looks for an orient class called `Migration`. If this class doesn't exist it will be created.
 This class is used to keep track of the migrations that have been applied.
 
-Oriento then looks for migrations that have not yet been applied in a folder called `migrations`. Each migration consists of a simple node.js module which exports two methods - `up()` and `down()`. Each method receives the currently selected database instance as an argument.
+OrientJS then looks for migrations that have not yet been applied in a folder called `migrations`. Each migration consists of a simple node.js module which exports two methods - `up()` and `down()`. Each method receives the currently selected database instance as an argument.
 
 The `up()` method should perform the migration and the `down()` method should undo it.
 
@@ -619,7 +618,7 @@ In addition to the command line options outlined below, it's also possible to us
 ```js
 var db = server.use('mydb');
 
-var manager = new Oriento.Migration.Manager({
+var manager = new OrientDB.Migration.Manager({
   db: db,
   dir: __dirname + '/migrations'
 });
@@ -636,13 +635,13 @@ manager.up(1)
 To list all the unapplied migrations:
 
 ```sh
-oriento migrate list
+orientjs migrate list
 ```
 
 ### Creating a new migration
 
 ```sh
-oriento migrate create my new migration
+orientjs migrate create my new migration
 ```
 
 creates a file called something like `m20140318_200948_my_new_migration` which you should edit to specify the migration up and down methods.
@@ -653,7 +652,7 @@ creates a file called something like `m20140318_200948_my_new_migration` which y
 To apply all the migrations:
 
 ```sh
-oriento migrate up
+orientjs migrate up
 ```
 
 ### Migrating up by 1
@@ -661,7 +660,7 @@ oriento migrate up
 To apply only the first migration:
 
 ```sh
-oriento migrate up 1
+orientjs migrate up 1
 ```
 
 ### Migrating down fully
@@ -669,13 +668,13 @@ oriento migrate up 1
 To revert all migrations:
 
 ```sh
-oriento migrate down
+orientjs migrate down
 ```
 
 ### Migrating down by 1
 
 ```sh
-oriento migrate down 1
+orientjs migrate down 1
 ```
 
 ## Events
@@ -721,6 +720,7 @@ In early 2014, [Giraldo Rosales](https://github.com/nitrog7) made a [whole host 
 
 Later in 2014, codemix refactored the library to make it easier to extend and maintain, and introduced an API similar to [nano](https://github.com/dscape/nano). The result is so different from the original codebase that it warranted its own name and npm package. This also gave us the opportunity to switch to semantic versioning.
 
+On June 2015 Orient Technologies company adopted the oriento driver and renamed it as OrientJS.
 
 # Notes for contributors
 
