@@ -1,6 +1,6 @@
 # Contributing
 
-So you want to contribute to oriento? Great! But to increase the chances of your changes being accepted quickly, please read the following guide.
+So you want to contribute to orientjs? Great! But to increase the chances of your changes being accepted quickly, please read the following guide.
 
 ## Code Conventions
 
@@ -34,19 +34,19 @@ And have a look at `coverage/lcov-report/index.html`.
 
 
 
-### 1. [Fork](http://help.github.com/fork-a-repo/) the oriento repository on github and clone your fork to your development environment
+### 1. [Fork](http://help.github.com/fork-a-repo/) the OrientJS repository on github and clone your fork to your development environment
 
 ```sh
-git clone git@github.com:YOUR-GITHUB-USERNAME/oriento.git
+git clone git@github.com:YOUR-GITHUB-USERNAME/orientjs.git
 ```
 
 If you have trouble setting up GIT with GitHub in Linux, or are getting errors like "Permission Denied (publickey)", then you must [setup your GIT installation to work with GitHub](http://help.github.com/linux-set-up-git/)
 
-### 2. Add the main oriento repository as an additional git remote called "upstream"
-Change to the directory where you cloned oriento normally, "oriento". Then enter the following command:
+### 2. Add the main OrientJS repository as an additional git remote called "upstream"
+Change to the directory where you cloned OrientJS normally, "orientjs". Then enter the following command:
 
 ```sh
-git remote add upstream git://github.com/codemix/oriento.git
+git remote add upstream git://github.com/orientechnologies/orientjs.git
 ```
 
 
@@ -56,7 +56,7 @@ All new features and bug fixes should have an associated issue to provide a sing
 
 > For small changes or documentation issues, you don't need to create an issue, a pull request is enough in this case.
 
-### 4. Fetch the latest code from the main oriento branch
+### 4. Fetch the latest code from the main OrientJS branch
 
 ```sh
 git fetch upstream
@@ -64,7 +64,7 @@ git fetch upstream
 
 You should start at this point for every new contribution to make sure you are working on the latest code.
 
-### 5. Create a new branch for your feature based on the current oriento master branch
+### 5. Create a new branch for your feature based on the current OrientJS master branch
 
 > That's very important since you will not be able to submit more than one pull request from your account if you'll use master.
 
@@ -96,13 +96,13 @@ Commit your changes with a descriptive commit message. Make sure to mention the 
 git commit -m "A brief description of this change which fixes #42 goes here"
 ```
 
-### 8. Pull the latest oriento code from upstream into your branch
+### 8. Pull the latest OrientJS code from upstream into your branch
 
 ```sh
 git pull upstream master
 ```
 
-This ensures you have the latest code in your branch before you open your pull request. If there are any merge conflicts, you should fix them now and commit the changes again. This ensures that it's easy for the oriento team to merge your changes with one click.
+This ensures you have the latest code in your branch before you open your pull request. If there are any merge conflicts, you should fix them now and commit the changes again. This ensures that it's easy for the OrientJS team to merge your changes with one click.
 
 ### 9. Having resolved any conflicts, push your code to github
 
@@ -118,7 +118,7 @@ Go to your repository on github and click "Pull Request", choose your branch on 
 > Note that each pull-request should fix a single change.
 
 ### 11. Someone will review your code
-Someone will review your code, and you might be asked to make some changes, if so go to step #6 (you don't need to open another pull request if your current one is still open). If your code is accepted it will be merged into the main branch and become part of the next oriento release. If not, don't be disheartened, different people need different features and oriento can't be everything to everyone, your code will still be available on github as a reference for people who need it.
+Someone will review your code, and you might be asked to make some changes, if so go to step #6 (you don't need to open another pull request if your current one is still open). If your code is accepted it will be merged into the main branch and become part of the next OrientJS release. If not, don't be disheartened, different people need different features and OrientJS can't be everything to everyone, your code will still be available on github as a reference for people who need it.
 
 ### 12. Cleaning it up
 
@@ -133,8 +133,8 @@ git push origin --delete 999-name-of-your-branch-goes-here
 ### Command overview (for advanced contributors)
 
 ```sh
-git clone git@github.com:YOUR-GITHUB-USERNAME/oriento.git
-git remote add upstream git://github.com/codemix/oriento.git
+git clone git@github.com:YOUR-GITHUB-USERNAME/orientjs.git
+git remote add upstream git://github.com/orientechnologies/orientjs.git
 
 git fetch upstream
 git checkout upstream/master
