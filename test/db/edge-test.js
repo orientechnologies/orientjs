@@ -59,7 +59,7 @@ describe("Database API - Edge", function () {
       });
     });
     it('should create an edge between lists of RIDs', function () {
-      return this.db.edge.from("SELECT FROM OUser WHERE name = 'reader'").to("SELECT FROM ORole").create()
+      return this.db.edge.from("SELECT FROM V WHERE name = 'vertex1'").to("SELECT FROM V WHERE name = 'vertex2' ").create()
       .then(function (edges) {
         edges.length.should.be.above(0);
       });
@@ -70,7 +70,7 @@ describe("Database API - Edge", function () {
     it('should delete an edge between individual RIDs', function () {
       return this.db.edge.from(this.vertices.vertex1['@rid']).to(this.vertices.vertex2['@rid']).delete()
       .then(function (count) {
-        count.should.equal(1);
+        count.should.equal(2);
       });
     });
   });

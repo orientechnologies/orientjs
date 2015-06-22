@@ -233,7 +233,7 @@ describe('Transactional Queries', function () {
   });
 
   it('should execute a complex transaction, using a raw query', function () {
-    return this.db.query('begin\nlet vert = create vertex TestVertex set name = "thing"\nlet user = select from OUser where name = "admin"\nlet edge = create edge TestEdge from $vert to $user\ncommit retry 100\nreturn $edge', {
+    return this.db.query('begin\nlet vert = create vertex TestVertex set name = "thing"\nlet vert1 = create vertex TestVertex set name="second thing"\nlet edge = create edge TestEdge from $vert to $vert1\ncommit retry 100\nreturn $edge', {
       class: 's'
     })
     .spread(function (result) {
@@ -243,8 +243,8 @@ describe('Transactional Queries', function () {
   it('should execute a complex transaction, using the query builder', function () {
     return this.db
     .let('vert', 'create vertex TestVertex set name="wat"')
-    .let('user', 'select from OUser where name="reader"')
-    .let('edge', 'create edge TestEdge from $vert to $user')
+    .let('vert1', 'create vertex TestVertex set name="second wat"')
+    .let('edge', 'create edge TestEdge from $vert to $vert1')
     .commit(100)
     .return('$edge')
     .one()
@@ -261,19 +261,18 @@ describe('Transactional Queries', function () {
         name: "foo"
       });
     })
-    .let('user', function (s) {
+    .let('vert1', function (s) {
       return s
-      .select()
-      .from('OUser')
-      .where({
-        name: 'reader'
+      .create('vertex','TestVertex')
+      .set({
+        name: 'second foo'
       });
     })
     .let('edge', function (s) {
       return s
       .create('edge', 'TestEdge')
       .from('$vert')
-      .to('$user')
+      .to('$vert1')
     })
     .commit(100)
     .return('$edge')
