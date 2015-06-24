@@ -4,6 +4,5 @@ node_js:
 before_script:
   - ./ci/initialize-ci.sh $ORIENTDB_VERSION
 env:
-  - ORIENTDB_VERSION=1.7.10
   - ORIENTDB_VERSION=2.0.11
   - ORIENTDB_VERSION=2.1-rc4
