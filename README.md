@@ -7,7 +7,7 @@ Official [orientdb](http://www.orientechnologies.com/orientdb/) driver for node.
 
 # Supported Versions
 
-OrientJS aims to work with version 1.7.1 of OrientDB and later. While it may work with earlier versions, they are not currently supported, [pull requests are welcome!](./CONTRIBUTING.md)
+OrientJS aims to work with version 2.0.0 of OrientDB and later. While it may work with earlier versions, they are not currently supported, [pull requests are welcome!](./CONTRIBUTING.md)
 
 > **IMPORTANT**: OrientJS does not currently support OrientDB's Tree Based [RIDBag](https://github.com/orientechnologies/orientdb/wiki/RidBag) feature because it relies on making additional network requests.
 > This means that by default, the result of e.g. `JSON.stringify(record)` for a record with up to 119 edges will be very different from a record with 120+ edges.
@@ -39,7 +39,7 @@ npm test
 
 # Features
 
-- Tested with latest OrientDB (1.7, 2.0.x and 2.1).
+- Tested with latest OrientDB (2.0.x and 2.1).
 - Intuitive API, based on [bluebird](https://github.com/petkaantonov/bluebird) promises.
 - Fast binary protocol parser.
 - Access multiple databases via the same socket.
