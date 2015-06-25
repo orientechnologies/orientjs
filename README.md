@@ -720,7 +720,7 @@ In early 2014, [Giraldo Rosales](https://github.com/nitrog7) made a [whole host 
 
 Later in 2014, codemix refactored the library to make it easier to extend and maintain, and introduced an API similar to [nano](https://github.com/dscape/nano). The result is so different from the original codebase that it warranted its own name and npm package. This also gave us the opportunity to switch to semantic versioning.
 
-On June 2015 Orient Technologies company adopted the oriento driver and renamed it as OrientJS.
+In June 2015, Orient Technologies company officially adopted the Oriento driver and renamed it as OrientJS.
 
 # Notes for contributors
 
