@@ -2,6 +2,8 @@
 
 So you want to contribute to orientjs? Great! But to increase the chances of your changes being accepted quickly, please read the following guide.
 
+In order to contribute issues and pull requests, please sign OrientDB's [Contributor License Agreement](https://www.clahub.com/agreements/orientechnologies/orientdb).
+
 ## Code Conventions
 
 We loosely follow the [Felix Style Guide](https://github.com/felixge/node-style-guide) for node.js. 2 spaces for indent, no tabs.
