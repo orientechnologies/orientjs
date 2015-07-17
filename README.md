@@ -395,6 +395,21 @@ MyClass.property.create({
 });
 ```
 
+To add multiple properties, pass multiple objects separated by comma. Example:
+
+```js
+MyClass.property.create({
+  name: 'name',
+  type: 'String'
+}, {
+  name: 'surname',
+  type: 'String'
+})
+.then(function () {
+  console.log('Property created.')
+});
+```
+
 ### Deleting a property from a class
 
 ```js
