@@ -23,6 +23,12 @@ Install via npm.
 npm install orientjs
 ```
 
+To install OrientJS globally use the `-g` option:
+
+```sh
+npm install orientjs -g
+```
+
 # Running Tests
 
 To run the test suite, first invoke the following command within the repo, installing the development dependencies:
