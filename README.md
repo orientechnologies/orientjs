@@ -461,7 +461,7 @@ MyClass.list()
 var binary_data = new Buffer(...);
 // ...
 binary_data['@type'] = 'b'; // state that the record is a raw binary record
-binary_data['@class'] = 'Binary'; // here '@class' does NOT mean a class, but a cluster
+binary_data['@class'] = 'MyBinary'; // here '@class' does NOT mean a class, but a cluster
 db.record.create(binary_data)
 .then(function (record) {
   console.log('Created record. RID:', binary_data['@rid']);
