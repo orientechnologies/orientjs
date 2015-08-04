@@ -1,4 +1,4 @@
-var createdRID, demoRID1, demoRID2;
+var createdRID, createdBinaryRID, demoRID1, demoRID2;
 
 describe("Database API - Record", function () {
   before(function () {
@@ -56,6 +56,20 @@ describe("Database API - Record", function () {
       });
     });
 
+    it('should create a raw binary record', function () {
+      var binary_message = new Buffer(100);
+      for (var i = 0; i < 100; i++)
+      {
+        binary_message[i] = i + 1;
+      }
+      binary_message['@type'] = 'b';
+      binary_message['@class'] = 'V';
+      return this.db.record.create(binary_message)
+      .then(function (record) {
+        createdBinaryRID = record['@rid'];
+      });
+    });
+
     it('should create a record with a dynamic linked field', function () {
       return this.db.record.create({
         '@class': 'OUser',
@@ -106,6 +120,20 @@ describe("Database API - Record", function () {
       return this.db.record.update({'@rid': createdRID, name: 'testuserrenamed'}, {preserve: true})
       .then(function (record) {
         record.name.should.equal('testuserrenamed');
+      });
+    });
+
+    it('should update a raw binary record', function () {
+      var binary_message = new Buffer(100);
+      for (var i = 0; i < 100; i++)
+      {
+        binary_message[i] = 100 - i;
+      }
+      binary_message['@type'] = 'b';
+      binary_message['@rid'] = createdBinaryRID;
+      return this.db.record.update(binary_message, {preserve: true})
+      .then(function (record) {
+        record.toString().should.equal(binary_message.toString());
       });
     });
 
@@ -163,6 +191,9 @@ describe("Database API - Record", function () {
   describe('Db::record.delete()', function () {
     it('should delete a record', function () {
       return this.db.record.delete(createdRID);
+    });
+    it('should delete a raw binary record', function () {
+      return this.db.record.delete(createdBinaryRID);
     });
   });
 

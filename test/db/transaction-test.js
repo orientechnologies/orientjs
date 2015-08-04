@@ -110,9 +110,62 @@ describe("Database API - Transaction", function () {
         results.deleted.length.should.equal(0);
       });
     });
+
+    it('should create a single raw binary record', function () {
+      var binary_message = new Buffer(100);
+      for (var i = 0; i < 100; i++)
+      {
+        binary_message[i] = i + 1;
+      }
+      binary_message['@type'] = 'b';
+      binary_message['@class'] = 'V';
+      this.tx = this.db.begin();
+      return this.tx
+      .create(binary_message)
+      .commit()
+      .bind(this)
+      .then(function (results) {
+        results.created.length.should.equal(1);
+        results.updated.length.should.equal(0);
+        results.deleted.length.should.equal(0);
+      });
+    });
+
+    it('should create multiple raw binary records', function () {
+      var binary_message = [];
+      for (var j = 0; j < 3; j++)
+      {
+        binary_message[j] = new Buffer(100);
+        for (var i = 0; i < 100; i++)
+        {
+          binary_message[j][i] = j + i + 1;
+        }
+        binary_message[j]['@type'] = 'b';
+        binary_message[j]['@class'] = 'V';
+      }
+      this.tx = this.db.begin();
+      return this.tx
+      .create(binary_message[0])
+      .create(binary_message[1])
+      .create(binary_message[2])
+      .commit()
+      .bind(this)
+      .then(function (results) {
+        results.created.length.should.equal(3);
+        results.updated.length.should.equal(0);
+        results.deleted.length.should.equal(0);
+      });
+    });
   });
   describe("Db::transaction.update()", function () {
     beforeEach(function () {
+      var binary_message = new Buffer(100);
+      for (var i = 0; i < 100; i++)
+      {
+        binary_message[i] = i + 1;
+      }
+      binary_message['@type'] = 'b';
+      binary_message['@class'] = 'V';
       this.tx = this.db.begin();
       return this.db.record.create([
         {
@@ -122,12 +175,14 @@ describe("Database API - Transaction", function () {
         {
           '@class': 'TestClass',
           name: 'updateMe2'
-        }
+        },
+        binary_message
       ])
       .bind(this)
-      .spread(function (first, second) {
+      .spread(function (first, second, third) {
         this.first = first;
         this.second = second;
+        this.third = third;
       });
     });
     it('should update a single record', function () {
@@ -154,9 +209,28 @@ describe("Database API - Transaction", function () {
         results.deleted.length.should.equal(0);
       });
     });
+    it('should update a single raw binary record', function () {
+      this.third[99] = 123;
+      this.third[5] = 53;
+      return this.tx
+      .update(this.third)
+      .commit()
+      .then(function (results) {
+        results.created.length.should.equal(0);
+        results.updated.length.should.equal(1);
+        results.deleted.length.should.equal(0);
+      });
+    });
   });
   describe("Db::transaction.delete()", function () {
     beforeEach(function () {
+      var binary_message = new Buffer(100);
+      for (var i = 0; i < 100; i++)
+      {
+        binary_message[i] = i + 1;
+      }
+      binary_message['@type'] = 'b';
+      binary_message['@class'] = 'V';
       this.tx = this.db.begin();
       return this.db.record.create([
         {
@@ -166,17 +240,29 @@ describe("Database API - Transaction", function () {
         {
           '@class': 'TestClass',
           name: 'deleteMe2'
-        }
+        },
+	      binary_message
       ])
       .bind(this)
-      .spread(function (first, second) {
+      .spread(function (first, second, third) {
         this.first = first;
         this.second = second;
+        this.third= third;
       });
     });
     it('should delete a single record', function () {
       return this.tx
       .delete(this.first)
+      .commit()
+      .then(function (results) {
+        results.created.length.should.equal(0);
+        results.updated.length.should.equal(0);
+        results.deleted.length.should.equal(1);
+      });
+    });
+    it('should delete a single raw binary record', function () {
+      return this.tx
+      .delete(this.third)
       .commit()
       .then(function (results) {
         results.created.length.should.equal(0);
