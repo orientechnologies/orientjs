@@ -12,10 +12,10 @@ describe("Config Operations", function () {
   describe('config-get', function () {
     it('should get a particular configuration value from the server', function () {
       return TEST_SERVER.send('config-get', {
-        key: 'db.pool.min'
+        key: 'command.timeout'
       })
       .then(function (response) {
-        (+response.value).should.be.above(0);
+        (+response.value).should.be.equals(0);
         dbPoolMin = response.value;
       });
     });
@@ -23,8 +23,8 @@ describe("Config Operations", function () {
   describe('config-set', function () {
     it('should set a particular configuration value from the server', function () {
       return TEST_SERVER.send('config-set', {
-        key: 'db.pool.min',
-        value: dbPoolMin || '1'
+        key: 'command.timeout',
+        value: dbPoolMin || '0'
       })
       .then(function (response) {
         response.success.should.be.true;
