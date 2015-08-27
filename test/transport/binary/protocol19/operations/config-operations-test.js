@@ -15,7 +15,7 @@ describe("Config Operations", function () {
         key: 'command.timeout'
       })
       .then(function (response) {
-        (+response.value).should.be.equals(0);
+        (+response.value).should.be.equal(0);
         dbPoolMin = response.value;
       });
     });
