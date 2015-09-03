@@ -12,7 +12,7 @@
     "node",
     "node.js"
   ],
-  "version": "2.1.9",
+  "version": "2.2.0",
   "author": {
     "name": "Enrico Risa",
     "email": "e.risa@orientdb.com"
@@ -47,12 +47,15 @@
     "type": "git",
     "url": "http://github.com/orientechnologies/orientjs.git"
   },
+  "gypfile": true,
   "dependencies": {
     "bluebird": "~2.9.2",
     "fast.js": "^0.1.1",
     "parse-function": "^2.0.0",
     "request": "~2.60.0",
-    "yargs": "~1.2.1"
+    "yargs": "~1.2.1",
+    "bindings": "~1.2.1",
+    "nan": "^2.0.0"
   },
   "devDependencies": {
     "mocha": "^2.0.1",
