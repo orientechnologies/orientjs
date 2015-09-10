@@ -68,6 +68,13 @@ var server = OrientDB({
 });
 ```
 
+### Close the connection at the end
+
+```js
+// CLOSE THE CONNECTION AT THE END
+server.close();
+```
+
 
 ### Listing the databases on the server
 
@@ -96,6 +103,9 @@ server.create({
 ```js
 var db = server.use('mydb');
 console.log('Using database: ' + db.name);
+
+// CLOSE THE CONNECTION AT THE END
+db.close();
 ```
 
 ### Using an existing database with credentials
@@ -107,6 +117,8 @@ var db = server.use({
   password: 'admin'
 });
 console.log('Using database: ' + db.name);
+// CLOSE THE CONNECTION AT THE END
+db.close();
 ```
 
 ### Execute an Insert Query
