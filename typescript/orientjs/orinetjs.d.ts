@@ -1,47 +1,23 @@
-﻿// Type definitions for Express 3.1
-// Project: http://expressjs.com
-// Definitions by: Boris Yankov <https://github.com/borisyankov/>
-// DefinitelyTyped: https://github.com/borisyankov/DefinitelyTyped
+
 
 /* =================== USAGE =================== 
 
-    import express = require('express');
-    var app = express();
+    import orients = require('orientjs');
+ var dbserver = orientjs({
+        host: 'localhost',
+        port: 2424,
+        username: 'root',
+        password: 'root'
+    });
 
  =============================================== */
 
 declare module "orientjs" {
     import events = require('events');
     import Promise = require('bluebird');
-    function oj(config: any): oj.Server;
+    function oj(config: any): oj.OrientJs;
     module oj {
-        enum DataTypes {
-            Boolean = 0,
-            Integer = 1,
-            //2: Short,
-            //3: Long,
-            //4: Float,
-            //5: Double,
-            //6: "Datetime",
-            //7: "String",
-            //8: "Binary",
-            //9: "Embedded",
-            //10: "EmbeddedList",
-            //11: "EmbeddedSet",
-            //12: "EmbeddedMap",
-            //13: "Link",
-            //14: "LinkList",
-            //15: "LinkSet",
-            //16: "LinkMap",
-            //17: "Byte",
-            //18: "Transient",
-            //19: "Date",
-            //20: "Custom",
-            //21: "Decimal",
-            //22: "LinkBag",
-            //23: "Any"
-
-        }
+       
 
         interface Logger {
             error?: Function;
