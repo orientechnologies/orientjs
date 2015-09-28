@@ -1,19 +1,17 @@
 #include <nan.h>
 #include "orientc.h"
 #include "listener.h"
+#include <iostream>
 
 void Deserialize(const Nan::FunctionCallbackInfo<v8::Value>& info){
-
-  v8::String::Utf8Value val(info[0]->ToString());
-  const char * content = * val;
+  
+  int len =node::Buffer::Length(info[0]);
+  char * content =  node::Buffer::Data(info[0]);
 
   Orient::RecordParser reader("ORecordSerializerBinary");
 
   TrackerListener listener;
-
-
-  reader.parse((char*)content,info[0]->ToString()->Utf8Length(),listener);
-
+  reader.parse((unsigned char *)content,len,listener);
 
   info.GetReturnValue().Set(listener.obj);
 }

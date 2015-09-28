@@ -1,13 +1,14 @@
 #include <nan.h>
 #include "orientc_reader.h"
 #include "listener.h"
+#include <iostream>
 using namespace Orient;
 
 union dtb {
 	double d;
 	long long l;
 };
-	 void TrackerListener::startDocument(char * name) {
+	 void TrackerListener::startDocument(const char * name) {
 		this->class_name = strdup(name);
 		this->obj = Nan::New<v8::Object>();
 
@@ -23,8 +24,8 @@ union dtb {
 	}
 	 void TrackerListener::endField(const char * name) {
 	}
-	 void TrackerListener::stringValue(char * value) {
-			this->obj->Set(Nan::New(this->field_name).ToLocalChecked(), v8::String::New(strdup(value)));
+	 void TrackerListener::stringValue(const char * value) {
+			this->obj->Set(Nan::New(this->field_name).ToLocalChecked(), v8::String::New(value));
 	}
 	 void TrackerListener::intValue(long value) {
 	 this->obj->Set(Nan::New(this->field_name).ToLocalChecked(), v8::Number::New(value));
@@ -46,7 +47,7 @@ union dtb {
 	 void TrackerListener::doubleValue(double value) {
 	 this->obj->Set(Nan::New(this->field_name).ToLocalChecked(), v8::Number::New(value));
 	}
-	 void TrackerListener::binaryValue(char * value, int length) {
+	 void TrackerListener::binaryValue(const char * value, int length) {
 	}
 	 void TrackerListener::dateValue(long long value) {
 	}
@@ -59,7 +60,7 @@ union dtb {
 	}
 	 void TrackerListener::startMap(int size) {
 	}
-	 void TrackerListener::mapKey(char *key) {
+	 void TrackerListener::mapKey(const char *key) {
 	}
 	 void TrackerListener::endMap() {}
 	 void TrackerListener::endCollection() {}
