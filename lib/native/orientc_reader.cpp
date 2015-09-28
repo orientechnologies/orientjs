@@ -1,9 +1,9 @@
 #include "orientc_reader.h"
 
-#include <malloc/malloc.h>
 #include <cstring>
 #include "helpers.h"
 #include "parse_exception.h"
+#include <arpa/inet.h>
 
 namespace Orient {
 
@@ -25,14 +25,14 @@ void readValueEmbeddedCollection(ContentBuffer & reader, RecordParseListener & l
 void readValueEmbeddedMap(ContentBuffer & reader, RecordParseListener & listener);
 void readValueLink(ContentBuffer & reader, RecordParseListener & listener);
 void readDocument(ContentBuffer &reader, RecordParseListener & listener);
-long readFlat32Integer(ContentBuffer & reader);
+int32_t readFlat32Integer(ContentBuffer & reader);
 
 RecordParser::RecordParser(std::string formatter) {
 	if (formatter != "ORecordSerializerBinary")
 		throw parse_exception("Formatter not supported");
 }
 
-void RecordParser::parse(char * content, int content_size, RecordParseListener &listener) {
+void RecordParser::parse(const unsigned char * content, int content_size, RecordParseListener &listener) {
 	ContentBuffer reader(content, content_size);
 	reader.prepare(1);
 	if (reader.content[reader.cursor] != 0)
@@ -41,17 +41,20 @@ void RecordParser::parse(char * content, int content_size, RecordParseListener &
 }
 
 void readDocument(ContentBuffer &reader, RecordParseListener & listener) {
-	long long class_size = readVarint(reader);
-	char * class_name = reinterpret_cast<char *>(malloc(class_size + 1));
-	readString(reader, class_name, class_size);
-	listener.startDocument(class_name);
-	free(class_name);
-	long long size = 0;
+	int64_t class_size = readVarint(reader);
+	if (class_size != 0) {
+		char * class_name = new char[class_size + 1];
+		readString(reader, class_name, class_size);
+		listener.startDocument(class_name);
+		delete class_name;
+	} else
+		listener.startDocument("");
+	int64_t size = 0;
 	while ((size = readVarint(reader)) != 0) {
 		if (size > 0) {
-			char * field_name = reinterpret_cast<char *>(malloc(size + 1));
+			char * field_name = new char[size + 1];
 			readString(reader, field_name, size);
-			long position = readFlat32Integer(reader);
+			int32_t position = readFlat32Integer(reader);
 			reader.prepare(1);
 			OType type = (OType) reader.content[reader.cursor];
 			listener.startField(field_name, type);
@@ -61,7 +64,7 @@ void readDocument(ContentBuffer &reader, RecordParseListener & listener) {
 			reader.force_cursor(temp);
 			listener.endField(field_name);
 			//std::cout << "read field:" << field_name << "position" << position << std::endl;
-			free(field_name);
+			delete field_name;
 		} else {
 			// god sake
 		}
@@ -75,17 +78,17 @@ void readSimpleValue(ContentBuffer &reader, OType type, RecordParseListener & li
 		readValueString(reader, listener);
 		break;
 	case INTEGER: {
-		long long value = readVarint(reader);
+		int64_t value = readVarint(reader);
 		listener.intValue(value);
 	}
 		break;
 	case LONG: {
-		long long value = readVarint(reader);
+		int64_t value = readVarint(reader);
 		listener.longValue(value);
 	}
 		break;
 	case SHORT: {
-		long long value = readVarint(reader);
+		int64_t value = readVarint(reader);
 		listener.shortValue(value);
 	}
 		break;
@@ -101,7 +104,7 @@ void readSimpleValue(ContentBuffer &reader, OType type, RecordParseListener & li
 	}
 		break;
 	case DATE: {
-		long long read = readVarint(reader);
+		int64_t read = readVarint(reader);
 		read *= 86400000;
 		listener.dateValue(read);
 	}
@@ -121,7 +124,7 @@ void readSimpleValue(ContentBuffer &reader, OType type, RecordParseListener & li
 	}
 		break;
 	case DATETIME: {
-		long long value = readVarint(reader);
+		int64_t value = readVarint(reader);
 		listener.dateTimeValue(value);
 	}
 		break;
@@ -135,12 +138,12 @@ void readSimpleValue(ContentBuffer &reader, OType type, RecordParseListener & li
 	}
 		break;
 	case BINARY: {
-		long long value_size = readVarint(reader);
-		char * value = reinterpret_cast<char *>(malloc(value_size + 1));
+		int64_t value_size = readVarint(reader);
+		char * value = new char[value_size + 1];
 		reader.prepare(value_size);
 		memcpy(value, reader.content + reader.cursor, value_size);
 		listener.binaryValue(value, value_size);
-		free(value);
+		delete value;
 	}
 		break;
 	case EMBEDDEDLIST:
@@ -163,11 +166,12 @@ void readSimpleValue(ContentBuffer &reader, OType type, RecordParseListener & li
 }
 
 void readValueString(ContentBuffer & reader, RecordParseListener & listener) {
-	long long value_size = readVarint(reader);
-	char * value = reinterpret_cast<char *>(malloc(value_size + 1));
+	int64_t value_size = readVarint(reader);
+	//std::cout << "string size:" << value_size << std::endl;
+	char * value = new char[value_size + 1];
 	readString(reader, value, value_size);
 	listener.stringValue(value);
-	free(value);
+	delete value;
 }
 
 void readValueLink(ContentBuffer & reader, RecordParseListener & listener) {
@@ -207,12 +211,12 @@ void readValueEmbeddedCollection(ContentBuffer & reader, RecordParseListener & l
 }
 
 void readValueEmbeddedMap(ContentBuffer & reader, RecordParseListener & listener) {
-	long long size = readVarint(reader);
+	int64_t size = readVarint(reader);
 	listener.startMap(size);
 	while (size-- > 0) {
 		reader.prepare(1);
 		int nameSize = readVarint(reader);
-		char * field_name = reinterpret_cast<char *>(malloc(nameSize + 1));
+		char * field_name = new char[nameSize + 1];
 		readString(reader, field_name, nameSize);
 		long position = readFlat32Integer(reader);
 		reader.prepare(1);
@@ -224,7 +228,7 @@ void readValueEmbeddedMap(ContentBuffer & reader, RecordParseListener & listener
 		reader.force_cursor(temp);
 		//listener.endField(field_name);
 		//std::cout << "read field:" << field_name << "position" << position << std::endl;
-		free(field_name);
+		delete field_name;
 	}
 	listener.endMap();
 }
@@ -235,13 +239,13 @@ void readString(ContentBuffer & reader, char * str, int size) {
 	str[size] = 0;
 }
 
-long readFlat32Integer(ContentBuffer & reader) {
-	long value = 0;
+int32_t readFlat32Integer(ContentBuffer & reader) {
+	int32_t value = 0;
 	reader.prepare(4);
-	value |= ((long) 0xff & reader.content[reader.cursor]) << 24;
-	value |= ((long) 0xff & reader.content[reader.cursor + 1]) << 15;
-	value |= ((long) 0xff & reader.content[reader.cursor + 2]) << 8;
-	value |= ((long) 0xff & reader.content[reader.cursor + 3]);
+	value |= ((int32_t) 0xffffff & (int32_t) reader.content[reader.cursor]) << 24;
+	value |= ((int32_t) 0xffffff & ((int32_t) reader.content[reader.cursor + 1]) << 16);
+	value |= ((int32_t) 0xffffff & (int32_t) reader.content[reader.cursor + 2]) << 8;
+	value |= ((int32_t) 0xffffff & (int32_t) reader.content[reader.cursor + 3]);
 	return value;
 
 }

@@ -1,14 +1,14 @@
 #include <iostream>
-
+#include <stdint.h>
 namespace Orient {
 
 class ContentBuffer {
 public:
 	ContentBuffer();
-	ContentBuffer(char * content, const int content_size);
+	ContentBuffer(const unsigned char * content, const int content_size);
 	void prepare(int next);
 	void force_cursor(int position);
-	char *content;
+	unsigned char *content;
 	int cursor;
 	int prepared;
 	~ContentBuffer();
@@ -17,9 +17,9 @@ private:
 	bool writing;
 };
 
-long long readVarint(ContentBuffer &reader);
+int64_t readVarint(ContentBuffer &reader);
 
-void writeVarint(ContentBuffer &reader,long long value);
+void writeVarint(ContentBuffer &reader,int64_t value);
 
 
 }  // namespace Orient
