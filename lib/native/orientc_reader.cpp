@@ -43,28 +43,25 @@ void RecordParser::parse(const unsigned char * content, int content_size, Record
 void readDocument(ContentBuffer &reader, RecordParseListener & listener) {
 	int64_t class_size = readVarint(reader);
 	if (class_size != 0) {
-		char * class_name = new char[class_size + 1];
-		readString(reader, class_name, class_size);
-		listener.startDocument(class_name);
-		delete class_name;
+		reader.prepare(class_size);
+		char * class_name = (char *)reader.content + reader.cursor;
+		listener.startDocument(class_name,class_size);
 	} else
-		listener.startDocument("");
+		listener.startDocument("",0);
 	int64_t size = 0;
 	while ((size = readVarint(reader)) != 0) {
 		if (size > 0) {
-			char * field_name = new char[size + 1];
-			readString(reader, field_name, size);
+			reader.prepare(size);
+			char * field_name = (char *)reader.content + reader.cursor;
 			int32_t position = readFlat32Integer(reader);
 			reader.prepare(1);
 			OType type = (OType) reader.content[reader.cursor];
-			listener.startField(field_name, type);
+			listener.startField(field_name, size,type);
 			int temp = reader.prepared;
 			reader.force_cursor(position);
 			readSimpleValue(reader, type, listener);
 			reader.force_cursor(temp);
-			listener.endField(field_name);
-			//std::cout << "read field:" << field_name << "position" << position << std::endl;
-			delete field_name;
+			listener.endField(field_name,size);
 		} else {
 			// god sake
 		}
@@ -139,11 +136,8 @@ void readSimpleValue(ContentBuffer &reader, OType type, RecordParseListener & li
 		break;
 	case BINARY: {
 		int64_t value_size = readVarint(reader);
-		char * value = new char[value_size + 1];
 		reader.prepare(value_size);
-		memcpy(value, reader.content + reader.cursor, value_size);
-		listener.binaryValue(value, value_size);
-		delete value;
+		listener.binaryValue((char *)reader.content + reader.cursor, value_size);
 	}
 		break;
 	case EMBEDDEDLIST:
@@ -167,11 +161,8 @@ void readSimpleValue(ContentBuffer &reader, OType type, RecordParseListener & li
 
 void readValueString(ContentBuffer & reader, RecordParseListener & listener) {
 	int64_t value_size = readVarint(reader);
-	//std::cout << "string size:" << value_size << std::endl;
-	char * value = new char[value_size + 1];
-	readString(reader, value, value_size);
-	listener.stringValue(value);
-	delete value;
+	reader.prepare(value_size);
+	listener.stringValue((char *)reader.content + reader.cursor,value_size);
 }
 
 void readValueLink(ContentBuffer & reader, RecordParseListener & listener) {
@@ -215,20 +206,17 @@ void readValueEmbeddedMap(ContentBuffer & reader, RecordParseListener & listener
 	listener.startMap(size);
 	while (size-- > 0) {
 		reader.prepare(1);
-		int nameSize = readVarint(reader);
-		char * field_name = new char[nameSize + 1];
-		readString(reader, field_name, nameSize);
+		int key_size = readVarint(reader);
+		reader.prepare(key_size);
+		char * key_name = (char *)reader.content + reader.cursor;
 		long position = readFlat32Integer(reader);
 		reader.prepare(1);
 		OType type = (OType) reader.content[reader.cursor];
-		listener.mapKey(field_name);
+		listener.mapKey(key_name,key_size);
 		int temp = reader.prepared;
 		reader.force_cursor(position);
 		readSimpleValue(reader, type, listener);
 		reader.force_cursor(temp);
-		//listener.endField(field_name);
-		//std::cout << "read field:" << field_name << "position" << position << std::endl;
-		delete field_name;
 	}
 	listener.endMap();
 }

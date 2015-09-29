@@ -43,13 +43,13 @@ struct Link {
 
 class RecordParseListener {
 public:
-	virtual void startDocument(const char * className)=0;
+	virtual void startDocument(const char * class_name, size_t class_name_length)=0;
 	virtual void startCollection(int size)=0;
 	virtual void startMap(int size)=0;
-	virtual void mapKey(const char * key)=0;
-	virtual void startField(const char * name,OType type)=0;
-	virtual void endField(const char * name)=0;
-	virtual void stringValue(const char * value)=0;
+	virtual void mapKey(const char * key,size_t key_length)=0;
+	virtual void startField(const char * name,size_t name_length,OType type)=0;
+	virtual void endField(const char * name,size_t name_length)=0;
+	virtual void stringValue(const char * value ,size_t value_lenght)=0;
 	virtual void intValue(long value)=0;
 	virtual void longValue(long long value)=0;
 	virtual void shortValue(short value)=0;
