@@ -92,7 +92,7 @@ char * DocumentWriter::writtenContent(int * size) {
 		header.force_cursor(pair.first);
 		writeFlat32Integer(header, pair.second + headerSize);
 	}
-	char * all = reinterpret_cast<char *>(malloc(wholeSize));
+	char * all = new char[wholeSize];
 	memcpy(all, header.content, headerSize);
 	memcpy(all + headerSize, data.content, dataSize);
 	*size = wholeSize;
@@ -263,7 +263,7 @@ void RecordWriter::endMap() {
 	DocumentWriter *front1 = writer->nested.front();
 	front1->data.prepare(size);
 	memcpy(front1->data.content + front1->data.cursor, content, size);
-	free(content);
+	delete []content;
 }
 
 void RecordWriter::endDocument() {

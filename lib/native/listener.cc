@@ -8,24 +8,24 @@ union dtb {
 	double d;
 	long long l;
 };
-	 void TrackerListener::startDocument(const char * name) {
-		this->class_name = strdup(name);
+	 void TrackerListener::startDocument(const char * name,size_t name_length) {
+		this->class_name = strndup(name,name_length);
 		this->obj = Nan::New<v8::Object>();
 
 
-		this->obj->Set(Nan::New("@class").ToLocalChecked(), v8::String::New(this->class_name));
+		this->obj->Set(Nan::New("@class").ToLocalChecked(), v8::String::New(this->class_name,name_length));
 	}
 	 void TrackerListener::endDocument() {
 
 	}
-	 void TrackerListener::startField(const char * name, OType type) {
-		this->field_name = strdup(name);
+	 void TrackerListener::startField(const char * name,size_t name_length, OType type) {
+		this->field_name = strndup(name,name_length);
 		this->type = type;
 	}
-	 void TrackerListener::endField(const char * name) {
+	 void TrackerListener::endField(const char * name,size_t name_length) {
 	}
-	 void TrackerListener::stringValue(const char * value) {
-			this->obj->Set(Nan::New(this->field_name).ToLocalChecked(), v8::String::New(value));
+	 void TrackerListener::stringValue(const char * value,size_t value_length) {
+			this->obj->Set(Nan::New(this->field_name).ToLocalChecked(), v8::String::New(value,value_length));
 	}
 	 void TrackerListener::intValue(long value) {
 	 this->obj->Set(Nan::New(this->field_name).ToLocalChecked(), v8::Number::New(value));
@@ -60,7 +60,7 @@ union dtb {
 	}
 	 void TrackerListener::startMap(int size) {
 	}
-	 void TrackerListener::mapKey(const char *key) {
+	 void TrackerListener::mapKey(const char *key,size_t key_size) {
 	}
 	 void TrackerListener::endMap() {}
 	 void TrackerListener::endCollection() {}

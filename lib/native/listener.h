@@ -4,11 +4,11 @@ using namespace Orient;
 
 class TrackerListener: public RecordParseListener {
 public:
-	virtual void startDocument(const char * name) ;
+	virtual void startDocument(const char * name,size_t name_length) ;
 	virtual void endDocument() ;
-	virtual void startField(const char * name, OType type) ;
-	virtual void endField(const char * name) ;
-	virtual void stringValue(const char * value) ;
+	virtual void startField(const char * name,size_t name_length, OType type) ;
+	virtual void endField(const char * name,size_t name_length) ;
+	virtual void stringValue(const char * value,size_t value_length) ;
 	virtual void intValue(long value) ;
 	virtual void longValue(long long value) ;
 	virtual void shortValue(short value);
@@ -22,7 +22,7 @@ public:
 	virtual void linkValue(struct Link &value) ;
 	virtual void startCollection(int size);
 	virtual void startMap(int size) ;
-	virtual void mapKey(const char *key);
+	virtual void mapKey(const char *key,size_t key_length);
 	virtual void endMap();
 	virtual void endCollection();
 
