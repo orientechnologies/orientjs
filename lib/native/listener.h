@@ -1,5 +1,6 @@
 #include "orientc_reader.h"
 #include <nan.h>
+#include <list>
 using namespace Orient;
 
 class TrackerListener: public RecordParseListener {
@@ -20,17 +21,18 @@ public:
 	virtual void dateValue(long long value) ;
 	virtual void dateTimeValue(long long value) ;
 	virtual void linkValue(struct Link &value) ;
-	virtual void startCollection(int size);
-	virtual void startMap(int size) ;
+	virtual void startCollection(int size,OType type);
+	virtual void startMap(int size,OType type) ;
 	virtual void mapKey(const char *key,size_t key_length);
-	virtual void endMap();
-	virtual void endCollection();
-
-	char * class_name;
-	char * field_name;
+	virtual void ridBagTreeKey(long long fileId,long long pageIndex,long pageOffset);
+	virtual void endMap(OType type);
+	virtual void endCollection(OType type);
+	void setValue(v8::Handle<v8::Value> value);
+	v8::Local<v8::String> field_name;
 	OType type;
 
 	v8::Local<v8::Object> obj;
+	std::list<v8::Local<v8::Object> > stack;
 	TrackerListener() ;
 	~TrackerListener() ;
 

@@ -18,11 +18,11 @@ class RecordWriter {
 public:
 	RecordWriter(std::string format);
 	void startDocument(const char * className);
-	void startCollection(int size);
-	void startMap(int size);
-	void mapKey(char * mapKey);
-	void startField(const char * name,OType type);
-	void endField(const char * name,OType type);
+	void startCollection(int size,OType type);
+	void startMap(int size,OType type);
+	void mapKey(const char * mapKey);
+	void startField(const char* name);
+	void endField(const char * name);
 	void stringValue(const char * value);
 	void intValue(long value);
 	void longValue(long long value);
@@ -35,14 +35,16 @@ public:
 	void dateValue(long long value);
 	void dateTimeValue(long long value);
 	void linkValue(struct Link & value);
-	void endMap();
-	void endCollection();
+	void ridBagTreeKey(long long fileId,long long pageIndex,long pageOffset);
+	void endMap(OType type);
+	void endCollection(OType type);
 	void endDocument();
-	const char * writtenContent(int *size);
+	const unsigned char * writtenContent(int *size);
 	~RecordWriter();
 private:
 	InternalWriter *writer;
 };
+
 
 }
 #endif /* SRC_ORIENTC_WRITER_H_ */

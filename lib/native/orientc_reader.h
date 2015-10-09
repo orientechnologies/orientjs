@@ -33,7 +33,7 @@ enum OType {
 	DATE =19,
 	CUSTOM = 20,
 	DECIMAL = 21,
-	RIDBAG = 22,
+	LINKBAG = 22,
 	ANY = 23
 };
 struct Link {
@@ -44,8 +44,8 @@ struct Link {
 class RecordParseListener {
 public:
 	virtual void startDocument(const char * class_name, size_t class_name_length)=0;
-	virtual void startCollection(int size)=0;
-	virtual void startMap(int size)=0;
+	virtual void startCollection(int size,OType type)=0;
+	virtual void startMap(int size,OType type)=0;
 	virtual void mapKey(const char * key,size_t key_length)=0;
 	virtual void startField(const char * name,size_t name_length,OType type)=0;
 	virtual void endField(const char * name,size_t name_length)=0;
@@ -61,8 +61,9 @@ public:
 	virtual void dateValue(long long value)=0;
 	virtual void dateTimeValue(long long value)=0;
 	virtual void linkValue(struct Link & value)=0;
-	virtual void endMap()=0;
-	virtual void endCollection()=0;
+	virtual void ridBagTreeKey(long long fileId,long long pageIndex,long pageOffset)=0;
+	virtual void endMap(OType type)=0;
+	virtual void endCollection(OType type)=0;
 	virtual void endDocument()=0;
 	virtual ~RecordParseListener() {}
 };
