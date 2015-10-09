@@ -8,10 +8,13 @@ void Deserialize(const Nan::FunctionCallbackInfo<v8::Value>& info){
   int len =node::Buffer::Length(info[0]);
   char * content =  node::Buffer::Data(info[0]);
 
+  
   Orient::RecordParser reader("ORecordSerializerBinary");
 
-  TrackerListener listener;
+  v8::Local<v8::Function> func= v8::Function::Cast(*info[1]);
+  TrackerListener listener(func);
   reader.parse((unsigned char *)content,len,listener);
+
 
   info.GetReturnValue().Set(listener.obj);
 }
