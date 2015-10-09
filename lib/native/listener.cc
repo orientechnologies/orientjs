@@ -14,7 +14,9 @@ void TrackerListener::startDocument(const char * name,size_t name_length) {
 		obj = cur;
 	this->stack.push_front(cur);
 
-	this->stack.front()->Set(Nan::New("@class").ToLocalChecked(), v8::String::New(name,name_length));
+	if(name_length > 0)
+		this->stack.front()->Set(Nan::New("@class").ToLocalChecked(), v8::String::New(name,name_length));
+	this->stack.front()->Set(Nan::New("@type").ToLocalChecked(), v8::String::New("d"));
 }
 
 void TrackerListener::endDocument() {
@@ -46,6 +48,7 @@ void TrackerListener::shortValue(short value) {
 }
 
 void TrackerListener::byteValue(char value) {
+	setValue(v8::Number::New(value));
 }
 
 void TrackerListener::booleanValue(bool value) {
@@ -74,34 +77,47 @@ void TrackerListener::dateTimeValue(long long value) {
 }
 
 void TrackerListener::linkValue(struct Link &value) {
+	v8::Local<v8::Object> cur = Nan::New<v8::Object>();
+	cur->Set(Nan::New("cluster").ToLocalChecked(), v8::Number::New(value.cluster));
+	cur->Set(Nan::New("position").ToLocalChecked(), v8::Number::New(value.position));
+	v8::Handle<v8::Value> handles[1];
+	handles[0] = cur;
+	setValue(ridFactory->NewInstance(1,handles));
 }
 
 void TrackerListener::startCollection(int size,OType type) {
+	v8::Local<v8::Object> cur = v8::Array::New();
+	setValue(cur);
+	this->stack.push_front(cur);
 }
 
 void TrackerListener::startMap(int size,OType type) {
 	v8::Local<v8::Object> cur = Nan::New<v8::Object>();
-	if(!stack.empty()) {
-		setValue(cur);
-	}
+	setValue(cur);
 	this->stack.push_front(cur);
 }
 
 void TrackerListener::mapKey(const char *key,size_t key_size) {
+	this->field_name = v8::String::New(key,key_size);
 }
 void ridBagTreeKey(long long fileId,long long pageIndex,long pageOffset) {
 }
 void TrackerListener::endMap(OType type) {
 	this->stack.pop_front();
 }
-void TrackerListener::endCollection(OType type) {}
+void TrackerListener::endCollection(OType type) {
+	this->stack.pop_front();
+}
 
 void TrackerListener::setValue(v8::Handle<v8::Value> value) {
-	this->stack.front()->Set(this->field_name, value);
+	if(this->stack.front()->IsArray()){
+		v8::Local<v8::Array> arr = v8::Array::Cast(*this->stack.front());
+		arr->Set(arr->Length(),value);
+	} else this->stack.front()->Set(this->field_name, value);
 }
 
 
-TrackerListener::TrackerListener() {
+TrackerListener::TrackerListener(v8::Local<v8::Function> ridFactory):ridFactory(ridFactory) {
 }
 
 TrackerListener::~TrackerListener() {
