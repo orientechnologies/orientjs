@@ -45,7 +45,7 @@ ContentBuffer::~ContentBuffer() {
 
 void ContentBuffer::force_cursor(int position) {
 	if (position > this->size)
-		throw " out of content size";
+		throw parse_exception(" out of content size");
 	cursor = position;
 	prepared = position;
 }
