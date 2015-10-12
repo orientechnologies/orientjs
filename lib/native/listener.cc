@@ -100,11 +100,18 @@ void TrackerListener::startMap(int size,OType type) {
 void TrackerListener::mapKey(const char *key,size_t key_size) {
 	this->field_name = v8::String::New(key,key_size);
 }
-void ridBagTreeKey(long long fileId,long long pageIndex,long pageOffset) {
+
+void TrackerListener::ridBagTreeKey(long long fileId,long long pageIndex,long pageOffset) {
 }
+
+void TrackerListener::nullValue() {
+	setValue(v8::Null());
+}
+
 void TrackerListener::endMap(OType type) {
 	this->stack.pop_front();
 }
+
 void TrackerListener::endCollection(OType type) {
 	this->stack.pop_front();
 }
