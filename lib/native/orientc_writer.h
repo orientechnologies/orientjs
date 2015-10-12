@@ -36,6 +36,7 @@ public:
 	void dateTimeValue(long long value);
 	void linkValue(struct Link & value);
 	void ridBagTreeKey(long long fileId,long long pageIndex,long pageOffset);
+	void nullValue();
 	void endMap(OType type);
 	void endCollection(OType type);
 	void endDocument();

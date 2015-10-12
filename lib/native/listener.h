@@ -25,6 +25,7 @@ public:
 	virtual void startMap(int size,OType type) ;
 	virtual void mapKey(const char *key,size_t key_length);
 	virtual void ridBagTreeKey(long long fileId,long long pageIndex,long pageOffset);
+	virtual void nullValue();
 	virtual void endMap(OType type);
 	virtual void endCollection(OType type);
 	void setValue(v8::Handle<v8::Value> value);

@@ -62,6 +62,7 @@ public:
 	virtual void dateTimeValue(long long value)=0;
 	virtual void linkValue(struct Link & value)=0;
 	virtual void ridBagTreeKey(long long fileId,long long pageIndex,long pageOffset)=0;
+	virtual void nullValue()=0;
 	virtual void endMap(OType type)=0;
 	virtual void endCollection(OType type)=0;
 	virtual void endDocument()=0;
