@@ -5,6 +5,7 @@
       "sources": [ "lib/native/deserializer.cc",
                   "lib/native/orientc_reader.cpp",
                   "lib/native/listener.cc",
+                  "lib/native/writer.cc",
                   "lib/native/helpers.cpp",
                   "lib/native/parse_exception.cpp" ],
       "include_dirs": [

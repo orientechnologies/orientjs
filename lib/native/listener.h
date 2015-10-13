@@ -1,3 +1,6 @@
+#ifndef LISTENER_H
+#define LISTENER_H
+
 #include "orientc_reader.h"
 #include <nan.h>
 #include <list>
@@ -39,3 +42,6 @@ public:
 	~TrackerListener() ;
 
 };
+
+#endif
+
