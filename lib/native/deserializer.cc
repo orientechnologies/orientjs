@@ -1,6 +1,7 @@
 #include <nan.h>
 #include "orientc.h"
 #include "listener.h"
+#include "writer.h"
 #include <iostream>
 
 void Deserialize(const Nan::FunctionCallbackInfo<v8::Value>& info){
@@ -24,11 +25,12 @@ void Serialize(const Nan::FunctionCallbackInfo<v8::Value>& info){
   v8::Local<v8::Object> toWrite = v8::Object::Cast(*info[0]);
   Orient::RecordWriter writer("ORecordSerializerBinary");
 
-
+  writeObject(toWrite,writer);
   int size=0;
   const unsigned char * content = writer.writtenContent(&size);
   v8::Local<node::Buffer> handle = node::Buffer::New((const char *)content,size);
-  //info.GetReturnValue().Set(handle);
+  v8::Local<v8::Value> value = *handle->handle_;
+  info.GetReturnValue().Set(value);
 }
 
 void Init(v8::Local<v8::Object> exports,v8::Local<v8::Object> module) {
