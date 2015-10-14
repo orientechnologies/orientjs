@@ -66,6 +66,7 @@ void readDocument(ContentBuffer &reader, RecordParseListener & listener) {
 			throw new parse_exception("property id not supported by network serialization");
 		}
 	}
+	listener.endDocument();
 	if (lastCursor > reader.prepared)
 		reader.force_cursor(lastCursor);
 }

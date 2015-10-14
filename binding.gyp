@@ -4,6 +4,7 @@
       "target_name": "deserializer",
       "sources": [ "lib/native/deserializer.cc",
                   "lib/native/orientc_reader.cpp",
+                  "lib/native/orientc_writer.cpp",
                   "lib/native/listener.cc",
                   "lib/native/writer.cc",
                   "lib/native/helpers.cpp",
