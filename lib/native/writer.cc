@@ -1,5 +1,6 @@
 #include "writer.h"
 #include <math.h>
+#include <iostream>
 
 void writeMap(v8::Local<v8::Object> toWrite, Orient::RecordWriter & writer);
 void writeArray(v8::Local<v8::Array> toWrite, Orient::RecordWriter & writer);
@@ -7,11 +8,24 @@ void writeValue(v8::Local<v8::Value> value, Orient::RecordWriter & writer);
 
 void writeObject(v8::Local<v8::Object> toWrite,Orient::RecordWriter & writer){
 
-	v8::Local<v8::String> classKey = v8::String::New("@type");
+	v8::Local<v8::String> classKey = v8::String::New("@class");
 	if(toWrite->Has(classKey)){
-		v8::Local<v8::String> clazz = toWrite->Get(classKey)->ToString();
-		v8::String::Utf8Value clazzVal(clazz);
-		writer.startDocument(*clazzVal);
+		v8::Local<v8::Value> val = toWrite->Get(classKey);
+		if(val->IsString()){
+			v8::Local<v8::String> clazz = val->ToString();
+			v8::String::Utf8Value clazzVal(clazz);
+			writer.startDocument(*clazzVal);
+		}else if(val->IsObject()) {
+			v8::Local<v8::String> nameKey = v8::String::New("name");
+			v8::Local<v8::Object> classObj = val->ToObject();
+			if(classObj->Has(nameKey)){
+				v8::Local<v8::String> clazz = classObj->Get(nameKey)->ToString();
+				v8::String::Utf8Value clazzVal(clazz);
+				writer.startDocument(*clazzVal);
+			}else 
+				writer.startDocument("");
+		}else 
+			writer.startDocument("");
 	} else {
 		writer.startDocument("");
 	}
@@ -20,11 +34,14 @@ void writeObject(v8::Local<v8::Object> toWrite,Orient::RecordWriter & writer){
 	for(i = 0; i< properties->Length() ; i ++){
 		v8::Local<v8::String> name = v8::String::Cast(*properties->Get(i));
 		v8::String::Utf8Value val(name);
-		writer.startField(*val);
-		v8::Local<v8::Value> value = toWrite->Get(name);
-		writeValue(value,writer);
-		writer.endField(*val);
+		if((*val)[0] != '@') {
+			writer.startField(*val);
+			v8::Local<v8::Value> value = toWrite->Get(name);
+			writeValue(value,writer);
+			writer.endField(*val);
+		}
 	}
+	writer.endDocument();
 }
 
 
