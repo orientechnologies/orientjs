@@ -38,7 +38,8 @@ public:
 	v8::Local<v8::Object> obj;
 	std::list<v8::Local<v8::Object> > stack;
 	v8::Local<v8::Function > ridFactory;
-	TrackerListener(v8::Local<v8::Function> ridFactory) ;
+	v8::Local<v8::Function > bagFactory;
+	TrackerListener(v8::Local<v8::Function> ridFactory, v8::Local<v8::Function > bagFactory ) ;
 	~TrackerListener() ;
 
 };
