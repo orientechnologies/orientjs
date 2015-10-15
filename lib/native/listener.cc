@@ -87,7 +87,16 @@ void TrackerListener::linkValue(struct Link &value) {
 
 void TrackerListener::startCollection(int size,OType type) {
 	v8::Local<v8::Object> cur = v8::Array::New();
-	setValue(cur);
+	if(type == LINKBAG) {
+		v8::Handle<v8::Value> handles[1];
+		handles[0] = v8::Null();
+		v8::Local<v8::Object> bag = bagFactory->NewInstance(1,handles);
+		bag->Set(Nan::New("_content").ToLocalChecked(), cur);
+		bag->Set(Nan::New("_type").ToLocalChecked(), v8::Number::New(0));
+		bag->Set(Nan::New("_size").ToLocalChecked(), v8::Number::New(size));
+		setValue(bag);
+	} else
+  		setValue(cur);
 	this->stack.push_front(cur);
 }
 
@@ -124,7 +133,7 @@ void TrackerListener::setValue(v8::Handle<v8::Value> value) {
 }
 
 
-TrackerListener::TrackerListener(v8::Local<v8::Function> ridFactory):ridFactory(ridFactory) {
+TrackerListener::TrackerListener(v8::Local<v8::Function> ridFactory ,v8::Local<v8::Function > bagFactory ):ridFactory(ridFactory),bagFactory(bagFactory) {
 }
 
 TrackerListener::~TrackerListener() {

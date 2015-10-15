@@ -12,8 +12,9 @@ void Deserialize(const Nan::FunctionCallbackInfo<v8::Value>& info){
   
   Orient::RecordParser reader("ORecordSerializerBinary");
 
-  v8::Local<v8::Function> func= v8::Function::Cast(*info[1]);
-  TrackerListener listener(func);
+  v8::Local<v8::Function> ridFactory= v8::Function::Cast(*info[1]);
+  v8::Local<v8::Function> bagFactory= v8::Function::Cast(*info[2]);
+  TrackerListener listener(ridFactory,bagFactory);
   reader.parse((unsigned char *)content,len,listener);
 
 
