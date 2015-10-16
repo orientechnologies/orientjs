@@ -413,16 +413,16 @@ MyClass.property.create({
 });
 ```
 
-To add multiple properties, pass multiple objects separated by comma. Example:
+To add multiple properties, pass an array of objects. Example:
 
 ```js
-MyClass.property.create({
+MyClass.property.create([{
   name: 'name',
   type: 'String'
 }, {
   name: 'surname',
   type: 'String'
-})
+}])
 .then(function () {
   console.log('Property created.')
 });
