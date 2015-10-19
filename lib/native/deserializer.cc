@@ -10,11 +10,12 @@ void Deserialize(const Nan::FunctionCallbackInfo<v8::Value>& info){
   char * content =  node::Buffer::Data(info[0]);
 
   
-  Orient::RecordParser reader("ORecordSerializerBinary");
+  Orient::RecordParser reader("onet_ser_v0");
 
   v8::Local<v8::Function> ridFactory= v8::Function::Cast(*info[1]);
   v8::Local<v8::Function> bagFactory= v8::Function::Cast(*info[2]);
-  TrackerListener listener(ridFactory,bagFactory);
+  v8::Local<v8::Boolean> useRidbag= info[3]->ToBoolean();
+  TrackerListener listener(ridFactory,bagFactory,useRidbag->Value());
   reader.parse((unsigned char *)content,len,listener);
 
 
@@ -24,7 +25,7 @@ void Deserialize(const Nan::FunctionCallbackInfo<v8::Value>& info){
 
 void Serialize(const Nan::FunctionCallbackInfo<v8::Value>& info){
   v8::Local<v8::Object> toWrite = v8::Object::Cast(*info[0]);
-  Orient::RecordWriter writer("ORecordSerializerBinary");
+  Orient::RecordWriter writer("onet_ser_v0");
 
   writeObject(toWrite,writer);
   int size=0;
