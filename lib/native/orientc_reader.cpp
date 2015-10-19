@@ -21,7 +21,7 @@ int16_t readFlat16Integer(ContentBuffer & reader);
 int32_t readFlat32Integer(ContentBuffer & reader);
 int64_t readFlat64Integer(ContentBuffer & reader);
 RecordParser::RecordParser(std::string formatter) {
-	if (formatter != "ORecordSerializerBinary")
+	if (formatter != "onet_ser_v0")
 		throw parse_exception("Formatter not supported");
 }
 

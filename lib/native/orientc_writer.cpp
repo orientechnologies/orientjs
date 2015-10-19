@@ -108,7 +108,7 @@ unsigned char * DocumentWriter::writtenContent(int * size, DocumentWriter * pare
 
 RecordWriter::RecordWriter(std::string formatter) :
 		writer(new InternalWriter) {
-	if (formatter != "ORecordSerializerBinary")
+	if (formatter != "onet_ser_v0")
 		throw "Formatter not supported";
 }
 RecordWriter::~RecordWriter() {
