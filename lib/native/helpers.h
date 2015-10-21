@@ -11,9 +11,9 @@ public:
 	unsigned char *content;
 	int cursor;
 	int prepared;
+	int size;
 	~ContentBuffer();
 private:
-	int size;
 	bool writing;
 };
 
