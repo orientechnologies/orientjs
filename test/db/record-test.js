@@ -72,7 +72,10 @@ describe("Database API - Record", function () {
       })
       .then(function (record) {
         record.name.should.equal('othertestuser');
-        expect(record.linkedTest1).to.equal(null); // because we did not pass a RID.
+	//This assert is removed because the expected result is conversion not null
+        //expect(record.linkedTest1).to.equal(null); // because we did not pass a RID.
+	expect(record.linkedTest1.cluster).to.equal(5); 
+	expect(record.linkedTest1.position).to.equal(0); 
         expect(typeof record.linkedTest2).to.equal('string'); // because we did not pass a RID, this is not a link
         record.linkedTest2.should.equal('#5:1');
       });
@@ -123,7 +126,10 @@ describe("Database API - Record", function () {
       .then(function (record) {
         record.name.should.equal('othertestuser');
         record.wat.should.equal('foo');
-        expect(record.linkedTest1).to.equal(null); // because we did not pass a RID.
+	//This assert is removed because the expected result is conversion not null
+        //expect(record.linkedTest1).to.equal(null); // because we did not pass a RID.
+	expect(record.linkedTest1.cluster).to.equal(5); 
+	expect(record.linkedTest1.position).to.equal(0); 
         expect(typeof record.linkedTest2).to.equal('string'); // because we did not pass a RID, this is not a link
         record.linkedTest2.should.equal('#5:1');
       });
