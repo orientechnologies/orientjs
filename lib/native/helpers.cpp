@@ -22,11 +22,13 @@ void ContentBuffer::prepare(int next) {
 	assert(next > 0);
 	if (prepared + next > this->size) {
 		if (writing) {
-			unsigned char * new_content = new unsigned char[size * 2];
+			int newSize = size;
+			while(prepared + next > newSize) newSize*=2;
+			unsigned char * new_content = new unsigned char[newSize];
 			std::copy(content, content + size, new_content);
 			delete [] content;
 			content = new_content;
-			size *= 2;
+			size =newSize ;
 		} else {
 			std::stringstream ss;
 			ss << "out of content size:" << this->size << " nextCursor:" << prepared + next;
