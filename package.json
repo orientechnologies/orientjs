@@ -1,5 +1,5 @@
 {
-  "name": "orientjs",
+  "name": "orientjsamerle",
   "description": "Official node.js driver for OrientDB. Fast, lightweight, uses the binary protocol.",
   "keywords": [
     "orientdb",
