@@ -274,7 +274,7 @@ COMMIT \n\
       });
       this.statement.buildStatement().should.equal('SELECT * FROM (SELECT * FROM OUser)');
     });
-    it('should select from a array of rids', function () {
+    it('should select from an array of rids', function () {
       this.statement.select().from([new LIB.RID('#4:0'), new LIB.RID('#4:1'), new LIB.RID('#4:2')]);
       this.statement.buildStatement().should.equal('SELECT * FROM [#4:0,#4:1,#4:2]');
     });
