@@ -3,8 +3,7 @@
 #include <cstring>
 #include "helpers.h"
 #include "parse_exception.h"
-#include <arpa/inet.h>
-#include <endian.h>
+#include "pendian.h"
 
 namespace Orient {
 

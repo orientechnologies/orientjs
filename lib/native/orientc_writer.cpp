@@ -4,7 +4,7 @@
 #include <string.h>
 #include <list>
 #include <utility>
-#include <endian.h>
+#include "pendian.h"
 
 #include "helpers.h"
 

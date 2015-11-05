@@ -23,12 +23,13 @@ void ContentBuffer::prepare(int next) {
 	if (prepared + next > this->size) {
 		if (writing) {
 			int newSize = size;
-			while(prepared + next > newSize) newSize*=2;
+			while (prepared + next > newSize)
+				newSize *= 2;
 			unsigned char * new_content = new unsigned char[newSize];
 			std::copy(content, content + size, new_content);
-			delete [] content;
+			delete[] content;
 			content = new_content;
-			size =newSize ;
+			size = newSize;
 		} else {
 			std::stringstream ss;
 			ss << "out of content size:" << this->size << " nextCursor:" << prepared + next;
@@ -42,7 +43,7 @@ void ContentBuffer::prepare(int next) {
 
 ContentBuffer::~ContentBuffer() {
 	if (writing)
-		delete []content;
+		delete[] content;
 }
 
 void ContentBuffer::force_cursor(int position) {
