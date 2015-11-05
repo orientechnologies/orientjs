@@ -8,7 +8,7 @@ void writeValue(v8::Local<v8::Value> value, Orient::RecordWriter & writer);
 
 void writeObject(v8::Local<v8::Object> toWrite,Orient::RecordWriter & writer){
 
-	v8::Local<v8::String> classKey = v8::String::New("@class");
+	v8::Local<v8::String> classKey = Nan::New("@class").ToLocalChecked();
 	if(toWrite->Has(classKey)){
 		v8::Local<v8::Value> val = toWrite->Get(classKey);
 		if(val->IsString()){
@@ -16,7 +16,7 @@ void writeObject(v8::Local<v8::Object> toWrite,Orient::RecordWriter & writer){
 			v8::String::Utf8Value clazzVal(clazz);
 			writer.startDocument(*clazzVal);
 		}else if(val->IsObject()) {
-			v8::Local<v8::String> nameKey = v8::String::New("name");
+			v8::Local<v8::String> nameKey = Nan::New("name").ToLocalChecked();
 			v8::Local<v8::Object> classObj = val->ToObject();
 			if(classObj->Has(nameKey)){
 				v8::Local<v8::String> clazz = classObj->Get(nameKey)->ToString();
@@ -32,7 +32,7 @@ void writeObject(v8::Local<v8::Object> toWrite,Orient::RecordWriter & writer){
 	v8::Local<v8::Array> properties = toWrite->GetPropertyNames();
 	unsigned int  i;
 	for(i = 0; i< properties->Length() ; i ++){
-		v8::Local<v8::String> name = v8::String::Cast(*properties->Get(i));
+		v8::Local<v8::String> name = v8::Local<v8::String>::Cast(properties->Get(i));
 		v8::String::Utf8Value val(name);
 		if((*val)[0] != '@') {
 			writer.startField(*val);
@@ -60,20 +60,20 @@ void writeValue(v8::Local<v8::Value> value, Orient::RecordWriter & writer) {
 		else
 			writer.longValue(val);
 	} else if (value->IsDate()){
-		long long int date= v8::Date::Cast(*value)->NumberValue();
+		long long int date= v8::Local<v8::Date>::Cast(value)->NumberValue();
 		writer.dateTimeValue(date);
 	} else if (value->IsNull()){
 		writer.nullValue();
 	} else if (value->IsBoolean()){
 		writer.booleanValue(value->ToBoolean()->Value());
 	} else if (value->IsArray()){
-		writeArray(v8::Array::Cast(*value), writer);
+		writeArray(v8::Local<v8::Array>::Cast(value), writer);
 	} else if (value->IsObject()){
-		v8::Local<v8::String> typeKey = v8::String::New("@type");
+		v8::Local<v8::String> typeKey = Nan::New("@type").ToLocalChecked();
 		//TODO: check if replace with RecordID prototype check
-		v8::Local<v8::String> clusterKey = v8::String::New("cluster");
-		v8::Local<v8::String> positionKey = v8::String::New("position");
-		v8::Local<v8::String> dVal = v8::String::New("d");
+		v8::Local<v8::String> clusterKey = Nan::New("cluster").ToLocalChecked();
+		v8::Local<v8::String> positionKey = Nan::New("position").ToLocalChecked();
+		v8::Local<v8::String> dVal = Nan::New("d").ToLocalChecked();
 		v8::Local<v8::Object> obj = value->ToObject();
 		if(obj->Has(typeKey) && obj->Get(typeKey)->Equals(dVal)){
 			writeObject(obj,writer);
@@ -94,7 +94,7 @@ void writeMap(v8::Local<v8::Object> toWrite, Orient::RecordWriter & writer) {
 	unsigned int  i;
 	writer.startMap(properties->Length(),Orient::EMBEDDEDMAP);
 	for(i = 0; i< properties->Length() ; i ++){
-		v8::Local<v8::String> name = v8::String::Cast(*properties->Get(i));
+		v8::Local<v8::String> name = v8::Local<v8::String>::Cast(properties->Get(i));
 		v8::String::Utf8Value val(name);
 		writer.mapKey(*val);
 		v8::Local<v8::Value> value = toWrite->Get(name);

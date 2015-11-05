@@ -12,10 +12,10 @@ void Deserialize(const Nan::FunctionCallbackInfo<v8::Value>& info){
   
   Orient::RecordParser reader("onet_ser_v0");
 
-  v8::Local<v8::Function> ridFactory= v8::Function::Cast(*info[1]);
-  v8::Local<v8::Function> bagFactory= v8::Function::Cast(*info[2]);
+  v8::Local<v8::Function> ridFactory= v8::Local<v8::Function>::Cast(info[1]);
+  v8::Local<v8::Function> bagFactory= v8::Local<v8::Function>::Cast(info[2]);
   v8::Local<v8::Boolean> useRidbag= info[3]->ToBoolean();
-  TrackerListener listener(ridFactory,bagFactory,useRidbag->Value());
+  TrackerListener listener(ridFactory,bagFactory ,useRidbag->Value());
   reader.parse((unsigned char *)content,len,listener);
 
 
@@ -24,14 +24,14 @@ void Deserialize(const Nan::FunctionCallbackInfo<v8::Value>& info){
 
 
 void Serialize(const Nan::FunctionCallbackInfo<v8::Value>& info){
-  v8::Local<v8::Object> toWrite = v8::Object::Cast(*info[0]);
+  v8::Local<v8::Object> toWrite = v8::Local<v8::Object>::Cast(info[0]);
   Orient::RecordWriter writer("onet_ser_v0");
 
   writeObject(toWrite,writer);
   int size=0;
   const unsigned char * content = writer.writtenContent(&size);
-  v8::Local<node::Buffer> handle = node::Buffer::New((const char *)content,size);
-  v8::Local<v8::Value> value = *handle->handle_;
+  
+  v8::Local<v8::Object> value = Nan::NewBuffer((char *)content,size).ToLocalChecked();
   info.GetReturnValue().Set(value);
 }
 
