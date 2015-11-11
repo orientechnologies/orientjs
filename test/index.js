@@ -1,12 +1,12 @@
 // test bootstrap
 
 var Promise = require('bluebird'),
-    path = require('path');
+  path = require('path');
 
 Promise.longStackTraces();
 
 global.expect = require('expect.js'),
-global.should = require('should');
+  global.should = require('should');
 
 
 global.TEST_SERVER_CONFIG = require('./test-server.json');
@@ -21,7 +21,30 @@ global.TEST_SERVER = new LIB.Server({
   port: TEST_SERVER_CONFIG.port,
   username: TEST_SERVER_CONFIG.username,
   password: TEST_SERVER_CONFIG.password,
-  transport: 'binary'
+  transport: 'binary',
+});
+
+global.POOL_TEST_SERVER = new LIB.Server({
+  host: TEST_SERVER_CONFIG.host,
+  port: TEST_SERVER_CONFIG.port,
+  username: TEST_SERVER_CONFIG.username,
+  password: TEST_SERVER_CONFIG.password,
+  transport: 'binary',
+  pool: {
+    "max": 2
+  }
+});
+
+global.DISTRIBUTED_TEST_SERVER = new LIB.Server({
+  host: TEST_SERVER_CONFIG.host,
+  port: TEST_SERVER_CONFIG.port,
+  username: TEST_SERVER_CONFIG.username,
+  password: TEST_SERVER_CONFIG.password,
+  transport: 'binary',
+  servers: [{host: TEST_SERVER_CONFIG.host, port: TEST_SERVER_CONFIG.port - 1}, {
+    host: TEST_SERVER_CONFIG.host,
+    port: TEST_SERVER_CONFIG.port + 1
+  }]
 });
 
 global.REST_SERVER = new LIB.Server({
@@ -36,55 +59,65 @@ global.REST_SERVER = new LIB.Server({
 // global.TEST_SERVER.logger.debug = console.log.bind(console, '[ORIENTDB]');
 // global.REST_SERVER.logger.debug = console.log.bind(console, '[ORIENTDB]');
 
+global.USE_DISTRIBUTED_TEST_DB = useTestDb.bind(null, DISTRIBUTED_TEST_SERVER);
+global.CREATE_DISTRIBUTED_TEST_DB = createTestDb.bind(null, DISTRIBUTED_TEST_SERVER);
+global.DELETE_DISTRIBUTED_TEST_DB = deleteTestDb.bind(null, DISTRIBUTED_TEST_SERVER);
 
 global.CREATE_TEST_DB = createTestDb.bind(null, TEST_SERVER);
 global.DELETE_TEST_DB = deleteTestDb.bind(null, TEST_SERVER);
 
+
+
 global.CREATE_REST_DB = createTestDb.bind(null, REST_SERVER);
 global.DELETE_REST_DB = deleteTestDb.bind(null, REST_SERVER);
 
+function useTestDb(server, context, name) {
+  return server.use(name).open().then(function (db) {
+    context.db = db;
+  })
+}
 function createTestDb(server, context, name, type) {
   type = type || 'memory';
   return server.exists(name, type)
-  .then(function (exists) {
-    if (exists) {
-      return server.drop({
+    .then(function (exists) {
+      if (exists) {
+        return server.drop({
+          name: name,
+          storage: type
+        });
+      }
+      else {
+        return false;
+      }
+    })
+    .then(function () {
+      return server.create({
         name: name,
+        type: 'graph',
         storage: type
       });
-    }
-    else {
-      return false;
-    }
-  })
-  .then(function () {
-    return server.create({
-      name: name,
-      type: 'graph',
-      storage: type
+    })
+    .then(function (db) {
+      context.db = db;
+      return undefined;
     });
-  })
-  .then(function (db) {
-     context.db = db;
-     return undefined;
-  });
 }
 
-function deleteTestDb (server, name, type) {
+function deleteTestDb(server, name, type) {
   type = type || 'memory';
   return server.exists(name, type)
-  .then(function (exists) {
-    if (exists) {
-      return server.drop({
-        name: name,
-        storage: type
-      });
-    }
-    else {
+    .then(function (exists) {
+      if (exists) {
+        return server.drop({
+          name: name,
+          storage: type
+        });
+      }
+      else {
+        return undefined;
+      }
+    })
+    .then(function () {
       return undefined;
-    }
-  })
-  .then(function () {
-    return undefined;
-  });
+    });
 }
