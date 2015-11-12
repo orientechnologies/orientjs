@@ -84,9 +84,12 @@ describe("Database API - Record", function () {
       .then(function (record) {
         // recover original text stored as binary from the document record.
         var binaryRecord = record.binary.value;
-        var octects = Object.keys(binaryRecord).map(function (key) {
-          return binaryRecord[key];
-        });
+        var octects = Object.keys(binaryRecord).reduce(function (acc, key) {
+          if (key !== 'length' && key !== 'parent') {
+            return acc.concat([binaryRecord[key]]);
+          }
+          return acc;
+        }, []);
         var binaryRecordBuffer = new Buffer(octects);
 
         binaryRecordBuffer.toString().should.equal(textToStoreAsBinary);
