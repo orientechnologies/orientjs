@@ -25,6 +25,10 @@ describe('JWT', function () {
     .bind(this)
     .then(function () {
       hasProtocolSupport = this.db.server.transport.connection.protocolVersion >= 28;
+      return this.db.record.create({
+	      '@class':'V',
+	      'prop':'value'
+      });
     });
   });
   after(function () {
@@ -64,7 +68,7 @@ describe('JWT', function () {
       db.token.toString().should.not.equal(server.token.toString());
     });
     ifSupportedIt('should execute commands using the token', function () {
-      return db.select().from('OUser').all()
+      return db.select().from('V').all()
       .then(function (users) {
         users.length.should.be.above(0);
       });
@@ -101,7 +105,7 @@ describe('JWT', function () {
       });
     });
     ifSupportedIt('should allow the reader to read from a class', function () {
-      return db.select().from('OUser').token(reader).all()
+      return db.select().from('V').token(reader).all()
       .then(function (users) {
         users.length.should.be.above(0);
       });
@@ -113,7 +117,7 @@ describe('JWT', function () {
       });
     });
     ifSupportedIt('should allow the writer to read from a class', function () {
-      return db.select().from('OUser').token(writer).all()
+      return db.select().from('V').token(writer).all()
       .then(function (users) {
         users.length.should.be.above(0);
       });
@@ -125,7 +129,7 @@ describe('JWT', function () {
       });
     });
     ifSupportedIt('should allow the admin to read from a class', function () {
-      return db.select().from('OUser').token(admin).all()
+      return db.select().from('V').token(admin).all()
       .then(function (users) {
         users.length.should.be.above(0);
       });
@@ -138,7 +142,7 @@ describe('JWT', function () {
       });
     });
     ifSupportedIt('should allow the default user to read from a class', function () {
-      return db.select().from('OUser').all()
+      return db.select().from('V').all()
       .then(function (users) {
         users.length.should.be.above(0);
       });
@@ -153,7 +157,7 @@ describe('JWT', function () {
         }
       });
       ifSupportedIt('should create a user context', function () {
-        return readerContext.select().from('OUser').all()
+        return readerContext.select().from('V').all()
         .then(function (users) {
           users.length.should.be.above(1);
         });
