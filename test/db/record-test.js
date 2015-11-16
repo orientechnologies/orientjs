@@ -57,16 +57,42 @@ describe("Database API - Record", function () {
     });
 
     it('should create a raw binary record', function () {
-      var binary_message = new Buffer(100);
-      for (var i = 0; i < 100; i++)
-      {
-        binary_message[i] = i + 1;
-      }
-      binary_message['@type'] = 'b';
-      binary_message['@class'] = 'V';
-      return this.db.record.create(binary_message)
+      var textToStoreAsBinary = 'lorem ipsum'
+      var binaryRecord = new Buffer(textToStoreAsBinary);
+      binaryRecord['@type'] = 'b';
+      binaryRecord['@class'] = 'V';
+
+      return this.db.record.create(binaryRecord)
+      .bind(this)
       .then(function (record) {
         createdBinaryRID = record['@rid'];
+        // get the binary record from the DB
+        return this.db.record.get(createdBinaryRID);
+      })
+      .then(function (record) {
+        record.value.toString().should.equal(textToStoreAsBinary);
+        // store the binary record in a new document record
+        return this.db.record.create({
+          '@class': 'V',
+          binary: record,
+        })
+      })
+      .then(function (record) {
+        // get the document record from the DB
+        return this.db.record.get(record['@rid']);
+      })
+      .then(function (record) {
+        // recover original text stored as binary from the document record.
+        var binaryRecord = record.binary.value;
+        var octects = Object.keys(binaryRecord).reduce(function (acc, key) {
+          if (key !== 'length' && key !== 'parent') {
+            return acc.concat([binaryRecord[key]]);
+          }
+          return acc;
+        }, []);
+        var binaryRecordBuffer = new Buffer(octects);
+
+        binaryRecordBuffer.toString().should.equal(textToStoreAsBinary);
       });
     });
 
@@ -124,16 +150,14 @@ describe("Database API - Record", function () {
     });
 
     it('should update a raw binary record', function () {
-      var binary_message = new Buffer(100);
-      for (var i = 0; i < 100; i++)
-      {
-        binary_message[i] = 100 - i;
-      }
-      binary_message['@type'] = 'b';
-      binary_message['@rid'] = createdBinaryRID;
-      return this.db.record.update(binary_message, {preserve: true})
+      var textToStoreAsBinary = 'Lorem ipsum dolor sit amet'
+      var binaryRecord = new Buffer(textToStoreAsBinary);
+      binaryRecord['@type'] = 'b';
+      binaryRecord['@rid'] = createdBinaryRID;
+
+      return this.db.record.update(binaryRecord, {preserve: false})
       .then(function (record) {
-        record.toString().should.equal(binary_message.toString());
+        record.toString().should.equal(textToStoreAsBinary);
       });
     });
 

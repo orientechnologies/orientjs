@@ -1,0 +1,18 @@
+"templates": {
+    "applicationName": "OrientJS",
+    "disqus": "",
+    "googleAnalytics": "UA-28543690-2",
+    "openGraph": {
+        "title": "",
+        "type": "website",
+        "image": "",
+        "site_name": "",
+        "url": ""
+    },
+    "meta": {
+        "title": "OrientJS",
+        "description": "Node.js driver for OrientDB",
+        "keyword": "NoSQL, Node.js, Javascript, OrientDB, GraphDB, Graph Database"
+    },
+    "linenums": true
+}
