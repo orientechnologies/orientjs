@@ -1,6 +1,6 @@
 var dbname = 'testdb_bug_deserialize_order';
 var dtval = "946684800000"; // 2000, January 1
-var lval = Number.MAX_SAFE_INTEGER.toString() + "2";
+var lval = (Math.pow(2, 53) - 1).toString() + "2"; // Number.MAX_SAFE_INTEGER
 var sval = "13000";
 var fval = "2.132";
 var dbval = "0.2192857391";
