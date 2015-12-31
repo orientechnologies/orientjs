@@ -37,9 +37,9 @@ describe("Bug: rest deserialization order", function () {
       (users[0].dtval.getTime() - (users[0].dtval.getTimezoneOffset()*60*1000))
         .toString().should.equal(dtval);
       users[0].lval.toString().should.be.exactly(lval);
-      users[0].sval.toString().should.be.exactly(sval);
-      users[0].fval.toString().should.be.exactly(fval);
-      users[0].dbval.toString().should.be.exactly(dbval);
+      users[0].sval.should.be.exactly(+sval);
+      users[0].fval.should.be.exactly(+fval);
+      users[0].dbval.should.be.exactly(+dbval);
     });
   });
 });
