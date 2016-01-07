@@ -6,7 +6,7 @@ describe("CLI", function () {
   });
   describe('CLI::parseOptsFile()', function () {
     it("should parse opts files", function () {
-      return this.cli.parseOptsFile(path.join(__dirname, '..', 'fixtures', 'oriento.opts'))
+      return this.cli.parseOptsFile(path.join(__dirname, '..', 'fixtures', 'orientjs.opts'))
       .then(function (opts) {
         opts.length.should.be.above(1);
       });
