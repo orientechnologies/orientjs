@@ -1,6 +1,8 @@
 language: node_js
 node_js:
   - "0.10"
+  - 4.2
+  - stable
 before_script:
   - ./ci/initialize-ci.sh $ORIENTDB_VERSION
 env:
