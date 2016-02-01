@@ -10,6 +10,7 @@ global.expect = require('expect.js'),
 
 
 global.TEST_SERVER_CONFIG = require('./test-server.json');
+global.TEST_DB_CONFIG = require('./test-db.json');
 
 global.LIB_ROOT = path.resolve(__dirname, '..', 'lib');
 
@@ -65,7 +66,8 @@ global.DELETE_DISTRIBUTED_TEST_DB = deleteTestDb.bind(null, DISTRIBUTED_TEST_SER
 
 global.CREATE_TEST_DB = createTestDb.bind(null, TEST_SERVER);
 global.DELETE_TEST_DB = deleteTestDb.bind(null, TEST_SERVER);
-
+global.CREATE_POOL = createPool.bind(null, TEST_SERVER);
+global.USE_ODB = useOdb.bind(null, TEST_SERVER);
 
 
 global.CREATE_REST_DB = createTestDb.bind(null, REST_SERVER);
@@ -75,6 +77,30 @@ function useTestDb(server, context, name) {
   return server.use(name).open().then(function (db) {
     context.db = db;
   })
+}
+
+function useOdb(server, name) {
+
+  return new global.LIB.ODatabase({
+    host: TEST_DB_CONFIG.host,
+    port: TEST_DB_CONFIG.port,
+    username: TEST_DB_CONFIG.username,
+    password: TEST_DB_CONFIG.password,
+    name: name
+  })
+
+  //context.pool.config.server.logger.debug = console.log.bind(console, '[ORIENTDB]');
+}
+function createPool(server, context, name) {
+  context.pool = new global.LIB.Pool({
+    host: TEST_DB_CONFIG.host,
+    port: TEST_DB_CONFIG.port,
+    username: TEST_DB_CONFIG.username,
+    password: TEST_DB_CONFIG.password,
+    name: name
+  })
+
+  //context.pool.config.server.logger.debug = console.log.bind(console, '[ORIENTDB]');
 }
 function createTestDb(server, context, name, type) {
   type = type || 'memory';
