@@ -9,3 +9,11 @@ env:
   - ORIENTDB_VERSION=2.0.15
   - ORIENTDB_VERSION=2.1.5
   - ORIENTDB_VERSION=2.2.0-SNAPSHOT
+  - CXX=g++-4.8
+addons:
+  apt:
+    sources:
+       - ubuntu-toolchain-r-test
+    packages:
+       - gcc-4.8
+       - g++-4.8
