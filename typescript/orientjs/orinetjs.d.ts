@@ -1,11 +1,20 @@
+// Type definitions for orientjs >= 2.0.0
+// Project: https://github.com/orientechnologies/orientjs
+// Definitions by: Saeed Tabrizi <https://github.com/saeedtabrizi>
+// Definitions: https://github.com/borisyankov/DefinitelyTyped
 
 
 /* =================== USAGE =================== 
 
-    import orients = require('orientjs');
- var dbserver = orientjs({
-        host: 'localhost',
-        port: 2424,
+    import orientjs = require('orientjs');
+   var dbserver = orientjs({
+    host: 'localhost',
+    port: 2424,
+    username: 'root',
+    password: 'root'
+    });
+    var db = dbserver.use({
+        name: 'mytestdb',
         username: 'root',
         password: 'root'
     });
@@ -15,9 +24,88 @@
 declare module "orientjs" {
     import events = require('events');
     import Promise = require('bluebird');
-    function oj(config: any): oj.OrientJs;
-    module oj {
-       
+    //import {BPromise} from 'bluebird'
+   // var Promise = PromiseConstructorLike;
+   // var Promise: PromiseConstructor = require('bluebird');
+   // import * as Promise from 'bluebird';
+   // import Promise = require('bluebird');
+    function ojs(config: any): ojs.OrientJs;
+
+    module ojs {
+
+        module errors {
+            interface BaseError {
+                name: string;
+                init(name: string): void;
+            }
+            interface OperationError extends BaseError {
+                message: string;
+                date: any;
+            }
+            interface RequestError extends OperationError { }
+        }
+
+        module Migration {
+            function Manager(config: any): void ;
+            interface Migration {
+                name: string;
+                server: Server;
+                db: Db;
+                configure(config?: any): void;
+                up(): Promise<any>;
+                down(): Promise<any>;
+
+
+            }
+
+            class MigrationManager {
+
+                constructor(config?: any);
+                name: string;
+                server: Server;
+                db: Db;
+                dir: string;
+                className: string;
+                create(param: string): Promise<string>;
+                generateMigration(config: any): string;
+                list(): Promise<string[]>;
+                listAvailable(): Promise<string[]>;
+                ensureStructure: Promise<MigrationManager>;
+                listApplied(): Promise<any[]>;
+                up(limit?: number): Promise<any>;
+                down(limit?: number): Promise<any>;
+                loadMigration(name: string): Migration;
+                applyMigration(name: string): Promise<any>;
+                revertMigration(name: string): Promise<any>;
+            }
+        }
+
+        enum DataTypes {
+            Boolean = 0,
+            Integer = 1,
+            Short = 2,
+            Long = 3,
+            Float = 4,
+            Double = 5,
+            Datetime = 6,
+            String = 7,
+            Binary = 8,
+            Embedded = 9,
+            EmbeddedList = 10,
+            EmbeddedSet = 11,
+            EmbeddedMap = 12,
+            Link = 13,
+            LinkList = 14,
+            LinkSet = 15,
+            LinkMap = 16,
+            Byte = 17,
+            Transient = 18,
+            Date = 19,
+            Custom = 20,
+            Decimal = 21,
+            LinkBag = 22,
+
+        }
 
         interface Logger {
             error?: Function;
@@ -25,40 +113,7 @@ declare module "orientjs" {
             debug?: Function;
         }
 
-        interface Migration {
-            name: string;
-            server: Server;
-            db: Db;
-            Manager: MigrationManager;
-            configure(config?: any): void;
-            up(): Promise<any>;
-            down(): Promise<any>;
-
-        }
-
-        interface MigrationManager
-        {
-            name: string;
-            server: Server;
-            db: Db;
-            dir: string;
-            className: string;
-            create(param: string): Promise<string>;
-            create(param: any): Promise<string>;
-            generateMigration(config: any): string;
-            list(): Promise<string[]>;
-            listAvailable(): Promise<string[]>;
-            ensureStructure: Promise<MigrationManager>;
-            listApplied(): Promise<any[]>;
-            up(limit: number): Promise<any>;
-            down(limit: number): Promise<any>;
-            loadMigration(name: string): Migration;
-            applyMigration(name: string): Promise<any>;
-            revertMigration(name: string): Promise<any>;
-        }
-
-        interface RID
-        {
+        interface RID extends String {
             cluster: number;
             position: number;
 
@@ -75,8 +130,7 @@ declare module "orientjs" {
             toRid(cluster: number, position: number);
         }
 
-        interface Property
-        {
+        interface Property {
 
             class: Class;
             name: string;
@@ -94,13 +148,14 @@ declare module "orientjs" {
             configure(config?: any): void;
             reload(): Promise<Property>;
             rename(newName: string): Promise<Property>;
-            list(): Promise<any[]>;
-            create(config:string, reload?:boolean): Promise<any>;
-            create(config?: any, reload?: boolean): Promise<any>;
-            get(name: string): Promise<any>;
-            update(config: any, reload?: boolean): Promise<any>;
+            list(): Promise<Property[]> & Promise<any[]>;
+            create(config: string, reload?: boolean): Promise<Property> & Promise<any>;
+            create(config?: any, reload?: boolean): Promise<Property> & Promise<any>;
+            create(...config: any[]): Promise<Property[]> & Promise<any>;
+            get(name: string): Promise<Property> & Promise<any>;
+            update(config: any, reload?: boolean): Promise<Property> & Promise<any>;
             drop(name: string): Promise<Class>;
-            alter(name: string, setting?: any) :Promise<Class>;
+            alter(name: string, setting?: any): Promise<Class> & Promise<any>;
             rename(oldName: string, newName: string): Promise<any>;
         }
 
@@ -112,76 +167,86 @@ declare module "orientjs" {
             defaultClusterId: any;
             superClass: string;
             originalName: string;
+            clusterIds: number[];
 
             configure(config?: any): void;
-            list(limit: number, offset: number): Promise<any[]>;
-            list(config: any): Promise<any[]>;
-            list(refresh:boolean): Promise<any[]>;
+            list(limit: number, offset: number): Promise<Class[]> & Promise<any> & Promise<any[]>;
+            list(config: any): Promise<Class[]> & Promise<any> & Promise<any[]>;
+            list(refresh: boolean): Promise<Class[]> & Promise<any> & Promise<any[]>;
             find(attributes: any, limit: number, offset: number): Promise<any[]>;
-            create(record: Record): Promise<any>;
-            create(name: string, parentName?: string, cluster?: string, isAbstract?: boolean): Promise<any>;
-            update(cls:any, reload:boolean): Promise<any>;
+            create(record: Record): Promise<Record> & Promise<any>;
+            create(name: string, parentName?: string, cluster?: string, isAbstract?: boolean): Promise<Class> & Promise<any>;
+            update(cls: any, reload: boolean): Promise<Class> & Promise<any>;
             reload(): Promise<Class[]>;
             drop(name: string): Promise<Db>;
-            get(name: string, refresh?: boolean): Promise<any>;
-            cacheData(classes: any[]): Db;
+            get(name: string, refresh?: boolean): Promise<Class> & Promise<any>;
+            cacheData(classes: Class[] & any[]): Db;
             property: Property;
 
         }
 
         interface Cluster {
+            name: string;
+            location: string;
             list(refresh?: boolean): Promise<any[]>;
-            create(name: string, location: string): Promise<any>;
-            get(nameOrId: string, refresh?: boolean): Promise<any>;
-            get(nameOrId: number, refresh?: boolean): Promise<any>;
-            getByName(name: string, refresh?: boolean): Promise<any>;
-            getById(id: string, refresh?: boolean): Promise<any>;
+            create(name: string, location?: string): Promise<Cluster> & Promise<any>;
+            get(nameOrId: string, refresh?: boolean): Promise<Cluster> & Promise<any>;
+            get(nameOrId: number, refresh?: boolean): Promise<Cluster> & Promise<any>;
+            getByName(name: string, refresh?: boolean): Promise<Cluster> & Promise<any>;
+            getById(id: string, refresh?: boolean): Promise<Cluster> & Promise<any>;
             drop(name: string): Promise<Db>;
             count(name: string): Promise<Number>;
             range(name: string): Promise<any>;
-            cacheData(clusters: any[]): Db;
+            cacheData(clusters: Cluster[] & any[]): Db;
 
+        }
+
+        interface RecordMeta {
+            "@rid": string|RID;
+            "@version": string|number;
+           
         }
 
         interface Record {
-            create(record: any, options?: any): Promise<any>;
-            get(record: any, options?: any): Promise<any>;
-            resolveReferences(records: any[]): any;
-            meta(record: any, options?: any): Promise<any>;
-            update(record: any, options?: any): Promise<any>;
-            delete(record: any, options?: any): Promise<any>;
-            delete(record: RID, options?: any): Promise<any>;
-            delete(record: string, options?: any): Promise<any>;
+            rid: RID;
+            create(record: any, options?: any): Promise<Record> ;
+            get(record: Record & any, options?: any): Promise<Record | Buffer>;
+            resolveReferences(records: Record[] &  any[]): any;
+            meta(record: Record & any, options?: any): Promise<RecordMeta> ;
+            update(): Promise<Record> & Promise<any>;
+            update(record: Record & any, options?: any): Promise<Record> ;
+            delete(): Promise<Record> & Promise<any>;
+            delete(record: Record & any, options?: any): Promise<Record> ;
+            delete(record: RID, options?: any): Promise<Record> ;
+            delete(record: string, options?: any): Promise<Record> ;
 
         }
 
-        interface Index
-        {
+        interface Index {
             cached: boolean;
             db: Db;
             name: string;
             algorithm: string;
             clusters: Cluster[];
             type: string;
-            
+
             configure(config: any): void;
-            add(args: any): Promise<any[]>;
-            add(args: any[]): Promise<any[]>;
-            get(key: string): Promise<RID>; 
+            add(args: any): Promise<Index[]>;
+            add(args: any[]): Promise<Index[]>;
+            get(key: string): Promise<RID>;
             set(key: string, value: string): Promise<Index>;
             set(key: string, value: RID): Promise<Index>;
             delete(name: string): Promise<Index>;
             select(): Statement;
-            list(refresh?: boolean): Promise<any[]>;
-            create(config: any): Promise<any>;
+            list(refresh?: boolean): Promise<Index[]>;
+            create(config: any): Promise<Index>;
             drop(name: string): Promise<Db>;
-            get(name: string, refresh?: boolean): Promise<any>;
+            get(name: string, refresh?: boolean): Promise<Index>;
             cacheData(indices: any[]): Promise<Db>;
 
         }
 
-
-        interface Statement extends Query {
+        interface Statement extends Query<any> {
             select(param: string): Statement;
             select(params: string[]): Statement;
             traverse(param: string): Statement;
@@ -211,19 +276,22 @@ declare module "orientjs" {
             set(param: string): Statement;
             set(param: string[]): Statement;
             set(param: any): Statement;
+            content(param: string): Statement;
+            content(param: any): Statement;
             increment(property: string, value: any): Statement;
             add(property: string, value: any): Statement;
             remove(property: string, value: any): Statement;
             put(property: string, keysValues: any): Statement;
-            upsert(condition: string, params: any, comparisonOperator: string): Statement;
-            upsert(condition: any, params: any, comparisonOperator: string): Statement;
+            upsert(condition?: string, params?: any, comparisonOperator?: string): Statement;
+            upsert(condition?: any, params?: any, comparisonOperator?: string): Statement;
             where(param: string): Statement;
             where(param: string[]): Statement;
             where(params: any): Statement;
             while(param: string): Statement;
             while(param: string[]): Statement;
             while(param: any): Statement;
-            containsText(param: string): Statement;
+            
+            containsText(param: any): Statement;
             and(param: string): Statement;
             and(param: string[]): Statement;
             and(param: any): Statement;
@@ -263,22 +331,23 @@ declare module "orientjs" {
 
         }
 
+        interface Query<T> {
 
-
-        interface Query {
-
-            transform(transformer: any): Query;
-            transform(transformer: Function): Query;
-            column(name: string): Query;
-            defaults(defaults: any): Query;
+            transform<T>(transformer: any): Query<T>;
+            transform<T>(transformer: Function): Query<T>;
+            column(name: string): Query<T>;
+            defaults(defaults: any): Query<T>;
+            one<T>(params?: any): Promise<T>   ;
+            all<T>(params?: any): Promise<T[]> ;
+            scalar<T>(params?: any): Promise<T>;
+            exec<T>(params?: any): Promise<T>;
             one(params?: any): Promise<any>;
             all(params?: any): Promise<any[]>;
-            scalar(params?: any): Promise<any[]>;
+            scalar(params?: any): Promise<any>;
             exec(params?: any): Promise<any>;
         }
 
-        interface Transaction
-        {
+        interface Transaction {
             db: Db;
             id: number;
 
@@ -305,6 +374,7 @@ declare module "orientjs" {
             token: any;
             transformers: any;
         }
+
         interface DbConfig {
             name: string;
             type: string;
@@ -378,24 +448,25 @@ declare module "orientjs" {
 
         }
 
-
-        class ServerConfig {
+        interface ServerConfig {
             constructor(config?: any);
-            public useToken: boolean;
-            public host: string;
-            public port: number;
-            public username: string;
-            public password: string;
+             useToken: boolean;
+             host: string;
+             port: number;
+             username: string;
+             password: string;
        
            
             // new(host: string, port: number, username: string, password: string, useToken): ServerConfig;
         }
+
         interface ServerConfiguration {
 
             get(name: string): string;
             set(key: string, value: string): string;
             list(): any;
         }
+
         interface Server {
 
             config: ServerConfiguration;
@@ -407,12 +478,13 @@ declare module "orientjs" {
             close(): Server;
             use(config: string): Db;
             use(config?: any): Db;
-            create(config: string): Db;
-            create(config: DbConfig): Db;
-            drop(config: string): Db;
-            drop(config: DbConfig): Db;
-            list(): Db[];
-            exists(name: string, storageType?: string): boolean;
+            create(config: string): Promise<Db>;
+            create(config: DbConfig): Promise<Db>;
+            create(config: any): Promise<Db>;
+            drop(config: string): Promise<Db>;
+            drop(config: DbConfig): Promise<Db>;
+            list(): Promise<Db[]>;
+            exists(name: string, storageType?: string): Promise<boolean>;
             freeze(name: string, storageType?: string): any;
             release(name: string, storageType?: string): any;
         }
@@ -425,7 +497,6 @@ declare module "orientjs" {
 
     }
 
+    export = ojs;
 
-
-    export = oj;
 }
