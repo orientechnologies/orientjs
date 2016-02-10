@@ -97,6 +97,7 @@ describe("RID Bag", function () {
         this.db.server.transport.connection.protocol.deserializer.enableRIDBags = true;
       });
       it('should optionally disable RIDBags', function () {
+
         Array.isArray(this.bag).should.be.true;
       });
     });

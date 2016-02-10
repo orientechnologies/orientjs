@@ -1,5 +1,6 @@
 var createdRID, demoRID1, demoRID2;
 
+
 describe("Database API - Record", function () {
   before(function () {
     return CREATE_TEST_DB(this, 'testdb_dbapi_record')
@@ -77,8 +78,9 @@ describe("Database API - Record", function () {
           // because we did not pass a RID.
           // fixed with binary protocol
           var version = this.db.server.transport.connection.protocolVersion;
+          var serType = this.db.server.transport.connection.protocol.constants.SERIALIZATION_FORMAT;
 
-          if (version >= 33) {
+          if (version >= 33 && serType === 'onet_ser_v0') {
             expect(record.linkedTest1.cluster).to.equal(5);
             expect(record.linkedTest1.position).to.equal(0);
           } else {
@@ -136,14 +138,15 @@ describe("Database API - Record", function () {
           record.wat.should.equal('foo');
 
           var version = this.db.server.transport.connection.protocolVersion;
-
+          var serType = this.db.server.transport.connection.protocol.constants.SERIALIZATION_FORMAT;
           //This assert is removed because the expected result is conversion not null
           // because we did not pass a RID.
           // Fixed with binary protocol
-          if (version >= 33) {
+
+          if (version >= 33 && serType === 'onet_ser_v0') {
             expect(record.linkedTest1.cluster).to.equal(5);
             expect(record.linkedTest1.position).to.equal(0);
-          }else {
+          } else {
             expect(record.linkedTest1).to.equal(null);
           }
 
