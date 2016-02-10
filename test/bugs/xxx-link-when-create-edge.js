@@ -59,7 +59,12 @@ describe("Bug: Should create a link while inserting an edge", function () {
     })
   });
 
+
   it('should create a link whilst creating an edge in a transaction', function () {
+
+    var version = this.db.server.transport.connection.protocolVersion;
+
+    var knowsReturn = version >=33 ? '$knows[0]' : "$knows";
     return this.db
     .let('fourth', "CREATE VERTEX Thing SET name = 'fourth'")
     .let('fifth', "CREATE VERTEX Thing SET name = 'fifth'")
@@ -71,7 +76,7 @@ describe("Bug: Should create a link while inserting an edge", function () {
       .to('$fifth')
       .set('referrer = first($sixth)')
     })
-    .return(['$sixth', '$knows'])
+    .return(['$sixth', knowsReturn])
     .commit()
     .all()
     .spread(function (referrer, edge) {
