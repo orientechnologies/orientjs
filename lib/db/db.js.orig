@@ -110,7 +110,11 @@ Db.prototype.open = function () {
       this.cluster.cacheData(response.clusters);
       this.serverCluster = response.serverCluster;
       this.token = response.token;
+<<<<<<< HEAD
+      if(response.serverCluster){
+=======
       if(response.serverCluster && this.server.transport.connection){
+>>>>>>> master
         this.server.transport.connection.emit('update-config',response.serverCluster);
       }
       this.server.once('error', function () {
