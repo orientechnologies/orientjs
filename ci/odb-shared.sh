@@ -1,5 +1,19 @@
 #!/bin/bash
 
+CHANGE=(2 1 5)
+
+
+isPostChange(){
+
+	declare -a v=("${@}")
+
+	if [ ${v[0]} -ge ${CHANGE[0]} ] && [ ${v[1]} -ge ${CHANGE[1]} ] && [ ${v[2]} -gt ${CHANGE[2]} ]; then
+		return 0;
+	else
+		return 1;
+	fi
+
+}
 odb_compare_version () {
   # TODO: this function does not handle well versions with additional rank
   # indicators such as "-rc1" but I guess it suffices for now.
@@ -51,8 +65,14 @@ odb_download_server () {
     mkdir "$OUTPUT_DIR"
   fi
 
+	array=(${ODB_VERSION//./ })
+
   if odb_command_exists "mvn" ; then
-    mvn org.apache.maven.plugins:maven-dependency-plugin:2.8:get -Dartifact=com.orientechnologies:orientdb-community:$ODB_VERSION:$ODB_PACKAGE_EXT:distribution -DremoteRepositories="https://oss.sonatype.org/content/repositories/snapshots/,https://oss.sonatype.org/content/repositories/releases/" -Ddest=$OUTPUT_DIR/$ODB_C_PACKAGE
+		if isPostChange ${array[@]} ; then
+			mvn org.apache.maven.plugins:maven-dependency-plugin:2.8:get -Dartifact=com.orientechnologies:orientdb-community:$ODB_VERSION:$ODB_PACKAGE_EXT -DremoteRepositories="https://oss.sonatype.org/content/repositories/snapshots/,https://oss.sonatype.org/content/repositories/releases/" -Ddest=$OUTPUT_DIR/$ODB_C_PACKAGE
+		else
+			mvn org.apache.maven.plugins:maven-dependency-plugin:2.8:get -Dartifact=com.orientechnologies:orientdb-community:$ODB_VERSION:$ODB_PACKAGE_EXT:distribution -DremoteRepositories="https://oss.sonatype.org/content/repositories/snapshots/,https://oss.sonatype.org/content/repositories/releases/" -Ddest=$OUTPUT_DIR/$ODB_C_PACKAGE
+		fi
   else
     echo "Cannot download $1 [maven is not installed]"
     exit 1
