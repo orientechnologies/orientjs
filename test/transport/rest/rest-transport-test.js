@@ -109,6 +109,24 @@ describe("Rest Transport", function () {
           fromRest.results[0].content.length.should.equal(fromBinary.results[0].content.length);
         });
       });
+      it('should execute a parameterized query', function () {
+        var config = {
+          database: 'testdb_rest',
+          class: 'com.orientechnologies.orient.core.sql.query.OSQLSynchQuery',
+          query: 'SELECT * FROM OUser WHERE name = :name',
+          mode: 's',
+          limit: -1,
+          params: { params: { name: "reader" } }
+        };
+        return Promise.all([REST_SERVER.send('command', config), this.db.send('command', config)])
+        .spread(function (fromRest, fromBinary) {
+          fromRest.results.length.should.equal(fromBinary.results.length);
+          fromRest.results[0].content.length.should.equal(fromBinary.results[0].content.length);
+        }).catch(function (err) {
+          console.log("Erorr: ", err.stack || err);
+          throw err;
+        });
+      });
     });
 
 
