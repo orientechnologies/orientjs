@@ -3,6 +3,8 @@ node_js:
   - "0.10"
   - 4.2
   - stable
+jdk:
+  - oraclejdk8
 before_script:
   - ./ci/initialize-ci.sh $ORIENTDB_VERSION
 env:
