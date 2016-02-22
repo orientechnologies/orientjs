@@ -13,8 +13,8 @@ describe("Bug #111: expand() returns only RIDs", function () {
         'CREATE CLASS WidgetHasWidget EXTENDS E',
         'CREATE PROPERTY WidgetHasWidget.in LINK Widget',
         'CREATE PROPERTY WidgetHasWidget.out LINK Widget',
-        'ALTER PROPERTY WidgetHasWidget.out MANDATORY=true',
-        'ALTER PROPERTY WidgetHasWidget.in MANDATORY=true',
+        'ALTER PROPERTY WidgetHasWidget.out MANDATORY true',
+        'ALTER PROPERTY WidgetHasWidget.in MANDATORY true',
         'CREATE INDEX UniqueWidgetHasWidget ON WidgetHasWidget (out, in) UNIQUE',
 
         'INSERT INTO Widget SET name = "widget_A"',
