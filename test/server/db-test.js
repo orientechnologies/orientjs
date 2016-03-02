@@ -13,21 +13,24 @@ describe("Database commands", function () {
         response.should.be.true;
       });
     });
-    it("should allow only read-only operations", function(){
-      return this.db.record.create({
-        '@class': 'OUser',
-        name: 'testuser1',
-        password: 'testpassword1',
-        status: 'ACTIVE'
-      })
-      .bind(this)
-      .then(function (record) {
-        throw new Error('Should never happen!');
-      })
-      .catch(LIB.errors.Request, function (e) {
-        return true;
-      });
-    });
+    // Not valid anymore since it was fixed in OrientDB. It does not thrown the exception anymore.
+    // Just blocks the request till the db is released Since 2.1.12
+    
+    //it("should allow only read-only operations", function(){
+    //  return this.db.record.create({
+    //    '@class': 'OUser',
+    //    name: 'testuser1',
+    //    password: 'testpassword1',
+    //    status: 'ACTIVE'
+    //  })
+    //  .bind(this)
+    //  .then(function (record) {
+    //    throw new Error('Should never happen!');
+    //  })
+    //  .catch(LIB.errors.Request, function (e) {
+    //    return true;
+    //  });
+    //});
   });
   describe('Server::release()', function () {
     it("should release", function () {
