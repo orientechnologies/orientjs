@@ -43,6 +43,35 @@ describe("Database API - Record", function () {
     });
   });
 
+  describe('Db::record.get()', function () {
+    it('should get records with the given rids', function () {
+      return this.db.record.get(['#5:0', '#5:1'])
+      .then(function (records) {
+        records.forEach(function(record, i){
+          record['@class'].should.equal('OUser');
+          record['@rid'].should.have.properties({
+            cluster: 5,
+            position: i
+          });
+        });
+      });
+    });
+    it('should get records with a fetch plan', function () {
+      return this.db.record.get([{'@rid': '#5:0'},{'@rid': '#5:1'}], {fetchPlan: '*:-1'})
+      .then(function (records) {
+        records.forEach(function(record, i){
+          record['@class'].should.equal('OUser');
+          record['@rid'].should.have.properties({
+            cluster: 5,
+            position: i
+          });
+          record.roles.length.should.be.above(0);
+          record.roles[0]['@class'].should.equal('ORole');
+        });
+      });
+    });
+  });
+
   describe('Db::record.create()', function () {
     it('should create a record', function () {
       return this.db.record.create({
