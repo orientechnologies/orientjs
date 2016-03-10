@@ -68,6 +68,7 @@ global.CREATE_TEST_DB = createTestDb.bind(null, TEST_SERVER);
 global.DELETE_TEST_DB = deleteTestDb.bind(null, TEST_SERVER);
 global.CREATE_POOL = createPool.bind(null, TEST_SERVER);
 global.USE_ODB = useOdb.bind(null, TEST_SERVER);
+global.USE_TOKEN_DB = useOdbWithToken.bind(null, TEST_SERVER);
 
 
 global.CREATE_REST_DB = createTestDb.bind(null, REST_SERVER);
@@ -87,6 +88,20 @@ function useOdb(server, name) {
     username: TEST_DB_CONFIG.username,
     password: TEST_DB_CONFIG.password,
     name: name
+  })
+
+  //context.pool.config.server.logger.debug = console.log.bind(console, '[ORIENTDB]');
+}
+
+function useOdbWithToken(server, name) {
+
+  return new global.LIB.ODatabase({
+    host: TEST_DB_CONFIG.host,
+    port: TEST_DB_CONFIG.port,
+    username: TEST_DB_CONFIG.username,
+    password: TEST_DB_CONFIG.password,
+    name: name,
+    useToken : true
   })
 
   //context.pool.config.server.logger.debug = console.log.bind(console, '[ORIENTDB]');
