@@ -684,15 +684,15 @@ Transaction builder help you create batch script that will run on the server as 
 
 ```js
 db.let('first',function(f){
-		f.create('vertex','V')
+		return f.create('vertex','V')
 		.set({ name : 'John'})
 	})
 	.let('second',function(s){
-		s.create('vertex','V')
+		return s.create('vertex','V')
 		.set({ name : 'John'})
 	})
 	.let('edge' , function(e){
-		e.create('edge','E')
+		return e.create('edge','E')
 		.from('$first')
 		.to('$second')
 		.set({ when : new Date()})
@@ -702,7 +702,7 @@ db.let('first',function(f){
 	.all()
 	.then(function(res){
 		console.log(res);
-})
+	})
 ```
 
 ### Batch Script
