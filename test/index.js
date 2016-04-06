@@ -12,6 +12,26 @@ global.expect = require('expect.js'),
 global.TEST_SERVER_CONFIG = require('./test-server.json');
 global.TEST_DB_CONFIG = require('./test-db.json');
 
+
+var host = process.env.ORIENTDB_HOST;
+var binPort = process.env.ORIENTDB_BIN_PORT;
+var httpPort = process.env.ORIENTDB_HTTP_PORT;
+
+if(host){
+  global.TEST_SERVER_CONFIG.host = host;
+  global.TEST_DB_CONFIG.host = host;
+}
+if(binPort){
+  binPort = parseInt(binPort);
+  global.TEST_SERVER_CONFIG.port = binPort;
+  global.TEST_DB_CONFIG.port = binPort;
+}
+if(httpPort){
+  httpPort = parseInt(httpPort);
+  global.TEST_SERVER_CONFIG.httpPort = httpPort;
+  global.TEST_DB_CONFIG.httpPort = httpPort;
+}
+
 global.LIB_ROOT = path.resolve(__dirname, '..', 'lib');
 
 global.LIB = require(LIB_ROOT);
