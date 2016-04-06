@@ -5,7 +5,7 @@ CI_DIR="$PARENT_DIR/ci/environment"
 
 ODB_VERSION=${1:-"1.7-rc2"}
 ODB_DIR="${CI_DIR}/orientdb-community-${ODB_VERSION}"
-ODB_LAUNCHER="${ODB_DIR}/bin/server.sh -Dsecurity.userPasswordDefaultAlgorithm=PBKDF2WithHmacSHA1"
+ODB_LAUNCHER="${ODB_DIR}/bin/server.sh"
 
 echo "=== Initializing CI environment ==="
 
@@ -18,6 +18,8 @@ if [ ! -d "$ODB_DIR" ]; then
   echo "--- Downloading OrientDB v${ODB_VERSION} ---"
   odb_download_server $ODB_VERSION $CI_DIR
 
+
+	cp $PARENT_DIR/ci/server.sh "${ODB_DIR}/bin"
   # Ensure that launcher script is executable and copy configurations file
   echo "--- Setting up OrientDB ---"
   chmod +x $ODB_LAUNCHER
