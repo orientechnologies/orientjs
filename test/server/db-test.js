@@ -13,21 +13,22 @@ describe("Database commands", function () {
         response.should.be.true;
       });
     });
-    it("should allow only read-only operations", function(){
-      return this.db.record.create({
-        '@class': 'OUser',
-        name: 'testuser1',
-        password: 'testpassword1',
-        status: 'ACTIVE'
-      })
-      .bind(this)
-      .then(function (record) {
-        throw new Error('Should never happen!');
-      })
-      .catch(LIB.errors.Request, function (e) {
-        return true;
-      });
-    });
+    // Not valid anymore since the server does not throw exception. It just hangs the ops
+    //it("should allow only read-only operations", function(){
+    //  return this.db.record.create({
+    //    '@class': 'OUser',
+    //    name: 'testuser1',
+    //    password: 'testpassword1',
+    //    status: 'ACTIVE'
+    //  })
+    //  .bind(this)
+    //  .then(function (record) {
+    //    throw new Error('Should never happen!');
+    //  })
+    //  .catch(LIB.errors.Request, function (e) {
+    //    return true;
+    //  });
+    //});
   });
   describe('Server::release()', function () {
     it("should release", function () {
