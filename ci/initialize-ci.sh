@@ -32,6 +32,9 @@ else
   echo "!!! Found OrientDB v${ODB_VERSION} in ${ODB_DIR} !!!"
 fi
 
+
+java -version
+
 # Start OrientDB in background.
 echo "--- Starting an instance of OrientDB ---"
 sh -c $ODB_LAUNCHER </dev/null &>/dev/null &
