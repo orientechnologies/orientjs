@@ -7,8 +7,15 @@ isPostChange(){
 
 	declare -a v=("${@}")
 
-	if [ ${v[0]} -ge ${CHANGE[0]} ] && [ ${v[1]} -ge ${CHANGE[1]} ] && [ ${v[2]} -gt ${CHANGE[2]} ]; then
-		return 0;
+	array=(${v[2]//-/ })
+
+	if [ ${v[0]} -ge ${CHANGE[0]} ]; then
+		if  [ ${v[1]} -gt ${CHANGE[1]} ]; then
+			return 0;
+		elif [ ${v[1]} -ge ${CHANGE[1]} ] && [ ${array[0]} -ge ${CHANGE[2]} ]; then
+			return 0;
+		fi
+		return 1;
 	else
 		return 1;
 	fi
