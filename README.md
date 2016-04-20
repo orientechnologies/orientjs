@@ -362,9 +362,23 @@ MyClass.list()
   console.log('Found ' + records.length + ' records:', records);
 });
 ```
+### Creating raw binary records
+
+```js
+var binary_data = new Buffer(...);
+// ...
+binary_data['@type'] = 'b'; // state that the record is a raw binary record
+binary_data['@class'] = 'MyBinary'; // here '@class' does NOT mean a class, but a cluster
+db.record.create(binary_data)
+.then(function (record) {
+  console.log('Created record. RID:', binary_data['@rid']);
+});
+```
+
 ### Index API
 
-#### Create a new index for a class property
+
+### Create a new index for a class property
 
 ```js
 db.index.create({

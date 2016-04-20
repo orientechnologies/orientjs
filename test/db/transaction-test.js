@@ -2,6 +2,13 @@ var Transaction = require('../../lib/db/transaction'),
     Promise = require('bluebird');
 
 describe("Database API - Transaction", function () {
+  function createBinaryRecord(text) {
+    var record = new Buffer(text);
+    record['@type'] = 'b';
+    record['@class'] = 'V';
+    return record;
+  }
+
   before(function () {
     return CREATE_TEST_DB(this, 'testdb_dbapi_tx')
     .bind(this)
@@ -9,9 +16,11 @@ describe("Database API - Transaction", function () {
       return this.db.class.create('TestClass', 'V');
     });
   });
+
   after(function () {
     return DELETE_TEST_DB('testdb_dbapi_tx');
   });
+
   describe("Db::begin()", function () {
     it('should return a new transaction instance', function () {
       var tx = this.db.begin();
@@ -110,7 +119,48 @@ describe("Database API - Transaction", function () {
         results.deleted.length.should.equal(0);
       });
     });
+
+    it('should create a single raw binary record', function () {
+      var text = 'my binary record content';
+      var binaryRecord = createBinaryRecord(text);
+
+      this.tx = this.db.begin();
+      return this.tx
+      .create(binaryRecord)
+      .commit()
+      .bind(this)
+      .then(function (results) {
+        results.created.length.should.equal(1);
+        results.created[0].toString().should.equal(text);
+        results.updated.length.should.equal(0);
+        results.deleted.length.should.equal(0);
+      });
+    });
+
+    it('should create multiple raw binary records', function () {
+      var texts = ['binary record 1', 'binary record 2', 'binary record 3'];
+      var binaryRecords = texts.map(function(text) {
+        return createBinaryRecord(text);
+      });
+
+      this.tx = this.db.begin();
+      return this.tx
+      .create(binaryRecords[0])
+      .create(binaryRecords[1])
+      .create(binaryRecords[2])
+      .commit()
+      .bind(this)
+      .then(function (results) {
+        results.created.length.should.equal(3);
+        results.created.forEach(function (record, i) {
+          record.toString().should.equal(texts[i]);
+        });
+        results.updated.length.should.equal(0);
+        results.deleted.length.should.equal(0);
+      });
+    });
   });
+
   describe("Db::transaction.update()", function () {
     beforeEach(function () {
       this.tx = this.db.begin();
@@ -122,14 +172,17 @@ describe("Database API - Transaction", function () {
         {
           '@class': 'TestClass',
           name: 'updateMe2'
-        }
+        },
+        createBinaryRecord('some text...')
       ])
       .bind(this)
-      .spread(function (first, second) {
+      .spread(function (first, second, third) {
         this.first = first;
         this.second = second;
+        this.third = third;
       });
     });
+
     it('should update a single record', function () {
       this.first.foo = 'foo';
       return this.tx
@@ -141,6 +194,7 @@ describe("Database API - Transaction", function () {
         results.deleted.length.should.equal(0);
       });
     });
+
     it('should update multiple records', function () {
       this.first.foo = 'foo';
       this.second.baz = 'baz';
@@ -154,7 +208,26 @@ describe("Database API - Transaction", function () {
         results.deleted.length.should.equal(0);
       });
     });
+
+    it('should update a single raw binary record', function () {
+      var updatedText = 'new text for this binary record'
+      var binaryRecord = new Buffer(updatedText);
+      binaryRecord['@type'] = 'b';
+      binaryRecord['@rid'] = this.third['@rid'];
+      binaryRecord['@version'] = this.third['@version'];
+
+      return this.tx
+      .update(binaryRecord, {preserve: false})
+      .commit()
+      .then(function (results) {
+        results.created.length.should.equal(0);
+        results.updated.length.should.equal(1);
+        results.updated[0].toString().should.equal(updatedText);
+        results.deleted.length.should.equal(0);
+      });
+    });
   });
+
   describe("Db::transaction.delete()", function () {
     beforeEach(function () {
       this.tx = this.db.begin();
@@ -166,14 +239,17 @@ describe("Database API - Transaction", function () {
         {
           '@class': 'TestClass',
           name: 'deleteMe2'
-        }
+        },
+	      createBinaryRecord('some text...')
       ])
       .bind(this)
-      .spread(function (first, second) {
+      .spread(function (first, second, third) {
         this.first = first;
         this.second = second;
+        this.third= third;
       });
     });
+
     it('should delete a single record', function () {
       return this.tx
       .delete(this.first)
@@ -184,6 +260,18 @@ describe("Database API - Transaction", function () {
         results.deleted.length.should.equal(1);
       });
     });
+
+    it('should delete a single raw binary record', function () {
+      return this.tx
+      .delete(this.third)
+      .commit()
+      .then(function (results) {
+        results.created.length.should.equal(0);
+        results.updated.length.should.equal(0);
+        results.deleted.length.should.equal(1);
+      });
+    });
+
     it('should delete multiple records', function () {
       return this.tx
       .delete(this.first)
@@ -209,6 +297,7 @@ describe('Transactional Queries', function () {
       ]);
     });
   });
+
   after(function () {
     return DELETE_TEST_DB('testdb_dbapi_tx_queries');
   });
@@ -221,6 +310,7 @@ describe('Transactional Queries', function () {
       result.should.be.above(2);
     });
   });
+
   it('should execute a simple transaction, using the query builder', function () {
     return this.db
     .update('OUser')
@@ -240,6 +330,7 @@ describe('Transactional Queries', function () {
       result['@class'].should.equal('TestEdge');
     });
   });
+
   it('should execute a complex transaction, using the query builder', function () {
     return this.db
     .let('vert', 'create vertex TestVertex set name="wat"')
@@ -252,6 +343,7 @@ describe('Transactional Queries', function () {
       result['@class'].should.equal('TestEdge');
     });
   });
+
   it('should execute a complex transaction, using the query builder for let statements', function () {
     return this.db
     .let('vert', function (s) {
