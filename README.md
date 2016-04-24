@@ -4,6 +4,7 @@ Official [orientdb](http://www.orientechnologies.com/orientdb/) driver for node.
 
 [![Build Status](https://travis-ci.org/orientechnologies/orientjs.svg?branch=master)](https://travis-ci.org/orientechnologies/orientjs)
 
+NOTE: _Release v2.2 contains big improvement on marshalling by using native C driver_.
 
 # Supported Versions
 
