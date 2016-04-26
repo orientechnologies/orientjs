@@ -2,7 +2,7 @@ var errors = LIB.errors;
 describe("Binary Transport", function () {
   describe('BinaryTransport::connect()', function () {
     it("should negotiate a connection", function () {
-      return TEST_SERVER.transport.connect()
+      return BINARY_TEST_SERVER.transport.connect()
       .then(function (server) {
         server.sessionId.should.be.above(-1);
       });
@@ -10,7 +10,7 @@ describe("Binary Transport", function () {
   });
   describe('BinaryTransport::send()', function  () {
     it("should handle errors correctly", function () {
-      return TEST_SERVER.transport.send('db-open', {
+      return BINARY_TEST_SERVER.transport.send('db-open', {
         name: 'not_an_existing_database',
         type: 'graph',
         username: 'admin',

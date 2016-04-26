@@ -1,4 +1,4 @@
-var createdRID, demoRID1, demoRID2;
+var createdRID,createdBinaryRID, demoRID1, demoRID2;
 
 
 describe("Database API - Record", function () {
@@ -16,7 +16,7 @@ describe("Database API - Record", function () {
       });
   });
   after(function () {
-    return DELETE_TEST_DB('testdb_dbapi_record')
+    //return DELETE_TEST_DB('testdb_dbapi_record')
   });
 
   describe('Db::record.get()', function () {
@@ -85,6 +85,49 @@ describe("Database API - Record", function () {
         });
     });
 
+    //it('should create a raw binary record', function () {
+    //  var textToStoreAsBinary = 'lorem ipsum'
+    //  var binaryRecord = new Buffer(textToStoreAsBinary);
+    //
+    //
+    //  binaryRecord['@type'] = 'b';
+    //  binaryRecord['@class'] = 'V';
+    //
+    //  return this.db.record.create(binaryRecord)
+    //    .bind(this)
+    //    .then(function (record) {
+    //      createdBinaryRID = record['@rid'];
+    //      // get the binary record from the DB
+    //      return this.db.record.get(createdBinaryRID);
+    //    })
+    //    .then(function (record) {
+    //      record.value.toString().should.equal(textToStoreAsBinary);
+    //      // store the binary record in a new document record
+    //
+    //      return this.db.record.create({
+    //        '@class': 'V',
+    //        binary: record,
+    //      })
+    //    })
+    //    .then(function (record) {
+    //      // get the document record from the DB
+    //      return this.db.record.get(record['@rid']);
+    //    })
+    //    .then(function (record) {
+    //      // recover original text stored as binary from the document record.
+    //      var binaryRecord = record.binary.value;
+    //      var octects = Object.keys(binaryRecord).reduce(function (acc, key) {
+    //        if (key !== 'length' && key !== 'parent') {
+    //          return acc.concat([binaryRecord[key]]);
+    //        }
+    //        return acc;
+    //      }, []);
+    //      var binaryRecordBuffer = new Buffer(octects);
+    //
+    //      binaryRecordBuffer.toString().should.equal(textToStoreAsBinary);
+    //    });
+    //});
+
     it('should create a record with a dynamic linked field', function () {
       return this.db.record.create({
           '@class': 'OUser',
@@ -149,6 +192,18 @@ describe("Database API - Record", function () {
           record.name.should.equal('testuserrenamed');
         });
     });
+
+    //it('should update a raw binary record', function () {
+    //  var textToStoreAsBinary = 'Lorem ipsum dolor sit amet'
+    //  var binaryRecord = new Buffer(textToStoreAsBinary);
+    //  binaryRecord['@type'] = 'b';
+    //  binaryRecord['@rid'] = createdBinaryRID;
+    //
+    //  return this.db.record.update(binaryRecord, {preserve: false})
+    //    .then(function (record) {
+    //      record.toString().should.equal(textToStoreAsBinary);
+    //    });
+    //});
 
     it('should update a record with a dynamic linked field', function () {
       return this.db.record.get(demoRID1)
@@ -219,6 +274,9 @@ describe("Database API - Record", function () {
     it('should delete a record', function () {
       return this.db.record.delete(createdRID);
     });
+    //it('should delete a raw binary record', function () {
+    //  return this.db.record.delete(createdBinaryRID);
+    //});
   });
 
 
