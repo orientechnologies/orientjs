@@ -43,7 +43,9 @@ describe("Database API - Batch Script", function () {
       });
   });
 
-  it('should return correct object ', function () {
+
+  ifSupportedIt('should return correct object ', function (done) {
+
 
     return this.db.query("return [1,2]", {class: 's'})
       .then(function (res) {
@@ -52,7 +54,7 @@ describe("Database API - Batch Script", function () {
       });
   });
 
-  it('should return correct array custom', function () {
+  ifSupportedIt('should return correct array custom', function () {
     return this.db.query("let $v = select from V ; let $ouser = select from OUser; let $updated = update V set name = 'Test' where key = 'notFound'; return [$v,$ouser,$updated]", {class: 's'})
       .then(function (res) {
         Array.isArray(res[0]).should.be.true;
@@ -62,7 +64,7 @@ describe("Database API - Batch Script", function () {
   });
 
 
-  it('should return correct object custom', function () {
+  ifSupportedIt('should return correct object custom', function () {
     return this.db.query("let $v = select from V ; let $ouser = select from OUser; let $updated = update V set name = 'Test' where key = 'notFound'; return { 'v' :  $v,'user' : $ouser, 'updated' : $updated }", {class: 's'})
       .then(function (res) {
         (typeof res[0]).should.be.eql('object');
@@ -73,7 +75,7 @@ describe("Database API - Batch Script", function () {
       });
   });
 
-  it('should execute a delete query', function () {
+  ifSupportedIt('should execute a delete query', function () {
     return this.db.query('delete from OUser where name=:name', {
       params: {
         name: 'Samson'
@@ -83,4 +85,14 @@ describe("Database API - Batch Script", function () {
     });
   });
 
+  function ifSupportedIt(text, fn) {
+    it(text, function () {
+      if (TEST_SERVER.transport.connection.protocolVersion >= 32) {
+        return fn.call(this);
+      }
+      else {
+        console.log('        skipping, "' + text + '": operation not supported by OrientDB version');
+      }
+    });
+  }
 });
