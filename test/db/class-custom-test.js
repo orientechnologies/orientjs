@@ -35,7 +35,7 @@ describe("Database API - Class - Custom", function () {
 
   describe('Db::class.custom.get()', function () {
     it('should get a given field', function () {
-      return this.class.custom.get('foo').should.equal('bar');
+      this.class.custom.get('foo').should.equal('bar');
     });
   });
 
