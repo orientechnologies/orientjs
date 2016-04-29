@@ -2,7 +2,9 @@
 
 Official [orientdb](http://www.orientechnologies.com/orientdb/) driver for node.js. Fast, lightweight, uses the binary protocol.
 
-[![Build Status](https://travis-ci.org/orientechnologies/orientjs.svg?branch=master)](https://travis-ci.org/orientechnologies/orientjs)
+Master: [![Build Status](https://travis-ci.org/orientechnologies/orientjs.svg?branch=master)](https://travis-ci.org/orientechnologies/orientjs)
+
+Develop: [![Build Status](https://travis-ci.org/orientechnologies/orientjs.svg?branch=develop)](https://travis-ci.org/orientechnologies/orientjs)
 
 NOTE: _Release v2.2 contains big improvement on marshalling by using native C driver_.
 
