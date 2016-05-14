@@ -6,29 +6,25 @@
 
 /* =================== USAGE =================== 
 
-    import orientjs = require('orientjs');
-   var dbserver = orientjs({
-    host: 'localhost',
-    port: 2424,
-    username: 'root',
-    password: 'root'
-    });
-    var db = dbserver.use({
-        name: 'mytestdb',
-        username: 'root',
-        password: 'root'
-    });
+ import orientjs = require('orientjs');
+ var dbserver = orientjs({
+ host: 'localhost',
+ port: 2424,
+ username: 'root',
+ password: 'root'
+ });
+ var db = dbserver.use({
+ name: 'mytestdb',
+ username: 'root',
+ password: 'root'
+ });
 
  =============================================== */
 
 declare module "orientjs" {
     import events = require('events');
     import Promise = require('bluebird');
-    //import {BPromise} from 'bluebird'
-   // var Promise = PromiseConstructorLike;
-   // var Promise: PromiseConstructor = require('bluebird');
-   // import * as Promise from 'bluebird';
-   // import Promise = require('bluebird');
+
     function ojs(config: any): ojs.OrientJs;
 
     module ojs {
@@ -114,20 +110,20 @@ declare module "orientjs" {
         }
 
         interface RID extends String {
-            cluster: number;
-            position: number;
+            cluster?: number;
+            position?: number;
 
             valueOf(): string;
-            isValid(): boolean;
-            equals(rid: string): boolean;
-            equals(rid: RID): boolean;
-            parse(input: string): boolean;
-            parse(input: string): RID;
-            parse(input: string): RID[];
-            isValid(input: string): boolean;
-            isValid(input: RID): boolean;
-            isValid(input: any): boolean;
-            toRid(cluster: number, position: number);
+            isValid?(): boolean;
+            equals?(rid: string): boolean;
+            equals?(rid: RID): boolean;
+            parse?(input: string): boolean;
+            parse?(input: string): RID;
+            parse?(input: string): RID[];
+            isValid?(input: string): boolean;
+            isValid?(input: RID): boolean;
+            isValid?(input: any): boolean;
+            toRid?(cluster: number, position: number);
         }
 
         interface Property {
@@ -204,7 +200,7 @@ declare module "orientjs" {
         interface RecordMeta {
             "@rid": string|RID;
             "@version": string|number;
-           
+
         }
 
         interface Record {
@@ -290,7 +286,7 @@ declare module "orientjs" {
             while(param: string): Statement;
             while(param: string[]): Statement;
             while(param: any): Statement;
-            
+
             containsText(param: any): Statement;
             and(param: string): Statement;
             and(param: string[]): Statement;
@@ -450,13 +446,13 @@ declare module "orientjs" {
 
         interface ServerConfig {
             constructor(config?: any);
-             useToken: boolean;
-             host: string;
-             port: number;
-             username: string;
-             password: string;
-       
-           
+            useToken: boolean;
+            host: string;
+            port: number;
+            username: string;
+            password: string;
+
+
             // new(host: string, port: number, username: string, password: string, useToken): ServerConfig;
         }
 
