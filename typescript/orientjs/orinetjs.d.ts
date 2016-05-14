@@ -25,7 +25,6 @@ declare module "orientjs" {
     import Promise = require('bluebird');
 
     function ojs(config: any): ojs.OrientJs;
-
     module ojs {
 
         module errors {
