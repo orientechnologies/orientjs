@@ -5,7 +5,6 @@
 
 
 /* =================== USAGE =================== 
-
  import orientjs = require('orientjs');
  var dbserver = orientjs({
  host: 'localhost',
