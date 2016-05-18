@@ -12,7 +12,7 @@
     "node",
     "node.js"
   ],
-  "version": "2.1.11",
+  "version": "2.1.17-beta",
   "author": {
     "name": "Enrico Risa",
     "email": "e.risa@orientdb.com"
