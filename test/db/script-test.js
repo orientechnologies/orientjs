@@ -75,6 +75,19 @@ describe("Database API - Batch Script", function () {
       });
   });
 
+  ifSupportedIt('should return comples result set from transaction', function () {
+    return this.db
+      .let('vert', 'create vertex V set name="nameA"')
+      .let('vert1', 'create vertex V set name="nameB"')
+      .let('edge1', 'create edge E from $vert to $vert1')
+      .commit(100)
+      .return('[$vert,$vert1,$edge1]')
+      .all()
+      .then(function (result) {
+        result.length.should.equal(3);
+      });
+  });
+
   ifSupportedIt('should execute a delete query', function () {
     return this.db.query('delete from OUser where name=:name', {
       params: {
