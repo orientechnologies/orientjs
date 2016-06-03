@@ -85,6 +85,9 @@ describe("Database API - Batch Script", function () {
       .all()
       .then(function (result) {
         result.length.should.equal(3);
+        result[0]["@class"].should.equal('V');
+        result[1]["@class"].should.equal('V');
+        result[2]["@class"].should.equal('E');
       });
   });
 
