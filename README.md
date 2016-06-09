@@ -8,6 +8,34 @@ Develop: [![Build Status](https://travis-ci.org/orientechnologies/orientjs.svg?b
 
 NOTE: _Release v2.2 contains big improvement on marshalling by using native C driver_.
 
+# Features
+
+- Tested with latest OrientDB (2.0.x and 2.1).
+- Intuitive API, based on [bluebird](https://github.com/petkaantonov/bluebird) promises.
+- Fast binary protocol parser.
+- Distributed Support
+- Access multiple databases via the same socket.
+- Migration support.
+- Simple CLI.
+- Connection Pooling
+
+
+
+# Documentation
+
+**Main Topics**
+
+- [Introduction](http://orientdb.com/docs/last/OrientJS.html)
+- [Server API](http://orientdb.com/docs/last/OrientJS-Server.html)
+- [Database API](http://orientdb.com/docs/last/OrientJS-Database.html)
+- [Class API](http://orientdb.com/docs/last/OrientJS-Class.html)
+- [Index API](http://orientdb.com/docs/last/OrientjS-Index.mdi)
+- [Function API](http://orientdb.com/docs/last/OrientJS-Functions.html)
+- [Queries](http://orientdb.com/docs/last/OrientJS-Query.html)
+- [Transactions](http://orientdb.com/docs/last/OrientJS-Transactions.html)
+- [Events](http://orientdb.com/docs/last/OrientJS-Events.html)
+
+
 # Supported Versions
 
 OrientJS aims to work with version 2.0.0 of OrientDB and later. While it may work with earlier versions, they are not currently supported, [pull requests are welcome!](./CONTRIBUTING.md)
@@ -45,34 +73,6 @@ Then run the tests:
 ```sh
 npm test
 ```
-
-
-# Features
-
-- Tested with latest OrientDB (2.0.x and 2.1).
-- Intuitive API, based on [bluebird](https://github.com/petkaantonov/bluebird) promises.
-- Fast binary protocol parser.
-- Distributed Support
-- Access multiple databases via the same socket.
-- Migration support.
-- Simple CLI.
-- Connection Pooling
-
-
-
-# Documentation
-
-**Main Topics**
-
-- [Introduction](http://orientdb.com/docs/last/OrientJS.html)
-- [Server API](http://orientdb.com/docs/last/OrientJS-Server.html)
-- [Database API](http://orientdb.com/docs/last/OrientJS-Database.html)
-- [Class API](http://orientdb.com/docs/last/OrientJS-Class.html)
-- [Index API](http://orientdb.com/docs/last/OrientjS-Index.mdi)
-- [Function API](http://orientdb.com/docs/last/OrientJS-Functions.html)
-- [Queries](http://orientdb.com/docs/last/OrientJS-Query.html)
-- [Transactions](http://orientdb.com/docs/last/OrientJS-Transactions.html)
-- [Events](http://orientdb.com/docs/last/OrientJS-Events.html)
 
 
 
