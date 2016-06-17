@@ -63,7 +63,7 @@ odb_download_server () {
   ODB_PACKAGE="orientdb-community-${ODB_VERSION}"
 
 
-  ODB_PACKAGE_EXT="zip"
+  ODB_PACKAGE_EXT="tar.gz"
   ODB_C_PACKAGE=${ODB_PACKAGE}.${ODB_PACKAGE_EXT}
 
   OUTPUT_DIR="${2:-$(pwd)}"
@@ -72,24 +72,33 @@ odb_download_server () {
     mkdir "$OUTPUT_DIR"
   fi
 
-	array=(${ODB_VERSION//./ })
 
-  if odb_command_exists "mvn" ; then
-		if isPostChange ${array[@]} ; then
-			mvn org.apache.maven.plugins:maven-dependency-plugin:2.8:get -Dartifact=com.orientechnologies:orientdb-community:$ODB_VERSION:$ODB_PACKAGE_EXT -DremoteRepositories="https://oss.sonatype.org/content/repositories/snapshots/,https://oss.sonatype.org/content/repositories/releases/" -Ddest=$OUTPUT_DIR/$ODB_C_PACKAGE
-		else
-			mvn org.apache.maven.plugins:maven-dependency-plugin:2.8:get -Dartifact=com.orientechnologies:orientdb-community:$ODB_VERSION:$ODB_PACKAGE_EXT:distribution -DremoteRepositories="https://oss.sonatype.org/content/repositories/snapshots/,https://oss.sonatype.org/content/repositories/releases/" -Ddest=$OUTPUT_DIR/$ODB_C_PACKAGE
-		fi
-  else
-    echo "Cannot download $1 [maven is not installed]"
-    exit 1
-  fi
+	if [[ ${ODB_VERSION} == *-SNAPSHOT* ]]; then
+		ODB_URL="https://oss.sonatype.org/service/local/artifact/maven/content?r=snapshots&g=com.orientechnologies&a=orientdb-community&v=${ODB_VERSION}&e=tar.gz"
+	else
+		ODB_URL="https://oss.sonatype.org/service/local/artifact/maven/content?r=releases&g=com.orientechnologies&a=orientdb-community&v=${ODB_VERSION}&e=tar.gz"
+	fi;
+
+
+
+	wget -c ${ODB_URL} -O ${OUTPUT_DIR}/${ODB_C_PACKAGE}
+
+#  if odb_command_exists "mvn" ; then
+#		if isPostChange ${array[@]} ; then
+#			mvn org.apache.maven.plugins:maven-dependency-plugin:2.8:get -Dartifact=com.orientechnologies:orientdb-community:$ODB_VERSION:$ODB_PACKAGE_EXT -DremoteRepositories="https://oss.sonatype.org/content/repositories/snapshots/,https://oss.sonatype.org/content/repositories/releases/" -Ddest=$OUTPUT_DIR/$ODB_C_PACKAGE
+#		else
+#			mvn org.apache.maven.plugins:maven-dependency-plugin:2.8:get -Dartifact=com.orientechnologies:orientdb-community:$ODB_VERSION:$ODB_PACKAGE_EXT:distribution -DremoteRepositories="https://oss.sonatype.org/content/repositories/snapshots/,https://oss.sonatype.org/content/repositories/releases/" -Ddest=$OUTPUT_DIR/$ODB_C_PACKAGE
+#		fi
+#  else
+#    echo "Cannot download $1 [maven is not installed]"
+#    exit 1
+#  fi
 
   ODB_PACKAGE_PATH="${CI_DIR}/${ODB_PACKAGE}.${ODB_PACKAGE_EXT}"
 
   if [ $ODB_PACKAGE_EXT = "zip" ]; then
     unzip -q $ODB_PACKAGE_PATH -d ${CI_DIR}
   elif [ $ODB_PACKAGE_EXT = "tar.gz" ]; then
-    tar xf $ODB_PACKAGE_PATH -C $CI_DIR
+    tar xvzf ${ODB_PACKAGE_PATH} -C ${CI_DIR}
   fi;
 }
