@@ -495,9 +495,16 @@ COMMIT \n\
     });
 
 
+
+
     it('should increment a field using the specified negative value', function () {
       this.statement.update('#1:1').increment('foo', -100);
       this.statement.toString().should.equal('UPDATE #1:1 INCREMENT foo = -100');
+    });
+
+    it('should increment a field using the specified 0 value', function () {
+      this.statement.update('#1:1').increment('foo', 0);
+      this.statement.toString().should.equal('UPDATE #1:1 INCREMENT foo = 0');
     });
   });
 
