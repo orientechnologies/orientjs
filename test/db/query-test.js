@@ -298,8 +298,16 @@ describe("Database API - Query", function () {
   describe('Db::insert()', function () {
     it('should insert a user', function () {
       return this.db.insert().into('OUser').set({name: 'test', password: 'testpasswordgoeshere', status: 'ACTIVE'}).one()
+          .then(function (user) {
+            user.name.should.equal('test');
+          });
+    });
+  });
+  describe('Db::rawExpression()', function () {
+    it('should insert a user', function () {
+      return this.db.insert().into('OUser').set({name: 'test', password: 'testpasswordgoeshere', status: this.db.rawExpression("'ACTIVE'")}).one()
       .then(function (user) {
-        user.name.should.equal('test');
+        user.status.should.equal('ACTIVE');
       });
     });
   });
