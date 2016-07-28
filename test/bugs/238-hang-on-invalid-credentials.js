@@ -92,7 +92,7 @@ describe("Bug #238: Request hangs when attempting connection with invalid creden
       });
   });
   after(function () {
-    return  deleteTestDb(serverValid, 'testdb_bug_238');
+    return  DELETE_TEST_DB('testdb_bug_238');
   });
 
   ifSupportedIt('should connect to the database with valid credentials', function () {
@@ -106,6 +106,7 @@ describe("Bug #238: Request hangs when attempting connection with invalid creden
 
   ifSupportedIt('should fail to open a database with invalid server credentials', function () {
     var db = serverInvalid.use('testdb_bug_238');
+
 
     return db.open()
       .then(function (data) {
@@ -136,6 +137,7 @@ describe("Bug #238: Request hangs when attempting connection with invalid creden
       username: 'nonononono',
       password: 'nopenopenopenopenope'
     });
+
 
     return db.open()
       .then(function (data) {

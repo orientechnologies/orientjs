@@ -18,6 +18,7 @@ describe("Bug #82: db.query errors when parsing emojis ", function () {
   it('should allow emojis in insert statements', function () {
     return this.db.insert().into('Emoji').set({value: '😢😂😭'}).one()
       .then(function (result) {
+
         result.should.have.property('@rid');
         rid = result['@rid'];
       });

@@ -63,6 +63,13 @@ global.POOL_TEST_SERVER = new LIB.Server({
   }
 });
 
+global.BINARY_TEST_SERVER = new LIB.Server({
+  host: TEST_SERVER_CONFIG.host,
+  port: TEST_SERVER_CONFIG.port,
+  username: TEST_SERVER_CONFIG.username,
+  password: TEST_SERVER_CONFIG.password,
+  transport: 'binary',
+});
 global.DISTRIBUTED_TEST_SERVER = new LIB.Server({
   host: TEST_SERVER_CONFIG.host,
   port: TEST_SERVER_CONFIG.port,
