@@ -24,15 +24,15 @@ describe("Database API - Read Decimal", function () {
             name: 'a',
             dec: 400.405534
           },
-	  {
+          {
             name: 'b',
-	    dec: -333.05
+            dec: -333.05
           },
-	  {
+          {
             name: 'c',
-	    dec: -333.04
+            dec: -333.04
           }
-	])
+        ])
       });
   });
   after(function () {
@@ -41,7 +41,7 @@ describe("Database API - Read Decimal", function () {
 
 
   it('should return a positive decimal', function () {
-    var query = this.db.select().from('TryDec').where({name:'a'});
+    var query = this.db.select().from('TryDec').where({name: 'a'});
     return query.one()
       .then(function (res) {
         res.dec.should.eql(400.405534);
@@ -49,14 +49,14 @@ describe("Database API - Read Decimal", function () {
   });
 
   it('should return a negative decimal', function () {
-    var query = this.db.select().from('TryDec').where({name:'b'});
+    var query = this.db.select().from('TryDec').where({name: 'b'});
     return query.one()
       .then(function (res) {
         res.dec.should.eql(-333.05);
       });
   });
   it('should return a negative decimal', function () {
-    var query = this.db.select().from('TryDec').where({name:'c'});
+    var query = this.db.select().from('TryDec').where({name: 'c'});
     return query.one()
       .then(function (res) {
         res.dec.should.eql(-333.04);
