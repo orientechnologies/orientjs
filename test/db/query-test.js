@@ -322,6 +322,16 @@ describe("Database API - Query", function () {
 
   describe('Db::rawExpressionWithFunctions()', function () {
     it('should insert a user', function () {
+
+      var stmt = this.db.insert().into('Player')
+        .set({
+          uuid : this.db.rawExpression("format('%s',uuid())"),
+          ba:  0.367,
+          r:   2246,
+          rbi: 1938
+        });
+
+      console.log(stmt.toString());
       return this.db.insert().into('OUser').set({
         name: 'testraw10',
         password: 'testpasswordgoeshere',
