@@ -3,11 +3,22 @@ node_js:
   - 0.12
   - 4.2
   - stable
+jdk:
+  - oraclejdk8
 before_script:
   - ./ci/initialize-ci.sh $ORIENTDB_VERSION
 env:
-  - ORIENTDB_VERSION=2.1.16
-  - ORIENTDB_VERSION=2.1.17
+  - ORIENTDB_VERSION=2.1.20
+  - ORIENTDB_VERSION=2.2.6 CXX=g++-4.8
+  - ORIENTDB_VERSION=2.2.7-SNAPSHOT CXX=g++-4.8
+
+addons:
+  apt:
+    sources:
+       - ubuntu-toolchain-r-test
+    packages:
+       - gcc-4.8
+       - g++-4.8
 
 after_script:
   - NODE_ENV=test istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage

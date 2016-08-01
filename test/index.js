@@ -12,6 +12,26 @@ global.expect = require('expect.js'),
 global.TEST_SERVER_CONFIG = require('./test-server.json');
 global.TEST_DB_CONFIG = require('./test-db.json');
 
+
+var host = process.env.ORIENTDB_HOST;
+var binPort = process.env.ORIENTDB_BIN_PORT;
+var httpPort = process.env.ORIENTDB_HTTP_PORT;
+
+if(host){
+  global.TEST_SERVER_CONFIG.host = host;
+  global.TEST_DB_CONFIG.host = host;
+}
+if(binPort){
+  binPort = parseInt(binPort);
+  global.TEST_SERVER_CONFIG.port = binPort;
+  global.TEST_DB_CONFIG.port = binPort;
+}
+if(httpPort){
+  httpPort = parseInt(httpPort);
+  global.TEST_SERVER_CONFIG.httpPort = httpPort;
+  global.TEST_DB_CONFIG.httpPort = httpPort;
+}
+
 global.LIB_ROOT = path.resolve(__dirname, '..', 'lib');
 
 global.LIB = require(LIB_ROOT);
@@ -25,6 +45,13 @@ global.TEST_SERVER = new LIB.Server({
   transport: 'binary',
 });
 
+global.BINARY_TEST_SERVER = new LIB.Server({
+  host: TEST_SERVER_CONFIG.host,
+  port: TEST_SERVER_CONFIG.port,
+  username: TEST_SERVER_CONFIG.username,
+  password: TEST_SERVER_CONFIG.password,
+  transport: 'binary',
+});
 global.POOL_TEST_SERVER = new LIB.Server({
   host: TEST_SERVER_CONFIG.host,
   port: TEST_SERVER_CONFIG.port,
@@ -75,6 +102,7 @@ global.CREATE_TEST_DB = createTestDb.bind(null, TEST_SERVER);
 global.DELETE_TEST_DB = deleteTestDb.bind(null, TEST_SERVER);
 global.CREATE_POOL = createPool.bind(null, TEST_SERVER);
 global.USE_ODB = useOdb.bind(null, TEST_SERVER);
+global.USE_TOKEN_DB = useOdbWithToken.bind(null, TEST_SERVER);
 
 
 global.CREATE_REST_DB = createTestDb.bind(null, REST_SERVER);
@@ -94,6 +122,20 @@ function useOdb(server, name) {
     username: TEST_DB_CONFIG.username,
     password: TEST_DB_CONFIG.password,
     name: name
+  })
+
+  //context.pool.config.server.logger.debug = console.log.bind(console, '[ORIENTDB]');
+}
+
+function useOdbWithToken(server, name) {
+
+  return new global.LIB.ODatabase({
+    host: TEST_DB_CONFIG.host,
+    port: TEST_DB_CONFIG.port,
+    username: TEST_DB_CONFIG.username,
+    password: TEST_DB_CONFIG.password,
+    name: name,
+    useToken : true
   })
 
   //context.pool.config.server.logger.debug = console.log.bind(console, '[ORIENTDB]');

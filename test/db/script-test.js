@@ -8,6 +8,27 @@ describe("Database API - Batch Script", function () {
   });
 
 
+  it('should return composite object',function(){
+    var query = 'begin\n' +
+      'let test = select from OUser\n' +
+      'let count = select COUNT(*) from OUser\n' +
+      'let meta = select * from ( select expand(classes) from metadata:schema ) WHERE name = \'OUser\'\n' +
+      'let rez = select $test, $count, $meta \n' +
+      'commit retry 100\n' +
+      'return $rez';
+
+    return this.db.query(query,{class: 's'}).then(function (response){
+      //console.log(JSON.stringify(response));
+    });
+  })
+
+  it('should return nested object', function () {
+
+    return this.db.query('select *,$currentUser from OUser let $currentUser = (select name from OUser where $parent.current.name = $current.name )', {class: 's'}).then(function (response) {
+      //console.log(response[0].$currentUser);
+    });
+  })
+
   it('should create Vertex with strange characters [1/2]', function () {
 
     var val = "test \" test )";
@@ -75,13 +96,13 @@ describe("Database API - Batch Script", function () {
       });
   });
 
-  ifSupportedIt('should return comples result set from transaction', function () {
+  ifSupportedIt('should return complex result set from transaction', function () {
     return this.db
       .let('vert', 'create vertex V set name="nameA"')
       .let('vert1', 'create vertex V set name="nameB"')
       .let('edge1', 'create edge E from $vert to $vert1')
       .commit(100)
-      .return('[$vert,$vert1,$edge1]')
+      .return('[$vert,$vert1,$edge1[0]]')
       .all()
       .then(function (result) {
         result.length.should.equal(3);

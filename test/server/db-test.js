@@ -13,9 +13,7 @@ describe("Database commands", function () {
         response.should.be.true;
       });
     });
-    // Not valid anymore since it was fixed in OrientDB. It does not thrown the exception anymore.
-    // Just blocks the request till the db is released Since 2.1.12
-    
+    // Not valid anymore since the server does not throw exception. It just hangs the ops
     //it("should allow only read-only operations", function(){
     //  return this.db.record.create({
     //    '@class': 'OUser',

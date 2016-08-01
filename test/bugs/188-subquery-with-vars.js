@@ -88,7 +88,7 @@ describe("Test sub-query + $parent.$current", function () {
   after(function () {
     return DELETE_TEST_DB('testdb_bug_188');
   });
-
+/*
   it('should deserialize a value properly', function () {
     var deserializer = this.db.server.transport.connection.protocol.deserializer; // ugh!
     deserializer.deserialize('$VTwo:[#-2:1,#-2:2]').should.eql({
@@ -99,7 +99,7 @@ describe("Test sub-query + $parent.$current", function () {
       ]
     });
   });
-
+*/
   it("should test if request return a value", function () {
     return this.db.query("SELECT expand($VTwo) FROM VertexOne LET $VTwo = (SELECT uuid FROM (SELECT expand(out('HAS_EDGE')) FROM $parent.$current)) WHERE uuid = 1")
     .then(function (result) {

@@ -18,6 +18,8 @@ if [ ! -d "$ODB_DIR" ]; then
   echo "--- Downloading OrientDB v${ODB_VERSION} ---"
   odb_download_server $ODB_VERSION $CI_DIR
 
+
+	cp $PARENT_DIR/ci/server.sh "${ODB_DIR}/bin"
   # Ensure that launcher script is executable and copy configurations file
   echo "--- Setting up OrientDB ---"
   chmod +x $ODB_LAUNCHER
@@ -31,6 +33,9 @@ if [ ! -d "$ODB_DIR" ]; then
 else
   echo "!!! Found OrientDB v${ODB_VERSION} in ${ODB_DIR} !!!"
 fi
+
+
+java -version
 
 # Start OrientDB in background.
 echo "--- Starting an instance of OrientDB ---"

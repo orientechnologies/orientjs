@@ -12,7 +12,7 @@
     "node",
     "node.js"
   ],
-  "version": "2.1.17-beta",
+  "version": "2.2.2",
   "author": {
     "name": "Enrico Risa",
     "email": "e.risa@orientdb.com"
@@ -52,15 +52,22 @@
     "fast.js": "^0.1.1",
     "parse-function": "^2.0.0",
     "request": "~2.60.0",
+    "node-biginteger": "^0.0.10",
     "yargs": "~1.2.1"
   },
   "devDependencies": {
+    "mocha": "^2.0.1",
+    "should": "~4.6.2",
     "expect.js": "~0.3.1",
     "istanbul": "~0.2.7",
     "istanbul-coveralls": "^1.0.3",
     "jshint": "~2.5.0",
     "mocha": "^2.0.1",
     "should": "~4.6.2"
+  },
+
+  "optionalDependencies" :{
+    "orientjs-native" : "^2.2.0"
   },
   "main": "./lib/index.js",
   "directories": {
