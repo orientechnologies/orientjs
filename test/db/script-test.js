@@ -74,7 +74,18 @@ describe("Database API - Batch Script", function () {
         res[1].should.eql(2);
       });
   });
+/*
+  ifSupportedIt('should return expanded object ', function (done) {
 
+    return this.db.query("let $u = select from OUser limit 1; return [first($u),1,2]", {class: 's'})
+      .then(function (res) {
+        (typeof res[0]).should.be.eql('object');
+        res[0]["@class"].should.be.eql('OUser');
+        res[1].should.eql(1);
+        res[2].should.eql(2);
+      });
+  });
+*/
   ifSupportedIt('should return correct array custom', function () {
     return this.db.query("let $v = select from V ; let $ouser = select from OUser; let $updated = update V set name = 'Test' where key = 'notFound'; return [$v,$ouser,$updated]", {class: 's'})
       .then(function (res) {
