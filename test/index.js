@@ -17,20 +17,21 @@ var host = process.env.ORIENTDB_HOST;
 var binPort = process.env.ORIENTDB_BIN_PORT;
 var httpPort = process.env.ORIENTDB_HTTP_PORT;
 
-if(host){
+if (host) {
   global.TEST_SERVER_CONFIG.host = host;
   global.TEST_DB_CONFIG.host = host;
 }
-if(binPort){
+if (binPort) {
   binPort = parseInt(binPort);
   global.TEST_SERVER_CONFIG.port = binPort;
   global.TEST_DB_CONFIG.port = binPort;
 }
-if(httpPort){
+if (httpPort) {
   httpPort = parseInt(httpPort);
   global.TEST_SERVER_CONFIG.httpPort = httpPort;
   global.TEST_DB_CONFIG.httpPort = httpPort;
 }
+
 
 global.LIB_ROOT = path.resolve(__dirname, '..', 'lib');
 
@@ -108,6 +109,42 @@ global.USE_TOKEN_DB = useOdbWithToken.bind(null, TEST_SERVER);
 global.CREATE_REST_DB = createTestDb.bind(null, REST_SERVER);
 global.DELETE_REST_DB = deleteTestDb.bind(null, REST_SERVER);
 
+
+function toInt(v) {
+
+  var val = -1;
+  try {
+    val = parseInt(v);
+  } catch (e) {
+  }
+  return val;
+}
+function checkVersion(current, target) {
+
+  if (current && target) {
+
+    var cVer = current.split(".").map(toInt);
+    var tVer = target.split(".").map(toInt);
+
+    if (cVer[0] >= tVer[0] && cVer[1] >= tVer[1], cVer[2] >= tVer[2]) {
+      return true;
+    }
+  }
+  return false;
+}
+global.IF_ORIENTDB_MAJOR = function (ver, text, fn) {
+  it(text, function () {
+
+
+    if (checkVersion(this.db.release, ver)) {
+      return fn.call(this);
+    } else {
+      console.log('        skipping, "' + text + '": operation not supported by OrientDB version');
+    }
+
+  });
+}
+
 function useTestDb(server, context, name) {
   return server.use(name).open().then(function (db) {
     context.db = db;
@@ -135,7 +172,7 @@ function useOdbWithToken(server, name) {
     username: TEST_DB_CONFIG.username,
     password: TEST_DB_CONFIG.password,
     name: name,
-    useToken : true
+    useToken: true
   })
 
   //context.pool.config.server.logger.debug = console.log.bind(console, '[ORIENTDB]');
@@ -173,6 +210,7 @@ function createTestDb(server, context, name, type) {
       });
     })
     .then(function (db) {
+
       context.db = db;
       return undefined;
     });
