@@ -125,8 +125,7 @@ function checkVersion(current, target) {
 
     var cVer = current.split(".").map(toInt);
     var tVer = target.split(".").map(toInt);
-
-    if (cVer[0] >= tVer[0] && cVer[1] >= tVer[1], cVer[2] >= tVer[2]) {
+    if (cVer[0] >= tVer[0] && cVer[1] >= tVer[1] && cVer[2] >= tVer[2]) {
       return true;
     }
   }
@@ -134,8 +133,6 @@ function checkVersion(current, target) {
 }
 global.IF_ORIENTDB_MAJOR = function (ver, text, fn) {
   it(text, function () {
-
-
     if (checkVersion(this.db.release, ver)) {
       return fn.call(this);
     } else {

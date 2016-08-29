@@ -3,7 +3,10 @@ describe("Database API - Batch Script", function () {
     return CREATE_TEST_DB(this, 'testdb_batch_script')
       .bind(this)
       .then(function () {
-        return this.db.open();
+        return USE_ODB("testdb_batch_script").open();
+
+      }).then(function (db) {
+        this.db = db;
       })
 
   });
@@ -174,7 +177,6 @@ describe("Database API - Batch Script", function () {
         result[2].should.equal(1);
       });
   });
-
 
 
   IF_ORIENTDB_MAJOR('2.2.9', 'should return complex result set from transaction', function () {
