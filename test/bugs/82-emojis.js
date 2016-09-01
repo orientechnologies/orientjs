@@ -5,6 +5,10 @@ describe("Bug #82: db.query errors when parsing emojis ", function () {
     return CREATE_TEST_DB(this, 'testdb_bug_82')
       .bind(this)
       .then(function () {
+        return USE_ODB("testdb_bug_82").open();
+      })
+      .then(function (db) {
+        this.db = db;
         return this.db.class.create('Emoji');
       })
       .then(function (item) {
@@ -15,7 +19,7 @@ describe("Bug #82: db.query errors when parsing emojis ", function () {
     return DELETE_TEST_DB('testdb_bug_82');
   });
 
-  it('should allow emojis in insert statements', function () {
+  IF_ORIENTDB_MAJOR('2.2.0', 'should allow emojis in insert statements', function () {
     return this.db.insert().into('Emoji').set({value: '😢😂😭'}).one()
       .then(function (result) {
 
@@ -23,11 +27,11 @@ describe("Bug #82: db.query errors when parsing emojis ", function () {
         rid = result['@rid'];
       });
   });
-  it('should allow emojis in update statements', function () {
+  IF_ORIENTDB_MAJOR('2.2.0', 'should allow emojis in update statements', function () {
     return this.db.update(rid).set({value: 'hello 😢😂😭', foo: 'bar'}).one();
   });
 
-  it('should allow emojis using db.query() directly', function () {
+  IF_ORIENTDB_MAJOR('2.2.0', 'should allow emojis using db.query() directly', function () {
     var query = 'UPDATE #5:0 SET bio="😢😂"';
     return this.db.query(query)
       .bind(this)
@@ -41,7 +45,7 @@ describe("Bug #82: db.query errors when parsing emojis ", function () {
   });
 
   describe('Bug #180: Emoji characters are not saved correctly', function () {
-    it('should insert some emojis', function () {
+    IF_ORIENTDB_MAJOR('2.2.0', 'should insert some emojis', function () {
       return this.db.insert().into('Emoji').set({value: "testing emoji 💪💦👌"}).one()
         .then(function (result) {
           result.value.should.equal("testing emoji 💪💦👌");
@@ -50,19 +54,19 @@ describe("Bug #82: db.query errors when parsing emojis ", function () {
   });
 
   describe('Bug #134: Emoji characters are not saved correctly', function () {
-    it('should insert some emojis', function () {
+    IF_ORIENTDB_MAJOR('2.2.0', 'should insert some emojis', function () {
 
-      return this.db.insert().into('Emoji').set({value:"😃💬"}).one()
+      return this.db.insert().into('Emoji').set({value: "😃💬"}).one()
         .then(function (result) {
 
           result.value.should.equal("😃💬");
         });
     });
-    it('should insert some emojis with create from class', function () {
+    IF_ORIENTDB_MAJOR('2.2.0', 'should insert some emojis with create from class', function () {
       return this.class.create({value: "😃💬"})
         .then(function (result) {
-        result.value.should.equal("😃💬");
-      });
+          result.value.should.equal("😃💬");
+        });
     });
   });
 
