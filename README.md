@@ -8,7 +8,7 @@ NOTE: _Release v2.2 contains big improvement on marshalling by using native C dr
 
 # Features
 
-- Tested with latest OrientDB (2.0.x and 2.1).
+- Tested with latest OrientDB (2.1.x and 2.2.x).
 - Intuitive API, based on [bluebird](https://github.com/petkaantonov/bluebird) promises.
 - Fast binary protocol parser.
 - Distributed Support
