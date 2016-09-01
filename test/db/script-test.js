@@ -4,7 +4,6 @@ describe("Database API - Batch Script", function () {
       .bind(this)
       .then(function () {
         return USE_ODB("testdb_batch_script").open();
-
       }).then(function (db) {
         this.db = db;
       })
