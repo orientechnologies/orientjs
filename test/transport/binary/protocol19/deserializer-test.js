@@ -1,19 +1,23 @@
-var deserializer = require(LIB_ROOT + '/transport/binary/protocol19/deserializer');
-var serializer = require(LIB_ROOT + '/transport/binary/protocol19/serializer');
+var deserializer = require(LIB_ROOT + '/transport/binary/protocol28/deserializer');
+var serializer = require(LIB_ROOT + '/transport/binary/protocol28/serializer');
+
 
 describe("Deserializer", function () {
+
+  this.timeout(10 * 10000);
+
   it('should go fast!', function () {
     var limit = 100000,
-        input = 'OUser@foo:123,baz:"bazz\\"za",int: 1234,true:true,false:false,null:null,date:123456a,rid:#12:10',
-        size = input.length * limit,
-        start = Date.now();
+      input = 'OUser@foo:123,baz:"bazz\\"za",int: 1234,true:true,false:false,null:null,date:123456a,rid:#12:10',
+      size = input.length * limit,
+      start = Date.now();
 
     for (var i = 0; i < limit; i++) {
       deserializer.deserialize(input);
     }
 
     var stop = Date.now(),
-        total = (stop - start) / 1000;
+      total = (stop - start) / 1000;
 
     console.log('Done in ' + total + 's, ', (limit / total).toFixed(3), 'documents / sec', (((size / total) / 1024) / 1024).toFixed(3), ' Mb / sec')
   });
@@ -25,16 +29,16 @@ describe("Deserializer", function () {
     }
 
     var limit = 100000,
-        input = serializer.serializeDocument(record),
-        size = input.length * limit,
-        start = Date.now();
+      input = serializer.serializeDocument(record),
+      size = input.length * limit,
+      start = Date.now();
 
     for (var i = 0; i < limit; i++) {
       deserializer.deserialize(input);
     }
 
     var stop = Date.now(),
-        total = (stop - start) / 1000;
+      total = (stop - start) / 1000;
 
     console.log('Done in ' + total + 's, ', (limit / total).toFixed(3), 'documents / sec', (((size / total) / 1024) / 1024).toFixed(3), ' Mb / sec')
   });
@@ -55,21 +59,19 @@ describe("Deserializer", function () {
     record["other3"] = 3;
 
     var limit = 100000,
-        input = serializer.serializeDocument(record),
-        size = input.length * limit,
-        start = Date.now();
+      input = serializer.serializeDocument(record),
+      size = input.length * limit,
+      start = Date.now();
 
     for (var i = 0; i < limit; i++) {
       deserializer.deserialize(input);
     }
 
     var stop = Date.now(),
-        total = (stop - start) / 1000;
+      total = (stop - start) / 1000;
 
     console.log('Done in ' + total + 's, ', (limit / total).toFixed(3), 'documents / sec', (((size / total) / 1024) / 1024).toFixed(3), ' Mb / sec')
   });
-
-
 
 
   describe('deserialize()', function () {
@@ -156,7 +158,7 @@ describe("Deserializer", function () {
     it('should eat an array', function () {
       var input = '1,2,3]';
       var parsed = deserializer.eatArray(input);
-      parsed[0].should.eql([1,2,3]);
+      parsed[0].should.eql([1, 2, 3]);
       parsed[1].length.should.equal(0);
     });
     it('should eat an empty array', function () {
@@ -176,7 +178,7 @@ describe("Deserializer", function () {
     it('should eat a set', function () {
       var input = '1,2,3>';
       var parsed = deserializer.eatSet(input);
-      parsed[0].should.eql([1,2,3]);
+      parsed[0].should.eql([1, 2, 3]);
       parsed[1].length.should.equal(0);
     });
     it('should eat an empty set', function () {
