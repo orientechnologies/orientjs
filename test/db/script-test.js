@@ -31,7 +31,7 @@ describe("Database API - Batch Script", function () {
   it('should return nested object', function () {
 
     return this.db.query('select *,$currentUser from OUser let $currentUser = (select name from OUser where $parent.current.name = $current.name )', {class: 's'}).then(function (response) {
-      //console.log(response[0].$currentUser);
+      //console.log(response[0]);
     });
   })
 
@@ -159,6 +159,16 @@ describe("Database API - Batch Script", function () {
       });
 
   });
+
+  IF_ORIENTDB_MAJOR('2.2.9', 'should return expanded object', function (done) {
+
+    return this.db.query(" begin;let $a = select 'a' as a ; let $b = select 'a' as b; return [$a,$b]", {class: 's'})
+      .then(function (res) {
+        res[0][0]["@rid"].should.not.eql(res[1][0]["@rid"]);
+      });
+
+  });
+
 
   IF_ORIENTDB_MAJOR('2.2.9', 'should return mixed result set from transaction', function () {
     return this.db
