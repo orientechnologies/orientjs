@@ -189,6 +189,14 @@ describe("Database API", function () {
           emitedObject.perf.query.should.be.above(0);
           (isNaN(emitedObject.err)).should.be.true;
           emitedObject.result.should.be.ok;
+
+          emitedObject.input.should.have.property("query");
+          emitedObject.input.should.have.property("mode");
+          emitedObject.input.should.have.property("fetchPlan");
+          emitedObject.input.should.have.property("limit");
+          emitedObject.input.should.have.property("params");
+
+          emitedObject.input.query.should.equal("SELECT name, status FROM OUser LIMIT 1");
         });
     });
 
