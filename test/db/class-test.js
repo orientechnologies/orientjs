@@ -28,6 +28,26 @@ describe("Database API - Class", function () {
     });
   });
 
+  describe('Db::class.get()', function () {
+    it('should get the class with the given name toLowerCase', function () {
+      return this.db.class.get('ouser')
+        .then(function (item) {
+          item.should.be.an.instanceOf(Class);
+          item.name.should.equal('OUser');
+        });
+    });
+  });
+
+  describe('Db::class.get()', function () {
+    it('should get the class with the given name toUpperCase', function () {
+      return this.db.class.get('ouser')
+        .then(function (item) {
+          item.should.be.an.instanceOf(Class);
+          item.name.should.equal('OUser');
+        });
+    });
+  });
+
   describe('Db::class.create()', function () {
     it('should create a class with the given name', function () {
       return this.db.class.create('TestClass')
