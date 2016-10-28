@@ -160,7 +160,41 @@ describe("Database API - Batch Script", function () {
 
   });
 
-  IF_ORIENTDB_MAJOR('2.2.9', 'should return expanded object', function (done) {
+  IF_ORIENTDB_MAJOR('2.2.9', 'should return expanded select results with map', function (done) {
+    var query = 'begin\n' +
+      'let test = select from OUser\n' +
+      'let count = select COUNT(*) from OUser\n' +
+      'let meta = select * from ( select expand(classes) from metadata:schema ) WHERE name = \'OUser\'\n' +
+      'let rez = { test:  $test, count :  $count, meta: $meta  }\n' +
+      'commit retry 100\n' +
+      'return $rez';
+
+    return this.db.query(query, {class: 's'}).then(function (result) {
+      result[0]['test'][0]["@class"].should.equal('OUser');
+      result[0]['count'][0]["COUNT"].should.equal(3);
+      result[0]['meta'][0].name.should.equal('OUser');
+    });
+
+  });
+
+  IF_ORIENTDB_MAJOR('2.2.9', 'should return expanded select results with array', function (done) {
+    var query = 'begin\n' +
+      'let test = select from OUser\n' +
+      'let count = select COUNT(*) from OUser\n' +
+      'let meta = select * from ( select expand(classes) from metadata:schema ) WHERE name = \'OUser\'\n' +
+      'let rez = [$test, $count, $meta] \n' +
+      'commit retry 100\n' +
+      'return $rez';
+
+    return this.db.query(query, {class: 's'}).then(function (result) {
+      result[0][0]["@class"].should.equal('OUser');
+      result[1][0]["COUNT"].should.equal(3);
+      result[2][0].name.should.equal('OUser');
+    });
+
+  });
+
+  IF_ORIENTDB_MAJOR('2.2.9', 'should return expanded objects with different rids', function (done) {
 
     return this.db.query(" begin;let $a = select 'a' as a ; let $b = select 'a' as b; return [$a,$b]", {class: 's'})
       .then(function (res) {
