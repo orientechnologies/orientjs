@@ -1,3 +1,9 @@
+####2.2.4
+
+###Bug Fixes
+
+* [#218](https://github.com/orientechnologies/orientjs/issues/218) Fixed Resolve References Duplicate without rids
+
 ####2.2.3
 
 ###Bug Fixes
