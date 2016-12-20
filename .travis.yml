@@ -6,6 +6,7 @@ node_js:
 jdk:
   - oraclejdk8
 before_script:
+  - jdk_switcher use oraclejdk8
   - ./ci/initialize-ci.sh $ORIENTDB_VERSION
 env:
 
@@ -19,6 +20,7 @@ addons:
     packages:
        - gcc-4.8
        - g++-4.8
+       - oracle-java8-installer
 
 after_script:
   - NODE_ENV=test istanbul cover ./node_modules/mocha/bin/_mocha ./node_modules/mocha/bin/_mocha ./test/index.js ./test/**/*.js ./test/**/**/*.js  ./test/**/**/**/*.js ./test/**/**/**/**/*.js --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage
