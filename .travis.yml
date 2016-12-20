@@ -6,7 +6,6 @@ node_js:
 jdk:
   - oraclejdk8
 before_script:
-  - jdk_switcher use oraclejdk8
   - ./ci/initialize-ci.sh $ORIENTDB_VERSION
 env:
 
