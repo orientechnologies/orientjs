@@ -39,7 +39,7 @@ java -version
 
 # Start OrientDB in background.
 echo "--- Starting an instance of OrientDB ---"
-sh -c $ODB_LAUNCHER &
+sh -c $ODB_LAUNCHER </dev/null &>/dev/null &
 
 # Wait a bit for OrientDB to finish the initialization phase.
 sleep 5
