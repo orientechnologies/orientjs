@@ -37,6 +37,7 @@ global.LIB_ROOT = path.resolve(__dirname, '..', 'lib');
 
 global.LIB = require(LIB_ROOT);
 
+global.NETWORK = require('../lib/network/index');
 
 global.TEST_SERVER = new LIB.Server({
   host: TEST_SERVER_CONFIG.host,

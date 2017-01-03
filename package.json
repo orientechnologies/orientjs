@@ -48,11 +48,12 @@
     "url": "http://github.com/orientechnologies/orientjs.git"
   },
   "dependencies": {
-    "bluebird": "~2.9.2",
+    "bluebird": "~3.4.7",
     "fast.js": "^0.1.1",
+    "generic-pool": "^3.1.6",
+    "node-biginteger": "^0.0.10",
     "parse-function": "^2.0.0",
     "request": "~2.60.0",
-    "node-biginteger": "^0.0.10",
     "yargs": "~1.2.1"
   },
   "devDependencies": {
@@ -61,13 +62,10 @@
     "expect.js": "~0.3.1",
     "istanbul": "~0.2.7",
     "istanbul-coveralls": "^1.0.3",
-    "jshint": "~2.5.0",
-    "mocha": "^2.0.1",
-    "should": "~4.6.2"
+    "jshint": "~2.9.4"
   },
-
-  "optionalDependencies" :{
-    "orientjs-native" : "^2.2.0"
+  "optionalDependencies": {
+    "orientjs-native": "^2.2.0"
   },
   "main": "./lib/index.js",
   "directories": {
