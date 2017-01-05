@@ -39,6 +39,8 @@ global.LIB = require(LIB_ROOT);
 
 global.NETWORK = require('../lib/network/index');
 
+global.CLIENT = require('../lib/client');
+
 global.TEST_SERVER = new LIB.Server({
   host: TEST_SERVER_CONFIG.host,
   port: TEST_SERVER_CONFIG.port,
