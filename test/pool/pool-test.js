@@ -1,6 +1,6 @@
 var Promise = require('bluebird');
 
-describe("Pool API - Create", function () {
+describe("Depracated Pool API - Create", function () {
   before(function () {
     return CREATE_TEST_DB(this, 'pool_test')
       .bind(this)

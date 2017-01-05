@@ -1,4 +1,4 @@
-describe("Network API - Connect", function () {
+describe("Network API", function () {
 
   it('should connect correctly to the server ', function () {
     this.network = new global.NETWORK.ONetworkConnection(TEST_SERVER_CONFIG);

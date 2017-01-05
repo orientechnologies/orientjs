@@ -331,7 +331,6 @@ describe("Database API - Query", function () {
           rbi: 1938
         });
 
-      console.log(stmt.toString());
       return this.db.insert().into('OUser').set({
         name: 'testraw10',
         password: 'testpasswordgoeshere',

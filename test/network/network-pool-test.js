@@ -13,14 +13,12 @@ describe("Network Pool API", function () {
     return this.pool.acquire()
       .then((network) => {
         this.pool.size().should.be.eql(2)
-        this.pool.available().should.be.eql(0)
         this.pool.borrowed().should.be.eql(1)
         this.pool.pending().should.be.eql(0)
         return this.pool.release(network);
       })
       .then(() => {
         this.pool.size().should.be.eql(2)
-        this.pool.available().should.be.eql(1)
         this.pool.borrowed().should.be.eql(0)
         this.pool.pending().should.be.eql(0)
       })
