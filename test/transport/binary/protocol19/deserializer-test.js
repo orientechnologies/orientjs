@@ -1,5 +1,5 @@
-var deserializer = require(LIB_ROOT + '/transport/binary/protocol28/deserializer');
-var serializer = require(LIB_ROOT + '/transport/binary/protocol28/serializer');
+var deserializer = require(LIB_ROOT + '/transport/binary/protocol33/deserializer-csv');
+var serializer = require(LIB_ROOT + '/transport/binary/protocol33/serializer-csv');
 
 
 describe("Deserializer", function () {
