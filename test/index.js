@@ -41,6 +41,7 @@ global.NETWORK = require('../lib/network/index');
 
 global.CLIENT = require('../lib/client');
 
+
 global.TEST_SERVER = new LIB.Server({
   host: TEST_SERVER_CONFIG.host,
   port: TEST_SERVER_CONFIG.port,
@@ -48,6 +49,16 @@ global.TEST_SERVER = new LIB.Server({
   password: TEST_SERVER_CONFIG.password,
   transport: 'binary',
 });
+
+
+global.TEST_CLIENT = new global.CLIENT(Object.assign({}, TEST_SERVER_CONFIG, {
+  pool: {
+    acquireTimeoutMillis: 500
+  }
+}));
+
+global.TEST_CLIENT.connect();
+
 
 global.BINARY_TEST_SERVER = new LIB.Server({
   host: TEST_SERVER_CONFIG.host,
@@ -108,6 +119,50 @@ global.CREATE_POOL = createPool.bind(null, TEST_SERVER);
 global.USE_ODB = useOdb.bind(null, TEST_SERVER);
 global.USE_TOKEN_DB = useOdbWithToken.bind(null, TEST_SERVER);
 
+
+// new global for testing the new API
+global.CREATE_DB = createDB.bind(null, TEST_CLIENT);
+global.DROP_DB = dropDB.bind(null, TEST_CLIENT);
+
+function createDB(client, name, type) {
+  type = type || 'memory';
+  var username = TEST_SERVER_CONFIG.username;
+  var password = TEST_SERVER_CONFIG.password;
+  var cfg = {
+    name: name,
+    storage: type
+  }
+  return client.exists(username, password, cfg)
+    .then((exists) => {
+      if (exists) {
+        return client.drop(username, password, cfg);
+      }
+      return false;
+    })
+    .then(() => {
+      return client.create(username, password, cfg);
+    })
+}
+
+function dropDB(client, name, type) {
+  type = type || 'memory';
+  var username = TEST_SERVER_CONFIG.username;
+  var password = TEST_SERVER_CONFIG.password;
+  var cfg = {
+    name: name,
+    storage: type
+  }
+  return client.exists(username, password, cfg)
+    .then((exists) => {
+      if (exists) {
+        return client.drop(username, password, cfg);
+      }
+      return undefined;
+    })
+    .then(() => {
+      return undefined;
+    })
+}
 
 global.CREATE_REST_DB = createTestDb.bind(null, REST_SERVER);
 global.DELETE_REST_DB = deleteTestDb.bind(null, REST_SERVER);
