@@ -1,3 +1,4 @@
+"use strict";
 describe("Database API - Cluster", function () {
   before(function () {
     return TEST_SERVER.create({

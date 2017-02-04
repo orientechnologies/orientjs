@@ -1,3 +1,4 @@
+"use strict";
 var Index = require('../../lib/db/index/index'),
     Promise = require('bluebird');
 

@@ -1,3 +1,4 @@
+"use strict";
 var Class = require('../../lib/db/class');
 
 describe("Database API - Edge", function () {

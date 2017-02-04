@@ -1,3 +1,4 @@
+"use strict";
 var Promise = require('bluebird');
 
 describe("Database API", function () {
