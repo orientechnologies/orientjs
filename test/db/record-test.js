@@ -1,3 +1,4 @@
+"use strict";
 var createdRID,createdBinaryRID, demoRID1, demoRID2;
 
 

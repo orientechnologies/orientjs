@@ -6,3 +6,5 @@
 .idea
 npm-debug.log
 out
+.vscode
+*.tgz

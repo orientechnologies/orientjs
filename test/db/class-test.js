@@ -1,3 +1,4 @@
+"use strict";
 var Class = require('../../lib/db/class');
 
 describe("Database API - Class", function () {
@@ -65,6 +66,14 @@ describe("Database API - Class", function () {
         item.should.be.an.instanceOf(Class);
       });
     });
+    it('should create a class with the given name and a superClass if not exist', function () {
+      return this.db.class.create('TestClassExtended', 'V',null,null,true)
+      .then(function (item) {
+        item.name.should.equal('TestClassExtended');
+        item.should.have.property('superClass', 'V');
+        item.should.be.an.instanceOf(Class);
+      });
+    });
   });
 
   describe('Db::class.update()', function () {
@@ -84,6 +93,12 @@ describe("Database API - Class", function () {
   describe('Db::class.drop()', function () {
     it('should delete a class with the given name', function () {
       return this.db.class.drop('TestClass');
+    });
+  });
+
+  describe('Db::class.drop()', function () {
+    it('should delete a class with the given name if exist', function () {
+      return this.db.class.drop('TestClassExtended',{ifexist:true});
     });
   });
 
