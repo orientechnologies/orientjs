@@ -86,8 +86,8 @@ declare module "orientjs" {
                 className?: string
             };
 
-            class Manager{
-                    new (config: MigrationManagerConfig): MigrationManager;
+             class Manager extends MigrationManager{
+                    constructor (config: MigrationManagerConfig);
             }
             interface Migration {
                 name: string;
