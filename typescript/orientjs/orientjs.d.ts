@@ -34,7 +34,7 @@
 declare module "orientjs" {
     import events = require('events');
     import Promise = require('bluebird');
-    function ojs(config: any): ojs.OrientJs;
+    function ojs(config: ojs.ServerConfig): ojs.OrientJs;
 
     module ojs {
 
@@ -86,10 +86,12 @@ declare module "orientjs" {
                 className?: string
             };
 
-            function Manager(config: MigrationManagerConfig): void;
+             class Manager extends MigrationManager{
+                    constructor (config: MigrationManagerConfig);
+            }
             interface Migration {
                 name: string;
-                Server: Server;
+                server: Server;
                 db: Db;
                 configure(config?: any): void;
                 up(): Promise<any>;
@@ -106,7 +108,7 @@ declare module "orientjs" {
                 constructor(config?: MigrationManagerConfig);
 
                 name: string;
-                Server: Server;
+                server: Server;
                 db: Db;
                 dir: string;
                 className: string;
@@ -692,6 +694,7 @@ declare module "orientjs" {
             let(name: string, value: Statement): Statement;
             lock(param: any): Statement;
 
+            if(condition: SqlExpression, statements: Statement[]): Statement;
             if(condition: SqlExpression, ...statements: Statement[]): Statement;
             rollback(param?: any): Statement;
             sleep(ms?: number): Statement;
@@ -756,7 +759,7 @@ declare module "orientjs" {
         interface RawExpression {
             db: Db;
             value: string;
-            as(alias): RawExpression;
+            as(alias:string): RawExpression;
         }
 
 
@@ -781,9 +784,12 @@ declare module "orientjs" {
         }
 
         interface QueryOptions {
-            mode?: "s" | "a" | "l",
-            fetchPlan?: number,
-            limit?: number,
+            params?:any;
+            mode?: "s" | "a" | "l";
+            fetchPlan?: any;
+            limit?: number;
+             token?:any;
+             class?:string;
             language?: "SQL" | "Javascript"
         }
 
@@ -921,7 +927,7 @@ declare module "orientjs" {
              *
              * @return {SqlFunction} The sql function instance.
              */
-            sqlFunction(param: string): SqlFunction;
+            sqlFunction(options?: any): SqlFunction;
 
             /**
  * Create a create query.
@@ -970,6 +976,16 @@ declare module "orientjs" {
  */
             let(params?: any): Statement;
             let(name: string, value: string | Statement): Statement;
+/** Create a transactional query with if.
+ *
+ * @return {Query} The query instance.
+ */
+            if(condition: SqlExpression, statements: Statement[]): Statement;
+            /** Create a transactional query with if.
+ *
+ * @return {Query} The query instance.
+ */
+            if(condition: SqlExpression, ...statements: Statement[]): Statement;
             /**
  * Escape the given input.
  *
@@ -1158,6 +1174,8 @@ declare module "orientjs" {
             name: string;
             type?: string;
             storage?: string;
+            username?: string;
+            password?: string;
         }
 
         interface OrientJs extends Server { }
