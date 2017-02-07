@@ -692,6 +692,7 @@ declare module "orientjs" {
             let(name: string, value: Statement): Statement;
             lock(param: any): Statement;
 
+            if(condition: SqlExpression, statements: Statement[]): Statement;
             if(condition: SqlExpression, ...statements: Statement[]): Statement;
             rollback(param?: any): Statement;
             sleep(ms?: number): Statement;
@@ -977,6 +978,11 @@ declare module "orientjs" {
  *
  * @return {Query} The query instance.
  */
+            if(condition: SqlExpression, statements: Statement[]): Statement;
+            /** Create a transactional query with if.
+ *
+ * @return {Query} The query instance.
+ */
             if(condition: SqlExpression, ...statements: Statement[]): Statement;
             /**
  * Escape the given input.
@@ -1166,6 +1172,8 @@ declare module "orientjs" {
             name: string;
             type?: string;
             storage?: string;
+            username?: string;
+            password?: string;
         }
 
         interface OrientJs extends Server { }
