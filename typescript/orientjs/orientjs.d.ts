@@ -255,7 +255,8 @@ declare module "orientjs" {
             readonly?: boolean;
             notNull?: boolean;
             collate?: string;
-            linkedClass?: Class;
+            linkedClass?: string;
+            linkedType?: string;
             regexp?: RegExp;
             min?: number;
             max?: number;
