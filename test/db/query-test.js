@@ -1,5 +1,6 @@
+"use strict";
 var Query = require('../../lib/db/query');
-
+var Statement = require('../../lib/db/statement');
 describe("Database API - Query", function () {
   before(function () {
     return CREATE_TEST_DB(this, 'testdb_dbapi_query');
@@ -12,6 +13,7 @@ describe("Database API - Query", function () {
 
   beforeEach(function () {
     this.query = new Query(this.db);
+    this.statement = new Statement(this.db);
   });
 
   describe('Query::one()', function () {
@@ -307,6 +309,35 @@ describe("Database API - Query", function () {
         });
     });
   });
+
+
+  describe('Db::sqlFunction()', function () {
+    it('should call abs function', function () {
+      this.statement
+      .select(this.db.sqlFunction().abs(145))
+      .from('OUser')
+      .buildStatement()
+      .should
+      .equal('SELECT  abs(145)  FROM OUser');
+    });
+    it('should call avg function', function () {
+      this.statement
+      .select(this.db.sqlFunction().avg('myfield'))
+      .from('OUser')
+      .buildStatement()
+      .should
+      .equal('SELECT  avg(myfield)  FROM OUser');
+    });
+    it('should call sequence function', function () {
+      this.statement
+      .select(this.db.sqlFunction().sequence('id_seq').next().as('id'))
+      .from('OUser')
+      .buildStatement()
+      .should
+      .equal("SELECT  sequence('id_seq').next()  AS id FROM OUser");
+    });
+  });
+
   describe('Db::rawExpression()', function () {
     it('should insert a user', function () {
       return this.db.insert().into('OUser').set({

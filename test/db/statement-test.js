@@ -1,5 +1,6 @@
+"use strict";
 var Statement = require('../../lib/db/statement');
-
+var RID = require('../../lib/recordid');
 describe("Database API - Statement", function () {
   before(function () {
     return CREATE_TEST_DB(this, 'testdb_dbapi_statement');
@@ -10,10 +11,123 @@ describe("Database API - Statement", function () {
 
   beforeEach(function () {
     this.statement = new Statement(this.db);
+    this.db =  this.db;
   });
 
+describe('Statement::if()', function () {
+
+    
+    it('should if a statement query with sub statements', function () {
+      var rec1 = {
+        '@rid': new RID({
+          cluster: 23,
+          position: 1234567
+        })
+      };
+      var rec2 = {
+        '@rid': new RID({
+          cluster: 23,
+          position: 98765432
+        })
+      };
+     this.statement
+      .if('foo = 1', 
+         [this.db.select().from('Foo'),this.db.select().from('Bar')]
+      )
+      .let('edge', function (statement) {
+        return statement
+        .create('edge', 'E')
+        .from('$foo')
+        .to(rec1['@rid']);
+      })
+      .let('updated', function (statement) {
+        return statement.update(rec2['@rid']).set({foo: 'bar'});
+      })
+      .commit()
+      .return('$edge')
+      .buildStatement()
+      .should
+      .equal('BEGIN\n IF( foo = 1) {\n	SELECT * FROM Foo\n	SELECT * FROM Bar\n}\n '+
+      'LET edge = CREATE edge E FROM $foo TO #23:1234567\n '+
+      'LET updated = UPDATE #23:98765432 SET foo = "bar"\n \nCOMMIT \n RETURN $edge');
+    });
+
+    it('should if a statement query with sub statements and rollback', function () {
+      var rec1 = {
+        '@rid': new RID({
+          cluster: 23,
+          position: 1234567
+        })
+      };
+      var rec2 = {
+        '@rid': new RID({
+          cluster: 23,
+          position: 98765432
+        })
+      };
+     this.statement
+      .if('foo = 1', 
+         [this.db.select().from('Foo'),new Statement(this.db).rollback()]
+      )
+      .let('edge', function (statement) {
+        return statement
+        .create('edge', 'E')
+        .from('$foo')
+        .to(rec1['@rid']);
+      })
+      .let('updated', function (statement) {
+        return statement.update(rec2['@rid']).set({foo: 'bar'});
+      })
+      .commit()
+      .return('$edge')
+      .buildStatement()
+      .should
+      .equal('BEGIN\n IF( foo = 1) {\n	SELECT * FROM Foo\n	\n\t ROLLBACK \n\n}\n '+
+      'LET edge = CREATE edge E FROM $foo TO #23:1234567\n '+
+      'LET updated = UPDATE #23:98765432 SET foo = "bar"\n \nCOMMIT \n RETURN $edge');
+    });
+
+
+    it('should  multiple if and let a statement query with sub statements and rollback and sleep . complex statement', function () {
+      var rec1 = {
+        '@rid': new RID({
+          cluster: 23,
+          position: 1234567
+        })
+      };
+      var rec2 = {
+        '@rid': new RID({
+          cluster: 23,
+          position: 98765432
+        })
+      };
+     var ss = this.statement
+      .let('updated', function (statement) {
+        return statement.update(rec2['@rid']).set({foo: 'bar'});
+      })
+      .if('foo = 1', 
+         [this.db.select().from('Foo'),new Statement(this.db).sleep(150)]
+      )
+      .let('edge', function (statement) {
+        return statement
+        .create('edge', 'E')
+        .from('$foo')
+        .to(rec1['@rid']);
+      })
+      .if('foo = 5', 
+         [this.db.select().from('AnothrFoo'),new Statement(this.db).rollback()]
+      )
+      .commit()
+      .return('$edge')
+      .buildStatement();
+       ss.should
+      .equal('BEGIN\n LET updated = UPDATE #23:98765432 SET foo = "bar"\n IF( foo = 1) {\n\tSELECT * FROM Foo\n\t\n\t SLEEP 150 \n\n}\n LET edge = CREATE edge E FROM $foo TO #23:1234567\n IF( foo = 5) {\n\tSELECT * FROM AnothrFoo\n\t\n\t ROLLBACK \n\n}\n \nCOMMIT \n RETURN $edge');
+    });
+  
+});
   describe('Statement::let()', function () {
 
+    
     it('should let a variable in a select() query', function () {
       this.statement
       .select('$thing')

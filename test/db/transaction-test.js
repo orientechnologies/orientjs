@@ -1,3 +1,4 @@
+"use strict";
 var Transaction = require('../../lib/db/transaction'),
   Promise = require('bluebird');
 

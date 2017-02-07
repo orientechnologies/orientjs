@@ -32,6 +32,7 @@ describe("Database API - Class - Property", function () {
           item.name.should.equal('myprop');
         });
     });
+    
     it('should create a property with the given configuration', function () {
       return this.class.property.create({
           name: 'customprop',
@@ -40,6 +41,19 @@ describe("Database API - Class - Property", function () {
         })
         .then(function (item) {
           item.name.should.equal('customprop');
+          item.max.should.eql('20');
+        });
+    });
+
+    it('should create a property with the given configuration if not exist', function () {
+      return this.class.property.create({
+          name: 'custompropifnot',
+          type: 'string',
+          ifnotexist:true,
+          max: 20,
+        })
+        .then(function (item) {
+          item.name.should.equal('custompropifnot');
           item.max.should.eql('20');
         });
     });
@@ -119,5 +133,16 @@ describe("Database API - Class - Property", function () {
     });
   });
 
+ describe('Db::class.property.drop()', function () {
+    it('should drop a property with the given name if exist', function () {
+      return this.class.property.drop('myprop2',{ifexist:true});
+    });
+  });
+
+  describe('Db::class.property.drop()', function () {
+    it('should drop a property with the given name if exist force ', function () {
+      return this.class.property.drop('myotherprop',{ifexist:true,force:true});
+    });
+  });
 
 });
