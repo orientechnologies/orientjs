@@ -86,7 +86,7 @@ declare module "orientjs" {
                 className?: string
             };
 
-            function Manager(config: MigrationManagerConfig): void;
+            function Manager(config: MigrationManagerConfig): MigrationManager;
             interface Migration {
                 name: string;
                 server: Server;
