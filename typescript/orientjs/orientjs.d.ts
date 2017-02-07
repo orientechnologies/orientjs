@@ -257,7 +257,7 @@ declare module "orientjs" {
             collate?: string;
             linkedClass?: string;
             linkedType?: string;
-            regexp?: RegExp;
+            regexp?: RegExp | string;
             min?: number;
             max?: number;
             custom?: {
@@ -273,8 +273,9 @@ declare module "orientjs" {
             readonly?: boolean;
             notNull?: boolean;
             collate?: string;
-            linkedClass?: Class;
-            regexp?: RegExp;
+            linkedClass?: string;
+            linkedType?: string;
+            regexp?: RegExp | string;
             min?: number;
             max?: number;
             custom?: {
@@ -292,11 +293,15 @@ declare module "orientjs" {
             readonly?: boolean;
             notNull?: boolean;
             collate?: string;
-            linkedClass?: Class;
-            regexp?: RegExp;
+            linkedClass?: string;
+            linkedType?: string;
+            regexp?: RegExp | string;
             min?: number;
             max?: number;
-
+            custom?: {
+                fields?: CustomField[]
+            }
+            
             configure(config?: any): void;
             reload(): Promise<Property>;
             rename(newName: string): Promise<Property>;
