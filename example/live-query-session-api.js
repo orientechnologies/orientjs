@@ -12,11 +12,12 @@ client.connect().then(function () {
       this.session.liveQuery("live select from V")
         .subscribe(function (result) {
           console.log(result);
-          session.close().then(process.exit);
+          session.query("live unsubscribe " + result.token);
         }, function (err) {
           console.log(err);
         }, function () {
           console.log("end");
+          session.close().then(process.exit);
         });
 
       setTimeout(function () {
