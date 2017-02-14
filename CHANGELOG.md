@@ -1,3 +1,9 @@
+####3.0.0
+
+### New Feature
+
+* Live Query With Observable [#236](https://github.com/orientechnologies/orientjs/issues/236)
+
 ####2.2.4
 
 ###Bug Fixes

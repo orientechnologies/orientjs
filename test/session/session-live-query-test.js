@@ -1,4 +1,5 @@
 var Promise = require('bluebird');
+var Errors = require('../../lib/errors');
 describe("Session API - Live Query ", function () {
 
   this.timeout(20000);
@@ -63,18 +64,18 @@ describe("Session API - Live Query ", function () {
     var session = this.session;
     this.session.liveQuery("LIVE SELECT FROM Test")
       .subscribe(function (live) {
-      count++;
-      live.data.content.name.should.eql('a');
-      if (count === TOTAL) {
-        session.query("live unsubscribe " + live.token).then(function (res) {
+        count++;
+        live.data.content.name.should.eql('a');
+        if (count === TOTAL) {
+          session.query("live unsubscribe " + live.token).then(function (res) {
 
-        });
-      }
-    }, function (err) {
+          });
+        }
+      }, function (err) {
 
-    }, function () {
+      }, function () {
         done();
-    });
+      });
     var self = this;
     setTimeout(function () {
       var promises = [];
@@ -91,6 +92,19 @@ describe("Session API - Live Query ", function () {
       })
     }, 1000);
 
+  });
+
+  it('should trigger live query error', function (done) {
+
+    this.session.liveQuery("LIVE SELECT FROM Test2")
+      .subscribe(function (live) {
+        throw new Error('Should never happen!');
+      }, function (err) {
+        err.should.be.an.instanceOf(Errors.RequestError);
+        done();
+      }, function () {
+        throw new Error('Should never happen!');
+      });
   });
 
 });
