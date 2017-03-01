@@ -1,4 +1,4 @@
-describe("Database API - Batch Script", function () {
+describe("Session API - Batch Script", function () {
   before(function () {
     return CREATE_TEST_DB(this, 'testdb_batch_script')
       .bind(this)

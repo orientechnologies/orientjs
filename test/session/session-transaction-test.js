@@ -2,7 +2,7 @@
 var Transaction = require('../../lib/db/transaction'),
   Promise = require('bluebird');
 
-describe("Database API - Transaction", function () {
+describe("Session API - Transaction", function () {
   function createBinaryRecord(text) {
     var record = new Buffer(text);
     record['@type'] = 'b';

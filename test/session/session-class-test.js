@@ -1,7 +1,7 @@
 "use strict";
 var Class = require('../../lib/db/class');
 
-describe("Database API - Class", function () {
+describe("Session API - Class", function () {
   before(function () {
     return CREATE_TEST_DB(this, 'testdb_dbapi_class')
       .bind(this)
