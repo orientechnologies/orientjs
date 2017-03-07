@@ -64,7 +64,7 @@ describe("Database API - Query Date", function () {
         return res.name;
       })
       .then(function (results) {
-        results.should.eql(['d', 'e']);
+        results.should.containDeep(['d', 'e']);
       });
   });
 });

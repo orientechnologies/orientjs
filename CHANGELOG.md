@@ -4,6 +4,12 @@
 
 * Live Query With Observable [#236](https://github.com/orientechnologies/orientjs/issues/236)
 
+####2.2.5
+
+###Enhancements
+
+* [#181](https://github.com/orientechnologies/orientjs/issues/181) Removed cluster_id param in API `db.record.create` and let the db chose the best cluster instead of the default one
+
 ####2.2.4
 
 ###Bug Fixes
