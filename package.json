@@ -63,7 +63,8 @@
     "istanbul-coveralls": "^1.0.3",
     "jshint": "~2.5.0",
     "mocha": "^2.0.1",
-    "should": "~4.6.2"
+    "should": "~4.6.2",
+    "tls": "~0.0.1"
   },
 
   "optionalDependencies" :{
