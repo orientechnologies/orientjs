@@ -59,7 +59,8 @@
     "parse-function": "^2.0.0",
     "request": "~2.60.0",
     "rxjs": "^5.1.1",
-    "yargs": "~1.2.1"
+    "yargs": "~1.2.1",
+    "tls": "~0.0.1"
   },
   "devDependencies": {
     "mocha": "^2.0.1",
