@@ -4,6 +4,10 @@
 
 * [#181](https://github.com/orientechnologies/orientjs/issues/181) Removed cluster_id param in API `db.record.create` and let the db chose the best cluster instead of the default one
 
+### Bug Fixes
+
+* [#243](https://github.com/orientechnologies/orientjs/issues/243) Fixed Multiple live query on the same db object.
+
 ####2.2.4
 
 ###Bug Fixes
