@@ -6,6 +6,7 @@
 
 ### Bug Fixes
 
+* [#245](https://github.com/orientechnologies/orientjs/issues/245) Fixed MigrationManager.listApplied
 * [#243](https://github.com/orientechnologies/orientjs/issues/243) Fixed Multiple live query on the same db object.
 
 ####2.2.4
