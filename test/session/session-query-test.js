@@ -29,13 +29,7 @@ describe("Session API - Query", function () {
         });
     });
 
-    it('should return one record with stream', function (done) {
-      this.query.select().from('OUser').limit(1).stream().subscribe((user) => {
-        Array.isArray(user).should.be.false;
-        user.should.have.property('name');
-        done();
-      })
-    });
+
     it('should return one record with parameters', function () {
       return this.query.select().from('OUser').where('name = :name').limit(1).one({name: 'reader'})
         .then(function (user) {
@@ -421,5 +415,7 @@ describe("Session API - Query", function () {
         response[0].count.should.eql(1);
       });
     });
+
+
   });
 });
