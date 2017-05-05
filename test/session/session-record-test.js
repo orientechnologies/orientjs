@@ -3,7 +3,7 @@ var createdRID, createdBinaryRID, demoRID1, demoRID2;
 
 
 describe("Session API - Record", function () {
-  before(function () {
+  before(CAN_RUN(37, function () {
     return CREATE_TEST_DB(this, 'testdb_dbapi_record')
       .bind(this)
       .then(() => {
@@ -21,7 +21,7 @@ describe("Session API - Record", function () {
           type: 'Link'
         })
       });
-  });
+  }));
   after(function () {
     //return DELETE_TEST_DB('testdb_dbapi_record')
   });
@@ -201,7 +201,7 @@ describe("Session API - Record", function () {
         });
     });
 
-    //it('should update a raw binary record', function () {
+    // it('should update a raw binary record', function () {
     //  var textToStoreAsBinary = 'Lorem ipsum dolor sit amet'
     //  var binaryRecord = new Buffer(textToStoreAsBinary);
     //  binaryRecord['@type'] = 'b';
@@ -211,7 +211,7 @@ describe("Session API - Record", function () {
     //    .then(function (record) {
     //      record.toString().should.equal(textToStoreAsBinary);
     //    });
-    //});
+    // });
 
     it('should update a record with a dynamic linked field', function () {
       return this.db.record.get(demoRID1)
@@ -268,7 +268,7 @@ describe("Session API - Record", function () {
 
 
   });
-
+  //
   describe('Db::record.meta()', function () {
     it('should get the metadata for a record', function () {
       return this.db.record.meta(createdRID)
@@ -282,9 +282,9 @@ describe("Session API - Record", function () {
     it('should delete a record', function () {
       return this.db.record.delete(createdRID);
     });
-    //it('should delete a raw binary record', function () {
+    // it('should delete a raw binary record', function () {
     //  return this.db.record.delete(createdBinaryRID);
-    //});
+    // });
   });
 
 

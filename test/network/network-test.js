@@ -1,5 +1,9 @@
 describe("Network API", function () {
 
+
+  before(CAN_RUN(37, function () {
+
+  }))
   it('should connect correctly to the server ', function () {
     this.network = new global.NETWORK.ONetworkConnection(TEST_SERVER_CONFIG);
     return this.network.connect().then(() => {

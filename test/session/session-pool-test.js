@@ -3,10 +3,10 @@ var Promise = require('bluebird');
 var Errors = require('../../lib/errors');
 
 describe("Session Pool API", function () {
-  before(function () {
+  before(CAN_RUN(37, function () {
     return CREATE_DB("test_session_pool");
 
-  });
+  }));
   after(function () {
     return DROP_DB("test_session_pool");
   });

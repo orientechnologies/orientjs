@@ -142,7 +142,7 @@ describe("Database API", function () {
     });
 
     it('should still allow scalars', function () {
-      return this.db.select().from('OUser').limit(1).scalar()
+      return this.db.select("name").from('OUser').limit(1).scalar()
         .then(function (result) {
           result.should.equal('admin');
         });

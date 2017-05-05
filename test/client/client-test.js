@@ -1,5 +1,9 @@
 var Errors = require('../../lib/errors');
 describe("Client API", function () {
+
+  before(CAN_RUN(37, function () {
+
+  }))
   it('should create and connect the client', function (done) {
     this.client = new global.CLIENT(TEST_SERVER_CONFIG);
     return this.client.connect()

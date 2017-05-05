@@ -10,7 +10,9 @@ describe("Session API - Transaction", function () {
     return record;
   }
 
-  before(function () {
+
+  before(CAN_RUN(37, function () {
+
     return CREATE_TEST_DB(this, 'testdb_dbapi_tx')
       .bind(this)
       .then(() => {
@@ -22,11 +24,11 @@ describe("Session API - Transaction", function () {
       .then(function () {
         return this.db.class.create('TestClass', 'V');
       });
-  });
+  }));
   after(function () {
     return DELETE_TEST_DB('testdb_dbapi_tx');
   });
-  describe("Db::begin()", function () {
+  describe("Session::begin()", function () {
     it('should return a new transaction instance', function () {
       var tx = this.db.begin();
       tx.should.be.an.instanceOf(Transaction);
@@ -34,18 +36,18 @@ describe("Session API - Transaction", function () {
     });
   });
 
-  describe('Db::commit()', function () {
+  describe('Session::commit()', function () {
     before(function () {
       return this.db.record.create([
-          {
-            '@class': 'TestClass',
-            name: 'item1'
-          },
-          {
-            '@class': 'TestClass',
-            name: 'item2'
-          }
-        ])
+        {
+          '@class': 'TestClass',
+          name: 'item1'
+        },
+        {
+          '@class': 'TestClass',
+          name: 'item2'
+        }
+      ])
         .bind(this)
         .spread(function (first, second) {
           this.first = first;
@@ -84,8 +86,8 @@ describe("Session API - Transaction", function () {
         });
     });
   });
-
-  describe("Db::transaction.create()", function () {
+  //
+  describe("Session::transaction.create()", function () {
     it('should create a single record', function () {
       this.tx = this.db.begin();
       return this.tx
@@ -124,7 +126,7 @@ describe("Session API - Transaction", function () {
           results.deleted.length.should.equal(0);
         });
     });
-    //it('should create a single raw binary record', function () {
+    // it('should create a single raw binary record', function () {
     //  var text = 'my binary record content';
     //  var binaryRecord = createBinaryRecord(text);
     //
@@ -139,47 +141,47 @@ describe("Session API - Transaction", function () {
     //      results.updated.length.should.equal(0);
     //      results.deleted.length.should.equal(0);
     //    });
-    //});
-    //it('should create multiple raw binary records', function () {
-    //  var texts = ['binary record 1', 'binary record 2', 'binary record 3'];
-    //  var binaryRecords = texts.map(function(text) {
-    //    return createBinaryRecord(text);
-    //  });
-    //
-    //  this.tx = this.db.begin();
-    //  return this.tx
-    //    .create(binaryRecords[0])
-    //    .create(binaryRecords[1])
-    //    .create(binaryRecords[2])
-    //    .commit()
-    //    .bind(this)
-    //    .then(function (results) {
-    //      results.created.length.should.equal(3);
-    //      results.created.forEach(function (record, i) {
-    //        record.toString().should.equal(texts[i]);
-    //      });
-    //      results.updated.length.should.equal(0);
-    //      results.deleted.length.should.equal(0);
+    // });
+    //   it('should create multiple raw binary records', function () {
+    //    var texts = ['binary record 1', 'binary record 2', 'binary record 3'];
+    //    var binaryRecords = texts.map(function(text) {
+    //      return createBinaryRecord(text);
     //    });
-    //});
-
+    //
+    //    this.tx = this.db.begin();
+    //    return this.tx
+    //      .create(binaryRecords[0])
+    //      .create(binaryRecords[1])
+    //      .create(binaryRecords[2])
+    //      .commit()
+    //      .bind(this)
+    //      .then(function (results) {
+    //        results.created.length.should.equal(3);
+    //        results.created.forEach(function (record, i) {
+    //          record.toString().should.equal(texts[i]);
+    //        });
+    //        results.updated.length.should.equal(0);
+    //        results.deleted.length.should.equal(0);
+    //      });
+    //   });
+    //
   });
-  describe("Db::transaction.update()", function () {
+  describe("Session::transaction.update()", function () {
     beforeEach(function () {
       this.tx = this.db.begin();
       return this.db.record.create([
-          {
-            '@class': 'TestClass',
-            name: 'updateMe1'
-          },
-          {
-            '@class': 'TestClass',
-            name: 'updateMe2'
-          },
-          createBinaryRecord('some text...')
-        ])
+        {
+          '@class': 'TestClass',
+          name: 'updateMe1'
+        },
+        {
+          '@class': 'TestClass',
+          name: 'updateMe2'
+        },
+        createBinaryRecord('some text...')
+      ])
         .bind(this)
-        .spread(function (first, second,third) {
+        .spread(function (first, second, third) {
           this.first = first;
           this.second = second;
           this.third = third;
@@ -209,7 +211,7 @@ describe("Session API - Transaction", function () {
           results.deleted.length.should.equal(0);
         });
     });
-    //it('should update a single raw binary record', function () {
+    // it('should update a single raw binary record', function () {
     //  var updatedText = 'new text for this binary record'
     //  var binaryRecord = new Buffer(updatedText);
     //  binaryRecord['@type'] = 'b';
@@ -225,24 +227,24 @@ describe("Session API - Transaction", function () {
     //      results.updated[0].toString().should.equal(updatedText);
     //      results.deleted.length.should.equal(0);
     //    });
-    //});
+    // });
   });
-  describe("Db::transaction.delete()", function () {
+  describe("Session::transaction.delete()", function () {
     beforeEach(function () {
       this.tx = this.db.begin();
       return this.db.record.create([
-          {
-            '@class': 'TestClass',
-            name: 'deleteMe1'
-          },
-          {
-            '@class': 'TestClass',
-            name: 'deleteMe2'
-          },
-          createBinaryRecord('some text...')
-        ])
+        {
+          '@class': 'TestClass',
+          name: 'deleteMe1'
+        },
+        {
+          '@class': 'TestClass',
+          name: 'deleteMe2'
+        },
+        createBinaryRecord('some text...')
+      ])
         .bind(this)
-        .spread(function (first, second,third) {
+        .spread(function (first, second, third) {
           this.first = first;
           this.second = second;
           this.third = third;
@@ -282,7 +284,7 @@ describe("Session API - Transaction", function () {
   });
 });
 
-describe('Transactional Queries', function () {
+describe('Session Transactional Queries', function () {
   before(function () {
     return CREATE_TEST_DB(this, 'testdb_dbapi_tx_queries')
       .bind(this)
@@ -299,8 +301,8 @@ describe('Transactional Queries', function () {
 
   it('should execute a simple transaction, using a raw query', function () {
     return this.db.query('begin\nupdate OUser set someField = true\ncommit', {
-        class: 's'
-      })
+      class: 's'
+    })
       .spread(function (result) {
         result.should.be.above(2);
       });
@@ -318,8 +320,8 @@ describe('Transactional Queries', function () {
 
   it('should execute a complex transaction, using a raw query', function () {
     return this.db.query('begin\nlet vert = create vertex TestVertex set name = "thing"\nlet vert1 = create vertex TestVertex set name="second thing"\nlet edge1 = create edge TestEdge from $vert to $vert1\ncommit retry 100\nreturn $edge1', {
-        class: 's'
-      })
+      class: 's'
+    })
       .spread(function (result) {
         result['@class'].should.equal('TestEdge');
       });

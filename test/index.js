@@ -57,7 +57,8 @@ global.TEST_CLIENT = new global.CLIENT(Object.assign({}, TEST_SERVER_CONFIG, {
   }
 }));
 
-global.TEST_CLIENT.connect();
+global.TEST_CLIENT.connect().catch(function (err) {
+});
 
 
 global.BINARY_TEST_SERVER = new LIB.Server({
@@ -198,6 +199,19 @@ global.IF_ORIENTDB_MAJOR = function (ver, text, fn) {
     }
 
   });
+}
+
+global.CAN_RUN = function (ver, fn) {
+
+  return function () {
+    var self = this;
+    return global.TEST_CLIENT.connect()
+      .then(function (e) {
+        return fn.call(self);
+      }).catch(function (err) {
+        self.skip();
+    });
+  }
 }
 
 function useTestDb(server, context, name) {

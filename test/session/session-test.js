@@ -1,10 +1,10 @@
 var Promise = require('bluebird');
 
-describe("Session API", function () {
-  before(function () {
+describe("Session API - Open / Simple Query", function () {
+  before(CAN_RUN(37, function () {
     return CREATE_DB("test_session");
 
-  });
+  }));
   after(function () {
     return DROP_DB("test_session");
   });
@@ -33,25 +33,25 @@ describe("Session API", function () {
       return this.session.close();
     });
     it('should execute a simple query', function () {
-      return this.session.query('SELECT * FROM OUser')
+      return this.session.query('SELECT * FROM OUser').all()
         .then(function (response) {
           response.length.should.be.above(1);
         });
     });
     it('should execute a simple query with a limit', function () {
-      return this.session.query('SELECT * FROM OUser LIMIT 1')
+      return this.session.query('SELECT * FROM OUser LIMIT 1').all()
         .then(function (response) {
           response.length.should.equal(1);
         });
     });
     it('should execute a simple query with a limit and a condition', function () {
-      return this.session.query('SELECT * FROM OUser WHERE name = \'reader\'LIMIT 1')
+      return this.session.query('SELECT * FROM OUser WHERE name = \'reader\'LIMIT 1').all()
         .then(function (response) {
           response.length.should.equal(1);
         });
     });
     it('should execute a simple query with a limit and a condition that fails', function () {
-      return this.session.query('SELECT * FROM OUser WHERE name = \'not_an_existing_user\'LIMIT 1')
+      return this.session.query('SELECT * FROM OUser WHERE name = \'not_an_existing_user\'LIMIT 1').all()
         .then(function (response) {
           response.length.should.equal(0);
         });
@@ -59,7 +59,7 @@ describe("Session API", function () {
     it('should execute a numerical parameterized query', function () {
       return this.session.query('SELECT * FROM OUser WHERE name = ? LIMIT 1', {
         params: ['reader']
-      })
+      }).all()
         .then(function (response) {
           response.length.should.equal(1);
           response[0].name.should.equal('reader');
@@ -70,7 +70,7 @@ describe("Session API", function () {
         params: {
           name: 'writer'
         }
-      })
+      }).all()
         .then(function (response) {
           response.length.should.equal(1);
           response[0].name.should.equal('writer');
