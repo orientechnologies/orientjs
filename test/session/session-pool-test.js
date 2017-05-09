@@ -59,7 +59,7 @@ describe("Session Pool API", function () {
         }).then(() => {
           throw new Error('Should never happen!');
         }).catch((err) => {
-          err.should.be.an.instanceOf(Errors.SessionPoolError);
+          err.should.be.an.instanceOf(Errors.SessionError);
           return Promise.all(this.sessions.map((s) => s.close()))
         });
     })

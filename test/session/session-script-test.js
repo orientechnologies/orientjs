@@ -292,3 +292,88 @@ describe("Session API - Batch Script", function () {
     });
   }
 });
+
+describe('Session API - Transactional Batch Queries', function () {
+  before(function () {
+    return CREATE_TEST_DB(this, 'testdb_dbapi_tx_queries')
+      .bind(this)
+      .then(function () {
+        return Promise.all([
+          this.db.class.create('TestVertex', 'V'),
+          this.db.class.create('TestEdge', 'E')
+        ]);
+      });
+  });
+  after(function () {
+    return DELETE_TEST_DB('testdb_dbapi_tx_queries');
+  });
+
+  it('should execute a simple transaction, using a raw query', function () {
+    return this.db.query('begin\nupdate OUser set someField = true\ncommit', {
+      class: 's'
+    })
+      .spread(function (result) {
+        result.should.be.above(2);
+      });
+  });
+  it('should execute a simple transaction, using the query builder', function () {
+    return this.db
+      .update('OUser')
+      .set({newField: true})
+      .commit()
+      .all()
+      .spread(function (result) {
+        result.should.be.above(2);
+      });
+  });
+
+  it('should execute a complex transaction, using a raw query', function () {
+    return this.db.query('begin\nlet vert = create vertex TestVertex set name = "thing"\nlet vert1 = create vertex TestVertex set name="second thing"\nlet edge1 = create edge TestEdge from $vert to $vert1\ncommit retry 100\nreturn $edge1', {
+      class: 's'
+    })
+      .spread(function (result) {
+        result['@class'].should.equal('TestEdge');
+      });
+  });
+  it('should execute a complex transaction, using the query builder', function () {
+    return this.db
+      .let('vert', 'create vertex TestVertex set name="wat"')
+      .let('vert1', 'create vertex TestVertex set name="second wat"')
+      .let('edge1', 'create edge TestEdge from $vert to $vert1')
+      .commit(100)
+      .return('$edge1')
+      .one()
+      .then(function (result) {
+        result['@class'].should.equal('TestEdge');
+      });
+  });
+  it('should execute a complex transaction, using the query builder for let statements', function () {
+    return this.db
+      .let('vert', function (s) {
+        return s
+          .create('vertex', 'TestVertex')
+          .set({
+            name: "foo"
+          });
+      })
+      .let('vert1', function (s) {
+        return s
+          .create('vertex', 'TestVertex')
+          .set({
+            name: 'second foo'
+          });
+      })
+      .let('edge1', function (s) {
+        return s
+          .create('edge', 'TestEdge')
+          .from('$vert')
+          .to('$vert1')
+      })
+      .commit(100)
+      .return('$edge1')
+      .one()
+      .then(function (result) {
+        result['@class'].should.equal('TestEdge');
+      });
+  });
+});

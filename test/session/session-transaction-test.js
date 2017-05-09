@@ -1,5 +1,6 @@
 "use strict";
 var Transaction = require('../../lib/db/transaction'),
+  RID = require('../../lib/recordid'),
   Promise = require('bluebird');
 
 describe("Session API - Transaction", function () {
@@ -22,17 +23,19 @@ describe("Session API - Transaction", function () {
         this.db = session;
       })
       .then(function () {
-        return this.db.class.create('TestClass', 'V');
+        return Promise.all([this.db.class.create('TestClass', 'V'), this.db.class.create('TestClassTx', 'V')]);
       });
   }));
   after(function () {
     return DELETE_TEST_DB('testdb_dbapi_tx');
   });
+
   describe("Session::begin()", function () {
     it('should return a new transaction instance', function () {
       var tx = this.db.begin();
       tx.should.be.an.instanceOf(Transaction);
       tx.id.should.be.above(0);
+      this.db.currentTx = null;
     });
   });
 
@@ -282,89 +285,59 @@ describe("Session API - Transaction", function () {
         });
     });
   });
+  describe("Session::Transaction Complex", function () {
+
+    beforeEach(function () {
+      return this.db.query("delete vertex TestClassTX").all()
+    })
+    it('should create a record in tx with final commit', function () {
+      this.db.begin().create({
+        '@class': 'TestClassTx',
+        name: 'item1'
+      });
+      return this.db.query("select * from TestClassTX").all()
+        .bind(this)
+        .then(function (res) {
+          res.length.should.equal(1);
+          res[0]["@rid"].should.be.instanceOf(RID);
+          RID.isTemporary(res[0]["@rid"]).should.be.eql(true, res[0]["@rid"]);
+          return this.db.tx().commit();
+        }).then((function (results) {
+          results.created.length.should.equal(1);
+          results.updated.length.should.equal(0);
+          results.deleted.length.should.equal(0);
+          return this.db.query("select * from TestClassTX").all()
+        })).then(function (res) {
+          res.length.should.equal(1)
+          res[0]["@rid"].should.be.instanceOf(RID);
+          RID.isTemporary(res[0]["@rid"]).should.be.eql(false, res[0]["@rid"]);
+          RID.isValid(res[0]["@rid"]).should.be.eql(true, res[0]["@rid"]);
+        });
+    })
+
+    it('should create a record in tx with final rollback', function () {
+      this.db.begin().create({
+        '@class': 'TestClassTx',
+        name: 'item1'
+      });
+      return this.db.query("select * from TestClassTX").all()
+        .bind(this)
+        .then(function (res) {
+          res.length.should.equal(1);
+          res[0]["@rid"].should.be.instanceOf(RID);
+          RID.isTemporary(res[0]["@rid"]).should.be.eql(true, res[0]["@rid"]);
+          return this.db.tx().rollback();
+        }).then((function (results) {
+          results.created.length.should.equal(0);
+          results.updated.length.should.equal(0);
+          results.deleted.length.should.equal(0);
+          return this.db.query("select * from TestClassTX").all()
+        })).then(function (res) {
+          res.length.should.equal(0)
+        });
+    })
+
+  })
 });
 
-describe('Session Transactional Queries', function () {
-  before(function () {
-    return CREATE_TEST_DB(this, 'testdb_dbapi_tx_queries')
-      .bind(this)
-      .then(function () {
-        return Promise.all([
-          this.db.class.create('TestVertex', 'V'),
-          this.db.class.create('TestEdge', 'E')
-        ]);
-      });
-  });
-  after(function () {
-    return DELETE_TEST_DB('testdb_dbapi_tx_queries');
-  });
 
-  it('should execute a simple transaction, using a raw query', function () {
-    return this.db.query('begin\nupdate OUser set someField = true\ncommit', {
-      class: 's'
-    })
-      .spread(function (result) {
-        result.should.be.above(2);
-      });
-  });
-  it('should execute a simple transaction, using the query builder', function () {
-    return this.db
-      .update('OUser')
-      .set({newField: true})
-      .commit()
-      .all()
-      .spread(function (result) {
-        result.should.be.above(2);
-      });
-  });
-
-  it('should execute a complex transaction, using a raw query', function () {
-    return this.db.query('begin\nlet vert = create vertex TestVertex set name = "thing"\nlet vert1 = create vertex TestVertex set name="second thing"\nlet edge1 = create edge TestEdge from $vert to $vert1\ncommit retry 100\nreturn $edge1', {
-      class: 's'
-    })
-      .spread(function (result) {
-        result['@class'].should.equal('TestEdge');
-      });
-  });
-  it('should execute a complex transaction, using the query builder', function () {
-    return this.db
-      .let('vert', 'create vertex TestVertex set name="wat"')
-      .let('vert1', 'create vertex TestVertex set name="second wat"')
-      .let('edge1', 'create edge TestEdge from $vert to $vert1')
-      .commit(100)
-      .return('$edge1')
-      .one()
-      .then(function (result) {
-        result['@class'].should.equal('TestEdge');
-      });
-  });
-  it('should execute a complex transaction, using the query builder for let statements', function () {
-    return this.db
-      .let('vert', function (s) {
-        return s
-          .create('vertex', 'TestVertex')
-          .set({
-            name: "foo"
-          });
-      })
-      .let('vert1', function (s) {
-        return s
-          .create('vertex', 'TestVertex')
-          .set({
-            name: 'second foo'
-          });
-      })
-      .let('edge1', function (s) {
-        return s
-          .create('edge', 'TestEdge')
-          .from('$vert')
-          .to('$vert1')
-      })
-      .commit(100)
-      .return('$edge1')
-      .one()
-      .then(function (result) {
-        result['@class'].should.equal('TestEdge');
-      });
-  });
-});
