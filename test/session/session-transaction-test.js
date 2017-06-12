@@ -106,7 +106,7 @@ describe("Session API - Transaction", function () {
           results.deleted.length.should.equal(0);
         });
     });
-
+  //
     it('should create multiple records', function () {
       this.tx = this.db.begin();
       return this.tx
@@ -336,7 +336,6 @@ describe("Session API - Transaction", function () {
           res.length.should.equal(0)
         });
     })
-
   })
 });
 
