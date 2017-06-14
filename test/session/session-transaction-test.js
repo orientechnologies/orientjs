@@ -4,6 +4,8 @@ var Transaction = require('../../lib/db/transaction'),
   Promise = require('bluebird');
 
 describe("Session API - Transaction", function () {
+
+
   function createBinaryRecord(text) {
     var record = new Buffer(text);
     record['@type'] = 'b';
@@ -27,7 +29,8 @@ describe("Session API - Transaction", function () {
       });
   }));
   after(function () {
-    return DELETE_TEST_DB('testdb_dbapi_tx');
+
+    // return DELETE_TEST_DB('testdb_dbapi_tx');
   });
 
   describe("Session::begin()", function () {
@@ -38,7 +41,7 @@ describe("Session API - Transaction", function () {
       this.db.currentTx = null;
     });
   });
-
+  //
   describe('Session::commit()', function () {
     before(function () {
       return this.db.record.create([
@@ -106,7 +109,7 @@ describe("Session API - Transaction", function () {
           results.deleted.length.should.equal(0);
         });
     });
-  //
+    //
     it('should create multiple records', function () {
       this.tx = this.db.begin();
       return this.tx
@@ -129,45 +132,7 @@ describe("Session API - Transaction", function () {
           results.deleted.length.should.equal(0);
         });
     });
-    // it('should create a single raw binary record', function () {
-    //  var text = 'my binary record content';
-    //  var binaryRecord = createBinaryRecord(text);
-    //
-    //  this.tx = this.db.begin();
-    //  return this.tx
-    //    .create(binaryRecord)
-    //    .commit()
-    //    .bind(this)
-    //    .then(function (results) {
-    //      results.created.length.should.equal(1);
-    //      results.created[0].toString().should.equal(text);
-    //      results.updated.length.should.equal(0);
-    //      results.deleted.length.should.equal(0);
-    //    });
-    // });
-    //   it('should create multiple raw binary records', function () {
-    //    var texts = ['binary record 1', 'binary record 2', 'binary record 3'];
-    //    var binaryRecords = texts.map(function(text) {
-    //      return createBinaryRecord(text);
-    //    });
-    //
-    //    this.tx = this.db.begin();
-    //    return this.tx
-    //      .create(binaryRecords[0])
-    //      .create(binaryRecords[1])
-    //      .create(binaryRecords[2])
-    //      .commit()
-    //      .bind(this)
-    //      .then(function (results) {
-    //        results.created.length.should.equal(3);
-    //        results.created.forEach(function (record, i) {
-    //          record.toString().should.equal(texts[i]);
-    //        });
-    //        results.updated.length.should.equal(0);
-    //        results.deleted.length.should.equal(0);
-    //      });
-    //   });
-    //
+
   });
   describe("Session::transaction.update()", function () {
     beforeEach(function () {
@@ -214,23 +179,7 @@ describe("Session API - Transaction", function () {
           results.deleted.length.should.equal(0);
         });
     });
-    // it('should update a single raw binary record', function () {
-    //  var updatedText = 'new text for this binary record'
-    //  var binaryRecord = new Buffer(updatedText);
-    //  binaryRecord['@type'] = 'b';
-    //  binaryRecord['@rid'] = this.third['@rid'];
-    //  binaryRecord['@version'] = this.third['@version'];
-    //
-    //  return this.tx
-    //    .update(binaryRecord, {preserve: false})
-    //    .commit()
-    //    .then(function (results) {
-    //      results.created.length.should.equal(0);
-    //      results.updated.length.should.equal(1);
-    //      results.updated[0].toString().should.equal(updatedText);
-    //      results.deleted.length.should.equal(0);
-    //    });
-    // });
+
   });
   describe("Session::transaction.delete()", function () {
     beforeEach(function () {
@@ -263,16 +212,7 @@ describe("Session API - Transaction", function () {
           results.deleted.length.should.equal(1);
         });
     });
-    it('should delete a single raw binary record', function () {
-      return this.tx
-        .delete(this.third)
-        .commit()
-        .then(function (results) {
-          results.created.length.should.equal(0);
-          results.updated.length.should.equal(0);
-          results.deleted.length.should.equal(1);
-        });
-    });
+
     it('should delete multiple records', function () {
       return this.tx
         .delete(this.first)
@@ -285,7 +225,40 @@ describe("Session API - Transaction", function () {
         });
     });
   });
+  describe("Session::Transaction SQL", function () {
+    beforeEach(function () {
+      return this.db.query("delete vertex TestClassTX").all()
+    })
+
+    it('should create a record in tx with sql', function () {
+      this.db.begin();
+
+      return this.db.query("insert into TestClassTx set name = 'Foo'").all()
+        .bind(this)
+        .then(function (res) {
+          res.length.should.equal(1);
+          res[0]["@rid"].should.be.instanceOf(RID);
+          RID.isTemporary(res[0]["@rid"]).should.be.eql(true, res[0]["@rid"]);
+          return this.db.tx().commit({created: res});
+        }).then((function (results) {
+          results.created.length.should.equal(1);
+          results.updated.length.should.equal(0);
+          results.deleted.length.should.equal(0);
+          RID.isValid(results.created[0]["@rid"]).should.be.eql(true);
+          results.created[0].name.should.be.eql("Foo");
+          return this.db.query("select * from TestClassTX").all()
+        })).then(function (res) {
+          res.length.should.equal(1)
+          res[0]["@rid"].should.be.instanceOf(RID);
+          RID.isTemporary(res[0]["@rid"]).should.be.eql(false, res[0]["@rid"]);
+          RID.isValid(res[0]["@rid"]).should.be.eql(true, res[0]["@rid"]);
+          res[0].name.should.be.eql("Foo");
+        });
+    })
+  });
   describe("Session::Transaction Complex", function () {
+
+
 
     beforeEach(function () {
       return this.db.query("delete vertex TestClassTX").all()
@@ -334,6 +307,68 @@ describe("Session API - Transaction", function () {
           return this.db.query("select * from TestClassTX").all()
         })).then(function (res) {
           res.length.should.equal(0)
+        });
+    })
+
+    it('should create a record in tx with more steps and with final rollback', function () {
+      this.db.begin().create({
+        '@class': 'TestClassTx',
+        name: 'item1'
+      });
+      return this.db.query("select * from TestClassTX").all()
+        .bind(this)
+        .then(function (res) {
+          res.length.should.equal(1);
+          res[0]["@rid"].should.be.instanceOf(RID);
+          RID.isTemporary(res[0]["@rid"]).should.be.eql(true, res[0]["@rid"]);
+          this.db.tx().create({
+            '@class': 'TestClassTx',
+            name: 'item2'
+          });
+          return this.db.query("select * from TestClassTX").all()
+        }).then(function (res) {
+          res.length.should.equal(2);
+          res[0]["@rid"].should.be.instanceOf(RID);
+          RID.isTemporary(res[0]["@rid"]).should.be.eql(true, res[0]["@rid"]);
+          return this.db.tx().rollback();
+        }).then((function (results) {
+          results.created.length.should.equal(0);
+          results.updated.length.should.equal(0);
+          results.deleted.length.should.equal(0);
+          return this.db.query("select * from TestClassTX").all()
+        })).then(function (res) {
+          res.length.should.equal(0)
+        });
+    })
+
+    it('should create a record in tx with more steps and with final commit', function () {
+      this.db.begin().create({
+        '@class': 'TestClassTx',
+        name: 'item1'
+      });
+      return this.db.query("select * from TestClassTX").all()
+        .bind(this)
+        .then(function (res) {
+          res.length.should.equal(1);
+          res[0]["@rid"].should.be.instanceOf(RID);
+          RID.isTemporary(res[0]["@rid"]).should.be.eql(true, res[0]["@rid"]);
+          this.db.tx().create({
+            '@class': 'TestClassTx',
+            name: 'item2'
+          });
+          return this.db.query("select * from TestClassTX").all()
+        }).then(function (res) {
+          res.length.should.equal(2);
+          res[0]["@rid"].should.be.instanceOf(RID);
+          RID.isTemporary(res[0]["@rid"]).should.be.eql(true, res[0]["@rid"]);
+          return this.db.tx().commit();
+        }).then((function (results) {
+          results.created.length.should.equal(2);
+          results.updated.length.should.equal(0);
+          results.deleted.length.should.equal(0);
+          return this.db.query("select * from TestClassTX").all()
+        })).then(function (res) {
+          res.length.should.equal(2)
         });
     })
   })

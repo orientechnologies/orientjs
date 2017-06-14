@@ -4,7 +4,7 @@ var config = require('../test/test-server.json'),
 
 
 client.connect().then(function () {
-  return client.open({name: "GratefulDeadConcerts", username: "admin", password: "admin"});
+  return client.open({name: "demodb", username: "admin", password: "admin"});
 }).then(function (session) {
 
   session
@@ -44,6 +44,7 @@ client.connect().then(function () {
     .all()
     .then(function (results) {
       console.log(results);
+      session.close();
       process.exit();
     })
     .done();

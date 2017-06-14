@@ -4,7 +4,7 @@ var config = require('../test/test-server.json'),
 
 
 client.connect().then(function () {
-  client.openPool({name: "test", username: "admin", password: "admin"})
+  client.openPool({name: "demodb", username: "admin", password: "admin"})
     .then(function(pool){
       this.pool = pool;
       return this.pool.acquire();

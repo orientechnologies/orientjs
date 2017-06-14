@@ -5,7 +5,7 @@ var config = require('../test/test-server.json'),
 
 client.connect().then(function () {
 
-  client.open({name: "GratefulDeadConcerts", username: "admin", password: "admin"})
+  client.open({name: "demodb", username: "admin", password: "admin"})
     .then(function (session) {
       this.session = session;
       return session.query("select from V").all();
