@@ -209,7 +209,7 @@ global.CAN_RUN = function (ver, fn) {
       .then(function (e) {
         return fn.call(self);
       }).catch(function (err) {
-        if(err.code === "ECONNREFUSED"){
+        if(err instanceof TypeError || err.code === "ECONNREFUSED"){
           throw err;
         }else {
           self.skip();

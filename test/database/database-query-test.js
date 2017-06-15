@@ -1,6 +1,6 @@
-var Query = require('../../lib/session/session-query');
+var Query = require('../../lib/database/database-query');
 
-describe("Session API - Query", function () {
+describe("ODatabase API - Query", function () {
 
   before(CAN_RUN(37, function () {
     return CREATE_DB("testsession_api_query")
@@ -8,7 +8,7 @@ describe("Session API - Query", function () {
         return TEST_CLIENT.open({name: "testsession_api_query"});
       })
       .then((session) => {
-        this.session = session;
+        this.db = db;
       })
   }));
   after(function () {
@@ -16,7 +16,7 @@ describe("Session API - Query", function () {
   });
 
   beforeEach(function () {
-    this.query = new Query(this.session);
+    this.query = new Query(this.db);
   });
 
   describe('Query::one()', function () {
@@ -267,13 +267,13 @@ describe("Session API - Query", function () {
 
   describe('Session::select()', function () {
     it('should select a user', function () {
-      return this.session.select().from('OUser').where({name: 'reader'}).one()
+      return this.db.select().from('OUser').where({name: 'reader'}).one()
         .then(function (user) {
           user.name.should.equal('reader');
         });
     });
     it('should select a record by its RID', function () {
-      return this.session.select().from('OUser').where({'@rid': new LIB.RID('#5:0')}).one()
+      return this.db.select().from('OUser').where({'@rid': new LIB.RID('#5:0')}).one()
         .then(function (user) {
           expect(typeof user).to.equal('object');
           user.name.should.equal('admin');
@@ -299,9 +299,9 @@ describe("Session API - Query", function () {
     // //       });
     // //   });
   });
-  describe('Session::traverse()', function () {
+  describe('ODatabase::traverse()', function () {
     it('should traverse a user', function () {
-      return this.session.traverse().from('OUser').where({name: 'reader'}).all()
+      return this.db.traverse().from('OUser').where({name: 'reader'}).all()
         .then(function (rows) {
           Array.isArray(rows).should.be.true;
           rows.length.should.be.above(1);
@@ -309,9 +309,9 @@ describe("Session API - Query", function () {
     });
   });
 
-  describe('Session::insert()', function () {
+  describe('ODatabase::insert()', function () {
     it('should insert a user', function () {
-      return this.session.insert().into('OUser').set({
+      return this.db.insert().into('OUser').set({
         name: 'test',
         password: 'testpasswordgoeshere',
         status: 'ACTIVE'
@@ -321,12 +321,12 @@ describe("Session API - Query", function () {
         });
     });
   });
-  describe('Session::rawExpression()', function () {
+  describe('ODatabase::rawExpression()', function () {
     it('should insert a user', function () {
-      return this.session.insert().into('OUser').set({
+      return this.db.insert().into('OUser').set({
         name: 'testraw',
         password: 'testpasswordgoeshere',
-        status: this.session.rawExpression("'ACTIVE'").toString()
+        status: this.db.rawExpression("'ACTIVE'").toString()
       }).one()
         .then(function (user) {
           user.status.should.equal("'ACTIVE'");
@@ -334,32 +334,32 @@ describe("Session API - Query", function () {
     });
   });
   // TODO fix raw expression with functions
-  describe('Session::rawExpressionWithFunctions()', function () {
+  describe('ODatabase::rawExpressionWithFunctions()', function () {
     it('should insert a user', function () {
 
-      return this.session.insert().into('OUser').set({
+      return this.db.insert().into('OUser').set({
         name: 'testraw10',
         password: 'testpasswordgoeshere',
         status: 'ACTIVE',
-        uuid: this.session.rawExpression("format('%s',uuid())")
+        uuid: this.db.rawExpression("format('%s',uuid())")
       }).one()
         .then(function (user) {
           user.uuid.match(/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i)
         });
     });
   });
-  describe('Session::update()', function () {
+  describe('ODatabase::update()', function () {
     it('should update a user', function () {
-      return this.session.update('OUser').set({foo: 'bar'}).where({name: 'reader'}).limit(1).scalar()
+      return this.db.update('OUser').set({foo: 'bar'}).where({name: 'reader'}).limit(1).scalar()
         .then(function (count) {
           count.should.eql(1);
         });
     });
   });
-  describe('Session::query()', function () {
+  describe('ODatabase::query()', function () {
     // TODO Fix this no more Promise. Query switched to Observable
     it('should execute an insert query', function () {
-      return this.session.query('insert into OUser (name, password, status) values (:name, :password, :status)',
+      return this.db.query('insert into OUser (name, password, status) values (:name, :password, :status)',
         {
           params: {
             name: 'Samson',
@@ -394,7 +394,7 @@ describe("Session API - Query", function () {
     //     });
     // });
     it('should execute a select query string', function () {
-      return this.session.query('select from OUser where name=:name', {
+      return this.db.query('select from OUser where name=:name', {
         params: {
           name: 'Samson'
         },
@@ -407,7 +407,7 @@ describe("Session API - Query", function () {
         });
     });
     it('should execute a delete query', function () {
-      return this.session.query('delete from OUser where name=:name', {
+      return this.db.query('delete from OUser where name=:name', {
         params: {
           name: 'Samson'
         }

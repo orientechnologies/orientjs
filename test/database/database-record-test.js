@@ -2,7 +2,7 @@
 var createdRID, createdBinaryRID, demoRID1, demoRID2;
 
 
-describe("Session API - Record", function () {
+describe("ODatabase API - Record", function () {
   before(CAN_RUN(37, function () {
     return CREATE_TEST_DB(this, 'testdb_dbapi_record')
       .bind(this)
@@ -10,7 +10,7 @@ describe("Session API - Record", function () {
         return TEST_CLIENT.open({name: "testdb_dbapi_record"});
       })
       .then((session) => {
-        this.db = session;
+        this.db = db;
       })
       .then(function () {
         return this.db.class.get('OUser');

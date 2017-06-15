@@ -2,7 +2,7 @@ var Promise = require('bluebird');
 
 var Errors = require('../../lib/errors');
 
-describe("Session Pool API", function () {
+describe("Database Pool API", function () {
   before(CAN_RUN(37, function () {
     return CREATE_DB("test_session_pool");
 
@@ -18,8 +18,8 @@ describe("Session Pool API", function () {
         this.pool = pool;
         return this.pool.acquire();
       }).then((session) => {
-        session.sessionId.should.not.be.eql(-1);
-        return session.close();
+        db.sessionId.should.not.be.eql(-1);
+        return db.close();
       }).then(() => {
         return this.pool.close();
       }).then((closed) => {
@@ -28,7 +28,7 @@ describe("Session Pool API", function () {
       })
   })
 
-  describe('SessionPool::acquire/release', function () {
+  describe('ODatabasePool::acquire/release', function () {
 
     before(function () {
       return TEST_CLIENT.openPool({name: "test_session_pool", pool: {min: 1, max: 2, acquireTimeoutMillis: 200}})
@@ -42,8 +42,8 @@ describe("Session Pool API", function () {
     it('should acquire/release a session', function () {
       return this.pool.acquire()
         .then((session) => {
-          session.sessionId.should.not.be.eql(-1);
-          return this.pool.release(session);
+          db.sessionId.should.not.be.eql(-1);
+          return this.pool.release(db);
         }).then(() => {
           this.pool.available().should.be.eql(1);
         });

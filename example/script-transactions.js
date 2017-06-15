@@ -5,9 +5,9 @@ var config = require('../test/test-server.json'),
 
 client.connect().then(function () {
   return client.open({name: "demodb", username: "admin", password: "admin"});
-}).then(function (session) {
+}).then(function (db) {
 
-  session
+  db
     .let('firstVertex', function (s) {
       s
         .create('vertex', 'V')
@@ -44,7 +44,7 @@ client.connect().then(function () {
     .all()
     .then(function (results) {
       console.log(results);
-      session.close();
+      db.close();
       process.exit();
     })
     .done();

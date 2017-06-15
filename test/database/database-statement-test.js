@@ -1,7 +1,7 @@
 "use strict";
-var Statement = require('../../lib/session/session-query');
+var Statement = require('../../lib/database/database-query');
 var RID = require('../../lib/recordid');
-describe("Session API - Statement", function () {
+describe("ODatabase API - Statement", function () {
   before(function () {
     return CREATE_TEST_DB(this, 'testdb_sessionapi_statement');
   });

@@ -3,7 +3,7 @@ var Transaction = require('../../lib/db/transaction'),
   RID = require('../../lib/recordid'),
   Promise = require('bluebird');
 
-describe("Session API - Transaction", function () {
+describe("ODatabase API - Transaction", function () {
 
 
   function createBinaryRecord(text) {
@@ -22,7 +22,7 @@ describe("Session API - Transaction", function () {
         return TEST_CLIENT.open({name: "testdb_dbapi_tx"});
       })
       .then((session) => {
-        this.db = session;
+        this.db = db;
       })
       .then(function () {
         return Promise.all([this.db.class.create('TestClass', 'V'), this.db.class.create('TestClassTx', 'V')]);
@@ -33,7 +33,7 @@ describe("Session API - Transaction", function () {
     // return DELETE_TEST_DB('testdb_dbapi_tx');
   });
 
-  describe("Session::begin()", function () {
+  describe("ODatabase::begin()", function () {
     it('should return a new transaction instance', function () {
       var tx = this.db.begin();
       tx.should.be.an.instanceOf(Transaction);
@@ -42,7 +42,7 @@ describe("Session API - Transaction", function () {
     });
   });
   //
-  describe('Session::commit()', function () {
+  describe('ODatabase::commit()', function () {
     before(function () {
       return this.db.record.create([
         {
@@ -93,7 +93,7 @@ describe("Session API - Transaction", function () {
     });
   });
   //
-  describe("Session::transaction.create()", function () {
+  describe("ODatabase::transaction.create()", function () {
     it('should create a single record', function () {
       this.tx = this.db.begin();
       return this.tx
@@ -134,7 +134,7 @@ describe("Session API - Transaction", function () {
     });
 
   });
-  describe("Session::transaction.update()", function () {
+  describe("ODatabase::transaction.update()", function () {
     beforeEach(function () {
       this.tx = this.db.begin();
       return this.db.record.create([
@@ -181,7 +181,7 @@ describe("Session API - Transaction", function () {
     });
 
   });
-  describe("Session::transaction.delete()", function () {
+  describe("ODatabase::transaction.delete()", function () {
     beforeEach(function () {
       this.tx = this.db.begin();
       return this.db.record.create([
@@ -225,7 +225,7 @@ describe("Session API - Transaction", function () {
         });
     });
   });
-  describe("Session::Transaction SQL", function () {
+  describe("ODatabase::Transaction SQL", function () {
     beforeEach(function () {
       return this.db.query("delete vertex TestClassTX").all()
     })
@@ -256,7 +256,7 @@ describe("Session API - Transaction", function () {
         });
     })
   });
-  describe("Session::Transaction Complex", function () {
+  describe("ODatabase::Transaction Complex", function () {
 
 
 

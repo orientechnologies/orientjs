@@ -9,14 +9,14 @@ client.connect().then(function () {
       this.pool = pool;
       return this.pool.acquire();
     })
-    .then(function (session) {
-      this.session = session;
-      return session.query("select from V").all();
+    .then(function (db) {
+      this.db = db;
+      return db.query("select from V").all();
     })
     .bind(this)
     .then(function (res) {
       console.log(res);
-      return this.session.close()
+      return this.db.close()
     })
     .then(function () {
       return this.pool.close();

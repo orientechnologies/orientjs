@@ -6,8 +6,8 @@ var config = require('../test/test-server.json'),
 
 client.connect().then(function () {
   return client.open({name: "demodb", username: "admin", password: "admin"});
-}).then(function (session) {
-  session.class.get('OUser')
+}).then(function (b) {
+  db.class.get('OUser')
     .then(function (OUser) {
       return Promise.all([
         OUser.create({
@@ -23,7 +23,7 @@ client.connect().then(function () {
       console.log('Found Users: ', results[1].map(function (user) {
         return user.name
       }).join(', '));
-      return session.record.delete(results[0]);
+      return db.record.delete(results[0]);
     })
     .then(function (response) {
       console.log('Deleted User:', response);

@@ -1,14 +1,14 @@
 "use strict";
 var Class = require('../../lib/db/class');
 
-describe("Session API - Class", function () {
+describe("ODatabase API - Class", function () {
   before(CAN_RUN(37, function () {
     return CREATE_TEST_DB(this, 'testdb_dbapi_class')
       .bind(this)
       .then(function () {
         return TEST_CLIENT.open({name: "testdb_dbapi_class"})
       }).then(function (session) {
-        this.db = session;
+        this.db = db;
       });
   }));
   after(function () {

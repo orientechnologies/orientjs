@@ -1,6 +1,6 @@
-var Query = require('../../lib/session/session-query');
+var Query = require('../../lib/database/database-query');
 
-describe("Session API - Query", function () {
+describe("ODatabase API - Query", function () {
 
   before(CAN_RUN(37, function () {
     return CREATE_DB("test_session_streaming")
@@ -8,7 +8,7 @@ describe("Session API - Query", function () {
         return TEST_CLIENT.open({name: "test_session_streaming"});
       })
       .then((session) => {
-        this.session = session;
+        this.db = db;
       })
   }));
   after(function () {
@@ -16,15 +16,15 @@ describe("Session API - Query", function () {
   });
 
   beforeEach(function () {
-    this.query = new Query(this.session);
+    this.query = new Query(this.db);
   });
 
 
-  describe('Session::query::subscribe()', function () {
+  describe('ODatabase::query::subscribe()', function () {
 
 
     it('should execute a query with page size custom', function (done) {
-      return this.session.query('select from OUSer', {
+      return this.db.query('select from OUSer', {
         pageSize: 1
       })
         .reduce(function (acc, val) {
@@ -38,7 +38,7 @@ describe("Session API - Query", function () {
     });
   });
 
-  describe('Session::queryBuilder::stream()', function () {
+  describe('ODatabase::queryBuilder::stream()', function () {
     it('should return one record with stream and limit', function (done) {
       var user;
       var size= 0;

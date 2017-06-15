@@ -6,12 +6,12 @@ var config = require('../test/test-server.json'),
 client.connect().then(function () {
 
   client.open({name: "demodb", username: "admin", password: "admin"})
-    .then(function (session) {
-      this.session = session;
-      return session.query("select from V").all();
+    .then(function (db) {
+      this.db = db;
+      return db.query("select from V").all();
     }).then(function (res) {
       console.log(res);
-      return this.session.close()
+      return this.db.close()
     })
     .then(function () {
       process.exit()

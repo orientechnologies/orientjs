@@ -1,6 +1,6 @@
 var Promise = require('bluebird');
 var Errors = require('../../lib/errors');
-describe("Session API - Live Query ", function () {
+describe("ODatabase API - Live Query ", function () {
 
   // TODO
   //

@@ -5,8 +5,8 @@ var config = require('../test/test-server.json'),
 
 client.connect().then(function () {
   return client.open({name: "demodb", username: "admin", password: "admin"});
-}).then(function (session) {
-  session.class.get('OUser')
+}).then(function (db) {
+  db.class.get('OUser')
     .then(function (OUser) {
       return OUser.list();
     })

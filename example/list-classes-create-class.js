@@ -5,14 +5,14 @@ var config = require('../test/test-server.json'),
 
 client.connect().then(function () {
   return client.open({name: "demodb", username: "admin", password: "admin"});
-}).then(function (session) {
-  session.class.list()
+}).then(function (db) {
+  db.class.list()
     .then(function (results) {
-      return session.class.create('TestClass');
+      return db.class.create('TestClass');
     })
     .then(function (results) {
       console.log('Created Class:', results.name);
-      return session.class.drop('TestClass');
+      return db.class.drop('TestClass');
     })
     .then(function (results) {
       console.log('Deleted Class');
