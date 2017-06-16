@@ -9,7 +9,7 @@ describe("ODatabase API - Record", function () {
       .then(() => {
         return TEST_CLIENT.open({name: "testdb_dbapi_record"});
       })
-      .then((session) => {
+      .then((db) => {
         this.db = db;
       })
       .then(function () {
@@ -156,8 +156,8 @@ describe("ODatabase API - Record", function () {
           // because we did not pass a RID.
           // fixed with binary protocol
 
-          var version = this.db.srv.network.protocolVersion;
-          var serType = this.db.srv.network.serializationType;
+          var version = this.db.session().server.network.protocolVersion;
+          var serType = this.db.session().server.network.serializationType;
 
           if (version >= 33 && serType === 'onet_ser_v0') {
             expect(record.linkedTest1.cluster).to.equal(5);
@@ -228,8 +228,8 @@ describe("ODatabase API - Record", function () {
           record.name.should.equal('othertestuser');
           record.wat.should.equal('foo');
 
-          var version = this.db.srv.network.protocolVersion;
-          var serType = this.db.srv.network.serializationType;
+          var version = this.db.session().server.network.protocolVersion;
+          var serType = this.db.session().server.network.serializationType;
           //This assert is removed because the expected result is conversion not null
           // because we did not pass a RID.
           // Fixed with binary protocol

@@ -21,7 +21,7 @@ describe("ODatabase API - Transaction", function () {
       .then(() => {
         return TEST_CLIENT.open({name: "testdb_dbapi_tx"});
       })
-      .then((session) => {
+      .then((db) => {
         this.db = db;
       })
       .then(function () {

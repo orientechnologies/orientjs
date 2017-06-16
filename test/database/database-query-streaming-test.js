@@ -7,7 +7,7 @@ describe("ODatabase API - Query", function () {
       .then(() => {
         return TEST_CLIENT.open({name: "test_session_streaming"});
       })
-      .then((session) => {
+      .then((db) => {
         this.db = db;
       })
   }));

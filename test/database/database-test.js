@@ -1,4 +1,5 @@
 var Promise = require('bluebird');
+var should = require('should');
 
 describe("ODatabase API - Open / Simple Query", function () {
   before(CAN_RUN(37, function () {
@@ -12,11 +13,11 @@ describe("ODatabase API - Open / Simple Query", function () {
 
   it('it should open/close a session', function () {
     return TEST_CLIENT.open({name: "test_session"})
-      .then((session) => {
-        db.sessionId.should.be.above(-1);
+      .then((db) => {
+        db.session().sessionId.should.be.above(-1);
         return db.close();
-      }).then((session) => {
-        db.sessionId.should.be.eql(-1);
+      }).then((db) => {
+        should.not.exists(db.session());
       })
   })
 
@@ -24,7 +25,7 @@ describe("ODatabase API - Open / Simple Query", function () {
 
     before(function () {
       return TEST_CLIENT.open({name: "test_session"})
-        .then((session) => {
+        .then((db) => {
           this.db = db;
         })
 

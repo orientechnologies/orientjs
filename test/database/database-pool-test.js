@@ -17,8 +17,8 @@ describe("Database Pool API", function () {
       .then((pool) => {
         this.pool = pool;
         return this.pool.acquire();
-      }).then((session) => {
-        db.sessionId.should.not.be.eql(-1);
+      }).then((db) => {
+        db.session().sessionId.should.not.be.eql(-1);
         return db.close();
       }).then(() => {
         return this.pool.close();
@@ -41,8 +41,8 @@ describe("Database Pool API", function () {
     });
     it('should acquire/release a session', function () {
       return this.pool.acquire()
-        .then((session) => {
-          db.sessionId.should.not.be.eql(-1);
+        .then((db) => {
+          db.session().sessionId.should.not.be.eql(-1);
           return this.pool.release(db);
         }).then(() => {
           this.pool.available().should.be.eql(1);
@@ -50,17 +50,17 @@ describe("Database Pool API", function () {
     })
     it('should fail to acquire a session', function () {
 
-      var sessions = [this.pool.acquire(), this.pool.acquire()];
-      return Promise.all(sessions)
-        .then((sessions) => {
-          sessions.length.should.be.eql(2);
-          this.sessions = sessions;
+      var dbs = [this.pool.acquire(), this.pool.acquire()];
+      return Promise.all(dbs)
+        .then((dbs) => {
+          dbs.length.should.be.eql(2);
+          this.dbs = dbs;
           return this.pool.acquire();
         }).then(() => {
           throw new Error('Should never happen!');
         }).catch((err) => {
-          err.should.be.an.instanceOf(Errors.SessionError);
-          return Promise.all(this.sessions.map((s) => s.close()))
+          err.should.be.an.instanceOf(Errors.DatabaseError);
+          return Promise.all(this.dbs.map((s) => s.close()))
         });
     })
   });

@@ -7,7 +7,7 @@ describe("ODatabase API - Class", function () {
       .bind(this)
       .then(function () {
         return TEST_CLIENT.open({name: "testdb_dbapi_class"})
-      }).then(function (session) {
+      }).then(function (db) {
         this.db = db;
       });
   }));

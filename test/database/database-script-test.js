@@ -4,7 +4,7 @@ describe("ODatabase API - Batch Script", function () {
       .bind(this)
       .then(function () {
         return TEST_CLIENT.open({name: "testdb_batch_script"})
-      }).then(function (session) {
+      }).then(function (db) {
         this.db = db;
       })
 
