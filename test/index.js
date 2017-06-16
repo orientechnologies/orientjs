@@ -6,8 +6,9 @@ var Promise = require('bluebird'),
 Promise.longStackTraces();
 
 global.expect = require('expect.js'),
-  global.should = require('should');
+global.should = require('should');
 
+var errors = require('../lib/errors');
 
 global.TEST_SERVER_CONFIG = require('./test-server.json');
 global.TEST_DB_CONFIG = require('./test-db.json');
@@ -209,13 +210,11 @@ global.CAN_RUN = function (ver, fn) {
       .then(function (e) {
         return fn.call(self);
       }).catch(function (err) {
-        // console.log(err);
-        throw err;
-        // if(err instanceof TypeError || err.code === "ECONNREFUSED"){
-        //
-        // }else {
-        //   self.skip();
-        // }
+        if(err instanceof  errors.ProtocolError){
+          self.skip();
+        }else {
+          throw err;
+        }
     });
   }
 }
