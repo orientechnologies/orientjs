@@ -29,8 +29,7 @@ describe("ODatabase API - Transaction", function () {
       });
   }));
   after(function () {
-
-    // return DELETE_TEST_DB('testdb_dbapi_tx');
+    return DELETE_TEST_DB('testdb_dbapi_tx');
   });
 
   describe("ODatabase::begin()", function () {
@@ -92,7 +91,7 @@ describe("ODatabase API - Transaction", function () {
         });
     });
   });
-  //
+
   describe("ODatabase::transaction.create()", function () {
     it('should create a single record', function () {
       this.tx = this.db.begin();
@@ -109,7 +108,7 @@ describe("ODatabase API - Transaction", function () {
           results.deleted.length.should.equal(0);
         });
     });
-    //
+
     it('should create multiple records', function () {
       this.tx = this.db.begin();
       return this.tx
