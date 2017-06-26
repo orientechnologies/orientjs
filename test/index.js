@@ -62,7 +62,7 @@ global.TEST_CLIENT.connect()
   .then(function(){
   })
   .catch(function (err) {
-    console.log(err);
+
 });
 
 

@@ -3,7 +3,7 @@ var Errors = require('../../lib/errors');
 describe("ODatabase API - Live Query ", function () {
 
 
-  before(function () {
+  before(CAN_RUN(37,function () {
     return CREATE_DB("test_session_api_query")
       .bind(this)
       .then(function () {
@@ -50,7 +50,7 @@ describe("ODatabase API - Live Query ", function () {
           }
         ])
       });
-  });
+  }));
   after(function () {
     return DELETE_TEST_DB('test_session_api_query');
   });
