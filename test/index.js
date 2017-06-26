@@ -58,7 +58,11 @@ global.TEST_CLIENT = new global.CLIENT(Object.assign({}, TEST_SERVER_CONFIG, {
   }
 }));
 
-global.TEST_CLIENT.connect().catch(function (err) {
+global.TEST_CLIENT.connect()
+  .then(function(){
+  })
+  .catch(function (err) {
+    console.log(err);
 });
 
 
