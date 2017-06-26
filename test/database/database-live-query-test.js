@@ -55,7 +55,7 @@ describe("ODatabase API - Live Query ", function () {
     return DELETE_TEST_DB('test_session_api_query');
   });
 
-  it('should subscribe/unsubscribe live query', function (done) {
+  it('should subscribe/unSubscribe live query', function (done) {
 
     var observable = this.session.liveQuery("LIVE SELECT FROM Test");
     observable.subscribe(function (live) {
@@ -66,7 +66,7 @@ describe("ODatabase API - Live Query ", function () {
       done();
     });
 
-    observable.unsubscribe();
+    observable.unSubscribe();
 
 
   });
@@ -84,7 +84,7 @@ describe("ODatabase API - Live Query ", function () {
       live.data.name.should.eql('a');
 
       if (count === TOTAL) {
-        observable.unsubscribe();
+        observable.unSubscribe();
       }
     }, function (err) {
       throw new Error('Should never happen!');
@@ -126,7 +126,7 @@ describe("ODatabase API - Live Query ", function () {
         live.data.name.should.eql('a');
 
         if (count === TOTAL + 2) {
-          observable.unsubscribe();
+          observable.unSubscribe();
         }
       },
       error: function (err) {
@@ -177,7 +177,7 @@ describe("ODatabase API - Live Query ", function () {
           live.operation.should.eql(2);
           live.data.name.should.eql('b');
           live.before.name.should.eql('a');
-          observable.unsubscribe();
+          observable.unSubscribe();
         }, function (err) {
           throw new Error('Should never happen!');
         }, function () {
@@ -210,7 +210,7 @@ describe("ODatabase API - Live Query ", function () {
         observable.subscribe(function (live) {
           live.operation.should.eql(3);
           live.data.name.should.eql('a');
-          observable.unsubscribe();
+          observable.unSubscribe();
         }, function (err) {
           throw new Error('Should never happen!');
         }, function () {
