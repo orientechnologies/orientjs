@@ -1,3 +1,9 @@
+####2.2.6
+
+### Bug Fixes
+
+* [#259](https://github.com/orientechnologies/orientjs/issues/259), [#261](https://github.com/orientechnologies/orientjs/issues/261), [#262](https://github.com/orientechnologies/orientjs/issues/262) Live Query Fix
+
 ####2.2.5
 
 ###Enhancements
