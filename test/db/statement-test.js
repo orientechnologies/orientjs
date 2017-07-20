@@ -654,6 +654,15 @@ COMMIT \n\
       this.statement.update('#1:1').remove('foo', 123, 'bar');
       this.statement.toString().should.equal('UPDATE #1:1 REMOVE foo = 123, foo = "bar"');
     });
+
+    it('should remove a property', function () {
+      this.statement.update('#1:1').remove('foo');
+      this.statement.toString().should.equal('UPDATE #1:1 REMOVE foo');
+    });
+    it('should remove a property', function () {
+      this.statement.update('#1:1').remove('foo').remove('bar');
+      this.statement.toString().should.equal('UPDATE #1:1 REMOVE foo, bar');
+    });
   });
 
   describe('Statement::put()', function () {
