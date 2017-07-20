@@ -114,7 +114,7 @@ describe("Database Operations", function () {
     it("should create a record", function () {
       return TEST_SERVER.send('record-create', {
         sessionId: dbSessionId,
-        cluster: 1,
+        cluster: 3,
         record: {
           name: 'Charles',
           email: 'charles@codemix.com'
@@ -124,7 +124,7 @@ describe("Database Operations", function () {
         response.position.should.be.above(-1);
         response.version.should.be.above(-1);
         recordId = new LIB.RID({
-          cluster: 1,
+          cluster: 3,
           position: response.position
         })
       });
@@ -171,6 +171,7 @@ describe("Database Operations", function () {
   });
   describe('record-load', function () {
     it("should load a record", function () {
+
       return TEST_SERVER.send('record-load', {
         sessionId: dbSessionId,
         cluster: recordId.cluster,

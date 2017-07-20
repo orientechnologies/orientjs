@@ -52,13 +52,16 @@
     "url": "http://github.com/orientechnologies/orientjs.git"
   },
   "dependencies": {
+    "signed-varint" : "2.0.1",
     "bluebird": "~2.9.2",
     "fast.js": "^0.1.1",
     "generic-pool": "^3.1.6",
     "node-biginteger": "^0.0.10",
     "parse-function": "^2.0.0",
     "request": "~2.60.0",
-    "yargs": "~1.2.1"
+    "rxjs": "^5.1.1",
+    "yargs": "~1.2.1",
+    "tls": "~0.0.1"
   },
   "devDependencies": {
     "mocha": "^2.0.1",

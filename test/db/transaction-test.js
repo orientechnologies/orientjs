@@ -42,6 +42,9 @@ describe("Database API - Transaction", function () {
         ])
         .bind(this)
         .spread(function (first, second) {
+
+
+
           this.first = first;
           this.second = second;
         });
@@ -62,6 +65,7 @@ describe("Database API - Transaction", function () {
     it('should perform multiple actions', function () {
       this.tx = this.db.begin();
       this.first.wat = 'wat';
+
       this.tx
         .create({
           '@class': 'TestClass',
@@ -72,6 +76,7 @@ describe("Database API - Transaction", function () {
 
       return this.tx.commit()
         .then(function (results) {
+
           results.created.length.should.equal(1);
           results.updated.length.should.equal(1);
           results.deleted.length.should.equal(1);

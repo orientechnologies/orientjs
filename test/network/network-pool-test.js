@@ -1,5 +1,9 @@
 describe("Network Pool API", function () {
 
+
+  before(CAN_RUN(37, function () {
+
+  }))
   it('should create the network Pool ', function () {
     this.pool = new global.NETWORK.ONetworkPool(TEST_SERVER_CONFIG);
     this.pool.size().should.be.eql(2)

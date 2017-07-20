@@ -97,7 +97,6 @@
                             <entry value="Cache-Control: max-age=120" name="http.cache:default"/>
                         </parameters>
                     </command>
-                    <command implementation="com.orientechnologies.orient.graph.server.command.OServerCommandGetGephi" pattern="GET|gephi/*" stateful="false"/>
                 </commands>
                 <parameters>
                     <parameter value="utf-8" name="network.http.charset"/>

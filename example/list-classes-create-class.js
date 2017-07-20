@@ -1,20 +1,23 @@
 var config = require('../test/test-server.json'),
-    OrientDB = require('../lib'),
-    orientdb = OrientDB(config),
-    db = orientdb.use('GratefulDeadConcerts');
+  OrientDB = require('../lib'),
+  client = new OrientDB.Client(config);
 
 
-db.class.list()
-.then(function (results) {
-  console.log('Existing Classes:', results);
-  return db.class.create('TestClass');
-})
-.then(function (results) {
-  console.log('Created Class:', results);
-  return db.class.delete('TestClass');
-})
-.then(function (results) {
-  console.log('Deleted Class');
-  process.exit();
-})
-.done();
+client.connect().then(function () {
+  return client.open({name: "demodb", username: "admin", password: "admin"});
+}).then(function (db) {
+  db.class.list()
+    .then(function (results) {
+      return db.class.create('TestClass');
+    })
+    .then(function (results) {
+      console.log('Created Class:', results.name);
+      return db.class.drop('TestClass');
+    })
+    .then(function (results) {
+      console.log('Deleted Class');
+      process.exit();
+    })
+    .done();
+});
+

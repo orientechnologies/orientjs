@@ -1,31 +1,35 @@
-var Query = require('../../lib/db/query');
+var Query = require('../../lib/database/database-query');
 
-describe("Session API - Query", function () {
-  before(function () {
+describe("ODatabase API - Query", function () {
+
+  before(CAN_RUN(37, function () {
     return CREATE_DB("testsession_api_query")
       .then(() => {
         return TEST_CLIENT.open({name: "testsession_api_query"});
       })
-      .then((session) => {
-        this.session = session;
+      .then((db) => {
+        this.db = db;
       })
-  });
+  }));
   after(function () {
     return DROP_DB("testsession_api_query");
   });
 
   beforeEach(function () {
-    this.query = new Query(this.session);
+    this.query = new Query(this.db);
   });
 
   describe('Query::one()', function () {
-    it('should return one record', function () {
+    it('should return one record', function (done) {
       return this.query.select().from('OUser').limit(1).one()
         .then(function (user) {
           Array.isArray(user).should.be.false;
           user.should.have.property('name');
+          done();
         });
     });
+
+
     it('should return one record with parameters', function () {
       return this.query.select().from('OUser').where('name = :name').limit(1).one({name: 'reader'})
         .then(function (user) {
@@ -60,12 +64,15 @@ describe("Session API - Query", function () {
           response.should.equal(3);
         });
     });
-    it('should return the scalar result, even when many columns are selected', function () {
-      return this.query.select('count(*), max(count(*))').from('OUser').scalar()
-        .then(function (response) {
-          response.should.equal(3);
-        });
-    });
+
+    // TODO syntax problem
+    // it('should return the scalar result, even when many columns are selected', function () {
+    //   return this.query.select('count(*), max(count(*))').from('OUser').scalar()
+    //     .then(function (response) {
+    //       response.should.equal(3);
+    //     });
+    // });
+
     it('should return the scalar result with parameters', function () {
       return this.query.select('name').from('OUser').where('name = :name').scalar({name: 'reader'})
         .then(function (name) {
@@ -260,38 +267,41 @@ describe("Session API - Query", function () {
 
   describe('Session::select()', function () {
     it('should select a user', function () {
-      return this.session.select().from('OUser').where({name: 'reader'}).one()
+      return this.db.select().from('OUser').where({name: 'reader'}).one()
         .then(function (user) {
           user.name.should.equal('reader');
         });
     });
     it('should select a record by its RID', function () {
-      return this.session.select().from('OUser').where({'@rid': new LIB.RID('#5:0')}).one()
+      return this.db.select().from('OUser').where({'@rid': new LIB.RID('#5:0')}).one()
         .then(function (user) {
           expect(typeof user).to.equal('object');
           user.name.should.equal('admin');
         });
     });
-    it('should select a user with a fetch plan', function () {
-      return this.session.select().from('OUser').where({name: 'reader'}).fetch({roles: 3}).one()
-        .then(function (user) {
-          user.name.should.equal('reader');
-          user.roles.length.should.be.above(0);
-          user.roles[0]['@class'].should.equal('ORole');
-        });
-    });
-    it('should select a user with multiple fetch plans', function () {
-      return this.session.select().from('OUser').where({name: 'reader'}).fetch({roles: 3, '*': -1}).one()
-        .then(function (user) {
-          user.name.should.equal('reader');
-          user.roles.length.should.be.above(0);
-          user.roles[0]['@class'].should.equal('ORole');
-        });
-    });
+    //
+    //   // TODO fetch Plain not supported in 3.0
+    //
+    // //   it('should select a user with a fetch plan', function () {
+    // //     return this.session.select().from('OUser').where({name: 'reader'}).fetch({roles: 3}).one()
+    // //       .then(function (user) {
+    // //         user.name.should.equal('reader');
+    // //         user.roles.length.should.be.above(0);
+    // //         user.roles[0]['@class'].should.equal('ORole');
+    // //       });
+    // //   });
+    // //   it('should select a user with multiple fetch plans', function () {
+    // //     return this.session.select().from('OUser').where({name: 'reader'}).fetch({roles: 3, '*': -1}).one()
+    // //       .then(function (user) {
+    // //         user.name.should.equal('reader');
+    // //         user.roles.length.should.be.above(0);
+    // //         user.roles[0]['@class'].should.equal('ORole');
+    // //       });
+    // //   });
   });
-  describe('Session::traverse()', function () {
+  describe('ODatabase::traverse()', function () {
     it('should traverse a user', function () {
-      return this.session.traverse().from('OUser').where({name: 'reader'}).all()
+      return this.db.traverse().from('OUser').where({name: 'reader'}).all()
         .then(function (rows) {
           Array.isArray(rows).should.be.true;
           rows.length.should.be.above(1);
@@ -299,9 +309,9 @@ describe("Session API - Query", function () {
     });
   });
 
-  describe('Session::insert()', function () {
+  describe('ODatabase::insert()', function () {
     it('should insert a user', function () {
-      return this.session.insert().into('OUser').set({
+      return this.db.insert().into('OUser').set({
         name: 'test',
         password: 'testpasswordgoeshere',
         status: 'ACTIVE'
@@ -311,45 +321,45 @@ describe("Session API - Query", function () {
         });
     });
   });
-  describe('Session::rawExpression()', function () {
+  describe('ODatabase::rawExpression()', function () {
     it('should insert a user', function () {
-      return this.session.insert().into('OUser').set({
+      return this.db.insert().into('OUser').set({
         name: 'testraw',
         password: 'testpasswordgoeshere',
-        status: this.session.rawExpression("'ACTIVE'").toString()
+        status: this.db.rawExpression("'ACTIVE'").toString()
       }).one()
         .then(function (user) {
           user.status.should.equal("'ACTIVE'");
         });
     });
   });
-
-  describe('Session::rawExpressionWithFunctions()', function () {
+  // TODO fix raw expression with functions
+  describe('ODatabase::rawExpressionWithFunctions()', function () {
     it('should insert a user', function () {
 
-
-      return this.session.insert().into('OUser').set({
+      return this.db.insert().into('OUser').set({
         name: 'testraw10',
         password: 'testpasswordgoeshere',
         status: 'ACTIVE',
-        uuid: this.session.rawExpression("format('%s',uuid())")
+        uuid: this.db.rawExpression("format('%s',uuid())")
       }).one()
         .then(function (user) {
           user.uuid.match(/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i)
         });
     });
   });
-  describe('Session::update()', function () {
+  describe('ODatabase::update()', function () {
     it('should update a user', function () {
-      return this.session.update('OUser').set({foo: 'bar'}).where({name: 'reader'}).limit(1).scalar()
+      return this.db.update('OUser').set({foo: 'bar'}).where({name: 'reader'}).limit(1).scalar()
         .then(function (count) {
-          count.should.eql('1');
+          count.should.eql(1);
         });
     });
   });
-  describe('Session::query()', function () {
+  describe('ODatabase::query()', function () {
+    // TODO Fix this no more Promise. Query switched to Observable
     it('should execute an insert query', function () {
-      return this.session.query('insert into OUser (name, password, status) values (:name, :password, :status)',
+      return this.db.query('insert into OUser (name, password, status) values (:name, :password, :status)',
         {
           params: {
             name: 'Samson',
@@ -357,37 +367,39 @@ describe("Session API - Query", function () {
             status: 'active'
           }
         }
-      ).then(function (response) {
+      ).all().then(function (response) {
         response[0].name.should.equal('Samson');
       });
     });
-    it('should exec a raw select command', function () {
-      return this.session.exec('select from OUser where name=:name', {
-        params: {
-          name: 'Samson'
-        }
-      })
-        .then(function (result) {
-          Array.isArray(result.results[0].content).should.be.true;
-          result.results[0].content.length.should.be.above(0);
-        });
-    });
-    it('should execute a script command', function () {
-      return this.session.exec('123456;', {
-        language: 'javascript',
-        class: 's'
-      })
-        .then(function (response) {
-          response.results.length.should.equal(1);
-        });
-    });
+
+    // TODO Exec not supported
+    // it('should exec a raw select command', function () {
+    //   return this.session.exec('select from OUser where name=:name', {
+    //     params: {
+    //       name: 'Samson'
+    //     }
+    //   })
+    //     .then(function (result) {
+    //       Array.isArray(result.results[0].content).should.be.true;
+    //       result.results[0].content.length.should.be.above(0);
+    //     });
+    // });
+    // it('should execute a script command', function () {
+    //   return this.session.exec('123456;', {
+    //     language: 'javascript',
+    //     class: 's'
+    //   })
+    //     .then(function (response) {
+    //       response.results.length.should.equal(1);
+    //     });
+    // });
     it('should execute a select query string', function () {
-      return this.session.query('select from OUser where name=:name', {
+      return this.db.query('select from OUser where name=:name', {
         params: {
           name: 'Samson'
         },
         limit: 1
-      })
+      }).all()
         .then(function (result) {
           Array.isArray(result).should.be.true;
           result.length.should.be.above(0);
@@ -395,13 +407,15 @@ describe("Session API - Query", function () {
         });
     });
     it('should execute a delete query', function () {
-      return this.session.query('delete from OUser where name=:name', {
+      return this.db.query('delete from OUser where name=:name', {
         params: {
           name: 'Samson'
         }
-      }).then(function (response) {
-        response[0].should.eql('1');
+      }).all().then(function (response) {
+        response[0].count.should.eql(1);
       });
     });
+
+
   });
 });
