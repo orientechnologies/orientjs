@@ -1,19 +1,22 @@
 var should = require('should');
 
+var ORidBag = require('../../lib/database/bag').ORidBag;
+var RID = require('../../lib').RID;
+
 describe("ODatabase API - Open / Simple Query", function () {
   before(CAN_RUN(37, function () {
-    return CREATE_DB("test_session");
+    return CREATE_DB("test_complex_records");
 
   }));
   after(function () {
-    return DROP_DB("test_session");
+    return DROP_DB("test_complex_records");
   });
 
 
-  describe('Database::RidBags & Embedded', function () {
+  describe('Database::Links & Embedded', function () {
 
     before(function () {
-      return TEST_CLIENT.open({name: "test_session"})
+      return TEST_CLIENT.open({name: "test_complex_records"})
         .then((db) => {
           this.db = db;
           return db.query('create class Foo').all();
@@ -128,4 +131,36 @@ describe("ODatabase API - Open / Simple Query", function () {
     });
   });
 
+  describe('Database::RidBags', function () {
+
+    before(function () {
+      return TEST_CLIENT.open({name: "test_complex_records"})
+        .then((db) => {
+          this.db = db;
+        });
+
+    });
+    after(function () {
+      return this.db.close();
+    });
+
+    it('should create two vertices and edge', function () {
+      var query = `let v1 = create vertex V set name = 'Foo';
+      let v2 = create vertex V set name = 'Foo1';
+      create edge from $v1 to $v2;
+      return $v1`;
+      return this.db.query(query).all()
+        .then((response) => {
+          response[0]["@class"].should.be.eql("V");
+          response[0]["out_"].should.be.an.instanceOf(ORidBag);
+          response[0]["out_"].size().should.be.eql(1);
+          var rids = [];
+          for (var rid of response[0]["out_"]) {
+            rids.push(rid);
+          }
+          rids.length.should.be.eql(1);
+          rids[0].should.be.an.instanceOf(RID);
+        });
+    });
+  })
 });
