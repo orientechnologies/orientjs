@@ -357,9 +357,8 @@ describe("ODatabase API - Query", function () {
     });
   });
   describe('ODatabase::query()', function () {
-    // TODO Fix this no more Promise. Query switched to Observable
     it('should execute an insert query', function () {
-      return this.db.query('insert into OUser (name, password, status) values (:name, :password, :status)',
+      return this.db.command('insert into OUser (name, password, status) values (:name, :password, :status)',
         {
           params: {
             name: 'Samson',
@@ -407,7 +406,7 @@ describe("ODatabase API - Query", function () {
         });
     });
     it('should execute a delete query', function () {
-      return this.db.query('delete from OUser where name=:name', {
+      return this.db.command('delete from OUser where name=:name', {
         params: {
           name: 'Samson'
         }

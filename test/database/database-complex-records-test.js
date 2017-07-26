@@ -19,7 +19,7 @@ describe("ODatabase API - Open / Simple Query", function () {
       return TEST_CLIENT.open({name: "test_complex_records"})
         .then((db) => {
           this.db = db;
-          return db.query('create class Foo').all();
+          return db.command('create class Foo').all();
         }).then(() => {
           return this.db.query('SELECT * FROM OUser').all()
         }).then((results) => {
@@ -34,7 +34,7 @@ describe("ODatabase API - Open / Simple Query", function () {
     });
 
     beforeEach(function () {
-      return this.db.query("delete from Foo").all();
+      return this.db.command("delete from Foo").all();
     })
     it('should create a simple record with Links', function () {
       var record = {
@@ -149,7 +149,7 @@ describe("ODatabase API - Open / Simple Query", function () {
       let v2 = create vertex V set name = 'Foo1';
       create edge from $v1 to $v2;
       return $v1`;
-      return this.db.query(query).all()
+      return this.db.command(query).all()
         .then((response) => {
           response[0]["@class"].should.be.eql("V");
           response[0]["out_"].should.be.an.instanceOf(ORidBag);

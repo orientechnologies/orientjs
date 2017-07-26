@@ -226,13 +226,13 @@ describe("ODatabase API - Transaction", function () {
   });
   describe("ODatabase::Transaction SQL", function () {
     beforeEach(function () {
-      return this.db.query("delete vertex TestClassTX").all()
+      return this.db.command("delete vertex TestClassTX").all()
     })
 
     it('should create a record in tx with sql', function () {
       this.db.begin();
 
-      return this.db.query("insert into TestClassTx set name = 'Foo'").all()
+      return this.db.command("insert into TestClassTx set name = 'Foo'").all()
         .bind(this)
         .then(function (res) {
           res.length.should.equal(1);
@@ -260,7 +260,7 @@ describe("ODatabase API - Transaction", function () {
 
 
     beforeEach(function () {
-      return this.db.query("delete vertex TestClassTX").all()
+      return this.db.command("delete vertex TestClassTX").all()
     })
     it('should create a record in tx with final commit', function () {
       this.db.begin().create({
