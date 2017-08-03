@@ -220,7 +220,7 @@ describe("ODatabase API - Batch Script", function () {
 });
 
 describe('ODatabase API - Transactional Batch Queries', function () {
-  before(function () {
+  before(CAN_RUN(37, function () {
     return CREATE_TEST_DB(this, 'testdb_dbapi_tx_queries')
       .bind(this)
       .then(function () {
@@ -232,7 +232,7 @@ describe('ODatabase API - Transactional Batch Queries', function () {
           this.db.class.create('TestEdge', 'E')
         ]);
       });
-  });
+  }));
   after(function () {
     return DELETE_TEST_DB('testdb_dbapi_tx_queries');
   });
