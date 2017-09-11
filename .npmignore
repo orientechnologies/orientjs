@@ -1,3 +1,6 @@
 ci/environment
 coverage
-
+node_modules/
+.vscode/
+*.tgz
+*.log
