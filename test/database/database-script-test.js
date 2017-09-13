@@ -238,7 +238,7 @@ describe('ODatabase API - Transactional Batch Queries', function () {
   });
 
   it('should execute a simple transaction, using a raw query', function () {
-    return this.db.command('begin;\nlet $updated = update OUser set someField = true;\ncommit; return $updated;').all()
+    return this.db.batch('begin;\nlet $updated = update OUser set someField = true;\ncommit; return $updated;').all()
       .spread(function (result) {
         result.count.should.be.above(2);
       });
@@ -258,7 +258,7 @@ describe('ODatabase API - Transactional Batch Queries', function () {
   });
 
   it('should execute a complex transaction, using a raw query', function () {
-    return this.db.command('begin;\nlet vert = create vertex TestVertex set name = "thing";\nlet vert1 = create vertex TestVertex set name="second thing";\nlet edge1 = create edge TestEdge from $vert to $vert1;\ncommit retry 100;\nreturn $edge1')
+    return this.db.batch('begin;\nlet vert = create vertex TestVertex set name = "thing";\nlet vert1 = create vertex TestVertex set name="second thing";\nlet edge1 = create edge TestEdge from $vert to $vert1;\ncommit retry 100;\nreturn $edge1')
       .all()
       .spread(function (result) {
         result['@class'].should.equal('TestEdge');

@@ -149,7 +149,7 @@ describe("ODatabase API - Open / Simple Query", function () {
       let v2 = create vertex V set name = 'Foo1';
       create edge from $v1 to $v2;
       return $v1`;
-      return this.db.command(query).all()
+      return this.db.batch(query).all()
         .then((response) => {
           response[0]["@class"].should.be.eql("V");
           response[0]["out_"].should.be.an.instanceOf(ORidBag);
