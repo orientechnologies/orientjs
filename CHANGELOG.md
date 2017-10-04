@@ -1,3 +1,13 @@
+####2.2.7
+
+### Bug Fixes
+
+* [#279](https://github.com/orientechnologies/orientjs/issues/279), [#172](https://github.com/orientechnologies/orientjs/issues/172) Server session management issue.
+
+###Enhancements
+
+* [#275](https://github.com/orientechnologies/orientjs/issues/275) Migration support when using Typescript
+
 ####2.2.6
 
 ### Bug Fixes
