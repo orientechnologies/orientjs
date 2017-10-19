@@ -351,6 +351,20 @@ describe("Database API - Query", function () {
         });
     });
   });
+  describe('Db::updateContent()', function () {
+    it('should update a user, replacing record content', function () {
+      var updatedUser = {
+        name: 'reader',
+        password: 'mynewerpassword',
+        status: 'active',
+        roles: ["#4:1"],
+        foo: 'bar'};
+      return this.db.update('OUser').content(updatedUser).where({name: 'reader'}).limit(1).scalar()
+        .then(function (count) {
+          count.should.eql('1');
+        });
+    });
+  });
   describe('Db::query()', function () {
     it('should execute an insert query', function () {
       return this.db.query('insert into OUser (name, password, status) values (:name, :password, :status)',

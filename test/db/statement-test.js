@@ -225,6 +225,11 @@ COMMIT \n\
       this.statement.buildStatement().should.equal('UPDATE #1:1 SET foo = :paramfoo0, greeting = :paramgreeting1');
     });
 
+    it('should update a record, replacing all content', function () {
+      this.statement.update('#1:1').content({foo: 'bar', greeting: 'hello world'});
+      this.statement.buildStatement().should.equal('UPDATE #1:1 CONTENT {"foo":"bar","greeting":"hello world"}');
+    });
+
     it('should update a record with a nested statement', function () {
       this.statement.update('#1:1').set({
         foo: function (s) {
