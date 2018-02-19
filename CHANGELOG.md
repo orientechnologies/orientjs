@@ -1,3 +1,15 @@
+
+####2.2.8
+
+### Bug Fixes
+
+* [#297](https://github.com/orientechnologies/orientjs/issues/297) Session management issue with token
+
+### PR Merged
+
+* [#292](https://github.com/orientechnologies/orientjs/pull/292) Added superclasses property 
+
+
 ####2.2.7
 
 ### Bug Fixes
