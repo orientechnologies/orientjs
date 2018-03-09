@@ -1,4 +1,10 @@
 
+####2.2.9
+
+### Bug Fixes
+
+* Fixed issue on Server::connect. Added missing paramenter useToken
+
 ####2.2.8
 
 ### Bug Fixes
