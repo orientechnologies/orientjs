@@ -9,8 +9,8 @@ before_script:
   - ./ci/initialize-ci.sh $ORIENTDB_VERSION
 env:
   - ORIENTDB_VERSION=2.1.23
-  - ORIENTDB_VERSION=2.2.28 CXX=g++-4.8
-  - ORIENTDB_VERSION=2.2.29-SNAPSHOT CXX=g++-4.8
+  - ORIENTDB_VERSION=2.2.33 CXX=g++-4.8
+  - ORIENTDB_VERSION=2.2.34-SNAPSHOT CXX=g++-4.8
 
 addons:
   apt:
