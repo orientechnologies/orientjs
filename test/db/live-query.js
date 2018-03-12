@@ -95,7 +95,7 @@ describe("Database API - Live Query ", function() {
 
   function ifSupportedIt(text, fn) {
     it(text, function (done) {
-      if (TEST_SERVER.transport.connection.protocolVersion >= 32) {
+      if (TEST_SERVER.transport.connection.protocolVersion >= 33) {
         return fn.call(this,done);
       }
       else {
