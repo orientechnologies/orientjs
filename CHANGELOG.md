@@ -1,3 +1,8 @@
+####2.2.10
+
+### Bug Fixes
+
+* [#293](https://github.com/orientechnologies/orientjs/issues/293) Fixed issue with LiveQuery::unsubscribe. 
 
 ####2.2.9
 
