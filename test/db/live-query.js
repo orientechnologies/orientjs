@@ -58,7 +58,7 @@ describe("Database API - Live Query ", function() {
     return DELETE_TEST_DB("testdb_live_query");
   });
 
-  it("should trigger live query", function(done) {
+  ifSupportedIt("should trigger live query", function(done) {
     var TOTAL = 2;
     var record;
     var count = 0;
@@ -92,4 +92,15 @@ describe("Database API - Live Query ", function() {
       Promise.all(promises).then(function(rec) {});
     }, 1000);
   });
+
+  function ifSupportedIt(text, fn) {
+    it(text, function (done) {
+      if (TEST_SERVER.transport.connection.protocolVersion >= 32) {
+        return fn.call(this,done);
+      }
+      else {
+        console.log('        skipping, "' + text + '": operation not supported by OrientDB version');
+      }
+    });
+  }
 });
