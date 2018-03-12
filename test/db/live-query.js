@@ -100,6 +100,7 @@ describe("Database API - Live Query ", function() {
       }
       else {
         console.log('        skipping, "' + text + '": operation not supported by OrientDB version');
+        done();
       }
     });
   }
