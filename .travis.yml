@@ -1,16 +1,15 @@
 language: node_js
 node_js:
-  - 4
   - 6
+  - 8
   - stable
 jdk:
   - oraclejdk8
 before_script:
   - ./ci/initialize-ci.sh $ORIENTDB_VERSION
 env:
-  - ORIENTDB_VERSION=2.1.23
-  - ORIENTDB_VERSION=2.2.33 CXX=g++-4.8
-  - ORIENTDB_VERSION=2.2.34-SNAPSHOT CXX=g++-4.8
+  - ORIENTDB_VERSION=2.2.34 CXX=g++-4.8
+  - ORIENTDB_VERSION=2.2.35-SNAPSHOT CXX=g++-4.8
 
 addons:
   apt:
