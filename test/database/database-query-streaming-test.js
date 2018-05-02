@@ -1,4 +1,4 @@
-var Query = require('../../lib/database/database-query');
+var Query = require('../../lib/client/database/database-query');
 
 describe("ODatabase API - Query", function () {
 

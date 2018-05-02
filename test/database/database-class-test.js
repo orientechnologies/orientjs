@@ -16,7 +16,6 @@ describe("ODatabase API - Class", function () {
   });
   describe('Db::class.list()', function () {
     it('should list the classes in the database', function () {
-
       return this.db.class.list()
         .bind(this)
         .then(function (classes) {

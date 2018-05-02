@@ -1,5 +1,5 @@
 "use strict";
-var Statement = require('../../lib/database/database-query');
+var Statement = require('../../lib/client/database/database-query');
 var RID = require('../../lib/recordid');
 describe("ODatabase API - Statement", function () {
   before(function () {

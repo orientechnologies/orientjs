@@ -38,9 +38,9 @@ global.LIB_ROOT = path.resolve(__dirname, '..', 'lib');
 
 global.LIB = require(LIB_ROOT);
 
-global.NETWORK = require('../lib/network/index');
+global.NETWORK = require('../lib/client/network/index');
 
-global.CLIENT = require('../lib/client');
+global.CLIENT = require('../lib').Client;
 
 
 global.TEST_SERVER = new LIB.Server({

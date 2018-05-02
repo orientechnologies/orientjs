@@ -1,6 +1,6 @@
 var should = require('should');
 
-var ORidBag = require('../../lib/database/bag').ORidBag;
+var ORidBag = require('../../lib/client/database/bag').ORidBag;
 var RID = require('../../lib').RID;
 
 describe("ODatabase API - Open / Simple Query", function () {
