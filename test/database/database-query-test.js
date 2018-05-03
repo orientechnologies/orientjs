@@ -371,27 +371,6 @@ describe("ODatabase API - Query", function () {
       });
     });
 
-    // TODO Exec not supported
-    // it('should exec a raw select command', function () {
-    //   return this.session.exec('select from OUser where name=:name', {
-    //     params: {
-    //       name: 'Samson'
-    //     }
-    //   })
-    //     .then(function (result) {
-    //       Array.isArray(result.results[0].content).should.be.true;
-    //       result.results[0].content.length.should.be.above(0);
-    //     });
-    // });
-    // it('should execute a script command', function () {
-    //   return this.session.exec('123456;', {
-    //     language: 'javascript',
-    //     class: 's'
-    //   })
-    //     .then(function (response) {
-    //       response.results.length.should.equal(1);
-    //     });
-    // });
     it('should execute a select query string', function () {
       return this.db.query('select from OUser where name=:name', {
         params: {
