@@ -40,7 +40,7 @@ global.LIB = require(LIB_ROOT);
 
 global.NETWORK = require('../lib/client/network/index');
 
-global.CLIENT = require('../lib').Client;
+global.CLIENT = require('../lib').OrientDBClient;
 
 
 global.TEST_SERVER = new LIB.Server({
