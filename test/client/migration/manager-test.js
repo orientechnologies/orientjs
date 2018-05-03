@@ -3,7 +3,7 @@ var Promise = require("bluebird"),
   path = require("path");
 
 describe("Migration Manager", function() {
-  before(function() {
+  before(CAN_RUN(37,function() {
     return CREATE_TEST_DB(this, "testdb_dbapi_migration")
       .bind(this)
       .then(function() {
@@ -14,7 +14,7 @@ describe("Migration Manager", function() {
           this.manager = migrator;
         });
       });
-  });
+  }));
   after(function() {
     return DELETE_TEST_DB("testdb_dbapi_migration");
   });
