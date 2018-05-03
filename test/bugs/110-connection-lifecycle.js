@@ -28,7 +28,7 @@ describe("Bug #110: Connection lifecycle", function () {
     .then(function (results) {
       throw new Error('Should never happen!');
     })
-    .error(function (err) {
+    .catch(function (err) {
       counter++;
     })
     .bind(this)
@@ -45,7 +45,7 @@ describe("Bug #110: Connection lifecycle", function () {
     .then(function () {
       throw new Error('Should never happen!');
     })
-    .error(function (err) {
+    .catch(function (err) {
       counter++;
     })
     .finally(function () {
@@ -61,7 +61,7 @@ describe("Bug #110: Connection lifecycle", function () {
     .then(function () {
       throw new Error("Should never happen.");
     })
-    .error(function (err) {
+    .catch(function (err) {
       return db.record.get('#5:0');
     })
     .then(function (rec) {

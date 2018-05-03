@@ -4,7 +4,7 @@ var should = require('should');
 
 
 var assertPool = function() {
-  TEST_CLIENT.cluster.servers[0].network.pool.size().should.be.eql(2);
+  TEST_CLIENT.cluster.servers[0].network.pool.size().should.be.above(0);
   TEST_CLIENT.cluster.servers[0].network.pool.borrowed().should.be.eql(0)
   TEST_CLIENT.cluster.servers[0].network.pool.pending().should.be.eql(0)
 }
