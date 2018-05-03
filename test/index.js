@@ -51,7 +51,6 @@ global.TEST_SERVER = new LIB.Server({
   transport: 'binary',
 });
 
-
 global.TEST_CLIENT = new global.CLIENT(Object.assign({}, TEST_SERVER_CONFIG, {
   pool: {
     acquireTimeoutMillis: 500
