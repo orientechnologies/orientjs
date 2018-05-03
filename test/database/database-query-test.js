@@ -65,13 +65,12 @@ describe("ODatabase API - Query", function () {
         });
     });
 
-    // TODO syntax problem
-    // it('should return the scalar result, even when many columns are selected', function () {
-    //   return this.query.select('count(*), max(count(*))').from('OUser').scalar()
-    //     .then(function (response) {
-    //       response.should.equal(3);
-    //     });
-    // });
+    it('should return the scalar result, even when many columns are selected', function () {
+      return this.query.select('count(*) as count, max(count)').from('OUser').scalar()
+        .then(function (response) {
+          response.should.equal(3);
+        });
+    });
 
     it('should return the scalar result with parameters', function () {
       return this.query.select('name').from('OUser').where('name = :name').scalar({name: 'reader'})
@@ -298,6 +297,20 @@ describe("ODatabase API - Query", function () {
     // //         user.roles[0]['@class'].should.equal('ORole');
     // //       });
     // //   });
+
+
+     
+      // TODO fetch Plain not supported in 3.0
+    
+      it('should select a user with a nested projection', function () {
+        return this.db.select("*,roles:{ @class,name}").from('OUser').where({name: 'reader'}).one()
+          .then(function (user) {
+            user.name.should.equal('reader');
+            user.roles.length.should.be.above(0);
+            user.roles[0]['@class'].should.equal('ORole');
+          });
+      });
+     
   });
   describe('ODatabase::traverse()', function () {
     it('should traverse a user', function () {
