@@ -59,7 +59,8 @@
     "node-biginteger": "^0.0.10",
     "parse-function": "^5.2.9",
     "request": "~2.85.0",
-    "rxjs": "^5.1.1",
+    "rxjs": "^6.0.0",
+    "rxjs-compat": "^6.0.0",
     "yargs": "~11.0.0",
     "tls": "~0.0.1"
   },
