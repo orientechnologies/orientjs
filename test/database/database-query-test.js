@@ -57,6 +57,45 @@ describe("ODatabase API - Query", function () {
         });
     });
   });
+
+
+  describe('Query::stream()', function () {
+    it('should return all the records with stream', function (done) {
+      var count = 0;
+      this.query.select().from('OUser').stream()
+      .on("data",()=>{
+        count++;
+      })
+      .on("end",()=>{
+        count.should.equal(3)
+        done();
+      })
+    });
+    it('should return all the records with stream pause/resume', function (done) {
+      var count = 0;
+      var paused = false;
+      var query = this.query.select().from('OUser').stream()
+      .on("data",()=>{
+        count++;
+        if(count===1){
+          paused = true;
+          query.pause();
+          setTimeout(()=> {
+            count.should.equal(1)
+            paused = false;
+            query.resume();
+          },500);
+        }else {
+          paused.should.equal(false);
+        }
+      })
+      .on("end",()=>{
+        count.should.equal(3)
+        done();
+      })
+    });
+   
+  });
   describe('Query::scalar()', function () {
     it('should return the scalar result', function () {
       return this.query.select('count(*)').from('OUser').scalar()
@@ -271,6 +310,9 @@ describe("ODatabase API - Query", function () {
           user.name.should.equal('reader');
         });
     });
+
+
+    
     it('should select a record by its RID', function () {
       return this.db.select().from('OUser').where({'@rid': new LIB.RID('#5:0')}).one()
         .then(function (user) {
@@ -278,29 +320,10 @@ describe("ODatabase API - Query", function () {
           user.name.should.equal('admin');
         });
     });
-    //
-    //   // TODO fetch Plain not supported in 3.0
-    //
-    // //   it('should select a user with a fetch plan', function () {
-    // //     return this.session.select().from('OUser').where({name: 'reader'}).fetch({roles: 3}).one()
-    // //       .then(function (user) {
-    // //         user.name.should.equal('reader');
-    // //         user.roles.length.should.be.above(0);
-    // //         user.roles[0]['@class'].should.equal('ORole');
-    // //       });
-    // //   });
-    // //   it('should select a user with multiple fetch plans', function () {
-    // //     return this.session.select().from('OUser').where({name: 'reader'}).fetch({roles: 3, '*': -1}).one()
-    // //       .then(function (user) {
-    // //         user.name.should.equal('reader');
-    // //         user.roles.length.should.be.above(0);
-    // //         user.roles[0]['@class'].should.equal('ORole');
-    // //       });
-    // //   });
+   
 
 
-     
-      // TODO fetch Plain not supported in 3.0
+    
     
       it('should select a user with a nested projection', function () {
         return this.db.select("*,roles:{ @class,name}").from('OUser').where({name: 'reader'}).one()
