@@ -411,8 +411,7 @@ describe("ODatabase API - Query", function () {
       return this.db.query('select from OUser where name=:name', {
         params: {
           name: 'Samson'
-        },
-        limit: 1
+        }
       }).all()
         .then(function (result) {
           Array.isArray(result).should.be.true;

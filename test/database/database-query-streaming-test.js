@@ -97,7 +97,7 @@ describe("ODatabase API - Query", function() {
         });
     });
 
-    it("should return one record with stream and page size", function(done) {
+    it("should return one record per page with stream and page size", function(done) {
       var users = [];
       var size = 0;
       this.query
@@ -119,5 +119,23 @@ describe("ODatabase API - Query", function() {
           done();
         });
     });
+
+    // it("should return one record with stream and page size and early stream close", function(done) {
+    //   var users = [];
+    //   var size = 0;
+    //   var stream = this.db
+    //     .query("select from OUSer", {
+    //       pageSize: 1
+    //     })
+    //     .on("data", response => {
+    //       stream.close();
+    //       size++;
+    //     })
+    //     .on("error", err => {})
+    //     .on("end", () => {
+    //       size.should.be.eql(1);
+    //       done();
+    //     });
+    // });
   });
 });
