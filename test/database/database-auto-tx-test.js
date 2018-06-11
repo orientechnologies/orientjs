@@ -134,8 +134,6 @@ describe("ODatabase API - Transaction", function() {
             false,
             tx.created[1]["@rid"]
           );
-          tx.created[0].name.should.be.eql("Foo");
-          tx.created[1].name.should.be.eql("item1");
           tx.updated.length.should.equal(0);
           tx.deleted.length.should.equal(0);
           expect(this.db.tx()).to.equal(null);
