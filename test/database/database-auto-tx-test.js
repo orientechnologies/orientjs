@@ -153,6 +153,7 @@ describe("ODatabase API - Transaction", function() {
             .commit();
         })
         .then(({ result, tx }) => {
+          expect(tx).to.equal(null);
           tx = result;
           tx.created.length.should.equal(1);
           RID.isTemporary(tx.created[0]["@rid"]).should.be.eql(
@@ -163,6 +164,61 @@ describe("ODatabase API - Transaction", function() {
           tx.updated.length.should.equal(0);
           tx.deleted.length.should.equal(0);
           expect(this.db.tx()).to.equal(null);
+        });
+    });
+
+    it("should run an update in auto tx", function() {
+      return this.db
+        .command("insert into TestClassTx set name = :name", {
+          params: { name: "Foo" }
+        })
+        .all()
+        .then(result => {
+          return this.db
+            .runInTransaction(tx => {
+              return tx
+                .command(
+                  "update TestClassTx set name = :newName return after where name =name",
+                  {
+                    params: { name: "Foo", newName: "Foo1" }
+                  }
+                )
+                .all();
+            })
+            .then(({ result, tx }) => {
+              result[0].name.should.be.equal("Foo1");
+              let appliedTx = tx.applyChanges({ updated: result });
+              appliedTx.created.length.should.equal(0);
+              appliedTx.updated.length.should.equal(1);
+              appliedTx.updated[0].name.should.be.eql("Foo1");
+              appliedTx.deleted.length.should.equal(0);
+              expect(this.db.tx()).to.equal(null);
+            });
+        });
+    });
+
+    it("should run a delete in auto tx", function() {
+      return this.db
+        .command("insert into TestClassTx set name = :name", {
+          params: { name: "Foo" }
+        })
+        .all()
+        .then(result => {
+          return this.db
+            .runInTransaction(tx => {
+              return tx
+                .command("delete vertex TestClassTx  where name =name", {
+                  params: { name: "Foo" }
+                })
+                .all();
+            })
+            .then(({ result, tx }) => {
+              result[0].count.should.be.equal(1);
+              tx.created.length.should.equal(0);
+              tx.updated.length.should.equal(0);
+              tx.deleted.length.should.equal(1);
+              expect(this.db.tx()).to.equal(null);
+            });
         });
     });
   });
