@@ -1,18 +1,16 @@
 // test bootstrap
 
-var Promise = require('bluebird'),
-  path = require('path');
+var Promise = require("bluebird"),
+  path = require("path");
 
 Promise.longStackTraces();
 
-global.expect = require('expect.js'),
-global.should = require('should');
+(global.expect = require("expect.js")), (global.should = require("should"));
 
-var errors = require('../lib/errors');
+var errors = require("../lib/errors");
 
-global.TEST_SERVER_CONFIG = require('./test-server.json');
-global.TEST_DB_CONFIG = require('./test-db.json');
-
+global.TEST_SERVER_CONFIG = require("./test-server.json");
+global.TEST_DB_CONFIG = require("./test-db.json");
 
 var host = process.env.ORIENTDB_HOST;
 var binPort = process.env.ORIENTDB_BIN_PORT;
@@ -33,53 +31,47 @@ if (httpPort) {
   global.TEST_DB_CONFIG.httpPort = httpPort;
 }
 
-
-global.LIB_ROOT = path.resolve(__dirname, '..', 'lib');
+global.LIB_ROOT = path.resolve(__dirname, "..", "lib");
 
 global.LIB = require(LIB_ROOT);
 
-global.NETWORK = require('../lib/client/network/index');
+global.NETWORK = require("../lib/client/network/index");
 
-global.CLIENT = require('../lib').OrientDBClient;
-
+global.CLIENT = require("../lib").OrientDBClient;
 
 global.TEST_SERVER = new LIB.Server({
   host: TEST_SERVER_CONFIG.host,
   port: TEST_SERVER_CONFIG.port,
   username: TEST_SERVER_CONFIG.username,
   password: TEST_SERVER_CONFIG.password,
-  transport: 'binary',
+  transport: "binary"
 });
 
-global.TEST_CLIENT = new global.CLIENT(Object.assign({}, TEST_SERVER_CONFIG, {
-  pool: {
-    acquireTimeoutMillis: 500
-  }
-}));
-
-global.TEST_CLIENT.connect()
-  .then(function(){
+global.TEST_CLIENT = global.CLIENT.connect(
+  Object.assign({}, TEST_SERVER_CONFIG, {
+    pool: {
+      acquireTimeoutMillis: 500
+    }
   })
-  .catch(function (err) {
-
-});
-
+)
+  .then(function() {})
+  .catch(function(err) {});
 
 global.BINARY_TEST_SERVER = new LIB.Server({
   host: TEST_SERVER_CONFIG.host,
   port: TEST_SERVER_CONFIG.port,
   username: TEST_SERVER_CONFIG.username,
   password: TEST_SERVER_CONFIG.password,
-  transport: 'binary',
+  transport: "binary"
 });
 global.POOL_TEST_SERVER = new LIB.Server({
   host: TEST_SERVER_CONFIG.host,
   port: TEST_SERVER_CONFIG.port,
   username: TEST_SERVER_CONFIG.username,
   password: TEST_SERVER_CONFIG.password,
-  transport: 'binary',
+  transport: "binary",
   pool: {
-    "max": 2
+    max: 2
   }
 });
 
@@ -88,18 +80,21 @@ global.BINARY_TEST_SERVER = new LIB.Server({
   port: TEST_SERVER_CONFIG.port,
   username: TEST_SERVER_CONFIG.username,
   password: TEST_SERVER_CONFIG.password,
-  transport: 'binary',
+  transport: "binary"
 });
 global.DISTRIBUTED_TEST_SERVER = new LIB.Server({
   host: TEST_SERVER_CONFIG.host,
   port: TEST_SERVER_CONFIG.port,
   username: TEST_SERVER_CONFIG.username,
   password: TEST_SERVER_CONFIG.password,
-  transport: 'binary',
-  servers: [{host: TEST_SERVER_CONFIG.host, port: TEST_SERVER_CONFIG.port - 1}, {
-    host: TEST_SERVER_CONFIG.host,
-    port: TEST_SERVER_CONFIG.port + 1
-  }]
+  transport: "binary",
+  servers: [
+    { host: TEST_SERVER_CONFIG.host, port: TEST_SERVER_CONFIG.port - 1 },
+    {
+      host: TEST_SERVER_CONFIG.host,
+      port: TEST_SERVER_CONFIG.port + 1
+    }
+  ]
 });
 
 global.REST_SERVER = new LIB.Server({
@@ -107,7 +102,7 @@ global.REST_SERVER = new LIB.Server({
   port: TEST_SERVER_CONFIG.httpPort,
   username: TEST_SERVER_CONFIG.username,
   password: TEST_SERVER_CONFIG.password,
-  transport: 'rest'
+  transport: "rest"
 });
 
 // Uncomment the following lines to enable debug logging
@@ -115,8 +110,14 @@ global.REST_SERVER = new LIB.Server({
 // global.REST_SERVER.logger.debug = console.log.bind(console, '[ORIENTDB]');
 
 global.USE_DISTRIBUTED_TEST_DB = useTestDb.bind(null, DISTRIBUTED_TEST_SERVER);
-global.CREATE_DISTRIBUTED_TEST_DB = createTestDb.bind(null, DISTRIBUTED_TEST_SERVER);
-global.DELETE_DISTRIBUTED_TEST_DB = deleteTestDb.bind(null, DISTRIBUTED_TEST_SERVER);
+global.CREATE_DISTRIBUTED_TEST_DB = createTestDb.bind(
+  null,
+  DISTRIBUTED_TEST_SERVER
+);
+global.DELETE_DISTRIBUTED_TEST_DB = deleteTestDb.bind(
+  null,
+  DISTRIBUTED_TEST_SERVER
+);
 
 global.CREATE_TEST_DB = createTestDb.bind(null, TEST_SERVER);
 global.DELETE_TEST_DB = deleteTestDb.bind(null, TEST_SERVER);
@@ -124,21 +125,21 @@ global.CREATE_POOL = createPool.bind(null, TEST_SERVER);
 global.USE_ODB = useOdb.bind(null, TEST_SERVER);
 global.USE_TOKEN_DB = useOdbWithToken.bind(null, TEST_SERVER);
 
-
 // new global for testing the new API
 global.CREATE_DB = createDB.bind(null, TEST_CLIENT);
 global.DROP_DB = dropDB.bind(null, TEST_CLIENT);
 
 function createDB(client, name, type) {
-  type = type || 'memory';
+  type = type || "memory";
   var username = TEST_SERVER_CONFIG.username;
   var password = TEST_SERVER_CONFIG.password;
   var cfg = {
     name: name,
     storage: type
-  }
-  return client.exists(username, password, cfg)
-    .then((exists) => {
+  };
+  return client
+    .exists(username, password, cfg)
+    .then(exists => {
       if (exists) {
         return client.drop(username, password, cfg);
       }
@@ -146,19 +147,20 @@ function createDB(client, name, type) {
     })
     .then(() => {
       return client.create(username, password, cfg);
-    })
+    });
 }
 
 function dropDB(client, name, type) {
-  type = type || 'memory';
+  type = type || "memory";
   var username = TEST_SERVER_CONFIG.username;
   var password = TEST_SERVER_CONFIG.password;
   var cfg = {
     name: name,
     storage: type
-  }
-  return client.exists(username, password, cfg)
-    .then((exists) => {
+  };
+  return client
+    .exists(username, password, cfg)
+    .then(exists => {
       if (exists) {
         return client.drop(username, password, cfg);
       }
@@ -166,26 +168,21 @@ function dropDB(client, name, type) {
     })
     .then(() => {
       return undefined;
-    })
+    });
 }
 
 global.CREATE_REST_DB = createTestDb.bind(null, REST_SERVER);
 global.DELETE_REST_DB = deleteTestDb.bind(null, REST_SERVER);
 
-
 function toInt(v) {
-
   var val = -1;
   try {
     val = parseInt(v);
-  } catch (e) {
-  }
+  } catch (e) {}
   return val;
 }
 function checkVersion(current, target) {
-
   if (current && target) {
-
     var cVer = current.split(".").map(toInt);
     var tVer = target.split(".").map(toInt);
     if (cVer[0] >= tVer[0] && cVer[1] >= tVer[1] && cVer[2] >= tVer[2]) {
@@ -194,55 +191,59 @@ function checkVersion(current, target) {
   }
   return false;
 }
-global.IF_ORIENTDB_MAJOR = function (ver, text, fn) {
-  it(text, function () {
+global.IF_ORIENTDB_MAJOR = function(ver, text, fn) {
+  it(text, function() {
     if (checkVersion(this.db.release, ver)) {
       return fn.call(this);
     } else {
-      console.log('        skipping, "' + text + '": operation not supported by OrientDB version');
+      console.log(
+        '        skipping, "' +
+          text +
+          '": operation not supported by OrientDB version'
+      );
     }
-
   });
-}
+};
 
-global.CAN_RUN = function (ver, fn) {
-
-  return function () {
+global.CAN_RUN = function(ver, fn) {
+  return function() {
     var self = this;
     return global.TEST_CLIENT.connect()
-      .then(function (e) {
+      .then(function(e) {
         return fn.call(self);
-      }).catch(function (err) {
-        if(err instanceof  errors.ProtocolError){
+      })
+      .catch(function(err) {
+        if (err instanceof errors.ProtocolError) {
           self.skip();
-        }else {
+        } else {
           throw err;
         }
-    });
-  }
-}
+      });
+  };
+};
 
 function useTestDb(server, context, name) {
-  return server.use(name).open().then(function (db) {
-    context.db = db;
-  })
+  return server
+    .use(name)
+    .open()
+    .then(function(db) {
+      context.db = db;
+    });
 }
 
 function useOdb(server, name) {
-
   return new global.LIB.ODatabase({
     host: TEST_DB_CONFIG.host,
     port: TEST_DB_CONFIG.port,
     username: TEST_DB_CONFIG.username,
     password: TEST_DB_CONFIG.password,
     name: name
-  })
+  });
 
   //context.pool.config.server.logger.debug = console.log.bind(console, '[ORIENTDB]');
 }
 
 function useOdbWithToken(server, name) {
-
   return new global.LIB.ODatabase({
     host: TEST_DB_CONFIG.host,
     port: TEST_DB_CONFIG.port,
@@ -250,7 +251,7 @@ function useOdbWithToken(server, name) {
     password: TEST_DB_CONFIG.password,
     name: name,
     useToken: true
-  })
+  });
 
   //context.pool.config.server.logger.debug = console.log.bind(console, '[ORIENTDB]');
 }
@@ -261,53 +262,52 @@ function createPool(server, context, name) {
     username: TEST_DB_CONFIG.username,
     password: TEST_DB_CONFIG.password,
     name: name
-  })
+  });
 
   //context.pool.config.server.logger.debug = console.log.bind(console, '[ORIENTDB]');
 }
 function createTestDb(server, context, name, type) {
-  type = type || 'memory';
-  return server.exists(name, type)
-    .then(function (exists) {
+  type = type || "memory";
+  return server
+    .exists(name, type)
+    .then(function(exists) {
       if (exists) {
         return server.drop({
           name: name,
           storage: type
         });
-      }
-      else {
+      } else {
         return false;
       }
     })
-    .then(function () {
+    .then(function() {
       return server.create({
         name: name,
-        type: 'graph',
+        type: "graph",
         storage: type
       });
     })
-    .then(function (db) {
-
+    .then(function(db) {
       context.db = db;
       return undefined;
     });
 }
 
 function deleteTestDb(server, name, type) {
-  type = type || 'memory';
-  return server.exists(name, type)
-    .then(function (exists) {
+  type = type || "memory";
+  return server
+    .exists(name, type)
+    .then(function(exists) {
       if (exists) {
         return server.drop({
           name: name,
           storage: type
         });
-      }
-      else {
+      } else {
         return undefined;
       }
     })
-    .then(function () {
+    .then(function() {
       return undefined;
     });
 }
