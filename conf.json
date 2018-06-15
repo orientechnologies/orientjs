@@ -1,18 +1,21 @@
-"templates": {
-    "applicationName": "OrientJS",
-    "disqus": "",
-    "googleAnalytics": "UA-28543690-2",
-    "openGraph": {
-        "title": "",
-        "type": "website",
-        "image": "",
-        "site_name": "",
-        "url": ""
-    },
-    "meta": {
-        "title": "OrientJS",
-        "description": "Node.js driver for OrientDB",
-        "keyword": "NoSQL, Node.js, Javascript, OrientDB, GraphDB, Graph Database"
-    },
-    "linenums": true
+{
+  "plugins": ["plugins/markdown", "plugins/summarize"],
+  "recurseDepth": 10,
+  "source": {
+    "include": ["lib/client/client.js", "lib/client/database/database.js"],
+    "includePattern": ".+\\.js(doc|x)?$",
+    "excludePattern": "(^|\\/|\\\\)_"
+  },
+  "sourceType": "module",
+  "tags": {
+    "allowUnknownTags": true,
+    "dictionaries": ["jsdoc", "closure"]
+  },
+  "templates": {
+    "cleverLinks": false,
+    "monospaceLinks": false
+  },
+  "opts": {
+    "destination": "./docs/"
+  }
 }

@@ -47,13 +47,15 @@ global.TEST_SERVER = new LIB.Server({
   transport: "binary"
 });
 
-global.TEST_CLIENT = global.CLIENT.connect(
+global.TEST_CLIENT = new global.CLIENT(
   Object.assign({}, TEST_SERVER_CONFIG, {
     pool: {
       acquireTimeoutMillis: 500
     }
   })
-)
+);
+
+global.TEST_CLIENT.connect()
   .then(function() {})
   .catch(function(err) {});
 
