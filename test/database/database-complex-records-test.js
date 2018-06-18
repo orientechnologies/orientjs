@@ -16,7 +16,7 @@ describe("ODatabase API - Open / Simple Query", function () {
   describe('Database::Links & Embedded', function () {
 
     before(function () {
-      return TEST_CLIENT.open({name: "test_complex_records"})
+      return TEST_CLIENT.session({name: "test_complex_records"})
         .then((db) => {
           this.db = db;
           return db.command('create class Foo').all();
@@ -134,7 +134,7 @@ describe("ODatabase API - Open / Simple Query", function () {
   describe('Database::RidBags', function () {
 
     before(function () {
-      return TEST_CLIENT.open({name: "test_complex_records"})
+      return TEST_CLIENT.session({name: "test_complex_records"})
         .then((db) => {
           this.db = db;
         });

@@ -21,7 +21,7 @@ describe("ODatabase API - Open / Simple Query", function () {
 
 
   it('it should open/close a session', function () {
-    return TEST_CLIENT.open({name: "test_session"})
+    return TEST_CLIENT.session({name: "test_session"})
       .then((db) => {
         db.session().sessionId.should.be.above(-1);
         return db.close();
@@ -34,7 +34,7 @@ describe("ODatabase API - Open / Simple Query", function () {
   describe('Database::query()', function () {
 
     before(function () {
-      return TEST_CLIENT.open({name: "test_session"})
+      return TEST_CLIENT.session({name: "test_session"})
         .then((db) => {
           this.db = db;
         })

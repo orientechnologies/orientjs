@@ -5,7 +5,7 @@ describe("ODatabase API - Query", function() {
     CAN_RUN(37, function() {
       return CREATE_DB("test_session_streaming")
         .then(() => {
-          return TEST_CLIENT.open({ name: "test_session_streaming" });
+          return TEST_CLIENT.session({ name: "test_session_streaming" });
         })
         .then(db => {
           this.db = db;

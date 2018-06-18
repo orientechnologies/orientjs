@@ -6,7 +6,7 @@ describe("ODatabase API - Live Query ", function() {
       return CREATE_DB("test_session_api_query")
         .bind(this)
         .then(function() {
-          return TEST_CLIENT.open({ name: "test_session_api_query" });
+          return TEST_CLIENT.session({ name: "test_session_api_query" });
         })
         .then(function(session) {
           this.session = session;

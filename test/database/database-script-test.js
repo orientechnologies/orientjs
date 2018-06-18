@@ -3,7 +3,7 @@ describe("ODatabase API - Batch Script", function () {
     return CREATE_TEST_DB(this, 'testdb_batch_script')
       .bind(this)
       .then(function () {
-        return TEST_CLIENT.open({name: "testdb_batch_script"})
+        return TEST_CLIENT.session({name: "testdb_batch_script"})
       }).then(function (db) {
         this.db = db;
       })
@@ -224,7 +224,7 @@ describe('ODatabase API - Transactional Batch Queries', function () {
     return CREATE_TEST_DB(this, 'testdb_dbapi_tx_queries')
       .bind(this)
       .then(function () {
-        return TEST_CLIENT.open({name: "testdb_dbapi_tx_queries"})
+        return TEST_CLIENT.session({name: "testdb_dbapi_tx_queries"})
       }).then(function (db) {
         this.db = db;
         return Promise.all([

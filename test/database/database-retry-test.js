@@ -10,8 +10,8 @@ describe("ODatabase API - Transaction", function() {
         .bind(this)
         .then(() => {
           return Promise.all([
-            TEST_CLIENT.open({ name: "testdb_dbapi_retry" }),
-            TEST_CLIENT.open({ name: "testdb_dbapi_retry" })
+            TEST_CLIENT.session({ name: "testdb_dbapi_retry" }),
+            TEST_CLIENT.session({ name: "testdb_dbapi_retry" })
           ]);
         })
         .then(dbs => {

@@ -7,7 +7,7 @@ describe("ODatabase API - Record", function () {
     return CREATE_TEST_DB(this, 'testdb_dbapi_record')
       .bind(this)
       .then(() => {
-        return TEST_CLIENT.open({name: "testdb_dbapi_record"});
+        return TEST_CLIENT.session({name: "testdb_dbapi_record"});
       })
       .then((db) => {
         this.db = db;

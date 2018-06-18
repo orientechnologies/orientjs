@@ -13,7 +13,7 @@ describe("Database Pool API", function () {
 
 
   it('it should open/acquire/close a pool', function () {
-    return TEST_CLIENT.openPool({name: "test_session_pool"})
+    return TEST_CLIENT.sessions({name: "test_session_pool"})
       .then((pool) => {
         this.pool = pool;
         return this.pool.acquire();
@@ -31,7 +31,7 @@ describe("Database Pool API", function () {
   describe('ODatabasePool::acquire/release', function () {
 
     before(function () {
-      return TEST_CLIENT.openPool({name: "test_session_pool", pool: {min: 1, max: 2, acquireTimeoutMillis: 200}})
+      return TEST_CLIENT.sessions({name: "test_session_pool", pool: {min: 1, max: 2, acquireTimeoutMillis: 200}})
         .then((pool) => {
           this.pool = pool;
         })
