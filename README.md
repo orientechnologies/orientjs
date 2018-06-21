@@ -207,6 +207,36 @@ In June 2015, Orient Technologies company officially adopted the Oriento driver 
 
 Please see [CONTRIBUTING](./CONTRIBUTING.md).
 
+### Building from the Source Code
+
+When building from source code, you need to download the driver directly from [GitHub](https://github.com/orientechnologies/orientjs), then run NPM against the branch you want to use or test.
+
+1. Using Git, clone the package repository, then enter the new directory:
+
+   <pre>
+   $ <code class="lang-sh userinput">git clone https://github.com/orientechnologies/orientjs.git</code>
+   $ <code class="lang-sh userinput">cd orientjs</code>
+   </pre>
+
+2. When you clone the repository, Git automatically provides you with the current state of the `master` branch.  If you would like to work with another branch, like `develop` or test features on past releases, you need to check out the branch you want.  For instance,
+
+   <pre>
+   $ <code class="lang-sh userinput">git checkout develop</code>
+   </pre>
+
+3. Once you've selected the branch you want to build, call NPM to handle the installation.
+
+   <pre>
+   $ <code class="lang-sh userinput">npm install</code>
+   </pre>
+ 
+4. Run the tests to make sure it works:
+
+   <pre>
+   $ <code class="lang-sh userinput">npm test</code>
+   </pre>
+
+
 ### Changes
 
 See [CHANGELOG](./CHANGELOG.md)
