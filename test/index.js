@@ -136,19 +136,21 @@ function createDB(client, name, type) {
   var username = TEST_SERVER_CONFIG.username;
   var password = TEST_SERVER_CONFIG.password;
   var cfg = {
+    username: username,
+    password: password,
     name: name,
     storage: type
   };
   return client
-    .existsDatabase(username, password, cfg)
+    .existsDatabase(cfg)
     .then(exists => {
       if (exists) {
-        return client.dropDatabase(username, password, cfg);
+        return client.dropDatabase(cfg);
       }
       return false;
     })
     .then(() => {
-      return client.createDatabase(username, password, cfg);
+      return client.createDatabase(cfg);
     });
 }
 
@@ -157,14 +159,16 @@ function dropDB(client, name, type) {
   var username = TEST_SERVER_CONFIG.username;
   var password = TEST_SERVER_CONFIG.password;
   var cfg = {
+    username: username,
+    password: password,
     name: name,
     storage: type
   };
   return client
-    .existsDatabase(username, password, cfg)
+    .existsDatabase(cfg)
     .then(exists => {
       if (exists) {
-        return client.dropDatabase(username, password, cfg);
+        return client.dropDatabase(cfg);
       }
       return undefined;
     })
