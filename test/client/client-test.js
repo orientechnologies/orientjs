@@ -57,25 +57,21 @@ describe("Client API", function() {
     return this.client
       .connect()
       .then(() => {
-        return this.client.createDatabase(
-          dbConfig
-        );
+        return this.client.createDatabase(dbConfig);
       })
       .then(() => {
-        return this.client.existsDatabase(
-          dbConfig
-        );
+        return this.client.existsDatabase(dbConfig);
       })
       .then(response => {
         response.should.be.eql(true);
-        return this.client.dropDatabase(
-          dbConfig
-        );
+        return this.client.listDatabases(dbConfig);
+      })
+      .then(response => {
+        response["client_test_db_create"].should.not.be.null;
+        return this.client.dropDatabase(dbConfig);
       })
       .then(() => {
-        return this.client.existsDatabase(
-          dbConfig
-        );
+        return this.client.existsDatabase(dbConfig);
       })
       .then(response => {
         response.should.be.eql(false);
