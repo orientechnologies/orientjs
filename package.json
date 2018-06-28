@@ -58,18 +58,18 @@
     "jsdoc": "^3.5.5",
     "node-biginteger": "^0.0.10",
     "parse-function": "^5.2.9",
-    "request": "~2.85.0",
+    "request": "^2.87.0",
     "signed-varint": "2.0.1",
     "tls": "~0.0.1",
     "yargs": "~11.0.0"
   },
   "devDependencies": {
-    "jsdoc": "3.5.5",
     "expect.js": "~0.3.1",
-    "istanbul": "~0.2.7",
+    "istanbul": "^0.4.5",
     "istanbul-coveralls": "^1.0.3",
+    "jsdoc": "3.5.5",
     "jshint": "~2.9.4",
-    "mocha": "^2.0.1",
+    "mocha": "^5.2.0",
     "should": "~4.6.2"
   },
   "optionalDependencies": {
@@ -87,7 +87,7 @@
   },
   "scripts": {
     "pretest": "./node_modules/.bin/jshint ./lib",
-    "test": "echo \"\n\nNOTICE: If tests fail, please ensure you've set the correct credentials in test/test-server.json\n\n\"; node ./node_modules/mocha/bin/mocha ./test/index.js ./test/**/*.js ./test/**/**/*.js ./test/**/**/**/*.js ./test/**/**/**/**/*.js --reporter=spec -t 10000",
+    "test": "echo \"\n\nNOTICE: If tests fail, please ensure you've set the correct credentials in test/test-server.json\n\n\"; node ./node_modules/mocha/bin/mocha ./test/index.js ./test/**/*.js ./test/**/**/*.js ./test/**/**/**/*.js ./test/**/**/**/**/*.js --reporter=spec -t 10000 --exit",
     "watch": "node ./node_modules/mocha/bin/mocha ./test/index.js ./test/**/*.js ./test/**/**/*.js ./test/**/**/**/*.js ./test/**/**/**/**/*.js --reporter=spec -t 10000 --watch",
     "coverage": "./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha ./test/index.js ./test/**/*.js ./test/**/**/*.js  ./test/**/**/**/*.js ./test/**/**/**/**/*.js --reporter=spec",
     "lint": "./node_modules/.bin/jshint ./lib",

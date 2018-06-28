@@ -6,7 +6,7 @@ describe("Client API", function () {
   }))
   it('should create and connect the client', function (done) {
     this.client = new global.CLIENT(TEST_SERVER_CONFIG);
-    return this.client.connect()
+    this.client.connect()
       .then(() => {
         done(0);
       })
@@ -36,7 +36,7 @@ describe("Client API", function () {
       servers: [TEST_SERVER_CONFIG]
     })
     this.client = new global.CLIENT(config);
-    return this.client.connect().then(() => {
+    this.client.connect().then(() => {
       done();
     }).catch(err => {
       throw new Error('Should never happen!');

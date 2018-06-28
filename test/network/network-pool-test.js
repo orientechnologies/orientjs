@@ -36,7 +36,7 @@ describe("Network Pool API", function () {
       acquireTimeoutMillis: 100
     }
     this.pool = new global.NETWORK.ONetworkPool(config);
-    return this.pool.acquire()
+    this.pool.acquire()
       .then((network) => {
         this.pool.size().should.be.eql(1)
         this.pool.available().should.be.eql(0)

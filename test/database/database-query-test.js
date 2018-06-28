@@ -21,7 +21,7 @@ describe("ODatabase API - Query", function () {
 
   describe('Query::one()', function () {
     it('should return one record', function (done) {
-      return this.query.select().from('OUser').limit(1).one()
+      this.query.select().from('OUser').limit(1).one()
         .then(function (user) {
           Array.isArray(user).should.be.false;
           user.should.have.property('name');
