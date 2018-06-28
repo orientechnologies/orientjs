@@ -140,15 +140,15 @@ function createDB(client, name, type) {
     storage: type
   };
   return client
-    .exists(username, password, cfg)
+    .existsDatabase(username, password, cfg)
     .then(exists => {
       if (exists) {
-        return client.drop(username, password, cfg);
+        return client.dropDatabase(username, password, cfg);
       }
       return false;
     })
     .then(() => {
-      return client.create(username, password, cfg);
+      return client.createDatabase(username, password, cfg);
     });
 }
 
@@ -161,10 +161,10 @@ function dropDB(client, name, type) {
     storage: type
   };
   return client
-    .exists(username, password, cfg)
+    .existsDatabase(username, password, cfg)
     .then(exists => {
       if (exists) {
-        return client.drop(username, password, cfg);
+        return client.dropDatabase(username, password, cfg);
       }
       return undefined;
     })

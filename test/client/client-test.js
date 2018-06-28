@@ -48,17 +48,17 @@ describe("Client API", function () {
     var dbConfig = {name: "client_test_db_create", storage: "memory"};
     return this.client.connect()
       .then(() => {
-        return this.client.create(TEST_SERVER_CONFIG.username, TEST_SERVER_CONFIG.password, dbConfig);
+        return this.client.createDatabase(TEST_SERVER_CONFIG.username, TEST_SERVER_CONFIG.password, dbConfig);
       })
       .then(() => {
-        return this.client.exists(TEST_SERVER_CONFIG.username, TEST_SERVER_CONFIG.password, dbConfig);
+        return this.client.existsDatabase(TEST_SERVER_CONFIG.username, TEST_SERVER_CONFIG.password, dbConfig);
       })
       .then((response) => {
         response.should.be.eql(true);
-        return this.client.drop(TEST_SERVER_CONFIG.username, TEST_SERVER_CONFIG.password, dbConfig);
+        return this.client.dropDatabase(TEST_SERVER_CONFIG.username, TEST_SERVER_CONFIG.password, dbConfig);
       })
       .then(() => {
-        return this.client.exists(TEST_SERVER_CONFIG.username, TEST_SERVER_CONFIG.password, dbConfig);
+        return this.client.existsDatabase(TEST_SERVER_CONFIG.username, TEST_SERVER_CONFIG.password, dbConfig);
       })
       .then((response) => {
         response.should.be.eql(false);
