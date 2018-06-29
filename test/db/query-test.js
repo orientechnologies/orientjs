@@ -369,7 +369,7 @@ describe("Database API - Query", function () {
         uuid : this.db.rawExpression("format('%s',uuid())")
       }).one()
         .then(function (user) {
-          user.uuid.match(/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i)
+          user.uuid.should.match(/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i)
         });
     });
   });
