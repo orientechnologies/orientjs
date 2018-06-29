@@ -4,7 +4,7 @@ var Transaction = require('../../lib/db/transaction'),
 
 describe("Database API - Transaction", function () {
   function createBinaryRecord(text) {
-    var record = new Buffer(text);
+    var record = Buffer.from(text);
     record['@type'] = 'b';
     record['@class'] = 'V';
     return record;

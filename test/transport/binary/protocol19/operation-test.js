@@ -36,7 +36,7 @@ describe('Operation', function () {
     });
 
     it('should contain the correct contents', function () {
-      var expected = Buffer(25);
+      var expected = Buffer.alloc(25);
       expected[0] = 1;
       expected.writeInt32BE(123, 1);
       expected.writeInt32BE(12, 5);
@@ -124,10 +124,10 @@ describe('Operation', function () {
   });
   describe('Operation::consume() with exhausted buffers', function () {
     beforeEach(function () {
-      this.first = new Buffer(5);
+      this.first = Buffer.alloc(5);
       this.first[0] = 1; // opode
       this.first.writeInt32BE(123, 1); // num
-      this.last = new Buffer(26);
+      this.last = Buffer.alloc(26);
       this.last.writeInt32BE(12, 0); // string length
       this.last.write('Hello World!', 4); // string content
       this.last.writeInt16BE(5, 16); // shorts
