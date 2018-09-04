@@ -1,3 +1,10 @@
+####2.2.11
+
+### Bug Fixes
+
+*  Fixed issue with Token renewal exception
+
+
 ####2.2.10
 
 ### Bug Fixes
