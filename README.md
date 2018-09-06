@@ -6,6 +6,8 @@ Official [orientdb](http://www.orientechnologies.com/orientdb/) driver for node.
 [![Coverage Status](https://coveralls.io/repos/github/orientechnologies/orientjs/badge.svg?branch=master)](https://coveralls.io/github/orientechnologies/orientjs?branch=master)
 [![npm version](https://img.shields.io/npm/v/orientjs.svg?style=flat-square)](https://www.npmjs.com/package/orientjs)
 [![npm downloads](https://img.shields.io/npm/dm/orientjs.svg?style=flat-square)](https://www.npmjs.com/package/orientjs)
+[![Code Quality: Javascript](https://img.shields.io/lgtm/grade/javascript/g/orientechnologies/orientjs.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/orientechnologies/orientjs/context:javascript)
+[![Total Alerts](https://img.shields.io/lgtm/alerts/g/orientechnologies/orientjs.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/orientechnologies/orientjs/alerts)
 
 NOTE: _Release v2.2 contains big improvement on marshalling by using native C driver_.
 
