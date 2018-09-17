@@ -167,6 +167,18 @@ describe("ODatabase API - Open / Simple Query", function() {
           should(response.linkMap["bar"]).be.null;
         });
     });
+
+    it("should create a simple record with big decimal", function() {
+      return this.db
+        .command("create property Foo.decimal DECIMAL")
+        .all()
+        .then(response => {
+          return this.db.command(`insert into Foo set decimal = 0.32`).one();
+        })
+        .then(response => {
+          response.decimal.should.be.eql(0.32);
+        });
+    });
   });
 
   describe("Database::RidBags", function() {
