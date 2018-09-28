@@ -60,7 +60,6 @@
     "should": "~4.6.2",
     "expect.js": "~0.3.1",
     "istanbul": "~0.2.7",
-    "istanbul-coveralls": "^1.0.3",
     "jshint": "~2.5.0",
     "tls": "~0.0.1"
   },
