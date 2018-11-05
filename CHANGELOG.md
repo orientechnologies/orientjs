@@ -1,8 +1,15 @@
+####3.0.1
+
+###Bug Fixes
+
+* [#345](https://github.com/orientechnologies/orientjs/issues/345) Fixed transaction builder in 3.0.x
+
 ####3.0.0
 
 ### New Feature
 
 * Live Query With Observable [#236](https://github.com/orientechnologies/orientjs/issues/236)
+* New APIs for OrientDB 3.0.x protocol [here](https://orientdb.org/docs//3.0.x/orientjs/OrientJS.html)
 
 ####2.2.5
 
