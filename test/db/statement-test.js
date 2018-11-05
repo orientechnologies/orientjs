@@ -167,7 +167,28 @@ describe('Statement::if()', function () {
       .should
       .equal('LET names = (SELECT name FROM OUser WHERE status = "ACTIVE"),statuses = (SELECT status FROM OUser LOCK record)');
     });
-
+    it('should create a batch with RawExpression', function () {
+      this.statement.let('player', function(p){
+        var links = this.db.rawExpression(`list($link1) || list($link2)`)
+        p.create('vertex', 'Player')
+            .set({
+                name:      'Ty Cobb',
+                birthDate: '1886-12-18',
+                deathDate: '1961-7-17',
+                batted:    'left',
+                threw:     'right',
+                links:      links
+            })
+    }.bind(this))
+      .commit().return('$player')
+      .buildStatement()
+      .should
+      .equal(`BEGIN
+ LET player = CREATE vertex Player SET name = "Ty Cobb", birthDate = "1886-12-18", deathDate = "1961-7-17", batted = "left", threw = "right", links = list($link1) || list($link2)
+ 
+COMMIT 
+ RETURN $player`);
+    });
     it('should allow RIDs in LET expressions', function () {
       var rec1 = {
         '@rid': new LIB.RID({
