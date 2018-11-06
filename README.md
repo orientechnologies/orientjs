@@ -6,6 +6,7 @@ Official [orientdb](http://www.orientechnologies.com/orientdb/) driver for node.
 [![Coverage Status](https://coveralls.io/repos/github/orientechnologies/orientjs/badge.svg?branch=master)](https://coveralls.io/github/orientechnologies/orientjs?branch=master)
 [![npm version](https://img.shields.io/npm/v/orientjs.svg?style=flat-square)](https://www.npmjs.com/package/orientjs)
 [![npm downloads](https://img.shields.io/npm/dm/orientjs.svg?style=flat-square)](https://www.npmjs.com/package/orientjs)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Forientechnologies%2Forientjs.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Forientechnologies%2Forientjs?ref=badge_shield)
 
 NOTE: _Release v2.2 contains big improvement on marshalling by using native C driver_.
 
@@ -229,3 +230,6 @@ See [CHANGELOG](./CHANGELOG.md)
 
 Apache 2.0 License, see [LICENSE](./LICENSE.md)
 
+
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Forientechnologies%2Forientjs.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Forientechnologies%2Forientjs?ref=badge_large)
