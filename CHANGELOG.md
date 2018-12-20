@@ -2,6 +2,12 @@
 
 ###Bug Fixes
 
+* [#345](https://github.com/orientechnologies/orientjs/issues/354) Fixed issue with client close after an error.
+
+####3.0.1
+
+###Bug Fixes
+
 * [#345](https://github.com/orientechnologies/orientjs/issues/345) Fixed transaction builder in 3.0.x
 
 ####3.0.0
