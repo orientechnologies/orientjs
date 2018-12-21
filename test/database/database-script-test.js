@@ -1,4 +1,4 @@
-describe("ODatabase API - Batch Script", function () {
+describe("ODatabaseSession API - Batch Script", function () {
   before(CAN_RUN(37, function () {
     return CREATE_TEST_DB(this, 'testdb_batch_script')
       .bind(this)

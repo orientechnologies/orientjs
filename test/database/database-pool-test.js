@@ -2,7 +2,7 @@ var Promise = require('bluebird');
 
 var Errors = require('../../lib/errors');
 
-describe("Database Pool API", function () {
+describe("ODatabaseSession Pool API", function () {
   before(CAN_RUN(37, function () {
     return CREATE_DB("test_session_pool");
 

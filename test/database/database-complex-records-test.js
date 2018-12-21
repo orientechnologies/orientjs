@@ -3,7 +3,7 @@ var should = require("should");
 var ORidBag = require("../../lib/client/database/bag").ORidBag;
 var RID = require("../../lib").RID;
 
-describe("ODatabase API - Open / Simple Query", function() {
+describe("ODatabaseSession API - Open / Simple Query", function() {
   before(
     CAN_RUN(37, function() {
       return CREATE_DB("test_complex_records");

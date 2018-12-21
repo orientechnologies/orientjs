@@ -3,7 +3,7 @@ var Transaction = require("../../lib/db/transaction"),
   RID = require("../../lib/recordid"),
   Promise = require("bluebird");
 
-describe("ODatabase API - Transaction", function() {
+describe("ODatabaseSession API - Transaction", function() {
   function createBinaryRecord(text) {
     var record = Buffer.from(text);
     record["@type"] = "b";

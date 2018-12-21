@@ -3,7 +3,7 @@ var Transaction = require("../../lib/db/transaction"),
   RID = require("../../lib/recordid"),
   Promise = require("bluebird");
 
-describe("ODatabase API - Transaction", function() {
+describe("ODatabaseSession API - Transaction", function() {
   before(
     CAN_RUN(37, function() {
       return CREATE_TEST_DB(this, "testdb_dbapi_retry")

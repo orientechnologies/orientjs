@@ -1,6 +1,6 @@
 var Query = require("../../lib/client/database/database-query");
 
-describe("ODatabase API - Query", function() {
+describe("ODatabaseSession API - Query", function() {
   before(
     CAN_RUN(37, function() {
       return CREATE_DB("test_session_streaming")

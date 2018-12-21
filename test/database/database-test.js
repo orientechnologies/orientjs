@@ -8,7 +8,7 @@ var assertPool = function() {
   TEST_CLIENT.cluster.servers[0].network.pool.borrowed().should.be.eql(0)
   TEST_CLIENT.cluster.servers[0].network.pool.pending().should.be.eql(0)
 }
-describe("ODatabase API - Open / Simple Query", function () {
+describe("ODatabaseSession API - Open / Simple Query", function () {
   before(CAN_RUN(37, function () {
     return CREATE_DB("test_session");
 

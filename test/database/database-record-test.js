@@ -2,7 +2,7 @@
 var createdRID, createdBinaryRID, demoRID1, demoRID2;
 
 
-describe("ODatabase API - Record", function () {
+describe("ODatabaseSession API - Record", function () {
   before(CAN_RUN(37, function () {
     return CREATE_TEST_DB(this, 'testdb_dbapi_record')
       .bind(this)

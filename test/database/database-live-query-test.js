@@ -1,6 +1,6 @@
 var Promise = require("bluebird");
 var Errors = require("../../lib/errors");
-describe("ODatabase API - Live Query ", function() {
+describe("ODatabaseSession API - Live Query ", function() {
   before(
     CAN_RUN(37, function() {
       return CREATE_DB("test_session_api_query")
