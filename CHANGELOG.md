@@ -1,7 +1,8 @@
-####3.0.1
+####3.0.2
 
 ###Bug Fixes
 
+* [#353](https://github.com/orientechnologies/orientjs/issues/353) Fixed issue with property creation.
 * [#345](https://github.com/orientechnologies/orientjs/issues/354) Fixed issue with client close after an error.
 
 ####3.0.1
