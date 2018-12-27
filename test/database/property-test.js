@@ -1,7 +1,7 @@
 var Class = require('../../lib/db/class');
 
 describe("ODatabaseSession API - Class - Property", function () {
-  before(function () {
+  before(CAN_RUN(37,function () {
     return CREATE_TEST_DB(this, 'testdb_dbapi_property')
       .bind(this)
       .then(() => {
@@ -16,7 +16,7 @@ describe("ODatabaseSession API - Class - Property", function () {
       .then(function (item) {
         this.class = item;
       });
-  });
+  }));
   after(function () {
     return DELETE_TEST_DB('testdb_dbapi_property');
   });
