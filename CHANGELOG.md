@@ -1,3 +1,9 @@
+####3.0.3
+
+###Enhancements
+
+* [#282](https://github.com/orientechnologies/orientjs/issues/282) Added SSL support
+
 ####3.0.2
 
 ###Bug Fixes
