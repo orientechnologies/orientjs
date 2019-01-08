@@ -4,6 +4,10 @@
 
 * [#282](https://github.com/orientechnologies/orientjs/issues/282) Added SSL support
 
+###Bug Fixes
+
+* [#355](https://github.com/orientechnologies/orientjs/issues/355) Fixed typo with notNull property
+
 ####3.0.2
 
 ###Bug Fixes
