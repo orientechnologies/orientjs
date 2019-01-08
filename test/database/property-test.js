@@ -44,10 +44,12 @@ describe("ODatabaseSession API - Class - Property", function () {
           name: 'customprop',
           type: 'string',
           max: 20,
+          notNull : true
         })
         .then(function (item) {
           item.name.should.equal('customprop');
           item.max.should.eql('20');
+          item.notNull.should.eql(true);
         });
     });
 
