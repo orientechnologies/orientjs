@@ -6,6 +6,7 @@
 
 ###Bug Fixes
 
+* [#356](https://github.com/orientechnologies/orientjs/issues/356) Fixed bug in `db.index` API
 * [#355](https://github.com/orientechnologies/orientjs/issues/355) Fixed typo with notNull property
 
 ####3.0.2
