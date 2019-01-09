@@ -3,7 +3,7 @@ var Index = require("../../lib/client/database/idx/index"),
   Promise = require("bluebird");
 
 describe("Database API - Index", function() {
-  before(function() {
+  before(CAN_RUN(37,function () {
     return CREATE_TEST_DB(this, "testdb_dbapi_index")
       .bind(this)
       .then(() => {
@@ -23,7 +23,7 @@ describe("Database API - Index", function() {
           })
           .return(null);
       });
-  });
+  }));
   after(function() {
     return DELETE_TEST_DB("testdb_dbapi_index");
   });
