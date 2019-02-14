@@ -1,3 +1,12 @@
+####3.0.4
+
+###Enhancements
+
+
+###Bug Fixes
+
+* [#358](https://github.com/orientechnologies/orientjs/issues/358) Fixed bug in `.remove()` API
+
 ####3.0.3
 
 ###Enhancements
