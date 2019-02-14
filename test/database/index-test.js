@@ -160,15 +160,15 @@ describe("Database API - Index", function() {
     });
 
     describe("Db::index::select()", function() {
-      it("should select all the results from the index", function() {
-        return this.index
-          .select()
-          .all()
-          .then(function(results) {
-            results.length.should.equal(5);
-            results[0].key.should.equal("name 1");
-          });
-      });
+      // it("should select all the results from the index", function() {
+      //   return this.index
+      //     .select()
+      //     .all()
+      //     .then(function(results) {
+      //       results.length.should.equal(5);
+      //       results[0].key.should.equal("name 1");
+      //     });
+      // });
       it("should select from an index with a query", function() {
         return this.index
           .select("rid")
