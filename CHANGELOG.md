@@ -1,3 +1,13 @@
+
+####3.0.5
+
+###Enhancements
+
+
+###Bug Fixes
+
+* [#367](https://github.com/orientechnologies/orientjs/issues/367) Fixed bug in `.unwind()` API with SQL builder
+
 ####3.0.4
 
 ###Enhancements
