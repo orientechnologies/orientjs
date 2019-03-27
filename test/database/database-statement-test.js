@@ -701,4 +701,11 @@ describe("ODatabaseSession API - Statement", function () {
         'barMap = "name", :parambarMapname3');
     });
   });
+
+  describe('Statement::unwind()', function () {
+    it('should build an unwind query', function () {
+      this.statement.select().from('OUser').unwind("roles");
+      this.statement.buildStatement().should.equal('SELECT * FROM OUser UNWIND roles');
+    });
+  });
 });
