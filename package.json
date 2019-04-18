@@ -55,7 +55,6 @@
     "bluebird": "~3.5.1",
     "fast.js": "^0.1.1",
     "generic-pool": "^3.1.6",
-    "jsdoc": "^3.5.5",
     "node-biginteger": "^0.0.10",
     "parse-function": "^5.2.9",
     "request": "^2.87.0",
