@@ -9,9 +9,9 @@ describe("ODatabaseSession API - Open / Simple Query", function() {
       return CREATE_DB("test_complex_records");
     })
   );
-  after(function() {
+  after(CAN_RUN_AFTER(37,function() {
     return DROP_DB("test_complex_records");
-  });
+  }));
 
   describe("Database::Links & Embedded", function() {
     before(function() {

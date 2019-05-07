@@ -228,6 +228,27 @@ global.CAN_RUN = function(ver, fn) {
   };
 };
 
+global.CAN_RUN_AFTER = function(ver, fn) {
+  return function() {
+    var self = this;
+    return new Promise(function(resolve, reject) {
+      global.TEST_CLIENT.connect()
+        .then(function(e) {
+          fn.call(self)
+            .then(resolve)
+            .catch(reject);
+        })
+        .catch(function(err) {
+          if (err instanceof errors.ProtocolError) {
+            resolve();
+          } else {
+            reject(err);
+          }
+        });
+    });
+  };
+};
+
 function useTestDb(server, context, name) {
   return server
     .use(name)

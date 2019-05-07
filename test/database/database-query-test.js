@@ -11,9 +11,9 @@ describe("ODatabaseSession API - Query", function () {
         this.db = db;
       })
   }));
-  after(function () {
+  after(CAN_RUN_AFTER(37,function () {
     return DROP_DB("testsession_api_query");
-  });
+  }));
 
   beforeEach(function () {
     this.query = new Query(this.db);

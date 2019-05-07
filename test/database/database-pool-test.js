@@ -8,9 +8,9 @@ describe("ODatabaseSession Pool API", function() {
       return CREATE_DB("test_session_pool");
     })
   );
-  after(function() {
+  after(CAN_RUN_AFTER(37,function() {
     return DROP_DB("test_session_pool");
-  });
+  }));
 
   it("it should open/acquire/close a pool", function() {
     return TEST_CLIENT.sessions({ name: "test_session_pool" })

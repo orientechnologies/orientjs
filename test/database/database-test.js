@@ -13,9 +13,9 @@ describe("ODatabaseSession API - Open / Simple Query", function () {
     return CREATE_DB("test_session");
 
   }));
-  after(function () {
+  after(CAN_RUN_AFTER(37,function () {
     return DROP_DB("test_session");
-  });
+  }));
 
 
 

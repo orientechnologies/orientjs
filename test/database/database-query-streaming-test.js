@@ -12,9 +12,9 @@ describe("ODatabaseSession API - Query", function() {
         });
     })
   );
-  after(function() {
+  after(CAN_RUN_AFTER(37,function() {
     return DROP_DB("test_session_streaming");
-  });
+  }));
 
   beforeEach(function() {
     this.query = new Query(this.db);
