@@ -31,7 +31,7 @@ OrientJS v3.0 contains backwards compatible APIs for OrientDB 2.2.x and OrientDB
 # Resources
 
 
-- [Documentation](http://orientdb.com/docs/last/orientjs/OrientJS.html)
+- [Documentation](https://orientdb.com/docs/last/OrientJS.html)
 <!--- [API Docs](http://orientdb.com/docs/last/orientjs/OrientJS.html)-->
 - [Example Projects](https://github.com/orientechnologies/orientjs-example)
 
