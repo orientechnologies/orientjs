@@ -1,3 +1,8 @@
+####3.0.6
+
+###Bug Fixes
+
+ * Fixed bug with subscribe for cluster push.    
 
 ####3.0.5
 
