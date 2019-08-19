@@ -334,6 +334,16 @@ describe("ODatabaseSession API - Statement", function () {
     });
   });
 
+  describe('Statement::unwind()',function(){
+
+    it('should add unwind on projection',function(){
+
+        this.statement.select('name','OUT("Friend").name AS friendName').from("Person").unwind('friendName');
+
+        this.statement.buildStatement().should.equal('SELECT name, OUT("Friend").name AS friendName FROM Person UNWIND friendName');
+    });
+  });
+  
   describe('Statement::while()', function () {
     it('should add a while clause to traverses', function () {
       this.statement.traverse().from('OUser').while('$depth < 1');
