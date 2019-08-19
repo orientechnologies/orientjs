@@ -1,5 +1,9 @@
 ####3.0.6
 
+###Enhancements
+
+ * [#384](https://github.com/orientechnologies/orientjs/issues/384) Implemented proper pause/resume handling in query result set.
+ 
 ###Bug Fixes
 
  * Fixed bug with subscribe for cluster push.    
