@@ -9,12 +9,23 @@ describe("ODatabaseSession API - Query", function() {
         })
         .then(db => {
           this.db = db;
+
+          let elements = [...Array(10).keys()].map((elem) => {
+            return {
+              "@class": "V",
+              id: elem
+            };
+          });
+          
+          return this.db.record.create(elements);
         });
     })
   );
-  after(CAN_RUN_AFTER(37,function() {
-    return DROP_DB("test_session_streaming");
-  }));
+  after(
+    CAN_RUN_AFTER(37, function() {
+      return DROP_DB("test_session_streaming");
+    })
+  );
 
   beforeEach(function() {
     this.query = new Query(this.db);
@@ -134,6 +145,77 @@ describe("ODatabaseSession API - Query", function() {
         .on("error", err => {})
         .on("end", () => {
           size.should.be.eql(1);
+          done();
+        });
+    });
+
+    it("should return 3 record with stream pause and resume", function(done) {
+      var size = 0;
+      var buffered = false;
+      var stream = this.db
+        .query("select from OUSer", {
+          pageSize: 1
+        })
+        .on("data", response => {
+          buffered = buffered || stream._readableState.buffer.length > 0;
+          size++;
+          if (size === 1) {
+            stream.pause();
+            setTimeout(() => {
+              paused = false;
+              stream.resume();
+            }, 500);
+          }
+        })
+        .on("error", err => {})
+        .on("end", () => {
+          size.should.be.eql(3);
+          buffered.should.be.eql(false);
+          done();
+        });
+    });
+
+    it("should return 10 record with stream pause and resume", function(done) {
+      var size = 0;
+      var buffered = false;
+      var stream = this.db
+        .query("select from V", {
+          pageSize: 1
+        })
+        .on("data", response => {
+          buffered = buffered || stream._readableState.buffer.length > 0;
+          size++;
+          if (size === 5) {
+            stream.pause();
+            setTimeout(() => {
+              stream.resume();
+            }, 500);
+          }
+        })
+        .on("error", err => {})
+        .on("end", () => {
+          size.should.be.eql(10);
+          buffered.should.be.eql(false);
+          done();
+        });
+    });
+
+    it("should return 3 record with stream pause and resume at every event", function(done) {
+      var size = 0;
+      var stream = this.db
+        .query("select from OUSer", {
+          pageSize: 1
+        })
+        .on("data", response => {
+          size++;
+          stream.pause();
+          setTimeout(() => {
+            stream.resume();
+          }, 100);
+        })
+        .on("error", err => {})
+        .on("end", () => {
+          size.should.be.eql(3);
           done();
         });
     });
