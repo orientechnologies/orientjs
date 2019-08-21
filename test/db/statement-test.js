@@ -333,6 +333,11 @@ COMMIT \n\
       this.statement.traverse().strategy('BREADTH_FIRST').limit(2).from('Xyz');
       this.statement.buildStatement().should.equal('TRAVERSE * FROM Xyz LIMIT 2 STRATEGY BREADTH_FIRST');
     });
+    
+    it('should traverse with a maxdepth value', function () {
+      this.statement.traverse().from("Xyz").maxdepth(1);
+      this.statement.buildStatement().should.equal('TRAVERSE * FROM Xyz MAXDEPTH 1');
+    });
   });
 
   describe('Statement::unwind()',function(){
