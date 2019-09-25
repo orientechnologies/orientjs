@@ -1,3 +1,9 @@
+####3.0.7
+
+###Bug Fixes
+
+* [#9012](https://github.com/orientechnologies/orientdb/issues/9012) Fixed No query with id 'XXX' found probably expired session.
+  
 ####3.0.6
 
 ###Enhancements
