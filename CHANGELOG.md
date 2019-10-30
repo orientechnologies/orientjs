@@ -1,3 +1,9 @@
+####3.0.8
+
+###Bug Fixes
+
+* [#395](https://github.com/orientechnologies/orientjs/issues/395) Fixed issue with lightweight edges.
+
 ####3.0.7
 
 ###Bug Fixes
