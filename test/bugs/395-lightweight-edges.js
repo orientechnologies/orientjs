@@ -2,7 +2,7 @@ var Bluebird = require("bluebird");
 
 describe("Bug: Should create a lightweight edge", function() {
   var first, second, third;
-  before(function() {
+  before(CAN_RUN(37,function() {
     return CREATE_TEST_DB(this, "testdb_bug_edge_lightweight")
       .bind(this)
       .then(() => {
@@ -45,7 +45,7 @@ describe("Bug: Should create a lightweight edge", function() {
           second = results[1][0];
         });
       });
-  });
+  }));
   after(function() {
     return DELETE_TEST_DB("testdb_bug_edge_lightweight");
   });
