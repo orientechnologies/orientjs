@@ -43,6 +43,11 @@ Install via npm.
 ```sh
 npm install orientjs
 ```
+For Typescript :
+
+```sh
+npm install @types/orientjs
+```
 
 # Quick Start
 
