@@ -3,6 +3,7 @@
 ###Bug Fixes
 
 * [#395](https://github.com/orientechnologies/orientjs/issues/395) Fixed issue with lightweight edges.
+* [#400](https://github.com/orientechnologies/orientjs/issues/400) Fixed issue with Sequences.
 
 ####3.0.7
 
