@@ -3,7 +3,7 @@
 // Definitions by: [Saeed Tabrizi] <https://github.com/saeedtabrizi>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 // TypeScript Version: 3.6
-// Last Update  : 02-11-2019
+// Last Update  : 08-11-2019
 // Developed in www.nowcando.com
 
 /// <reference types="node" />
@@ -584,6 +584,7 @@ declare namespace orientjs {
     interface IndexConfig {
         name: string;
         class?: string;
+        ifnotexist?: boolean;
         properties?: string[];
         type: "UNIQUE" | "NOTUNIQUE" | "FULLTEXT" | "DICTIONARY" | "UNIQUE_HASH_INDEX" | "NOTUNIQUE_HASH_INDEX" | "FULLTEXT_HASH_INDEX" | "DICTIONARY_HASH_INDEX" | "SPATIAL";
         keyType?: string;
