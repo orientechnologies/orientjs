@@ -2,6 +2,12 @@
 
 ### Bug Fixes
 
+* [#427](https://github.com/orientechnologies/orientjs/issues/427) Fixed issue with class.drop() API.
+
+#### 3.0.9
+
+### Bug Fixes
+
 * [#420](https://github.com/orientechnologies/orientjs/issues/420) Fixed issue index creation with engine.
 * [#418](https://github.com/orientechnologies/orientjs/issues/418) Fixed issue index creation with ifnotexist.
 * [#412](https://github.com/orientechnologies/orientjs/issues/412) Fixed issue parse-function dependency.
