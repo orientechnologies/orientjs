@@ -3,7 +3,7 @@ config.servers = [{host: "localhost", port: 2425}];
 config.pool = {max: 1,min : 1};
 
 var OrientDB = require('../lib'),
-  client = new OrientDB.Client(config);
+  client = new OrientDB.OrientDBClient(config);
 
 
 client.connect().then(function () {

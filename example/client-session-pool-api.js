@@ -1,6 +1,6 @@
 var config = require('../test/test-server.json'),
   OrientDB = require('../lib'),
-  client = new OrientDB.Client(config);
+  client = new OrientDB.OrientDBClient(config);
 
 
 client.connect().then(function () {
