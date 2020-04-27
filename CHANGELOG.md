@@ -2,6 +2,12 @@
 
 ### Bug Fixes
 
+#### 3.0.11
+
+### Bug Fixes
+
+* [#431](https://github.com/orientechnologies/orientjs/issues/431) Fixed issue with class.drop() API.
+
 #### 3.0.10
 
 ### Bug Fixes
