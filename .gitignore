@@ -10,3 +10,4 @@ out
 .vscode
 *.tgz
 *.log
+package-lock.json
