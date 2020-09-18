@@ -1,10 +1,11 @@
 // Type definitions for orientjs 3.0
 // Project: https://github.com/orientechnologies/orientjs
 // Definitions by: [Saeed Tabrizi] <https://github.com/saeedtabrizi>
+//                 [Aleksey Rezvov] <https://github.com/aleksey-rezvov>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 // TypeScript Version: 3.6
-// Last Update  : 08-11-2019
-// Developed in www.nowcando.com
+// Last Update  : 09-18-2020
+// Developed in www.nowcando.ir
 
 /// <reference types="node" />
 
@@ -1125,7 +1126,7 @@ declare namespace orientjs {
         close(): Promise<void>;
     }
 
-    class ODatabaseTransaction {
+    class ODatabaseTransaction extends OTransaction {
         /**
          * Execute an SQL command against the database and retreive the results
          * @param   command    The command to execute.
@@ -1311,7 +1312,7 @@ declare namespace orientjs {
 
         session(options?: ODatabaseSessionOptions): Promise<ODatabaseSession>;
 
-        sessions(options?: ODatabaseSessionOptions): Promise<ODatabaseSessionPool>;
+        sessions(options?: ODatabaseSessionPoolOptions): Promise<ODatabaseSessionPool>;
         migrator(config?: Migration.MigrationManagerConfig): Migration.MigrationManager;
         createDatabase(options?: DatabaseOptions): Promise<void>;
         dropDatabase(options?: DropDatabaseOptions): Promise<void>;
@@ -1401,3 +1402,4 @@ export = orientjs;
     });
     });
  =============================================== */
+
