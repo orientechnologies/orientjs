@@ -652,6 +652,7 @@ declare namespace orientjs {
         cacheData(indices: any[]): Promise<ODB>;
 
     }
+    type OFnStatement<T,R=T> = (s: OStatement<T>) => OStatement<R>;
     type OSqlExpression = string | ORawExpression | OSqlFunction;
     interface OStatement<T> extends OQuery<T> {
         select(param?: string | string[]): OStatement<T>;
@@ -682,7 +683,7 @@ declare namespace orientjs {
         offset(value?: number): OStatement<T>;
         limit(value: number): OStatement<T>;
         fetch(param?: any): OStatement<T>;
-        let(name: string, value: string | OStatement<T>): OStatement<T>;
+        let(name: string, value: string | OStatement<T> |  OFnStatement<T>): OStatement<T>;
         lock(param: any): OStatement<T>;
 
         if(condition: OSqlExpression, statements: OStatement<T>[]): OStatement<T>;
@@ -941,7 +942,7 @@ declare namespace orientjs {
          * @return The query instance.
          */
         let<T,P>(params?: P): OStatement<T>;
-        let<T,P>(name: string, value: P | OStatement<P>): OStatement<T>;
+        let<T,P>(name: string, value: P | OStatement<P> |   OFnStatement<T>): OStatement<T>;
         /**
          * Create a transactional query with if.
          *
