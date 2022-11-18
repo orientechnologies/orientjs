@@ -26,6 +26,8 @@ if [ ! -d "$ODB_DIR" ]; then
   chmod -R +rw "${ODB_DIR}/config/"
   if [[ $ODB_VERSION == *"3.0"* || $ODB_VERSION == *"3.1"* ]]; then
     cp $PARENT_DIR/ci/orientdb-server-config-3.0.xml "${ODB_DIR}/config/orientdb-server-config.xml"
+  elif [[ $ODB_VERSION == *"3.2"* ]]; then
+    cp $PARENT_DIR/ci/orientdb-server-config-3.2.xml "${ODB_DIR}/config/orientdb-server-config.xml"
   else
     cp $PARENT_DIR/ci/orientdb-server-config.xml "${ODB_DIR}/config/"
   fi
