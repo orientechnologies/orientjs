@@ -1,5 +1,17 @@
 name: CI Build
-on: [push]
+
+on:
+  push:
+    branches: [ develop ]
+  pull_request:
+    branches: [ develop ]
+  workflow_dispatch:
+  schedule:
+    - cron: 0 5 * * 1
+
+permissions:
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
