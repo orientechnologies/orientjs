@@ -141,8 +141,8 @@ describe("ODatabaseSession API - Record", function () {
         name: 'othertestuser',
         password: 'testpassword',
         status: 'ACTIVE',
-        linkedTest1: "#5:0", // defined link field
-        linkedTest2: "#5:1" // dynamic field
+        linkedTest1: "#6:0", // defined link field
+        linkedTest2: "#6:1" // dynamic field
       })
         .bind(this)
         .then(function (obj) {
@@ -160,13 +160,13 @@ describe("ODatabaseSession API - Record", function () {
           var serType = this.db.session().server.network.serializationType;
 
           if (version >= 33 && serType === 'onet_ser_v0') {
-            expect(record.linkedTest1.cluster).to.equal(5);
+            expect(record.linkedTest1.cluster).to.equal(6);
             expect(record.linkedTest1.position).to.equal(0);
           } else {
             expect(record.linkedTest1).to.equal(null);
           }
           expect(typeof record.linkedTest2).to.equal('string'); // because we did not pass a RID, this is not a link
-          record.linkedTest2.should.equal('#5:1');
+          record.linkedTest2.should.equal('#6:1');
         });
     });
 
@@ -235,7 +235,7 @@ describe("ODatabaseSession API - Record", function () {
           // Fixed with binary protocol
 
           if (version >= 33 && serType === 'onet_ser_v0') {
-            expect(record.linkedTest1.cluster).to.equal(5);
+            expect(record.linkedTest1.cluster).to.equal(6);
             expect(record.linkedTest1.position).to.equal(0);
           } else {
             expect(record.linkedTest1).to.equal(null);
@@ -243,7 +243,7 @@ describe("ODatabaseSession API - Record", function () {
 
 
           expect(typeof record.linkedTest2).to.equal('string'); // because we did not pass a RID, this is not a link
-          record.linkedTest2.should.equal('#5:1');
+          record.linkedTest2.should.equal('#6:1');
         });
     });
 
