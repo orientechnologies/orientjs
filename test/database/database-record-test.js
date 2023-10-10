@@ -28,21 +28,21 @@ describe("ODatabaseSession API - Record", function () {
 
   describe('Db::record.get()', function () {
     it('should get the record with the given rid', function () {
-      return this.db.record.get('#5:0')
+      return this.db.record.get('#6:0')
         .then(function (record) {
           record['@class'].should.equal('OUser');
           record['@rid'].should.have.properties({
-            cluster: 5,
+            cluster: 6,
             position: 0
           });
         });
     });
     it('should get the record with a fetch plan', function () {
-      return this.db.record.get({'@rid': '#5:0'}, {fetchPlan: '*:-1'})
+      return this.db.record.get({'@rid': '#6:0'}, {fetchPlan: '*:-1'})
         .then(function (record) {
           record['@class'].should.equal('OUser');
           record['@rid'].should.have.properties({
-            cluster: 5,
+            cluster: 6,
             position: 0
           });
           record.roles.length.should.be.above(0);
@@ -53,24 +53,24 @@ describe("ODatabaseSession API - Record", function () {
 
   describe('Db::record.get()', function () {
     it('should get records with the given rids', function () {
-      return this.db.record.get(['#5:0', '#5:1'])
+      return this.db.record.get(['#6:0', '#6:1'])
         .then(function (records) {
           records.forEach(function (record, i) {
             record['@class'].should.equal('OUser');
             record['@rid'].should.have.properties({
-              cluster: 5,
+              cluster: 6,
               position: i
             });
           });
         });
     });
     it('should get records with a fetch plan', function () {
-      return this.db.record.get([{'@rid': '#5:0'}, {'@rid': '#5:1'}], {fetchPlan: '*:-1'})
+      return this.db.record.get([{'@rid': '#6:0'}, {'@rid': '#6:1'}], {fetchPlan: '*:-1'})
         .then(function (records) {
           records.forEach(function (record, i) {
             record['@class'].should.equal('OUser');
             record['@rid'].should.have.properties({
-              cluster: 5,
+              cluster: 6,
               position: i
             });
             record.roles.length.should.be.above(0);
