@@ -264,7 +264,7 @@ describe("Database API - Query", function () {
         });
     });
     it('should select a record by its RID', function () {
-      return this.db.select().from('OUser').where({'@rid': new LIB.RID('#5:0')}).one()
+      return this.db.select().from('OUser').where({'@rid': new LIB.RID('#6:0')}).one()
         .then(function (user) {
           expect(typeof user).to.equal('object');
           user.name.should.equal('admin');
@@ -388,7 +388,7 @@ describe("Database API - Query", function () {
         name: 'reader',
         password: 'mynewerpassword',
         status: 'active',
-        roles: ["#4:1"],
+        roles: ["#5:1"],
         foo: 'bar'};
       return this.db.update('OUser').content(updatedUser).where({name: 'reader'}).limit(1).scalar()
         .then(function (count) {
