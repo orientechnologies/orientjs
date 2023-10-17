@@ -11,7 +11,7 @@ describe("ODatabaseSession API - Class - Property", function () {
         this.db = db;
       })
       .then(function () {
-        return this.db.class.get('OUser');
+        return this.db.class.create('TestProperty');
       })
       .then(function (item) {
         this.class = item;
@@ -23,7 +23,7 @@ describe("ODatabaseSession API - Class - Property", function () {
 
   describe('Db::class.property.list()', function () {
     it('should list the properties in the class', function () {
-      return this.class.property.list()
+      return this.db.class.get('OUser').property.list()
         .bind(this)
         .then(function (properties) {
           properties.length.should.be.above(0);
@@ -89,7 +89,7 @@ describe("ODatabaseSession API - Class - Property", function () {
 
   describe('Db::class.property.get()', function () {
     it('should get the property with the given name', function () {
-      return this.class.property.get('roles')
+      return this.db.class.get('OUser').property.get('roles')
         .then(function (item) {
           item.name.should.equal('roles');
         });
