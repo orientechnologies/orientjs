@@ -23,11 +23,13 @@ describe("ODatabaseSession API - Class - Property", function () {
 
   describe('Db::class.property.list()', function () {
     it('should list the properties in the class', function () {
-      return this.db.class.get('OUser').property.list()
-        .bind(this)
-        .then(function (properties) {
-          properties.length.should.be.above(0);
-        });
+      return this.db.class.get('OUser').then(function(item) {
+          return item.property.list()
+      })
+      .bind(this)
+      .then(function (properties) {
+        properties.length.should.be.above(0);
+      });
     });
   });
 
@@ -89,7 +91,10 @@ describe("ODatabaseSession API - Class - Property", function () {
 
   describe('Db::class.property.get()', function () {
     it('should get the property with the given name', function () {
-      return this.db.class.get('OUser').property.get('roles')
+      return this.db.class.get('OUser')
+        .then(function (item) {
+            return item.property.get('roles')
+        })
         .then(function (item) {
           item.name.should.equal('roles');
         });

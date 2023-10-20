@@ -314,7 +314,7 @@ describe("ODatabaseSession API - Query", function () {
 
     
     it('should select a record by its RID', function () {
-      return this.db.select().from('OUser').where({'@rid': new LIB.RID('#5:0')}).one()
+      return this.db.select().from('OUser').where({'@rid': new LIB.RID('#6:0')}).one()
         .then(function (user) {
           expect(typeof user).to.equal('object');
           user.name.should.equal('admin');
