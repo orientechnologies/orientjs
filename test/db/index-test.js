@@ -61,7 +61,8 @@ describe("Database API - Index", function () {
     });
   });
 
-  describe('Db::index::*', function () {
+  // Dictionary index does not exists anymore in recent versions  
+  describe.skip('Db::index::*', function () {
 
     before(function () {
       return this.db.index.get('dictionary')
