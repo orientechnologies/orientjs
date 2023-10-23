@@ -34,7 +34,7 @@ describe("Rest Transport", function () {
         var params = {
           sessionId: -1,
           database: 'testdb_rest',
-          cluster: 5,
+          cluster: 6,
           position: 0
         };
         return Promise.all([REST_SERVER.send('record-load', params), this.db.send('record-load', params)])
@@ -54,7 +54,7 @@ describe("Rest Transport", function () {
         var params = {
           sessionId: -1,
           database: 'testdb_rest',
-          cluster: 5,
+          cluster: 6,
           position: 0,
           fetchPlan: 'roles:1'
         };
