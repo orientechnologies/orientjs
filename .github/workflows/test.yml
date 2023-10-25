@@ -43,7 +43,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '18.x'
-      - run: ./ci/initialize-ci.sh 3.2.23
+      - run: ./ci/initialize-ci.sh 3.2.24
       - run: npm install
       - run: npm test
 
