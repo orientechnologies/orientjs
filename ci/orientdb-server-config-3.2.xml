@@ -136,11 +136,8 @@
         <user resources="connect,server.listDatabases,server.dblist" password="guest" name="guest"/>
     </users>
     <properties>
-        <!-- PROFILER: configures the profiler as <seconds-for-snapshot>,<archive-snapshot-size>,<summary-size> -->
         <entry name="profiler.enabled" value="false"/>
-        <!-- <entry name="profiler.config" value="30,10,10" /> -->
         <entry name="network.binary.allowNoToken" value="true"/>
-        <entry name="index.allowManualIndexes" value="true"/>
         <entry name="security.createDefaultUsers" value="true"/>
     </properties>
 </orient-server>

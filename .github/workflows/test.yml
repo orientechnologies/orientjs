@@ -26,7 +26,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '12.x'
-      - run: ./ci/initialize-ci.sh 3.2.21
+      - run: ./ci/initialize-ci.sh 3.2.24
       - run: npm install
       - run: npm test
 
