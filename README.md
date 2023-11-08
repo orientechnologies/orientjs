@@ -1,9 +1,7 @@
 # OrientJS driver
 
 Official [orientdb](http://www.orientechnologies.com/orientdb/) driver for node.js. Fast, lightweight, uses the binary protocol.
-
-[![Build Status](https://travis-ci.org/orientechnologies/orientjs.svg?branch=develop)](https://travis-ci.org/orientechnologies/orientjs)
-[![Coverage Status](https://coveralls.io/repos/github/orientechnologies/orientjs/badge.svg?branch=develop)](https://coveralls.io/github/orientechnologies/orientjs?branch=master)
+[![REUSE status](https://api.reuse.software/badge/github.com/orientechnologies/orientjs)](https://api.reuse.software/info/github.com/orientechnologies/orientjs)
 [![npm version](https://img.shields.io/npm/v/orientjs.svg?style=flat-square)](https://www.npmjs.com/package/orientjs)
 [![npm downloads](https://img.shields.io/npm/dm/orientjs.svg?style=flat-square)](https://www.npmjs.com/package/orientjs)
 
