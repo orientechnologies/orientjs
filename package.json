@@ -57,7 +57,7 @@
     "generic-pool": "^3.9.0",
     "node-biginteger": "^0.0.10",
     "parse-function": "5.6.10",
-    "request": "^2.87.0",
+    "axios": "1.13.2",
     "signed-varint": "2.0.1",
     "tls": "~0.0.1",
     "yargs": "~17.7.2"
