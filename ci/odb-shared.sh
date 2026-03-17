@@ -76,7 +76,7 @@ odb_download_server () {
 	if [[ ${ODB_VERSION} == *-SNAPSHOT* ]]; then
 		ODB_URL="https://oss.sonatype.org/service/local/artifact/maven/content?r=snapshots&g=com.orientechnologies&a=orientdb-community&v=${ODB_VERSION}&e=tar.gz"
 	else
-		ODB_URL="https://oss.sonatype.org/service/local/artifact/maven/content?r=releases&g=com.orientechnologies&a=orientdb-community&v=${ODB_VERSION}&e=tar.gz"
+		ODB_URL="https://repo1.maven.org/maven2/com/orientechnologies/orientdb-community/3.2.48/orientdb-community-${ODB_VERSION}.tar.gz"
 	fi;
 
 
